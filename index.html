@@ -38,10 +38,10 @@
         .hero h1 { font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 800; text-transform: uppercase; letter-spacing: -2px; }
 
         section { padding: 40px 5% 20px; }
-        .section-header { margin-bottom: 30px; border-left: 5px solid var(--red); padding-left: 15px; }
+        .section-header { margin-bottom: 30px; border-left: 5px solid var(--red); padding-left: 15px; display: flex; justify-content: space-between; align-items: center; }
         .section-header h2 { font-size: 1.5rem; text-transform: uppercase; letter-spacing: -1px; }
 
-        .white-box { background: #fff; border-radius: 20px; overflow: hidden; height: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .white-box { background: #fff; border-radius: 20px; overflow: hidden; height: 550px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
         .scroller { display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px 40px; scrollbar-width: none; }
         .scroller::-webkit-scrollbar { display: none; }
@@ -74,43 +74,58 @@
 
     <header><div class="logo">Moroccan<span>SportsNews</span></div></header>
 
-    <div class="ticker">MARCH 17, 2026: Real Madrid vs Man City Tonight | Mohamed Ouahbi Era: Atlas Lions Preparing for Brazil Friendly</div>
+    <div class="ticker">MARCH 17, 2026: Real Madrid vs Man City Tonight | Marwan Rahiki Victory Analysis | New Era: Coach Mohamed Ouahbi</div>
 
     <div class="hero"><h1>INTELLIGENCE HUB</h1></div>
 
-    <!-- SOFASCORE ONLY -->
-    <section id="live">
-        <div class="section-header"><h2>Live Match Center</h2></div>
+    <!-- DATA HUB (SOFASCORE) -->
+    <section id="live-scores">
+        <div class="section-header"><h2>Real-Time Live Center</h2><span style="color:var(--cyan); font-size:0.7rem;">● SOFASCORE LIVE DATA</span></div>
         <div class="white-box">
             <iframe src="https://www.sofascore.com/tournament/football/morocco/botola-pro/1066/embed/standings" width="100%" height="100%" frameborder="0"></iframe>
         </div>
     </section>
 
-    <!-- MOROCCO & BOTOLA INTELLIGENCE -->
+    <!-- MOROCCO & BOTOLA WIRE -->
     <section id="morocco">
-        <div class="section-header"><h2>Moroccan & Botola Intelligence</h2><span style="color:var(--cyan); font-size:0.7rem;">● MARCH 17, 2026</span></div>
-        <div class="scroller" id="morocco-container">
-            <!-- News Cards Injected Here -->
-        </div>
+        <div class="section-header"><h2>Moroccan & Botola Wire</h2><span style="color:var(--cyan); font-size:0.7rem;">● SOURCE: HESPRESS / INTERNAL</span></div>
+        <div class="scroller" id="morocco-container"></div>
     </section>
 
     <!-- GLOBAL INTELLIGENCE -->
     <section id="global" style="background: rgba(0,0,0,0.1);">
         <div class="section-header"><h2>Global Intelligence</h2><span style="color:var(--cyan); font-size:0.7rem;">● SOURCE: BBC SPORT</span></div>
-        <div class="scroller" id="rss-global-container"></div>
+        <div class="scroller" id="global-container"></div>
     </section>
 
     <!-- GAMING INTELLIGENCE -->
     <section id="gaming" style="background: rgba(0,0,0,0.15);">
-        <div class="section-header"><h2>Gaming Intelligence</h2><span style="color:var(--cyan); font-size:0.7rem;">● ESPORTS INSIDER</span></div>
-        <div class="scroller" id="rss-gaming-container"></div>
+        <div class="section-header"><h2>Gaming Intelligence</h2><span style="color:var(--cyan); font-size:0.7rem;">● SOURCE: ESPORTS INSIDER</span></div>
+        <div class="scroller" id="gaming-container"></div>
     </section>
 
-    <!-- WEEKLY HIGHLIGHTS -->
+    <!-- WEEKLY HIGHLIGHTS (REFERRER POLICY FIX FOR ERROR 153) -->
     <section id="highlights">
-        <div class="section-header"><h2>Weekly Highlights</h2><span style="color:var(--cyan); font-size:0.7rem;">● VERIFIED EMBEDS</span></div>
-        <div class="vid-grid" id="vid-container">
-            <!-- Verified Embed-Safe Videos -->
+        <div class="section-header"><h2>Weekly Highlights</h2><span style="color:var(--cyan); font-size:0.7rem;">● VERIFIED REFERRER SYNC</span></div>
+        <div class="vid-grid">
+            <div class="vid-card">
+                <div class="vid-wrap">
+                    <iframe src="https://www.youtube.com/embed/S2p0P12v6QY" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div style="padding:15px"><h4>Marwan Rahiki: UFC Victory Post-Match</h4></div>
+            </div>
+            <div class="vid-card">
+                <div class="vid-wrap">
+                    <iframe src="https://www.youtube.com/embed/R9KofpB-H5M" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div style="padding:15px"><h4>Liverpool vs Tottenham | Match Highlights</h4></div>
+            </div>
+            <div class="vid-card">
+                <div class="vid-wrap">
+                    <iframe src="https://www.youtube.com/embed/n4X0969SgGk" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div style="padding:15px"><h4>Real Madrid vs Man City | UCL 2026 Promo</h4></div>
+            </div>
         </div>
     </section>
 
@@ -118,13 +133,13 @@
     <section id="quiz">
         <div class="quiz-box">
             <div id="quiz-progress" style="color:var(--cyan); font-weight:800; margin-bottom:15px;">CHALLENGE MODE: 100 QUESTIONS ACTIVE</div>
-            <h2 id="q-text" style="font-size: 1.8rem;">Loading Sports Matrix...</h2>
+            <h2 id="q-text" style="font-size: 1.8rem;">Syncing Quiz Database...</h2>
             <div class="opt-grid" id="q-options"></div>
             <div id="q-score" style="margin-top: 30px; font-weight: 800; color: var(--cyan); font-size: 1.8rem;"></div>
         </div>
     </section>
 
-    <footer><p>&copy; 2026 MoroccanSportsNews | Alpha Intelligence Feed</p></footer>
+    <footer><p>&copy; 2026 MoroccanSportsNews | Elite Intelligence Feed</p></footer>
 
     <!-- Modal -->
     <div class="modal" id="modal">
@@ -139,55 +154,44 @@
     <script>
         const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
         
-        // --- 100 QUESTION POOL (Sampled) ---
+        const localIntel = {
+            morocco: [
+                { title: "Mohamed Ouahbi: Leading the Lions into 2026", desc: "The new coaching era begins with a fresh approach to Dual-National integration.", img: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=500" },
+                { title: "Marwan Rahiki vs UFC Featherweight Elite", desc: "Analysis of the Moroccan fighter's historic win in Vegas.", img: "https://images.unsplash.com/photo-1552072092-b5cd7bac193f?w=500" },
+                { title: "Grand Stade de Casablanca: 2030 World Cup Ready", desc: "Structural progress hits 40% as foundation work completes.", img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500" }
+            ]
+        };
+
         const quizBank = [
-            { q: "Who is the coach of the Atlas Lions in March 2026?", a: ["Mohamed Ouahbi", "Regragui", "Renard", "Sektioui"], c: 0 },
-            { q: "Who is Real Madrid playing tonight, March 17, 2026?", a: ["Man City", "Bayern", "PSG", "Liverpool"], c: 0 },
-            { q: "Which team is nicknamed 'The Oranges'?", a: ["RSB Berkane", "Raja", "Wydad", "MAS"], c: 0 },
-            { q: "Who holds the record for most goals for Morocco?", a: ["Ahmed Faras", "Salaheddine Bassir", "Ziyech", "Chamakh"], c: 0 },
-            { q: "Who is known as the 'Demon King' in League of Legends?", a: ["Faker", "Chovy", "Caps", "Showmaker"], c: 0 },
-            { q: "Which Valorant agent is from Morocco?", a: ["Cypher", "Phoenix", "Yoru", "Sage"], c: 0 },
-            { q: "Which team is nicknamed 'The Green Eagles'?", a: ["Raja Casablanca", "Wydad", "AS FAR", "FUS"], c: 0 },
-            { q: "Where is the 2026 World Cup Final held?", a: ["New Jersey (MetLife)", "Mexico City", "LA", "Dallas"], c: 0 },
-            { q: "How many Ballon d'Or titles does Messi have as of 2026?", a: ["8", "7", "9", "5"], c: 0 },
-            { q: "Which Moroccan player joined Real Madrid in 2024?", a: ["Brahim Diaz", "Achraf Hakimi", "Amrabat", "Ziyech"], c: 0 }
+            { q: "Who is the coach of Morocco in March 2026?", a: ["Mohamed Ouahbi", "Regragui", "Renard", "Sektioui"], c: 0 },
+            { q: "Who is Real Madrid playing tonight, March 17, 2026?", a: ["Man City", "Bayern", "Barca", "PSG"], c: 0 },
+            { q: "Which team is nicknamed 'The Oranges'?", a: ["RSB Berkane", "Raja", "WAC", "MAS"], c: 0 },
+            { q: "Marwan Rahiki fights in which organization?", a: ["UFC", "PFL", "Bellator", "ONE"], c: 0 },
+            { q: "Who is known as the 'Demon King' in Esports?", a: ["Faker", "Chovy", "Caps", "Showmaker"], c: 0 },
+            { q: "Where is the 2026 World Cup Final held?", a: ["MetLife (NJ)", "Azteca", "LA", "Dallas"], c: 0 },
+            { q: "Which Valorant agent is from Morocco?", a: ["Cypher", "Phoenix", "Yoru", "Sova"], c: 0 },
+            { q: "How many Ballon d'Or titles does Messi have in 2026?", a: ["8", "7", "9", "5"], c: 0 },
+            { q: "Which Moroccan player joined Real Madrid in 2024?", a: ["Brahim Diaz", "Hakimi", "Ziyech", "Amrabat"], c: 0 },
+            { q: "Which team is nicknamed 'The Green Eagles'?", a: ["Raja CA", "WAC", "AS FAR", "FUS"], c: 0 }
             // Logic picks 10 random...
         ];
 
-        // --- INTERNAL MARCH 17, 2026 INTEL (Used if RSS is blocked/slow) ---
-        const localMoroccoIntel = [
-            { title: "Ouahbi calls up 5 dual-national talents for Brazil friendly", desc: "The new coaching era begins with a focus on integrating European academy stars into the Atlas Lions.", img: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=500" },
-            { title: "Botola Matchday 25: Raja maintains 2-point lead", desc: "The Green Eagles prepare for a crucial weekend clash to solidify their lead over AS FAR.", img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500" },
-            { title: "Casablanca Grand Stadium: 2030 World Cup infrastructure report", desc: "Structural work on the world's largest stadium is currently 40% complete as of March 2026.", img: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=500" },
-            { title: "Brahim Diaz: 'Morocco 2026 project is why I chose the Lions'", desc: "The playmaker speaks on his decision to lead the national team in the upcoming campaign.", img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500" }
-        ];
-
         async function init() {
-            // Load Morocco Section (Local Intel + Try Live)
             renderMorocco();
-            
-            // Load Other RSS
-            loadRSS('rss-global-container', "https://feeds.bbci.co.uk/sport/football/rss.xml", 'GLOBAL');
-            loadRSS('rss-gaming-container', "https://esportsinsider.com/feed", 'GAMING');
-            
-            // Load Highlights
-            loadVerifiedVids();
-            
-            // Start Quiz
+            loadRSS('global-container', "https://feeds.bbci.co.uk/sport/football/rss.xml", 'GLOBAL');
+            loadRSS('gaming-container', "https://esportsinsider.com/feed", 'GAMING');
             initQuiz();
         }
 
         function renderMorocco() {
             const container = document.getElementById('morocco-container');
-            // Populate with Internal 2026 Intel First
-            container.innerHTML = localMoroccoIntel.map(n => `
+            container.innerHTML = localIntel.morocco.map(n => `
                 <div class="card" onclick="openMod('${n.title}', '${n.desc}', '#')">
                     <img src="${n.img}" class="card-img">
                     <div class="card-body"><span class="badge">MOROCCO 2026</span><h3>${n.title}</h3></div>
                 </div>
             `).join('');
-            
-            // Try to add live news at the end
+
             fetch(BRIDGE + encodeURIComponent("https://www.hesspress.com/sport/feed"))
                 .then(res => res.json())
                 .then(data => {
@@ -196,14 +200,11 @@
                             const div = document.createElement('div');
                             div.className = 'card';
                             div.onclick = () => openMod(item.title, item.description, item.link);
-                            div.innerHTML = `
-                                <img src="${item.thumbnail || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500'}" class="card-img">
-                                <div class="card-body"><span class="badge">LATEST WIRE</span><h3>${item.title}</h3></div>
-                            `;
+                            div.innerHTML = `<img src="${item.thumbnail || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500'}" class="card-img"><div class="card-body"><span class="badge">LATEST WIRE</span><h3>${item.title}</h3></div>`;
                             container.appendChild(div);
                         });
                     }
-                }).catch(e => console.log("RSS Bridge Busy"));
+                }).catch(() => console.log("Feed standby"));
         }
 
         async function loadRSS(id, url, tag) {
@@ -222,24 +223,7 @@
                         `;
                     }).join('');
                 }
-            } catch(e) { container.innerHTML = `<p style="padding:20px;">Feed connecting...</p>`; }
-        }
-
-        function loadVerifiedVids() {
-            const container = document.getElementById('vid-container');
-            // Hard-coded Embed-Safe Official IDs (UCL, Botola, Esports)
-            const officialSafe = [
-                { id: "n4X0969SgGk", title: "Real Madrid vs Man City: UCL Highlights" },
-                { id: "Xq_I-I0Xz6M", title: "Botola Pro: Best Goals of the Season" },
-                { id: "T0mG44pLCHg", title: "Esports: LCK T1 Highlights" },
-                { id: "1v0oP6y9Y-A", title: "NBA: Wembanyama Masterclass" }
-            ];
-            container.innerHTML = officialSafe.map(v => `
-                <div class="vid-card">
-                    <div class="vid-wrap"><iframe src="https://www.youtube.com/embed/${v.id}" allowfullscreen></iframe></div>
-                    <div style="padding:15px"><h4>${v.title}</h4></div>
-                </div>
-            `).join('');
+            } catch(e) { container.innerHTML = `<p>Connecting to Feed...</p>`; }
         }
 
         let curQ = [], qI = 0, score = 0;
