@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="strict-origin-when-cross-origin"/>
-    <title>MoroccanSportsNews | Elite Intelligence 2026</title>
+    <title>MoroccanSportsNews | Elite Hub 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <!-- API-SPORTS CORE ENGINE -->
@@ -41,7 +41,7 @@
 
         .view-page { display: none; animation: fadeIn 0.4s ease; }
         .view-page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .hero { 
             height: 20vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
@@ -61,11 +61,11 @@
         .card-body { padding: 20px; }
         .badge { background: var(--red); color: #fff; font-size: 0.6rem; padding: 4px 10px; border-radius: 4px; font-weight: 800; margin-bottom: 10px; display: inline-block; }
 
-        /* DYNAMIC HUB DESIGN */
+        /* DARK WIDGET DESIGN */
         .hub-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
         @media (max-width: 1000px) { .hub-grid { grid-template-columns: 1fr; } }
 
-        .widget-main { background: #ffffff; border-radius: 25px; padding: 10px; min-height: 600px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); overflow: auto; }
+        .widget-main { background: #000; border: 1px solid var(--border); border-radius: 25px; padding: 10px; min-height: 600px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); overflow: auto; }
         .dynamic-target { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 20px; height: fit-content; min-height: 300px; color: #fff; }
 
         .selector-bar { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
@@ -81,12 +81,12 @@
 </head>
 <body>
 
-    <!-- CORE API CONFIG (DYNAMIC TARGETING ENABLED) -->
+    <!-- CORE API CONFIG (DARK MODE ENABLED) -->
     <api-sports-widget
       data-type="config"
       data-key="77aa814e7955b3042a9ebf24fc1bee18"
       data-sport="football"
-      data-theme="white"
+      data-theme="dark"
       data-lang="en"
       data-show-logos="true"
       data-target-game="modal"
@@ -106,7 +106,7 @@
         </nav>
     </header>
 
-    <div class="ticker" id="ticker-status">MARCH 19, 2026: DYNAMIC TARGETING ACTIVE | BROWSE GLOBAL PLAYER DATABASE | SYNCING 2026 INTEL</div>
+    <div class="ticker" id="ticker-status">MARCH 19, 2026: DARK THEME SYNC COMPLETE | REAL MADRID VS MAN CITY TONIGHT | LATEST BOTOLA PRO WIRE ACTIVE</div>
 
     <!-- PAGE: HOME -->
     <div id="home-page" class="view-page active">
@@ -159,7 +159,7 @@
         </section>
     </div>
 
-    <!-- PAGE: STANDINGS (DYNAMIC TARGETING) -->
+    <!-- PAGE: STANDINGS -->
     <div id="standings-page" class="view-page">
         <div class="hero"><h1>LEAGUE STANDING</h1></div>
         <section>
@@ -181,18 +181,17 @@
         </section>
     </div>
 
-    <!-- PAGE: FIND YOUR PLAYER (DYNAMIC BROWSE) -->
+    <!-- PAGE: FIND YOUR PLAYER -->
     <div id="players-page" class="view-page">
         <div class="hero"><h1>FIND YOUR PLAYER</h1></div>
         <section>
             <div class="hub-grid">
                 <div class="widget-main">
-                    <!-- BROWSE LEAGUES > TEAMS > CLICK PLAYER -->
                     <api-sports-widget data-type="leagues"></api-sports-widget>
                 </div>
                 <div class="dynamic-target">
                     <p style="color:var(--cyan); font-weight:800; font-size:0.7rem; margin-bottom:10px;">PLAYER INTELLIGENCE</p>
-                    <div id="player-view" style="color:var(--text-dim); font-size:0.9rem;">Browse through the countries and leagues on the left. Click a team, then click a player to see their full 2026 intelligence report.</div>
+                    <div id="player-view" style="color:var(--text-dim); font-size:0.9rem;">Browse through the leagues. Click a team, then click a player to see their full 2026 report.</div>
                 </div>
             </div>
         </section>
@@ -200,7 +199,7 @@
 
     <footer><p>&copy; 2026 MoroccanSportsNews | Elite Intelligence Feed</p></footer>
 
-    <!-- Modal Placeholder for News -->
+    <!-- Modal for News -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <span class="close" onclick="closeM()">&times;</span>
@@ -228,22 +227,23 @@
             window.scrollTo(0,0);
         }
 
-        // MATCH HUB
         function loadLive(sport) {
             const container = document.getElementById('live-inject');
             const type = (sport === 'f1') ? 'races' : (sport === 'mma' ? 'fights' : 'games');
-            container.innerHTML = `<api-sports-widget data-type="${type}" data-sport="${sport}" data-refresh="30"></api-sports-widget>`;
+            // Force dark theme inside the iframe src
+            container.innerHTML = `<api-sports-widget data-type="${type}" data-sport="${sport}" data-refresh="30" data-theme="dark"></api-sports-widget>`;
             document.getElementById('live-sel').querySelectorAll('.sel-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
         }
 
-        // STANDINGS (Using Season 2024 for Free Plan Stability)
         function loadTable(leagueId) {
             const container = document.getElementById('stand-inject');
+            // Using Season 2024 (stable for free tier) and forcing dark theme
             container.innerHTML = `<api-sports-widget 
                 data-type="standings" 
                 data-league="${leagueId}" 
                 data-season="2024" 
+                data-theme="dark"
                 data-target-team="#team-view">
             </api-sports-widget>`;
             
@@ -251,7 +251,6 @@
             event.target.classList.add('active');
         }
 
-        // --- NEWS API ---
         async function init() {
             loadRSS('feed-morocco', FEEDS.morocco, 'MOROCCO');
             loadRSS('feed-global', FEEDS.global, 'GLOBAL');
@@ -270,7 +269,6 @@
             } catch(e) {}
         }
 
-        // --- MEGA QUIZ ---
         const quizBank = [
             { q: "Who is the coach of the Atlas Lions in March 2026?", a: ["Mohamed Ouahbi", "Regragui", "Renard", "Sektioui"], c: 0 },
             { q: "Who is Real Madrid playing in the UCL Quarter Finals tonight?", a: ["Man City", "Bayern", "Barca", "PSG"], c: 0 },
