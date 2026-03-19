@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoroccanSportsNews | Premium Intel 2026</title>
+    <meta name="referrer" content="strict-origin-when-cross-origin"/>
+    <title>MoroccanSportsNews | Elite Hub 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- API-SPORTS WIDGET ENGINE -->
+    <script type="module" src="https://widgets.api-sports.io/3.1.0/widgets.js"></script>
+
     <style>
         :root {
             --bg: #020608;
@@ -28,18 +33,18 @@
         }
         .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -1.5px; cursor: pointer;}
         .logo span { color: var(--cyan); }
-        nav ul { display: flex; list-style: none; gap: 30px; }
-        nav a { color: var(--text); text-decoration: none; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; transition: 0.3s; cursor: pointer;}
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a { color: var(--text); text-decoration: none; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; transition: 0.3s; cursor: pointer;}
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
         .ticker { background: rgba(0, 242, 254, 0.1); padding: 12px; text-align: center; font-size: 0.7rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 65px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
         .view-page { display: none; animation: fadeIn 0.4s ease; }
         .view-page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .hero { 
-            height: 25vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            height: 20vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
             background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=1600') center/cover;
             border-bottom: 3px solid var(--red);
         }
@@ -57,13 +62,27 @@
         .badge { background: var(--red); color: #fff; font-size: 0.6rem; padding: 4px 10px; border-radius: 4px; font-weight: 800; margin-bottom: 10px; display: inline-block; }
         .card-body h3 { font-size: 0.9rem; line-height: 1.4; height: 2.8rem; overflow: hidden; font-weight: 700; color: #fff; }
 
-        /* INTERACTIVE MATCH HUB */
-        .selector-bar { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
-        .sel-btn { background: var(--glass); border: 1px solid var(--border); color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; transition: 0.3s; font-size: 0.8rem; text-transform: uppercase; }
-        .sel-btn:hover, .sel-btn.active { background: var(--cyan); color: black; font-weight: 700; }
+        /* WIDGET TOOLS */
+        .selector-bar { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; align-items: center; }
+        .sel-btn { background: var(--glass); border: 1px solid var(--border); color: white; padding: 10px 18px; border-radius: 10px; cursor: pointer; white-space: nowrap; transition: 0.3s; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;}
+        .sel-btn:hover, .sel-btn.active { background: var(--cyan); color: black; font-weight: 800; border-color: var(--cyan); }
+        
+        .season-select { background: #111; color: var(--cyan); border: 1px solid var(--cyan); padding: 8px; border-radius: 10px; font-size: 0.8rem; font-weight: 800; cursor: pointer; outline: none; }
 
-        .iframe-stage { background: #fff; border-radius: 25px; overflow: hidden; height: 700px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
-        .iframe-stage iframe { width: 100%; height: 100%; border: none; }
+        .widget-box { 
+            background: #ffffff; 
+            border-radius: 25px; 
+            padding: 5px; 
+            min-height: 600px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            overflow: auto;
+        }
+
+        /* SEARCH BAR */
+        .search-container { margin-bottom: 30px; display: flex; gap: 10px; max-width: 600px; }
+        .search-input { flex: 1; background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: white; font-size: 1rem; outline: none; transition: 0.3s; }
+        .search-input:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0,242,254,0.2); }
+        .search-btn { background: var(--cyan); border: none; padding: 0 25px; border-radius: 12px; color: black; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
         .vid-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
         .vid-card { background: #000; border-radius: 20px; overflow: hidden; border: 1px solid var(--border); }
@@ -83,41 +102,49 @@
 </head>
 <body>
 
+    <!-- GLOBAL API-SPORTS CONFIG -->
+    <api-sports-widget
+      data-type="config"
+      data-key="77aa814e7955b3042a9ebf24fc1bee18"
+      data-sport="football"
+      data-theme="white"
+      data-lang="en"
+      data-show-logos="true">
+    </api-sports-widget>
+
     <header>
         <div class="logo" onclick="switchPage('home')">Moroccan<span>SportsNews</span></div>
         <nav>
             <ul>
-                <li><a onclick="switchPage('home')" id="nav-home" class="active">News Intelligence</a></li>
+                <li><a onclick="switchPage('home')" id="nav-home" class="active">Intelligence</a></li>
                 <li><a onclick="switchPage('matches')" id="nav-matches">Match Center</a></li>
+                <li><a onclick="switchPage('players')" id="nav-players">Find Your Player</a></li>
             </ul>
         </nav>
     </header>
 
-    <div class="ticker" id="ticker-status">MARCH 19, 2026: TONIGHT REAL MADRID VS MAN CITY UCL | COACH MOHAMED OUAHBI LEADING NATIONAL TEAM CAMP</div>
+    <div class="ticker" id="ticker-status">MARCH 19, 2026: LIVE MATCH DAY UPDATES | SEARCH ANY PLAYER WORLDWIDE | SYNCING 2026 SQUAD DATA</div>
 
     <!-- PAGE: HOME -->
     <div id="home-page" class="view-page active">
-        <div class="hero"><h1>INTELLIGENCE HUB</h1></div>
+        <div class="hero"><h1>GLOBAL INTELLIGENCE</h1></div>
 
-        <!-- MOROCCO WIRE (Fixed) -->
+        <!-- MOROCCO & BOTOLA WIRE -->
         <section>
-            <div class="section-header"><h2>Moroccan & Botola Wire</h2><span style="color:var(--cyan); font-size:0.7rem;">● LIVE MARCH 2026 API</span></div>
+            <div class="section-header"><h2>Moroccan & Botola Wire</h2><span style="color:var(--cyan); font-size:0.7rem;">● LIVE API SYNC</span></div>
             <div class="scroller" id="feed-morocco">
-                <!-- Neural Fallback Loader -->
-                <div class="card" onclick="openMod('Mohamed Ouahbi officially starts camp','The new era begins today in Maamora training complex.')"><img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=500" class="card-img"><div class="card-body"><span class="badge">LIONS</span><h3>Mohamed Ouahbi officially starts camp</h3></div></div>
-                <div class="card" onclick="openMod('Botola Matchday 25 results','Raja maintain lead after crucial mid-week victory.')"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500" class="card-img"><div class="card-body"><span class="badge">BOTOLA</span><h3>Botola Pro Matchday 25: Standings updated</h3></div></div>
+                <!-- Neural Fallback -->
+                <div class="card" onclick="openMod('Mohamed Ouahbi confirms Brazil series','Final 24-man list includes major U23 surprises.')"><img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=500" class="card-img"><div class="card-body"><span class="badge">LIONS 2026</span><h3>Coach Ouahbi confirms youth-focused Brazil squad</h3></div></div>
             </div>
         </section>
 
-        <!-- GLOBAL WIRE -->
         <section style="background: rgba(0,0,0,0.15);">
-            <div class="section-header"><h2>Global Intelligence</h2></div>
+            <div class="section-header"><h2>Global Intelligence</h2><span style="color:var(--cyan); font-size:0.7rem;">● SOURCE: BBC SPORT</span></div>
             <div class="scroller" id="feed-global"></div>
         </section>
 
-        <!-- GAMING WIRE -->
         <section>
-            <div class="section-header"><h2>Gaming Intelligence</h2></div>
+            <div class="section-header"><h2>Gaming Intelligence</h2><span style="color:var(--cyan); font-size:0.7rem;">● SOURCE: ESPORTS INSIDER</span></div>
             <div class="scroller" id="feed-gaming"></div>
         </section>
 
@@ -127,7 +154,7 @@
             <div class="vid-grid">
                 <div class="vid-card">
                     <div class="vid-wrap"><iframe src="https://www.youtube.com/embed/R9KofpB-H5M" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-                    <div style="padding:15px"><h4>Liverpool vs Tottenham | Match Highlights Evidence</h4></div>
+                    <div style="padding:15px"><h4>Liverpool vs Tottenham | Match Evidence 2026</h4></div>
                 </div>
                 <div class="vid-card">
                     <div class="vid-wrap"><iframe src="https://www.youtube.com/embed/S2p0P12v6QY" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
@@ -151,36 +178,69 @@
         </section>
     </div>
 
-    <!-- PAGE: MATCHES (New Interactive Match Center) -->
+    <!-- PAGE: MATCHES (API-Sports Interactive) -->
     <div id="matches-page" class="view-page">
         <div class="hero" style="background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,1)), url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1600') center/cover;">
-            <h1>DATA HUB PRO</h1>
+            <h1>MATCH HUB PRO</h1>
         </div>
 
-        <section id="live-matches">
-            <div class="section-header"><h2>Live Matches</h2><span style="color:var(--cyan); font-size:0.7rem;">● SELECT LEAGUE/SPORT</span></div>
-            <div class="selector-bar">
-                <button class="sel-btn active" onclick="loadLive('all')">All Scores</button>
-                <button class="sel-btn" onclick="loadLive('mar')">Morocco Botola</button>
-                <button class="sel-btn" onclick="loadLive('ucl')">Champions League</button>
-                <button class="sel-btn" onclick="loadLive('nba')">NBA Basketball</button>
-                <button class="sel-btn" onclick="loadLive('tennis')">Tennis ATP</button>
+        <section id="live-matches-sec">
+            <div class="section-header"><h2>Live Matches</h2><span style="color:var(--cyan); font-size:0.7rem;">● REAL-TIME ENGINE</span></div>
+            <div class="selector-bar" id="live-sel">
+                <button class="sel-btn active" onclick="loadLive('football')">Football</button>
+                <button class="sel-btn" onclick="loadLive('nba')">NBA Pro</button>
+                <button class="sel-btn" onclick="loadLive('f1')">Formula 1</button>
+                <button class="sel-btn" onclick="loadLive('mma')">UFC / MMA</button>
             </div>
-            <div class="iframe-stage">
-                <iframe id="live-frame" src="https://www.livescore.in/free-widgets/live-scores/"></iframe>
-            </div>
+            <div class="widget-box" id="live-inject"></div>
         </section>
 
-        <section id="league-standings" style="background: rgba(0,0,0,0.15);">
-            <div class="section-header"><h2>League Standing</h2></div>
-            <div class="selector-bar">
-                <button class="sel-btn active" onclick="loadTable('mar')">Botola Pro</button>
-                <button class="sel-btn" onclick="loadTable('ucl')">UCL Groups</button>
-                <button class="sel-btn" onclick="loadTable('pl')">Premier League</button>
-                <button class="sel-btn" onclick="loadTable('la')">La Liga</button>
+        <section id="standings-sec" style="background: rgba(0,0,0,0.15);">
+            <div class="section-header"><h2>League Standing</h2><span style="color:var(--cyan); font-size:0.7rem;">● SELECT SEASON & LEAGUE</span></div>
+            <div class="selector-bar" id="stand-sel">
+                <select class="season-select" id="season-choice" onchange="refreshStanding()">
+                    <option value="2025">Season 2025/26 (Current)</option>
+                    <option value="2024">Season 2024/25 (Legacy)</option>
+                    <option value="2023">Season 2023/24 (Failsafe)</option>
+                    <option value="2022">Season 2022/23</option>
+                    <option value="2021">Season 2021/22</option>
+                </select>
+                <button class="sel-btn active" onclick="loadStand('964')">Botola Pro</button>
+                <button class="sel-btn" onclick="loadStand('39')">Premier League</button>
+                <button class="sel-btn" onclick="loadStand('140')">La Liga</button>
+                <button class="sel-btn" onclick="loadStand('2')">UCL</button>
+                <button class="sel-btn" onclick="loadStand('78')">Bundesliga</button>
             </div>
-            <div class="iframe-stage" style="height: 600px;">
-                <iframe id="table-frame" src="https://www.sofascore.com/tournament/football/morocco/botola-pro/1066/embed/standings"></iframe>
+            <div class="widget-box" id="stand-inject"></div>
+        </section>
+    </div>
+
+    <!-- PAGE: PLAYERS (DYNAMIC SEARCH) -->
+    <div id="players-page" class="view-page">
+        <div class="hero" style="background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,1)), url('https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=1600') center/cover;">
+            <h1>FIND YOUR PLAYER</h1>
+        </div>
+
+        <section>
+            <div class="section-header"><h2>Scout Intelligence</h2><span style="color:var(--cyan); font-size:0.7rem;">● GLOBAL DATABASE 2026</span></div>
+            
+            <div class="search-container">
+                <input type="text" id="player-query" class="search-input" placeholder="Enter Player ID (e.g. 24866 for Brahim)...">
+                <button class="search-btn" onclick="manualPlayerSearch()">Search</button>
+            </div>
+
+            <div class="selector-bar">
+                <span style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase;">Quick Access:</span>
+                <button class="sel-btn" onclick="loadPlayer('24866')">Brahim Diaz</button>
+                <button class="sel-btn" onclick="loadPlayer('882')">Achraf Hakimi</button>
+                <button class="sel-btn" onclick="loadPlayer('2351')">Bono</button>
+                <button class="sel-btn" onclick="loadPlayer('154')">Lionel Messi</button>
+                <button class="sel-btn" onclick="loadPlayer('276')">Neymar Jr</button>
+            </div>
+
+            <div class="widget-box" id="player-inject">
+                <!-- If search is vague, show the leagues widget so they can browse to find their player -->
+                <api-sports-widget data-type="leagues"></api-sports-widget>
             </div>
         </section>
     </div>
@@ -201,48 +261,94 @@
         const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
         const FEEDS = {
             global: "https://feeds.bbci.co.uk/sport/football/rss.xml",
-            morocco: "https://sport.le360.ma/rss.xml",
-            gaming: "https://esportsinsider.com/feed"
+            morocco_live: "https://sport.le360.ma/rss.xml",
+            gaming_live: "https://esportsinsider.com/feed"
         };
 
-        // NAVIGATION
+        let currentLeagueId = "964";
+
+        // --- NAVIGATION ---
         function switchPage(page) {
             document.querySelectorAll('.view-page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
             document.getElementById(page + '-page').classList.add('active');
             document.getElementById('nav-' + page).classList.add('active');
+            
+            if(page === 'matches') { loadLive('football'); loadStand('964'); }
             window.scrollTo(0,0);
         }
 
-        // SELECTOR LOGIC
-        function loadLive(type) {
-            const frame = document.getElementById('live-frame');
-            const urls = {
-                all: "https://www.livescore.in/free-widgets/live-scores/",
-                mar: "https://www.livescore.in/morocco/botola-pro/",
-                ucl: "https://www.livescore.in/europe/champions-league/",
-                nba: "https://www.livescore.in/basketball/usa/nba/",
-                tennis: "https://www.livescore.in/tennis/"
-            };
-            frame.src = urls[type];
-            event.target.parentElement.querySelectorAll('.sel-btn').forEach(b => b.classList.remove('active'));
+        // --- MATCH CENTER ENGINE ---
+        function loadLive(sport) {
+            const container = document.getElementById('live-inject');
+            const type = (sport === 'f1') ? 'races' : (sport === 'mma' ? 'fights' : 'games');
+            container.innerHTML = `<api-sports-widget data-type="${type}" data-sport="${sport}" data-refresh="30"></api-sports-widget>`;
+            document.getElementById('live-sel').querySelectorAll('.sel-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
         }
 
-        function loadTable(type) {
-            const frame = document.getElementById('table-frame');
-            const urls = {
-                mar: "https://www.sofascore.com/tournament/football/morocco/botola-pro/1066/embed/standings",
-                ucl: "https://www.sofascore.com/tournament/football/europe/uefa-champions-league/7/embed/standings",
-                pl: "https://www.sofascore.com/tournament/football/england/premier-league/17/embed/standings",
-                la: "https://www.sofascore.com/tournament/football/spain/laliga/8/embed/standings"
-            };
-            frame.src = urls[type];
-            event.target.parentElement.querySelectorAll('.sel-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+        function loadStand(leagueId) {
+            currentLeagueId = leagueId;
+            const season = document.getElementById('season-choice').value;
+            const container = document.getElementById('stand-inject');
+            container.innerHTML = `<api-sports-widget data-type="standings" data-league="${leagueId}" data-season="${season}"></api-sports-widget>`;
+            document.getElementById('stand-sel').querySelectorAll('.sel-btn').forEach(b => {
+                b.classList.remove('active');
+                if(b.onclick.toString().includes(leagueId)) b.classList.add('active');
+            });
         }
 
-        // --- 100 QUESTION MEGA POOL ---
+        function refreshStanding() {
+            loadStand(currentLeagueId);
+        }
+
+        // --- PLAYER ENGINE ---
+        function loadPlayer(id) {
+            const container = document.getElementById('player-inject');
+            container.innerHTML = `<api-sports-widget data-type="player" data-player-id="${id}" data-season="2024" data-player-statistics="true"></api-sports-widget>`;
+        }
+
+        function manualPlayerSearch() {
+            const id = document.getElementById('player-query').value;
+            if(id) loadPlayer(id);
+        }
+
+        // --- NEWS API LOGIC ---
+        async function init() {
+            loadHybridFeed('feed-morocco', FEEDS.morocco_live, 'MOROCCO');
+            loadRSS('feed-global', FEEDS.global, 'GLOBAL');
+            loadRSS('feed-gaming', FEEDS.gaming_live, 'GAMING');
+            initQuiz();
+        }
+
+        async function loadHybridFeed(id, url, tag) {
+            const container = document.getElementById(id);
+            try {
+                const res = await fetch(BRIDGE + encodeURIComponent(url) + "&t=" + Date.now());
+                const data = await res.json();
+                if(data.items && data.items.length > 0) {
+                    const cards = data.items.map(item => {
+                        const cleanDesc = item.description.replace(/<[^>]*>?/gm, '').substring(0, 150);
+                        const thumb = item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500';
+                        return `<div class="card" onclick="openMod('${item.title.replace(/'/g,"")}', '${cleanDesc.replace(/'/g,"")}', '${item.link}')"><img src="${thumb}" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500'"><div class="card-body"><span class="badge">LIVE ${tag}</span><h3>${item.title}</h3></div></div>`;
+                    }).join('');
+                    container.innerHTML += cards;
+                }
+            } catch(e) {}
+        }
+
+        async function loadRSS(id, url, tag) {
+            const container = document.getElementById(id);
+            try {
+                const res = await fetch(BRIDGE + encodeURIComponent(url));
+                const data = await res.json();
+                if(data.items) {
+                    container.innerHTML = data.items.map(item => `<div class="card" onclick="openMod('${item.title.replace(/'/g,"")}', '${item.description.replace(/<[^>]*>?/gm, '').substring(0, 150).replace(/'/g,"")}', '${item.link}')"><img src="${item.thumbnail || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500'}" class="card-img"><div class="card-body"><span class="badge">${tag}</span><h3>${item.title}</h3></div></div>`).join('');
+                }
+            } catch(e) {}
+        }
+
+        // --- 100 QUESTION POOL ---
         const quizBank = [
             { q: "Who is the coach of the Atlas Lions in March 2026?", a: ["Mohamed Ouahbi", "Regragui", "Renard", "Sektioui"], c: 0 },
             { q: "Who is Real Madrid playing in the UCL Quarter Finals tonight?", a: ["Man City", "Bayern", "Barca", "PSG"], c: 0 },
@@ -251,34 +357,9 @@
             { q: "Who is known as the 'Demon King' in Esports?", a: ["Faker", "Chovy", "Showmaker", "Caps"], c: 0 },
             { q: "Where is the 2026 World Cup Final held?", a: ["New Jersey (MetLife)", "Mexico City", "LA", "Dallas"], c: 0 },
             { q: "How many Ballon d'Or titles does Messi have in 2026?", a: ["8", "7", "9", "5"], c: 0 },
-            { q: "Which F1 team is Lewis Hamilton driving for in 2026?", a: ["Ferrari", "Red Bull", "Mercedes", "Aston"], c: 0 },
-            { q: "Which team is called 'The Oranges'?", a: ["RSB Berkane", "Raja", "MAS", "KACM"], c: 0 }
+            { q: "Marwan Rahiki is a professional in which organization?", a: ["UFC", "PFL", "ONE", "Bellator"], c: 0 }
             // Randomized 10 each load...
         ];
-
-        async function init() {
-            loadRSS('feed-morocco', FEEDS.morocco, 'MOROCCO');
-            loadRSS('feed-global', FEEDS.global, 'GLOBAL');
-            loadRSS('feed-gaming', FEEDS.gaming, 'GAMING');
-            initQuiz();
-        }
-
-        async function loadRSS(id, url, tag) {
-            const container = document.getElementById(id);
-            try {
-                const res = await fetch(BRIDGE + encodeURIComponent(url) + "&t=" + Date.now());
-                const data = await res.json();
-                if(data.items && data.items.length > 0) {
-                    // Prepend live news to the fallback cards
-                    const liveCards = data.items.map(item => {
-                        const cleanDesc = item.description.replace(/<[^>]*>?/gm, '').substring(0, 180);
-                        const thumb = item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500';
-                        return `<div class="card" onclick="openMod('${item.title.replace(/'/g,"")}', '${cleanDesc.replace(/'/g,"")}', '${item.link}')"><img src="${thumb}" class="card-img"><div class="card-body"><span class="badge">LIVE ${tag}</span><h3>${item.title}</h3></div></div>`;
-                    }).join('');
-                    container.innerHTML = liveCards + container.innerHTML;
-                }
-            } catch(e) { console.log(tag + " Feed synchronization standby"); }
-        }
 
         let curQ = [], qI = 0, score = 0;
         function initQuiz() {
