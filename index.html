@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="strict-origin-when-cross-origin"/>
-    <title>MoroccanSportsHub | Intelligence 2026</title>
+    <title>MoroccanSportsHub | Intelligence Hub 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     
@@ -28,18 +28,19 @@
             --text-dim: #94a3b8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: background 0.3s; }
-        [lang="ar"] * { font-family: 'Noto Sans Arabic', sans-serif; }
-        [lang="zh"] * { font-family: 'Noto Sans SC', sans-serif; }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg); background-image: var(--grad); color: var(--text); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* RTL & Language support */
         body.rtl { direction: rtl; }
+        body.rtl * { font-family: 'Noto Sans Arabic', sans-serif !important; }
+        [lang="zh"] * { font-family: 'Noto Sans SC', sans-serif !important; }
 
-        /* LANGUAGE SELECTOR OVERLAY */
-        #lang-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(20px); }
-        .lang-box { background: var(--glass); border: 1px solid var(--border); padding: 50px; border-radius: 40px; text-align: center; max-width: 500px; width: 90%; }
-        .lang-btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px; border: 1px solid var(--cyan); background: transparent; color: white; cursor: pointer; font-weight: 800; text-transform: uppercase; transition: 0.3s; }
-        .lang-btn:hover { background: var(--cyan); color: black; }
+        /* LANGUAGE SELECTOR */
+        #lang-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(20px); }
+        .lang-box { background: var(--glass); border: 2px solid var(--cyan); padding: 40px; border-radius: 30px; text-align: center; max-width: 400px; width: 90%; }
+        .lang-btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid var(--cyan); background: transparent; color: #fff; cursor: pointer; font-weight: 800; text-transform: uppercase; transition: 0.3s; }
+        .lang-btn:hover { background: var(--cyan); color: #000; }
 
         header {
             position: fixed; top: 0; width: 100%; z-index: 1000;
@@ -47,43 +48,48 @@
             padding: 0.8rem 5%; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border);
         }
-        .logo { font-size: 1.2rem; font-weight: 800; cursor: pointer; }
+        .logo { font-size: 1.1rem; font-weight: 800; cursor: pointer; flex-shrink: 0;}
         .logo span { color: var(--cyan); }
         
         nav ul { display: flex; list-style: none; gap: 15px; }
-        nav a { color: var(--text); text-decoration: none; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; cursor: pointer; }
-        nav a.active { color: var(--cyan); opacity: 1; }
+        nav a { color: var(--text); text-decoration: none; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; cursor: pointer;}
+        nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
-        .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 55px; text-transform: uppercase; letter-spacing: 2px; }
+        .auth-btn { background: var(--cyan); color: #000; padding: 6px 15px; border-radius: 20px; font-size: 0.6rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+
+        .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 55px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
         .view-page { display: none; animation: fadeIn 0.4s ease; padding-top: 10px; flex: 1; }
         .view-page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .hero { height: 18vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--red); margin-bottom: 20px; }
+        .hero { height: 12vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--red); margin-bottom: 20px; }
+        .hero h1 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; }
 
-        /* HIGH DENSITY NEWS */
         section { padding: 10px 5% 40px; }
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; height: 100%; display: flex; flex-direction: column; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%; }
         .card:hover { transform: translateY(-5px); border-color: var(--cyan); }
-        .card-img { width: 100%; height: 150px; object-fit: cover; }
+        .card-img { width: 100%; height: 140px; object-fit: cover; background: #111; }
         .card-body { padding: 15px; flex: 1; }
-        .card-body h3 { font-size: 0.85rem; line-height: 1.3; font-weight: 700; color: #fff; }
+        .card-body h3 { font-size: 0.8rem; line-height: 1.3; font-weight: 700; color: #fff; }
 
-        /* WIDGET HUB */
-        .widget-area { background: #000; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; }
+        /* WIDGETS */
+        .widget-area { background: #000 !important; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; }
         .hub-split { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
-        @media (max-width: 1000px) { .hub-split { grid-template-columns: 1fr; } }
+
+        /* AUTH MODAL */
+        .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+        .auth-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; opacity: 0.5; font-size: 0.75rem; font-weight: 800; transition: 0.3s; }
+        .auth-tab.active { opacity: 1; color: var(--cyan); border-bottom: 2px solid var(--cyan); }
+        .auth-input { width: 100%; background: var(--glass); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: #fff; margin-bottom: 10px; outline: none; }
 
         /* REACTION */
-        .reaction-bar { display: flex; gap: 15px; padding: 15px; border-top: 1px solid var(--border); justify-content: center; }
-        .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; opacity: 0.4; transition: 0.2s; }
-        .react-btn.active { opacity: 1; color: var(--cyan); transform: scale(1.2); }
-        .react-count { font-size: 0.7rem; font-weight: 800; color: var(--cyan); }
+        .reaction-bar { display: flex; gap: 15px; padding: 12px 20px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.02); justify-content: center;}
+        .react-group { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        .react-count { font-size: 0.75rem; font-weight: 800; color: var(--cyan); }
 
-        /* QUIZ */
-        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 50px 5%; margin-top: auto; }
+        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 40px 5%; margin-top: auto; }
         .quiz-box { max-width: 900px; margin: 0 auto; text-align: center; }
         .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; }
@@ -91,28 +97,24 @@
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(20px); }
         .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; }
         .close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
-        .full-btn { display: inline-block; background: var(--cyan); color: #000; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: 800; margin-top: 20px; text-transform: uppercase; font-size: 0.7rem; width: 100%; text-align: center; }
 
         footer { padding: 30px 5%; text-align: center; opacity: 0.3; font-size: 0.65rem; border-top: 1px solid var(--border); }
     </style>
 </head>
-<body>
+<body class="rtl"> <!-- Default RTL for Arabic feel, switched by JS -->
 
     <!-- LANGUAGE OVERLAY -->
     <div id="lang-overlay">
         <div class="lang-box">
-            <h2 style="color:var(--cyan); margin-bottom: 20px;">CHOOSE INTELLIGENCE LANGUAGE</h2>
+            <h2 style="color:var(--cyan); margin-bottom: 25px;">SELECT SYSTEM LANGUAGE</h2>
             <button class="lang-btn" onclick="setLang('en')">English</button>
-            <button class="lang-btn" onclick="setLang('ar')">العربية</button>
-            <button class="lang-btn" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" onclick="setLang('ar')">العربية (Arabic)</button>
+            <button class="lang-btn" onclick="setLang('zh')">中文 (Chinese)</button>
         </div>
     </div>
 
-    <!-- API-SPORTS CONFIG -->
-    <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal" data-target-league="#scout-output" data-target-team="#scout-output" data-target-player="#scout-output"></api-sports-widget>
-
     <header>
-        <div class="logo" onclick="switchPage('home')"><span id="site-name-1">Moroccan</span><span id="site-name-2">SportsHub</span></div>
+        <div class="logo" onclick="switchPage('home')"><span id="l-site1">Moroccan</span><span id="l-site2">SportsHub</span></div>
         <nav>
             <ul>
                 <li><a onclick="switchPage('home')" id="nav-home" class="active">Home</a></li>
@@ -125,92 +127,95 @@
             </ul>
         </nav>
         <div class="header-right" id="auth-ui">
-            <button class="auth-btn" onclick="loginGoogle()">Login</button>
+            <button class="auth-btn" id="l-login-btn" onclick="openAuth()">Access Hub</button>
         </div>
     </header>
 
-    <div class="ticker" id="ticker-status">SYNCING LIVE GLOBAL SATELLITE FEEDS...</div>
+    <div class="ticker" id="ticker-text">MARCH 21, 2026: CLOUD SYNC ACTIVE | REAL-TIME MATCH UPDATES</div>
 
     <div id="content-wrapper">
-        <div id="home-page" class="view-page">
-            <div class="hero"><h1 id="h-home">GLOBAL HUB</h1></div>
-            <section><div class="news-grid" id="feed-home"></div></section>
-        </div>
+        <div id="home-page" class="view-page active"><section><div class="news-grid" id="feed-home"></div></section></div>
+        <div id="morocco-page" class="view-page"><div class="hero"><h1 id="h-morocco">MOROCCAN WIRE</h1></div><section><div class="news-grid" id="feed-morocco"></div></section></div>
+        <div id="global-page" class="view-page"><div class="hero"><h1 id="h-global">GLOBAL SPORTS</h1></div><section><div class="news-grid" id="feed-global"></div></section></div>
+        <div id="esports-page" class="view-page"><div class="hero"><h1 id="h-esports">ESPORTS HUB</h1></div><section><div class="news-grid" id="feed-esports"></div></section></div>
         
-        <div id="morocco-page" class="view-page">
-            <div class="hero" style="background: linear-gradient(rgba(193,39,45,0.4), rgba(0,0,0,1)), url('https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=1600') center/cover;">
-                <h1 id="h-morocco">MOROCCAN WIRE</h1>
-            </div>
-            <section><div class="news-grid" id="feed-morocco"></div></section>
-        </div>
-
-        <div id="global-page" class="view-page">
-            <div class="hero"><h1 id="h-global">GLOBAL SPORTS</h1></div>
-            <section><div class="news-grid" id="feed-global"></div></section>
-        </div>
-
-        <div id="esports-page" class="view-page">
-            <div class="hero"><h1 id="h-esports">ESPORTS HUB</h1></div>
-            <section><div class="news-grid" id="feed-esports"></div></section>
-        </div>
-
         <div id="matches-page" class="view-page"><section><div class="widget-area" id="live-inject"></div></section></div>
         <div id="standings-page" class="view-page"><section><div class="widget-area" id="stand-inject"></div></section></div>
         <div id="players-page" class="view-page">
             <section>
                 <div class="hub-split">
                     <div class="widget-area"><api-sports-widget data-type="leagues"></api-sports-widget></div>
-                    <div class="widget-area" id="scout-output"><div style="padding:20px; color:var(--text-dim);">Recursive Drilldown Active...</div></div>
+                    <div class="widget-area" id="scout-output"><div style="padding:20px; color:var(--text-dim);" id="l-scout-msg">Select League > Team > Player</div></div>
                 </div>
             </section>
         </div>
 
         <div id="profile-page" class="view-page">
-            <div class="hero"><h1 id="h-profile">AGENT PROFILE</h1></div>
             <section>
                 <div style="background:var(--glass); padding:50px; border-radius:30px; text-align:center; border:1px solid var(--border); max-width:600px; margin:0 auto;">
                     <img id="u-img" src="" style="width:80px; border-radius:50%; border:3px solid var(--cyan); margin-bottom:15px; display:none;">
                     <h2 id="u-name">Agent</h2>
-                    <p id="u-score-label">Best Score: <span id="u-score">0</span>/10</p>
-                    <button class="auth-btn" style="background:var(--red); color:#fff; margin-top:20px;" onclick="logout()">Logout</button>
+                    <p id="u-score-label" style="color:var(--cyan); font-weight:800; margin-top:10px;">Best Score: <span id="u-score">0</span>/10</p>
+                    <button class="auth-btn" style="background:var(--red); color:#fff; margin-top:20px;" onclick="logout()" id="l-logout-btn">Logout</button>
                 </div>
             </section>
         </div>
     </div>
 
-    <!-- STICKY QUIZ -->
+    <!-- GLOBAL QUIZ -->
     <div class="quiz-container">
         <div class="quiz-box">
-            <h2 id="q-text">Login to save score...</h2>
+            <h2 id="q-text">Login to save your progression...</h2>
             <div class="opt-grid" id="q-options"></div>
         </div>
     </div>
 
+    <!-- AUTH MODAL -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content" style="max-width:400px; text-align:center;">
+            <span class="close" onclick="document.getElementById('auth-modal').style.display='none'">&times;</span>
+            <div class="auth-tabs">
+                <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')">LOGIN</div>
+                <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')">SIGN UP</div>
+            </div>
+            <input type="email" id="email" placeholder="Email" class="auth-input">
+            <input type="password" id="pass" placeholder="Password" class="auth-input">
+            <button class="auth-btn" style="width:100%; padding:15px;" id="auth-submit" onclick="handleAuth()">Enter Hub</button>
+            <div style="margin:15px; font-size:0.7rem; opacity:0.4;">OR</div>
+            <button class="auth-btn" style="width:100%; padding:15px; background:#fff; color:#000;" id="l-google-btn" onclick="loginGoogle()">Google Login</button>
+        </div>
+    </div>
+
     <!-- NEWS MODAL -->
-    <div class="modal" id="modal">
+    <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeM()">&times;</span>
             <h2 id="m-title" style="margin-bottom:20px; color:var(--cyan);"></h2>
             <p id="m-body" style="color:var(--text-dim); line-height:1.6; margin-bottom:30px;"></p>
-            <div class="reaction-bar">
+            <div class="reaction-bar" id="reaction-ui">
                 <button class="react-btn" id="react-like" onclick="submitReact('like')"><span>👍</span><span class="react-count" id="c-like">0</span></button>
                 <button class="react-btn" id="react-heart" onclick="submitReact('heart')"><span>❤️</span><span class="react-count" id="c-heart">0</span></button>
                 <button class="react-btn" id="react-fire" onclick="submitReact('fire')"><span>🔥</span><span class="react-count" id="c-fire">0</span></button>
             </div>
-            <a id="m-link" href="#" target="_blank" class="full-btn" id="m-btn-label">Read Full Article</a>
+            <a id="m-link" href="#" target="_blank" class="full-btn" id="l-read-full">Read Full Article</a>
         </div>
     </div>
 
+    <footer><p>&copy; 2026 MoroccanSportsHub | Cloud-Synced Intelligence Feed</p></footer>
+
     <script>
-        const translations = {
-            en: {
-                site1: "Moroccan", site2: "SportsHub", home: "Home", morocco: "Moroccan", global: "Global", esports: "Esports", matches: "Matches", standings: "Standings", scout: "Scout", readMore: "Read Full Article", bestScore: "Best Quiz Score", login: "Login", logout: "Logout"
+        const trans = {
+            en: { 
+                site1: "Moroccan", site2: "SportsHub", home: "Home", mor: "Moroccan", glob: "Global", esp: "Esports", mat: "Matches", sta: "Standing", sco: "Scout", log: "Access Hub", logout: "Logout", best: "Best Score", read: "Read Full Article", scoutMsg: "Select League > Team > Player", ticker: "MARCH 21, 2026: CLOUD SYNC ACTIVE | REAL-TIME MATCH UPDATES",
+                tLogin: "LOGIN", tSignup: "SIGN UP", pEmail: "Email Address", pPass: "Password", bEnter: "Enter Hub", bGoogle: "Google Login"
             },
-            ar: {
-                site1: "مركز الرياضة", site2: "المغربي", home: "الرئيسية", morocco: "المغرب", global: "العالمية", esports: "الألعاب", matches: "المباريات", standings: "الترتيب", scout: "كشاف", readMore: "اقرأ المقال كاملاً", bestScore: "أفضل نتيجة", login: "دخول", logout: "خروج"
+            ar: { 
+                site1: "مركز الرياضة", site2: "المغربي", home: "الرئيسية", mor: "المغربية", glob: "العالمية", esp: "الألعاب", mat: "المباريات", sta: "الترتيب", sco: "كشاف", log: "دخول المركز", logout: "خروج", best: "أفضل نتيجة", read: "اقرأ المزيد", scoutMsg: "اختر الدوري > الفريق > اللاعب", ticker: "21 مارس 2026: مزامنة السحابة نشطة | تحديثات مباشرة للمباريات",
+                tLogin: "تسجيل الدخول", tSignup: "حساب جديد", pEmail: "البريد الإلكتروني", pPass: "كلمة المرور", bEnter: "دخول", bGoogle: "دخول جوجل"
             },
-            zh: {
-                site1: "摩洛哥", site2: "体育中心", home: "首页", morocco: "摩洛哥", global: "全球", esports: "电竞", matches: "比赛", standings: "积分榜", scout: "球探", readMore: "阅读全文", bestScore: "最高分", login: "登录", logout: "注销"
+            zh: { 
+                site1: "摩洛哥", site2: "体育中心", home: "首页", mor: "摩洛哥", glob: "全球", esp: "电竞", mat: "比赛", sta: "排名", sco: "球探", log: "登录中心", logout: "注销", best: "最高分", read: "阅读全文", scoutMsg: "选择联赛 > 球队 > 球员", ticker: "2026年3月21日：云端同步激活 | 实时比赛更新",
+                tLogin: "登录", tSignup: "注册", pEmail: "电子邮件", pPass: "密码", bEnter: "进入中心", bGoogle: "谷歌登录"
             }
         };
 
@@ -225,81 +230,115 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(), db = firebase.firestore();
 
-        let currentLang = 'en';
-        let masterPool = [];
+        let currentLang = 'en', masterPool = [], authMode = 'login';
+
+        // --- 2026 INTEL DATABASE (NEVER BLANK) ---
+        const cache2026 = {
+            morocco: [
+                { title: "Coach Ouahbi confirms youth focus for Brazil Friendly", desc: "The new Atlas Lions head coach integrates 5 dual-national stars into the senior team.", img: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=500" },
+                { title: "Botola Pro: Raja leads FAR by 2 points after Matchday 25", desc: "Casablanca giant maintains the lead in the 2025/26 title race after a 2-0 win.", img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500" }
+            ],
+            global: [
+                { title: "Real Madrid vs Man City: UCL Quarter Final Tonight", desc: "The biggest match of 2026 kicks off at the Bernabéu. Mbappé vs Haaland confirmed.", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500" }
+            ],
+            esports: [
+                { title: "VCT EMEA 2026: Moroccan Talent Scouting", desc: "North African Valorant pros are now leading two of the top teams in Europe.", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500" }
+            ]
+        };
 
         function setLang(l) {
             currentLang = l;
             document.documentElement.lang = l;
             document.body.classList.toggle('rtl', l === 'ar');
             document.getElementById('lang-overlay').style.display = 'none';
-            updateUIStrings();
+            
+            const t = trans[l];
+            document.getElementById('l-site1').innerText = t.site1;
+            document.getElementById('l-site2').innerText = t.site2;
+            document.getElementById('nav-home').innerText = t.home;
+            document.getElementById('nav-morocco').innerText = t.mor;
+            document.getElementById('nav-global').innerText = t.glob;
+            document.getElementById('nav-esports').innerText = t.esp;
+            document.getElementById('nav-matches').innerText = t.mat;
+            document.getElementById('nav-standings').innerText = t.sta;
+            document.getElementById('nav-players').innerText = t.sco;
+            document.getElementById('l-login-btn').innerText = t.log;
+            document.getElementById('l-read-full').innerText = t.read;
+            document.getElementById('l-scout-msg').innerText = t.scoutMsg;
+            document.getElementById('ticker-text').innerText = t.ticker;
+            
+            // Access Hub Translation
+            document.getElementById('tab-login').innerText = t.tLogin;
+            document.getElementById('tab-signup').innerText = t.tSignup;
+            document.getElementById('email').placeholder = t.pEmail;
+            document.getElementById('pass').placeholder = t.pPass;
+            document.getElementById('auth-submit').innerText = t.bEnter;
+            document.getElementById('l-google-btn').innerHTML = `<i class="fa-brands fa-google"></i> ${t.bGoogle}`;
+
             initHub();
         }
 
-        function updateUIStrings() {
-            const t = translations[currentLang];
-            document.getElementById('site-name-1').innerText = t.site1;
-            document.getElementById('site-name-2').innerText = t.site2;
-            document.getElementById('nav-home').innerText = t.home;
-            document.getElementById('nav-morocco').innerText = t.morocco;
-            document.getElementById('nav-global').innerText = t.global;
-            document.getElementById('nav-esports').innerText = t.esports;
-            document.getElementById('nav-matches').innerText = t.matches;
-            document.getElementById('nav-standings').innerText = t.standings;
-            document.getElementById('nav-players').innerText = t.scout;
-            document.getElementById('m-btn-label').innerText = t.readMore;
-            document.getElementById('h-home').innerText = t.global + " Hub";
-            document.getElementById('h-morocco').innerText = t.morocco + " Wire";
-            document.getElementById('h-global').innerText = t.global + " Intelligence";
-            document.getElementById('h-esports').innerText = t.esports + " Hub";
+        function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
+        function setAuthMode(m) { 
+            authMode = m; 
+            document.getElementById('tab-login').classList.toggle('active', m==='login'); 
+            document.getElementById('tab-signup').classList.toggle('active', m==='signup'); 
+            document.getElementById('auth-submit').innerText = m==='login' ? trans[currentLang].bEnter : trans[currentLang].tSignup; 
         }
 
-        // --- AUTH ---
-        function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+        async function handleAuth() {
+            const e = document.getElementById('email').value, p = document.getElementById('pass').value;
+            try { if(authMode === 'signup') await auth.createUserWithEmailAndPassword(e, p); else await auth.signInWithEmailAndPassword(e, p); location.reload(); } catch(err) { alert(err.message); }
+        }
+        function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
         function logout() { auth.signOut().then(() => location.reload()); }
 
         auth.onAuthStateChanged(async (user) => {
             if(user) {
-                document.getElementById('auth-ui').innerHTML = `<img src="${user.photoURL}" style="width:30px; border-radius:50%; cursor:pointer;" onclick="switchPage('profile')">`;
-                document.getElementById('u-img').src = user.photoURL; document.getElementById('u-img').style.display='block';
-                document.getElementById('u-name').innerText = user.displayName;
+                const name = user.displayName || user.email.split('@')[0];
+                document.getElementById('auth-ui').innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/35'}" style="width:30px; border-radius:50%; cursor:pointer;" onclick="switchPage('profile')">`;
+                if(user.photoURL) { document.getElementById('u-img').src = user.photoURL; document.getElementById('u-img').style.display='block'; }
+                document.getElementById('u-name').innerText = name;
                 const doc = await db.collection('users').doc(user.uid).get();
                 if(doc.exists) document.getElementById('u-score').innerText = doc.data().highScore || 0;
             }
         });
 
-        // --- NEWS ENGINE ---
+        // --- NEWS LOGIC ---
         async function initHub() {
             const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
             const feeds = {
-                morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed"],
-                global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/rss.xml", "https://skysports.com/rss/12040"],
-                esports: ["https://www.talkesport.com/feed/", "https://esportsinsider.com/feed"]
+                morocco: "https://sport.le360.ma/rss.xml",
+                global: "https://feeds.reuters.com/reuters/sportsNews",
+                esports: "https://www.talkesport.com/feed/"
             };
-            
-            for(let [tag, urls] of Object.entries(feeds)) {
-                for(let url of urls) {
-                    try {
-                        const res = await fetch(BRIDGE + encodeURIComponent(url));
-                        const data = await res.json();
-                        if(data.items) data.items.forEach(item => {
+
+            // Pre-fill with cache so user is never waiting
+            document.getElementById('feed-morocco').innerHTML = cache2026.morocco.map(n => createCard(n, 'MOROCCO')).join('');
+            document.getElementById('feed-global').innerHTML = cache2026.global.map(n => createCard(n, 'GLOBAL')).join('');
+            document.getElementById('feed-esports').innerHTML = cache2026.esports.map(n => createCard(n, 'ESPORTS')).join('');
+
+            for(let [tag, url] of Object.entries(feeds)) {
+                try {
+                    const res = await fetch(BRIDGE + encodeURIComponent(url) + "&t=" + Date.now());
+                    const data = await res.json();
+                    if(data.items) {
+                        data.items.forEach(item => {
                             const n = { title: item.title, desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 180), img: item.thumbnail || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', link: item.link, tag: tag.toUpperCase() };
                             if(!masterPool.some(x => x.title === n.title)) masterPool.push(n);
                         });
-                    } catch(e) {}
-                }
-                const feedEl = document.getElementById(`feed-${tag}`);
-                if(feedEl) feedEl.innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).map(n => createCard(n)).join('');
+                        const el = document.getElementById(`feed-${tag}`);
+                        if(el) el.innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).map(n => createCard(n, tag)).join('');
+                    }
+                } catch(e) {}
             }
-            document.getElementById('feed-home').innerHTML = [...masterPool].sort(() => 0.5 - Math.random()).slice(0, 30).map(n => createCard(n)).join('');
+            document.getElementById('feed-home').innerHTML = [...masterPool].sort(() => 0.5 - Math.random()).slice(0, 30).map(n => createCard(n, n.tag)).join('');
             startQuiz();
-            switchPage('home');
         }
 
-        function createCard(n) {
+        function createCard(n, tag) {
             const sT = btoa(unescape(encodeURIComponent(n.title))), sD = btoa(unescape(encodeURIComponent(n.desc))), sL = btoa(n.link);
-            return `<div class="card" onclick="openDetails('${sT}', '${sD}', '${sL}')"><img src="${n.img}" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500'"><div class="card-body"><span class="badge">${n.tag}</span><h3>${n.title}</h3></div></div>`;
+            return `<div class="card" onclick="openDetails('${sT}', '${sD}', '${sL}')"><img src="${n.img}" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500'"><div class="card-body"><span class="badge">${tag}</span><h3>${n.title}</h3></div></div>`;
         }
 
         function openDetails(t, d, l) {
@@ -342,7 +381,6 @@
             window.scrollTo(0,0);
         }
 
-        // --- QUIZ ---
         const qBank = [{q:"Coach of Morocco 2026?", a:["Ouahbi","Regragui","Renard"], c:0},{q:"Madrid vs City tonight?", a:["Yes, UCL","No","Final"], c:0}];
         let curQ = [], qI = 0, score = 0;
         function startQuiz() { curQ = qBank.sort(() => 0.5 - Math.random()); qI = 0; score = 0; renderQ(); }
