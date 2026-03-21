@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="strict-origin-when-cross-origin"/>
     
-    <!-- GOOGLE VERIFICATION & SEO -->
+    <!-- SEO & GOOGLE -->
     <meta name="google-site-verification" content="642c4bd2953b31ef" />
     <title>MoroccanSportsHub | Elite Intelligence 2026</title>
-    <meta name="description" content="The ultimate hub for Moroccan and Global sports. Real-time scores for Botola Pro, UCL, NBA, and UFC. Intelligence feed and player scouting.">
+    <meta name="description" content="MoroccanSportsHub: Global sports intelligence for 2026. Botola, UCL, NBA, UFC, and Esports.">
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
@@ -17,7 +17,11 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- API-SPORTS -->
     <script type="module" src="https://widgets.api-sports.io/3.1.0/widgets.js"></script>
+    
+    <!-- ELFSIGHT AUDIO -->
     <script src="https://elfsightcdn.com/platform.js" async></script>
 
     <style>
@@ -50,21 +54,18 @@
 
         .header-right { display: flex; align-items: center; gap: 15px; }
         .auth-btn { background: var(--cyan); color: #000; padding: 6px 15px; border-radius: 20px; font-size: 0.6rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
-        .user-avatar { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; object-fit: cover; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; object-fit: cover; }
 
-        .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 60px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+        .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 55px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
         .view-page { display: none; animation: fadeIn 0.4s ease; padding-top: 10px; flex: 1; }
         .view-page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* ORGANIZED HERO */
-        .hero-featured { width: 100%; height: 350px; border-radius: 25px; overflow: hidden; position: relative; margin: 20px 5%; width: 90%; border: 1px solid var(--border); cursor: pointer; }
-        .hero-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); }
-        .hero-content { position: absolute; bottom: 30px; left: 30px; right: 30px; }
-        .hero-content h1 { font-size: 2rem; margin-bottom: 10px; text-transform: uppercase; }
+        .hero { height: 12vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--red); margin-bottom: 20px; }
+        .hero h1 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; }
 
-        /* HIGH DENSITY GRID */
+        /* GRID SYSTEM */
         section { padding: 10px 5% 40px; }
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%; }
@@ -73,9 +74,12 @@
         .card-body { padding: 15px; flex: 1; }
         .card-body h3 { font-size: 0.8rem; line-height: 1.3; font-weight: 700; color: #fff; }
 
-        /* AUTH INPUT FIX */
-        .auth-input { width: 100%; background: #000 !important; border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: #fff !important; margin-bottom: 10px; outline: none; }
-        .auth-input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px #000 inset !important; -webkit-text-fill-color: #fff !important; }
+        /* SETTINGS */
+        .settings-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 600px; margin: 0 auto; text-align: center; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 0.65rem; color: var(--cyan); text-transform: uppercase; font-weight: 800; margin-bottom: 5px; }
+        .input-group input { width: 100%; background: #000 !important; border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: #fff !important; outline: none; }
+        .input-group input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px #000 inset !important; -webkit-text-fill-color: #fff !important; }
 
         /* WIDGETS */
         .widget-area { background: #000 !important; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
@@ -84,9 +88,11 @@
         .sel-btn { background: var(--glass); border: 1px solid var(--border); color: white; padding: 10px 18px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
         .sel-btn.active { background: var(--cyan); color: black; font-weight: 800; }
 
-        /* REACTIONS */
+        /* REACTION */
         .reaction-bar { display: flex; gap: 15px; padding: 15px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.02); justify-content: center; margin-top: 20px;}
         .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
+        .react-btn span:first-child { font-size: 1.5rem; filter: grayscale(1); opacity: 0.4; }
+        .react-btn.active span:first-child { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
         .react-count { font-size: 0.75rem; font-weight: 800; color: var(--cyan); }
 
         /* QUIZ */
@@ -94,12 +100,14 @@
         .quiz-box { max-width: 900px; margin: 0 auto; text-align: center; }
         .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; }
+        .opt-btn:hover { background: var(--cyan); color: #000; font-weight: 800; }
 
         /* MODAL */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; padding: 20px; backdrop-filter: blur(20px); }
-        .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); }
+        .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; }
         .close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
-        
+        .full-btn { display: inline-block; background: var(--cyan); color: #000; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: 800; margin-top: 20px; text-transform: uppercase; font-size: 0.7rem; text-align: center; width: 100%; }
+
         footer { padding: 30px 5%; text-align: center; opacity: 0.3; font-size: 0.65rem; border-top: 1px solid var(--border); }
     </style>
 </head>
@@ -126,27 +134,21 @@
         </div>
     </header>
 
-    <div class="ticker">MARCH 22, 2026: UNIQUE TRENDING FEED ACTIVE | GOOGLE VERIFIED HUB | CLOUD SYNC ACTIVE</div>
+    <div class="ticker">MARCH 22, 2026: UNIQUE TRENDING FEED ACTIVE | GOOGLE VERIFIED HUB | SEASON 2025/26 SYNC ACTIVE</div>
 
     <div id="content-wrapper">
         <!-- HOME PAGE -->
         <div id="home-page" class="view-page active">
-            <div class="hero-featured" id="home-hero">
-                <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200" class="hero-img" id="hero-img">
-                <div class="hero-content">
-                    <span class="badge" style="background:var(--red); padding:5px 15px; border-radius:5px; font-weight:800; font-size:0.7rem; margin-bottom:10px; display:inline-block;">TRENDING NOW</span>
-                    <h1 id="hero-title">Syncing Satellite Intelligence...</h1>
-                </div>
-            </div>
+            <div class="hero"><h1>GLOBAL INTELLIGENCE</h1></div>
             <section><div class="news-grid" id="feed-home"></div></section>
         </div>
         
-        <!-- PAGES -->
+        <!-- CATEGORY PAGES -->
         <div id="morocco-page" class="view-page"><div class="hero"><h1>MOROCCAN WIRE</h1></div><section><div class="news-grid" id="feed-morocco"></div></section></div>
         <div id="global-page" class="view-page"><div class="hero"><h1>GLOBAL SPORTS</h1></div><section><div class="news-grid" id="feed-global"></div></section></div>
         <div id="esports-page" class="view-page"><div class="hero"><h1>ESPORTS HUB</h1></div><section><div class="news-grid" id="feed-esports"></div></section></div>
 
-        <!-- SETTINGS -->
+        <!-- SETTINGS PAGE -->
         <div id="profile-page" class="view-page">
             <div class="hero"><h1>AGENT SETTINGS</h1></div>
             <section>
@@ -155,15 +157,26 @@
                     <div class="input-group"><label>Agent ID (Username)</label><input type="text" id="set-name"></div>
                     <div class="input-group"><label>Update Email</label><input type="email" id="set-email"></div>
                     <div class="input-group"><label>New Password</label><input type="password" id="set-pass" placeholder="Enter new password..."></div>
-                    <button class="auth-btn" style="width:100%; padding:15px;" onclick="updateProfile()">Update Agent Data</button>
-                    <button class="auth-btn" style="width:100%; padding:15px; background:var(--red); color:white; margin-top:15px;" onclick="logout()">Logout / Deauthorize</button>
+                    <button class="auth-btn" style="width:100%; padding:15px;" onclick="updateProfile()">Update Hub Credentials</button>
+                    <button class="auth-btn" style="background:var(--red); color:#fff; width:100%; margin-top:15px;" onclick="logout()">Logout</button>
                 </div>
             </section>
         </div>
 
         <!-- WIDGET PAGES -->
         <div id="matches-page" class="view-page"><section><div class="widget-area" id="live-inject"></div></section></div>
-        <div id="standings-page" class="view-page"><section><div class="widget-area" id="stand-inject"></div></section></div>
+        <div id="standings-page" class="view-page">
+            <section>
+                <div class="selector-bar" id="stand-sel">
+                    <button class="sel-btn active" onclick="loadStand('39')">Premier League</button>
+                    <button class="sel-btn" onclick="loadStand('140')">La Liga</button>
+                    <button class="sel-btn" onclick="loadStand('2')">UCL</button>
+                    <button class="sel-btn" onclick="loadStand('78')">Bundesliga</button>
+                    <button class="sel-btn" onclick="loadStand('135')">Serie A</button>
+                </div>
+                <div class="widget-area" id="stand-inject"></div>
+            </section>
+        </div>
         <div id="players-page" class="view-page">
             <section>
                 <div class="hub-split">
@@ -172,16 +185,21 @@
                 </div>
             </section>
         </div>
+
+        <!-- GLOBAL QUIZ -->
+        <section id="quiz-sec">
+            <div class="quiz-box">
+                <div id="quiz-progress" style="color:var(--cyan); font-weight:800; margin-bottom:15px; font-size: 0.7rem;">CHALLENGE MODE: 10 RANDOM QUESTIONS</div>
+                <h2 id="q-text" style="font-size: 1.5rem;">Login to save your progression...</h2>
+                <div class="opt-grid" id="q-options"></div>
+                <div id="q-score" style="margin-top: 30px; font-weight: 800; color: var(--cyan); font-size: 1.8rem;"></div>
+            </div>
+        </section>
     </div>
 
-    <!-- QUIZ -->
-    <div class="quiz-container">
-        <div class="quiz-box">
-            <div style="color:var(--cyan); font-weight:800; margin-bottom:15px; font-size: 0.7rem; text-transform:uppercase; letter-spacing:2px;">Challenge Mode: 10 Questions</div>
-            <h2 id="q-text" style="font-size: 1.5rem;">Login to save score...</h2>
-            <div class="opt-grid" id="q-options"></div>
-            <div id="q-score" style="margin-top: 30px; font-weight: 800; color: var(--cyan); font-size: 1.8rem;"></div>
-        </div>
+    <!-- ELFSIGHT AUDIO -->
+    <div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
+        <div class="elfsight-app-32c8aece-3b03-41a8-90cd-aa80ccfa2a2a" data-elfsight-app-lazy></div>
     </div>
 
     <!-- AUTH MODAL -->
@@ -212,16 +230,11 @@
                 <button class="react-btn" id="react-fire" onclick="submitReact('fire')"><span>🔥</span><span class="react-count" id="c-fire">0</span></button>
                 <button class="react-btn" id="react-dislike" onclick="submitReact('dislike')"><span>👎</span><span class="react-count" id="c-dislike">0</span></button>
             </div>
-            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; margin-top:20px; text-decoration:none; text-align:center;">Read Full Article</a>
+            <a id="m-link" href="#" target="_blank" class="auth-btn">Read Full Article</a>
         </div>
     </div>
 
-    <!-- ELFSIGHT AUDIO -->
-    <div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
-        <div class="elfsight-app-32c8aece-3b03-41a8-90cd-aa80ccfa2a2a" data-elfsight-app-lazy></div>
-    </div>
-
-    <footer><p>&copy; 2026 MoroccanSportsHub | Quality Intelligence Feed</p></footer>
+    <footer><p>&copy; 2026 MoroccanSportsHub | Automated Intelligence Feed</p></footer>
 
     <script>
         // --- FIREBASE CONFIG ---
@@ -238,14 +251,7 @@
 
         let masterPool = [], authMode = 'login', curQ = [], qI = 0, score = 0;
 
-        const FEEDS = {
-            morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed"],
-            global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/football/rss.xml"],
-            esports: ["https://www.talkesport.com/feed/", "https://www.esports.net/news/feed/"],
-            home_special: ["https://www.nba.com/rss/nba_rss.xml", "https://www.formula1.com/content/fom-website/en/latest/all.xml", "https://www.mmafighting.com/rss/index.xml"]
-        };
-
-        // --- AUTH & SETTINGS ---
+        // --- AUTH ---
         function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
         function setAuthMode(m) { authMode = m; document.getElementById('tab-login').classList.toggle('active', m==='login'); document.getElementById('tab-signup').classList.toggle('active', m==='signup'); }
         async function handleAuth() {
@@ -261,6 +267,8 @@
                 if(user.photoURL) { document.getElementById('u-img').src = user.photoURL; document.getElementById('u-img').style.display='block'; }
                 document.getElementById('set-name').value = user.displayName || user.email.split('@')[0];
                 document.getElementById('set-email').value = user.email;
+                const doc = await db.collection('users').doc(user.uid).get();
+                if(doc.exists) document.getElementById('u-score').innerText = doc.data().highScore || 0;
             }
             initNews();
         });
@@ -272,7 +280,12 @@
         // --- NEWS API ---
         async function initNews() {
             const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
-            for(let [tag, urls] of Object.entries(FEEDS)) {
+            const feeds = {
+                morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed"],
+                global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/football/rss.xml"],
+                esports: ["https://www.talkesport.com/feed/", "https://esportsinsider.com/feed"]
+            };
+            for(let [tag, urls] of Object.entries(feeds)) {
                 for(let url of urls) {
                     try {
                         const res = await fetch(BRIDGE + encodeURIComponent(url) + "&t=" + Date.now());
@@ -284,15 +297,9 @@
                     } catch(e) {}
                 }
                 const el = document.getElementById(`feed-${tag}`);
-                if(el) el.innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).slice(0, 15).map(n => createCard(n)).join('');
+                if(el) el.innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).map(n => createCard(n)).join('');
             }
-            const trend = masterPool.filter(x => x.tag === 'HOME_SPECIAL' || x.tag === 'MOROCCO').sort(() => 0.5 - Math.random());
-            if(trend[0]) {
-                document.getElementById('hero-title').innerText = trend[0].title;
-                document.getElementById('hero-img').src = trend[0].img;
-                document.getElementById('home-hero').onclick = () => openDetails(btoa(unescape(encodeURIComponent(trend[0].title))), btoa(unescape(encodeURIComponent(trend[0].desc))), btoa(trend[0].link));
-            }
-            document.getElementById('feed-home').innerHTML = trend.slice(1, 13).map(n => createCard(n)).join('');
+            document.getElementById('feed-home').innerHTML = [...masterPool].sort(() => 0.5 - Math.random()).slice(0, 30).map(n => createCard(n)).join('');
             startQuiz();
         }
 
@@ -338,9 +345,11 @@
             document.getElementById(`${p}-page`).classList.add('active');
             if(document.getElementById(`nav-${p}`)) document.getElementById(`nav-${p}`).classList.add('active');
             if(p === 'matches') document.getElementById('live-inject').innerHTML = `<api-sports-widget data-type="games" data-sport="football" data-refresh="30" data-theme="dark"></api-sports-widget>`;
-            if(p === 'standings') document.getElementById('stand-inject').innerHTML = `<api-sports-widget data-type="standings" data-league="2" data-season="2025" data-theme="dark"></api-sports-widget>`;
+            if(p === 'standings') loadStand('39');
             window.scrollTo(0,0);
         }
+
+        function loadStand(id) { document.getElementById('stand-inject').innerHTML = `<api-sports-widget data-type="standings" data-league="${id}" data-season="2024" data-theme="dark"></api-sports-widget>`; }
 
         // --- 100 QUESTION POOL ---
         const quizBank = [
@@ -374,6 +383,7 @@
         }
 
         function closeM() { document.getElementById('modal').style.display='none'; }
+        window.onclick = (e) => { if(e.target.className === 'modal') closeM(); }
     </script>
 </body>
 </html>
