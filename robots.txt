@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mcrashout.github.io/Moroccansportsnews/sitemap.xml
