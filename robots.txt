@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mcrashout.github.io/Moroccansportsnews/sitemap.xml
+Sitemap: https://mcrashout.github.io/Moroccansportshub/sitemap.xml
