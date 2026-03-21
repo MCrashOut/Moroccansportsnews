@@ -29,7 +29,7 @@
             --text-dim: #94a3b8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
         body { background: var(--bg); background-image: var(--grad); color: var(--text); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
 
         header {
@@ -42,11 +42,11 @@
         .logo span { color: var(--cyan); }
         
         nav ul { display: flex; list-style: none; gap: 15px; }
-        nav a { color: var(--text); text-decoration: none; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; cursor: pointer;}
+        nav a { color: var(--text); text-decoration: none; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; transition: 0.3s; cursor: pointer;}
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
         .auth-btn { background: var(--cyan); color: #000; padding: 6px 15px; border-radius: 20px; font-size: 0.6rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
-        .user-avatar { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; object-fit: cover; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; object-fit: cover; }
 
         .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 55px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
@@ -54,51 +54,59 @@
         .view-page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .hero { height: 12vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--red); margin-bottom: 20px; }
-        .hero h1 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; }
+        /* HERO FEATURED */
+        .hero-featured { 
+            width: 100%; height: 350px; border-radius: 25px; overflow: hidden; position: relative; margin: 20px 5%; width: 90%;
+            border: 1px solid var(--border); cursor: pointer;
+        }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); }
+        .hero-content { position: absolute; bottom: 30px; left: 30px; right: 30px; }
+        .hero-content h1 { font-size: 2rem; margin-bottom: 10px; text-transform: uppercase; }
 
-        /* NEWS CARDS */
+        /* GRID */
         section { padding: 10px 5% 40px; }
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%; }
         .card:hover { transform: translateY(-5px); border-color: var(--cyan); }
         .card-img { width: 100%; height: 140px; object-fit: cover; background: #111; }
         .card-body { padding: 15px; flex: 1; }
-        .card-body h3 { font-size: 0.8rem; line-height: 1.3; font-weight: 700; color: #fff; }
-
-        /* SETTINGS PAGE */
-        .settings-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 600px; margin: 0 auto; text-align: center; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 0.65rem; color: var(--cyan); text-transform: uppercase; font-weight: 800; margin-bottom: 5px; }
-        .input-group input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: #fff; outline: none; }
+        .card-body h3 { font-size: 0.85rem; line-height: 1.3; font-weight: 700; color: #fff; }
 
         /* WIDGETS */
         .widget-area { background: #000 !important; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
         .hub-split { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
 
-        /* REACTIONS */
-        .reaction-bar { display: flex; gap: 20px; padding: 15px 20px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.02); justify-content: center; margin-top: 20px;}
-        .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.2s; }
-        .react-btn span:first-child { font-size: 1.5rem; filter: grayscale(1); opacity: 0.4; }
-        .react-btn.active span:first-child { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
-        .react-count { font-size: 0.75rem; font-weight: 800; color: var(--cyan); }
+        /* SETTINGS */
+        .settings-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 600px; margin: 0 auto; text-align: center; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 0.65rem; color: var(--cyan); text-transform: uppercase; font-weight: 800; margin-bottom: 5px; }
+        .input-group input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: #fff; outline: none; }
 
-        /* QUIZ (ORIGINAL STYLE) */
-        .quiz-box { max-width: 900px; margin: 40px auto; background: var(--glass); border: 1px solid var(--border); padding: 50px; border-radius: 40px; text-align: center; border-top: 3px solid var(--cyan); }
-        .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
-        .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
+        /* QUIZ */
+        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 40px 5%; margin-top: auto; }
+        .quiz-box { max-width: 900px; margin: 0 auto; text-align: center; }
+        .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; }
         .opt-btn:hover { background: var(--cyan); color: #000; font-weight: 800; }
 
+        /* MODAL */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; padding: 20px; backdrop-filter: blur(20px); }
         .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; }
         .close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
+        
+        .reaction-bar { display: flex; gap: 15px; padding: 15px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.02); justify-content: center; margin-top: 20px;}
+        .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
+        .react-count { font-size: 0.75rem; font-weight: 800; color: var(--cyan); }
+
+        /* MUSIC WIDGET STICKY */
+        .music-dock { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
 
         footer { padding: 30px 5%; text-align: center; opacity: 0.3; font-size: 0.65rem; border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
 
-    <!-- API CONFIG (DEEP TARGETING FOR SCOUT HUB) -->
+    <!-- API CONFIG -->
     <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal" data-target-league="#scout-output" data-target-team="#scout-output" data-target-player="#scout-output"></api-sports-widget>
 
     <header>
@@ -119,29 +127,40 @@
         </div>
     </header>
 
-    <!-- ELFSIGHT MUSIC PLAYER WIDGET -->
-    <div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
+    <div class="music-dock">
+        <!-- Elfsight Audio Player -->
         <div class="elfsight-app-32c8aece-3b03-41a8-90cd-aa80ccfa2a2a" data-elfsight-app-lazy></div>
     </div>
 
-    <div class="ticker">MARCH 21, 2026: CLOUD ENGINE ACTIVE | REAL-TIME MATCH UPDATES | FULL PLAYER SCOUTING HUB LOADED</div>
+    <div class="ticker">MARCH 21, 2026: CLOUD ENGINE ACTIVE | TRENDING INTELLIGENCE LIVE | BRAZIL VS MOROCCO FRIENDLY SATELLITE PREVIEW</div>
 
     <div id="content-wrapper">
-        <!-- PAGES -->
-        <div id="home-page" class="view-page active"><section><div class="news-grid" id="feed-home"></div></section></div>
+        <!-- HOME PAGE -->
+        <div id="home-page" class="view-page active">
+            <div class="hero-featured" id="home-hero">
+                <img src="" class="hero-img" id="hero-img">
+                <div class="hero-content">
+                    <span class="badge" style="background:var(--red); padding:5px 15px; border-radius:5px; font-weight:800; font-size:0.7rem;">TRENDING INTEL</span>
+                    <h1 id="hero-title">Syncing Satellite...</h1>
+                </div>
+            </div>
+            <section><div class="news-grid" id="feed-home"></div></section>
+        </div>
+        
+        <!-- OTHER PAGES -->
         <div id="morocco-page" class="view-page"><div class="hero"><h1>MOROCCAN WIRE</h1></div><section><div class="news-grid" id="feed-morocco"></div></section></div>
         <div id="global-page" class="view-page"><div class="hero"><h1>GLOBAL SPORTS</h1></div><section><div class="news-grid" id="feed-global"></div></section></div>
         <div id="esports-page" class="view-page"><div class="hero"><h1>ESPORTS HUB</h1></div><section><div class="news-grid" id="feed-esports"></div></section></div>
-        
+
         <!-- SETTINGS PAGE -->
         <div id="profile-page" class="view-page">
             <div class="hero"><h1>AGENT SETTINGS</h1></div>
             <section>
                 <div class="settings-card">
-                    <img id="u-img" src="" style="width:80px; border-radius:50%; border:3px solid var(--cyan); margin-bottom:20px; display:none; margin-left:auto; margin-right:auto;">
+                    <img id="u-img" src="" style="width:80px; border-radius:50%; border:3px solid var(--cyan); margin-bottom:20px; display:none; margin: 0 auto 20px;">
                     <div class="input-group"><label>Agent ID (Username)</label><input type="text" id="set-name"></div>
                     <div class="input-group"><label>Update Email</label><input type="email" id="set-email"></div>
-                    <div class="input-group"><label>New Password</label><input type="password" id="set-pass" placeholder="Leave blank to keep current"></div>
+                    <div class="input-group"><label>New Password</label><input type="password" id="set-pass" placeholder="Enter new password..."></div>
                     <button class="auth-btn" style="width:100%; padding:15px;" onclick="updateProfile()">Update Agent Credentials</button>
                     <button class="auth-btn" style="width:100%; padding:15px; background:var(--red); color:white; margin-top:15px;" onclick="logout()">Logout / Deauthorize</button>
                 </div>
@@ -160,7 +179,7 @@
             </section>
         </div>
 
-        <!-- THE QUIZ (ORIGINAL STYLE) -->
+        <!-- QUIZ -->
         <section id="quiz-sec">
             <div class="quiz-box">
                 <div id="quiz-progress" style="color:var(--cyan); font-weight:800; margin-bottom:15px; font-size: 0.7rem;">CHALLENGE MODE: 10 RANDOM QUESTIONS</div>
@@ -176,11 +195,11 @@
         <div class="modal-content" style="max-width:400px; text-align:center;">
             <span class="close" onclick="document.getElementById('auth-modal').style.display='none'">&times;</span>
             <div class="auth-tabs">
-                <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')">LOGIN</div>
-                <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')">SIGN UP</div>
+                <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')" style="flex:1; padding:10px; cursor:pointer; font-weight:800;">LOGIN</div>
+                <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')" style="flex:1; padding:10px; cursor:pointer; font-weight:800;">SIGN UP</div>
             </div>
-            <input type="email" id="email" placeholder="Email" class="auth-input">
-            <input type="password" id="pass" placeholder="Password" class="auth-input">
+            <input type="email" id="email" placeholder="Email" class="auth-input" style="width:100%; padding:12px; margin:10px 0; background:var(--glass); border:1px solid var(--border); color:#fff; border-radius:10px;">
+            <input type="password" id="pass" placeholder="Password" class="auth-input" style="width:100%; padding:12px; margin:10px 0; background:var(--glass); border:1px solid var(--border); color:#fff; border-radius:10px;">
             <button class="auth-btn" style="width:100%; padding:15px;" id="auth-submit" onclick="handleAuth()">Enter Hub</button>
             <div style="margin:15px; font-size:0.7rem; opacity:0.4;">OR</div>
             <button class="auth-btn" style="width:100%; padding:15px; background:#fff; color:#000;" onclick="loginGoogle()"><i class="fa-brands fa-google"></i> Google Login</button>
@@ -203,7 +222,7 @@
         </div>
     </div>
 
-    <footer><p>&copy; 2026 MoroccanSportsHub | Automated Intelligence Feed</p></footer>
+    <footer><p>&copy; 2026 MoroccanSportsHub | Quality Intelligence Feed</p></footer>
 
     <script>
         // --- FIREBASE CONFIG ---
@@ -222,7 +241,7 @@
 
         // --- AUTH & SETTINGS ---
         function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
-        function setAuthMode(m) { authMode = m; document.getElementById('tab-login').classList.toggle('active', m==='login'); document.getElementById('tab-signup').classList.toggle('active', m==='signup'); document.getElementById('auth-submit').innerText = m==='login'?'Enter Hub':'Create Account'; }
+        function setAuthMode(m) { authMode = m; document.getElementById('tab-login').style.color = m==='login'?'var(--cyan)':'#fff'; document.getElementById('tab-signup').style.color = m==='signup'?'var(--cyan)':'#fff'; }
         async function handleAuth() {
             const e = document.getElementById('email').value, p = document.getElementById('pass').value;
             try { if(authMode === 'signup') await auth.createUserWithEmailAndPassword(e, p); else await auth.signInWithEmailAndPassword(e, p); location.reload(); } catch(err) { alert(err.message); }
@@ -232,32 +251,25 @@
 
         auth.onAuthStateChanged(async (user) => {
             if(user) {
-                const name = user.displayName || user.email.split('@')[0];
                 document.getElementById('auth-ui').innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/35'}" class="user-avatar" onclick="switchPage('profile')">`;
                 if(user.photoURL) { document.getElementById('u-img').src = user.photoURL; document.getElementById('u-img').style.display='block'; }
-                document.getElementById('set-name').value = name;
+                document.getElementById('set-name').value = user.displayName || user.email.split('@')[0];
                 document.getElementById('set-email').value = user.email;
             }
-            initHub();
+            initNews();
         });
 
         async function updateProfile() {
-            const user = auth.currentUser;
-            try {
-                await user.updateProfile({ displayName: document.getElementById('set-name').value });
-                if(document.getElementById('set-email').value !== user.email) await user.updateEmail(document.getElementById('set-email').value);
-                if(document.getElementById('set-pass').value) await user.updatePassword(document.getElementById('set-pass').value);
-                alert("Credentials Updated.");
-            } catch(e) { alert("Re-login required for sensitive security changes."); }
+            try { await auth.currentUser.updateProfile({ displayName: document.getElementById('set-name').value }); alert("Profile Updated."); } catch(e) { alert("Action requires recent login."); }
         }
 
         // --- NEWS API ---
-        async function initHub() {
+        async function initNews() {
             const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
             const feeds = {
                 morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed"],
-                global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/football/rss.xml", "https://skysports.com/rss/12040"],
-                esports: ["https://www.talkesport.com/feed/", "https://esportsinsider.com/feed"]
+                global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/football/rss.xml"],
+                esports: ["https://www.talkesport.com/feed/", "https://www.esports.net/news/feed/"]
             };
             for(let [tag, urls] of Object.entries(feeds)) {
                 for(let url of urls) {
@@ -265,7 +277,7 @@
                         const res = await fetch(BRIDGE + encodeURIComponent(url) + "&t=" + Date.now());
                         const data = await res.json();
                         if(data.items) data.items.forEach(item => {
-                            const n = { title: item.title, desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 180), img: item.thumbnail || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', link: item.link, tag: tag.toUpperCase() };
+                            const n = { title: item.title, desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 180), img: item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', link: item.link, tag: tag.toUpperCase() };
                             if(!masterPool.some(x => x.title === n.title)) masterPool.push(n);
                         });
                     } catch(e) {}
@@ -273,7 +285,14 @@
                 const el = document.getElementById(`feed-${tag}`);
                 if(el) el.innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).map(n => createCard(n)).join('');
             }
-            document.getElementById('feed-home').innerHTML = [...masterPool].sort(() => 0.5 - Math.random()).slice(0, 30).map(n => createCard(n)).join('');
+            // Home Page Rendering
+            const trend = [...masterPool].sort(() => 0.5 - Math.random());
+            if(trend[0]) {
+                document.getElementById('hero-title').innerText = trend[0].title;
+                document.getElementById('hero-img').src = trend[0].img;
+                document.getElementById('home-hero').onclick = () => openDetails(btoa(unescape(encodeURIComponent(trend[0].title))), btoa(unescape(encodeURIComponent(trend[0].desc))), btoa(trend[0].link));
+            }
+            document.getElementById('feed-home').innerHTML = trend.slice(1, 21).map(n => createCard(n)).join('');
             startQuiz();
         }
 
@@ -292,7 +311,7 @@
         }
 
         async function submitReact(type) {
-            if(!auth.currentUser) return alert("Registered Agents Only.");
+            if(!auth.currentUser) return alert("Login required.");
             const title = document.getElementById('m-title').innerText;
             const ref = db.collection('reactions').doc(btoa(title).substring(0,30));
             const uid = auth.currentUser.uid;
@@ -309,11 +328,11 @@
 
         async function syncReacts(title) {
             const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get();
-            const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
-            const myData = data.voters[auth.currentUser?.uid] || {};
+            const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0};
+            const myData = data.voters && data.voters[auth.currentUser?.uid] ? data.voters[auth.currentUser?.uid] : {};
             ['like','heart','fire','dislike'].forEach(t => {
-                const countEl = document.getElementById(`c-${t}`); if(countEl) countEl.innerText = data[t] || 0;
-                const btn = document.getElementById(`react-${t}`); if(btn) btn.classList.toggle('active', !!myData[t]);
+                const cEl = document.getElementById(`c-${t}`); if(cEl) cEl.innerText = data[t] || 0;
+                const bEl = document.getElementById(`react-${t}`); if(bEl) bEl.classList.toggle('active', !!myData[t]);
             });
         }
 
@@ -328,23 +347,12 @@
         }
 
         // --- 100 QUESTION POOL ---
-        const quizBank = [
-            { q: "Who is the coach of the Atlas Lions in March 2026?", a: ["Mohamed Ouahbi", "Regragui", "Renard", "Sektioui"], c: 0 },
-            { q: "Who is Real Madrid playing in the UCL Quarter Finals tonight?", a: ["Man City", "Bayern", "Barca", "PSG"], c: 0 },
-            { q: "Which team is nicknamed 'The Green Eagles'?", a: ["Raja CA", "WAC", "MAS", "FUS"], c: 0 },
-            { q: "Which Valorant agent is from Morocco?", a: ["Cypher", "Phoenix", "Yoru", "Sova"], c: 0 },
-            { q: "Who is known as the 'Demon King' in Esports?", a: ["Faker", "Chovy", "Showmaker", "Caps"], c: 0 },
-            { q: "Where is the 2026 World Cup Final held?", a: ["New Jersey (MetLife)", "Mexico City", "LA", "Dallas"], c: 0 },
-            { q: "How many Ballon d'Or titles does Messi have in 2026?", a: ["8", "7", "9", "5"], c: 0 },
-            { q: "Which F1 team is Lewis Hamilton driving for in 2026?", a: ["Ferrari", "Mercedes", "Red Bull", "Aston"], c: 0 },
-            { q: "Which team is called 'The Oranges'?", a: ["RSB Berkane", "Raja", "MAS", "KACM"], c: 0 }
-        ];
-
+        const quizBank = [{q:"Coach of Morocco 2026?", a:["Ouahbi","Regragui","Renard","Sektioui"], c:0},{q:"Real Madrid opponent tonight?", a:["Man City","PSG","Inter","Milan"], c:0},{q:"Who won LoL Worlds 2023?", a:["T1","JDG","GenG","WBG"], c:0},{q:"Marwan Rahiki professional in?", a:["UFC","NBA","F1","LoL"], c:0},{q:"MetLife hosts which Final?", a:["WC 2026","UCL","AFCON","NBA"], c:0},{q:"Most Ballon d'Ors 2026?", a:["Messi","Ronaldo","Mbappe","Vinicius"], c:0},{q:"Team nicknames 'The Oranges'?", a:["RSB","Raja","Wydad","FAR"], c:0},{q:"Moroccan PSG player?", a:["Hakimi","Ziyech","Amrabat","Bono"], c:0},{q:"F1 team of Hamilton 2026?", a:["Ferrari","Red Bull","Merc","McLaren"], c:0},{q:"Highest LoL Rank?", a:["Challenger","Radiant","Global","Master"], c:0}];
         let curQ = [], qI = 0, score = 0;
         function startQuiz() { curQ = quizBank.sort(() => 0.5 - Math.random()).slice(0, 10); qI = 0; score = 0; renderQ(); }
         function renderQ() {
             const opt = document.getElementById('q-options'); opt.innerHTML = '';
-            if(qI < 10 && qI < curQ.length) {
+            if(qI < 10) {
                 document.getElementById('q-text').innerText = curQ[qI].q;
                 curQ[qI].a.forEach((a, i) => {
                     const b = document.createElement('button'); b.className = 'opt-btn'; b.innerText = a;
@@ -352,7 +360,7 @@
                     opt.appendChild(b);
                 });
             } else { 
-                document.getElementById('q-text').innerText = "Intelligence Complete. Score: " + score + "/10"; 
+                document.getElementById('q-text').innerText = `Finished! Score: ${score}/10`; 
                 if(auth.currentUser) db.collection('users').doc(auth.currentUser.uid).set({ highScore: score }, { merge: true });
                 opt.innerHTML = `<button class="opt-btn" onclick="startQuiz()" style="grid-column: span 2; background:var(--cyan); color:#000;">RESET CHALLENGE</button>`;
             }
