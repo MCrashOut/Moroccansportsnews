@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     
-    <!-- FIREBASE -->
+    <!-- FIREBASE CORE -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -44,57 +44,54 @@
         nav a { color: var(--text); text-decoration: none; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; transition: 0.3s; cursor: pointer;}
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
+        .header-right { display: flex; align-items: center; gap: 15px; }
         .auth-btn { background: var(--cyan); color: #000; padding: 6px 15px; border-radius: 20px; font-size: 0.6rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
-        .user-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; }
+        .user-avatar { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; object-fit: cover; }
 
         .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 55px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
-        .view-page { display: none; animation: fadeIn 0.4s ease; padding-top: 10px; }
+        .view-page { display: none; animation: fadeIn 0.4s ease; padding-top: 10px; flex: 1; }
         .view-page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* NEWS CARDS */
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 20px 5%; }
+        .hero { height: 12vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--red); margin-bottom: 20px; }
+        .hero h1 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; }
+
+        section { padding: 10px 5% 40px; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%; }
         .card:hover { transform: translateY(-5px); border-color: var(--cyan); }
-        .card-img { width: 100%; height: 150px; object-fit: cover; background: #111; }
+        .card-img { width: 100%; height: 140px; object-fit: cover; background: #111; }
         .card-body { padding: 15px; flex: 1; }
         .card-body h3 { font-size: 0.85rem; line-height: 1.3; font-weight: 700; color: #fff; }
 
-        /* REACTION SYSTEM */
-        .reaction-bar { display: flex; gap: 15px; padding: 15px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.02); justify-content: center; }
-        .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.2s; }
-        .react-btn span:first-child { font-size: 1.4rem; filter: grayscale(1); opacity: 0.4; }
-        .react-btn.active span:first-child { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
-        .react-count { font-size: 0.7rem; font-weight: 800; color: var(--cyan); margin-top: 3px; }
+        /* SETTINGS PAGE */
+        .settings-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 600px; margin: 0 auto; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; font-size: 0.7rem; color: var(--cyan); text-transform: uppercase; font-weight: 800; margin-bottom: 8px; }
+        .input-group input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: #fff; outline: none; }
+        .input-group input:focus { border-color: var(--cyan); }
 
         /* WIDGETS */
-        .widget-area { background: #000 !important; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .widget-area { background: #000 !important; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; }
         .hub-split { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
-        .selector-bar { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
-        .sel-btn { background: var(--glass); border: 1px solid var(--border); color: white; padding: 10px 18px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
-        .sel-btn.active { background: var(--cyan); color: black; font-weight: 800; }
 
-        /* MODAL */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(20px); }
-        .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; }
-        .close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
-        .full-btn { display: inline-block; background: var(--cyan); color: #000; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: 800; margin-top: 20px; text-transform: uppercase; font-size: 0.7rem; text-align: center; }
-
-        /* QUIZ */
-        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 50px 5%; margin-top: auto; }
+        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 40px 5%; margin-top: auto; }
         .quiz-box { max-width: 900px; margin: 0 auto; text-align: center; }
         .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; }
         .opt-btn:hover { background: var(--cyan); color: #000; font-weight: 800; }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(20px); }
+        .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; }
+        .close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
 
         footer { padding: 30px 5%; text-align: center; opacity: 0.3; font-size: 0.65rem; border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
 
-    <!-- API CONFIG (PLAYER SCOUTING ENABLED) -->
-    <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal" data-target-player="#scout-output" data-target-team="#scout-output" data-target-league="#scout-output"></api-sports-widget>
+    <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal" data-target-league="#scout-output" data-target-team="#scout-output" data-target-player="#scout-output"></api-sports-widget>
 
     <header>
         <div class="logo" onclick="switchPage('home')">Moroccan<span>SportsHub</span></div>
@@ -114,59 +111,54 @@
         </div>
     </header>
 
-    <div class="ticker">MARCH 21, 2026: BRAZIL VS MOROCCO FRIENDLY PREP | RAJA VS AS FAR DERBY HYPE | UCL QUARTER FINALS LIVE</div>
+    <div class="ticker">MARCH 21, 2026: CLOUD ENGINE ACTIVE | REAL-TIME MATCH UPDATES | FULL PLAYER SCOUTING INTELLIGENCE</div>
 
     <div id="content-wrapper">
+        <!-- HOME PAGE -->
         <div id="home-page" class="view-page active"><section><div class="news-grid" id="feed-home"></div></section></div>
-        <div id="morocco-page" class="view-page"><section><div class="news-grid" id="feed-morocco"></div></section></div>
-        <div id="global-page" class="view-page"><section><div class="news-grid" id="feed-global"></div></section></div>
-        <div id="esports-page" class="view-page"><section><div class="news-grid" id="feed-esports"></div></section></div>
         
-        <div id="matches-page" class="view-page">
+        <!-- CATEGORY PAGES -->
+        <div id="morocco-page" class="view-page"><div class="hero"><h1>MOROCCAN WIRE</h1></div><section><div class="news-grid" id="feed-morocco"></div></section></div>
+        <div id="global-page" class="view-page"><div class="hero"><h1>GLOBAL SPORTS</h1></div><section><div class="news-grid" id="feed-global"></div></section></div>
+        <div id="esports-page" class="view-page"><div class="hero"><h1>ESPORTS HUB</h1></div><section><div class="news-grid" id="feed-esports"></div></section></div>
+
+        <!-- SETTINGS PAGE -->
+        <div id="profile-page" class="view-page">
+            <div class="hero"><h1>AGENT SETTINGS</h1></div>
             <section>
-                <div class="selector-bar" id="live-sel">
-                    <button class="sel-btn active" onclick="loadLive('football')">Football</button>
-                    <button class="sel-btn" onclick="loadLive('nba')">NBA</button>
-                    <button class="sel-btn" onclick="loadLive('mma')">UFC</button>
+                <div class="settings-card">
+                    <div class="input-group">
+                        <label>Agent Name (Display ID)</label>
+                        <input type="text" id="set-display-name">
+                    </div>
+                    <div class="input-group">
+                        <label>Update Email</label>
+                        <input type="email" id="set-email">
+                    </div>
+                    <div class="input-group">
+                        <label>Change Password</label>
+                        <input type="password" id="set-password" placeholder="Enter new password...">
+                    </div>
+                    <button class="auth-btn" style="width:100%; padding:15px;" onclick="updateProfile()">Update Intelligence Credentials</button>
+                    <button class="auth-btn" style="width:100%; padding:15px; background:var(--red); color:white; margin-top:15px;" onclick="handleLogout()">Logout / Deauthorize</button>
                 </div>
-                <div class="widget-area" id="live-inject"></div>
             </section>
         </div>
 
-        <div id="standings-page" class="view-page">
-            <section>
-                <div class="selector-bar" id="stand-sel">
-                    <button class="sel-btn active" onclick="loadStand('2')">UCL</button>
-                    <button class="sel-btn" onclick="loadStand('39')">Premier League</button>
-                    <button class="sel-btn" onclick="loadStand('140')">La Liga</button>
-                </div>
-                <div class="widget-area" id="stand-inject"></div>
-            </section>
-        </div>
-
+        <!-- WIDGET PAGES -->
+        <div id="matches-page" class="view-page"><section><div class="widget-area" id="live-inject"></div></section></div>
+        <div id="standings-page" class="view-page"><section><div class="widget-area" id="stand-inject"></div></section></div>
         <div id="players-page" class="view-page">
             <section>
                 <div class="hub-split">
                     <div class="widget-area"><api-sports-widget data-type="leagues"></api-sports-widget></div>
-                    <div class="widget-area" id="scout-output"><div style="padding:20px; color:var(--text-dim);">Drill down: League > Team > Player</div></div>
-                </div>
-            </section>
-        </div>
-
-        <div id="profile-page" class="view-page">
-            <section>
-                <div style="background:var(--glass); padding:50px; border-radius:30px; text-align:center; border:1px solid var(--border); max-width:600px; margin:0 auto;">
-                    <img id="p-img" src="" style="width:80px; border-radius:50%; border:3px solid var(--cyan); margin-bottom:15px; display:none;">
-                    <h2 id="p-name" style="color:var(--cyan);">Agent Profile</h2>
-                    <p id="p-email" style="font-size:0.8rem; opacity:0.6; margin-bottom:20px;"></p>
-                    <p style="color:var(--cyan); font-weight:800;">Best Quiz Score: <span id="p-score">0</span>/10</p>
-                    <button class="auth-btn" style="background:var(--red); color:#fff; margin-top:20px;" onclick="logout()">Logout</button>
+                    <div class="widget-area" id="scout-output"><div style="padding:20px; color:var(--text-dim);">Recursive Search: Select League > Team > Player</div></div>
                 </div>
             </section>
         </div>
     </div>
 
-    <!-- QUIZ -->
+    <!-- GLOBAL QUIZ -->
     <div class="quiz-container">
         <div class="quiz-box">
             <h2 id="q-text" style="font-size: 1.3rem;">Login to save your progression...</h2>
@@ -187,7 +179,7 @@
             <input type="password" id="pass" placeholder="Password" class="auth-input">
             <button class="auth-btn" style="width:100%; padding:15px;" id="auth-submit" onclick="handleAuth()">Enter Hub</button>
             <div style="margin:15px; font-size:0.7rem; opacity:0.4;">OR</div>
-            <button class="auth-btn" style="width:100%; padding:15px; background:#fff; color:#000;" onclick="loginGoogle()">Google Login</button>
+            <button class="auth-btn" style="width:100%; padding:15px; background:#fff; color:#000;" onclick="loginGoogle()"><i class="fa-brands fa-google"></i> Google Login</button>
         </div>
     </div>
 
@@ -197,16 +189,17 @@
             <span class="close" onclick="closeM()">&times;</span>
             <h2 id="m-title" style="margin-bottom:20px; color:var(--cyan);"></h2>
             <p id="m-body" style="color:var(--text-dim); line-height:1.6; margin-bottom:30px;"></p>
-            <div class="reaction-bar">
-                <button class="react-btn" id="react-like" onclick="submitReact('like')"><span>👍</span><span class="react-count" id="c-like">0</span></button>
-                <button class="react-btn" id="react-heart" onclick="submitReact('heart')"><span>❤️</span><span class="react-count" id="c-heart">0</span></button>
-                <button class="react-btn" id="react-fire" onclick="submitReact('fire')"><span>🔥</span><span class="react-count" id="c-fire">0</span></button>
+            <div class="reaction-bar" id="reaction-ui">
+                <!-- React buttons here -->
             </div>
-            <a id="m-link" href="#" target="_blank" class="full-btn">Read Full Article</a>
+            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; margin-top:20px; text-decoration:none; text-align:center;">Read Full Article</a>
         </div>
     </div>
 
+    <footer><p>&copy; 2026 MoroccanSportsHub | Cloud-Synced Intelligence Feed</p></footer>
+
     <script>
+        // --- FIREBASE CONFIG ---
         const firebaseConfig = {
             apiKey: "AIzaSyDl3HcQUr7Nd0oJOpsSmx77mTi7U4PyR0w",
             authDomain: "moroccansportshub.firebaseapp.com",
@@ -218,60 +211,82 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(), db = firebase.firestore();
 
-        const FEEDS = {
-            morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed", "https://arryadia.snrt.ma/index.php?option=com_content&view=category&id=1&format=feed&type=rss"],
-            global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/rss.xml"],
-            esports: ["https://www.talkesport.com/feed/", "https://esportsinsider.com/feed"]
-        };
-
         let masterPool = [], authMode = 'login';
 
+        // --- AUTH LOGIC ---
         function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
         function setAuthMode(m) { authMode = m; document.getElementById('tab-login').classList.toggle('active', m==='login'); document.getElementById('tab-signup').classList.toggle('active', m==='signup'); document.getElementById('auth-submit').innerText = m==='login'?'Enter Hub':'Create Account'; }
+        
         async function handleAuth() {
             const e = document.getElementById('email').value, p = document.getElementById('pass').value;
-            try { if(authMode === 'signup') await auth.createUserWithEmailAndPassword(e, p); else await auth.signInWithEmailAndPassword(e, p); location.reload(); } catch(err) { alert(err.message); }
+            try {
+                if(authMode === 'signup') await auth.createUserWithEmailAndPassword(e, p);
+                else await auth.signInWithEmailAndPassword(e, p);
+                location.reload();
+            } catch(err) { alert(err.message); }
         }
-        function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
-        function logout() { auth.signOut().then(() => location.reload()); }
+
+        function loginGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).then(() => location.reload()).catch(err => alert(err.message));
+        }
+
+        function handleLogout() { auth.signOut().then(() => location.reload()); }
 
         auth.onAuthStateChanged(async (user) => {
             if(user) {
                 const name = user.displayName || user.email.split('@')[0];
-                document.getElementById('auth-ui').innerHTML = `<div class="user-pill" onclick="switchPage('profile')">${user.photoURL ? `<img src="${user.photoURL}">` : `<div class="user-avatar">${name[0].toUpperCase()}</div>`}<span>${name}</span></div>`;
-                if(user.photoURL) { document.getElementById('u-img').src = user.photoURL; document.getElementById('u-img').style.display='block'; }
-                document.getElementById('u-name').innerText = name; document.getElementById('u-email').innerText = user.email;
-                const doc = await db.collection('users').doc(user.uid).get();
-                if(doc.exists) document.getElementById('u-score').innerText = doc.data().highScore || 0;
+                document.getElementById('auth-ui').innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/35'}" class="user-avatar" onclick="switchPage('profile')">`;
+                document.getElementById('set-display-name').value = name;
+                document.getElementById('set-email').value = user.email;
             }
             initHub();
         });
 
+        async function updateProfile() {
+            const user = auth.currentUser;
+            const newName = document.getElementById('set-display-name').value;
+            const newEmail = document.getElementById('set-email').value;
+            const newPass = document.getElementById('set-password').value;
+
+            try {
+                if(newName) await user.updateProfile({ displayName: newName });
+                if(newEmail) await user.updateEmail(newEmail);
+                if(newPass) await user.updatePassword(newPass);
+                alert("Agent Profile Updated.");
+                location.reload();
+            } catch(e) { alert("Security Notice: Please re-login to perform this sensitive action."); }
+        }
+
+        // --- NEWS ENGINE ---
         async function initHub() {
             const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
-            for(let [tag, urls] of Object.entries(FEEDS)) {
-                for(let url of urls) {
-                    try {
-                        const res = await fetch(BRIDGE + encodeURIComponent(url) + "&t=" + Date.now());
-                        const data = await res.json();
-                        if(data.items) data.items.forEach(item => {
-                            const n = { title: item.title, desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 180), img: item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', link: item.link, tag: tag.toUpperCase() };
-                            if(!masterPool.some(x => x.title === n.title)) masterPool.push(n);
-                        });
-                    } catch(e) {}
-                }
-                const el = document.getElementById(`feed-${tag}`);
-                if(el) el.innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).map(n => createCard(n)).join('');
+            const feeds = {
+                morocco: "https://sport.le360.ma/rss.xml",
+                global: "https://feeds.reuters.com/reuters/sportsNews",
+                esports: "https://www.talkesport.com/feed/"
+            };
+            for(let [tag, url] of Object.entries(feeds)) {
+                try {
+                    const res = await fetch(BRIDGE + encodeURIComponent(url));
+                    const data = await res.json();
+                    if(data.items) data.items.forEach(item => {
+                        const n = { title: item.title, desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 180), img: item.thumbnail || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', link: item.link, tag: tag.toUpperCase() };
+                        if(!masterPool.some(x => x.title === n.title)) masterPool.push(n);
+                    });
+                } catch(e) {}
             }
+            ['MOROCCO', 'GLOBAL', 'ESPORTS'].forEach(t => {
+                const el = document.getElementById(`feed-${t.toLowerCase()}`);
+                if(el) el.innerHTML = masterPool.filter(x => x.tag === t).map(n => createCard(n)).join('');
+            });
             document.getElementById('feed-home').innerHTML = [...masterPool].sort(() => 0.5 - Math.random()).slice(0, 24).map(n => createCard(n)).join('');
             startQuiz();
         }
 
         function createCard(n) {
             const sT = btoa(unescape(encodeURIComponent(n.title))), sD = btoa(unescape(encodeURIComponent(n.desc))), sL = btoa(n.link);
-            return `<div class="card" onclick="openDetails('${sT}', '${sD}', '${sL}')">
-                <img src="${n.img}" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500'">
-                <div class="card-body"><span class="badge">${n.tag}</span><h3>${n.title}</h3></div></div>`;
+            return `<div class="card" onclick="openDetails('${sT}', '${sD}', '${sL}')"><img src="${n.img}" class="card-img"><div class="card-body"><span class="badge">${n.tag}</span><h3>${n.title}</h3></div></div>`;
         }
 
         function openDetails(t, d, l) {
@@ -279,17 +294,23 @@
             document.getElementById('m-title').innerText = title;
             document.getElementById('m-body').innerText = decodeURIComponent(escape(atob(d))) + "...";
             document.getElementById('m-link').href = atob(l);
+            document.getElementById('reaction-ui').innerHTML = ['like','heart','fire','dislike'].map(type => `
+                <button class="react-btn" id="react-${type}" onclick="handleReact('${type}')">
+                    <span>${type === 'like' ? '👍' : type === 'heart' ? '❤️' : type === 'fire' ? '🔥' : '👎'}</span>
+                    <span class="react-count" id="c-${type}">0</span>
+                </button>
+            `).join('');
             syncReacts(title);
             document.getElementById('modal').style.display = 'flex';
         }
 
-        async function submitReact(type) {
-            if(!auth.currentUser) return alert("Login required.");
+        async function handleReact(type) {
+            if(!auth.currentUser) return alert("Registered Agents Only.");
             const title = document.getElementById('m-title').innerText;
             const ref = db.collection('reactions').doc(btoa(title).substring(0,30));
             await db.runTransaction(async (t) => {
                 const doc = await t.get(ref);
-                const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
+                const data = doc.exists ? doc.data() : { like:0, heart:0, fire:0, dislike:0, voters:{} };
                 const uid = auth.currentUser.uid;
                 if(data.voters[uid] === type) { data[type]--; delete data.voters[uid]; }
                 else { if(data.voters[uid]) data[data.voters[uid]]--; data[type]++; data.voters[uid] = type; }
@@ -301,10 +322,9 @@
         async function syncReacts(title) {
             const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get();
             const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
-            const uid = auth.currentUser?.uid;
             ['like','heart','fire','dislike'].forEach(t => {
-                const el = document.getElementById(`c-${t}`); if(el) el.innerText = data[t] || 0;
-                const btn = document.getElementById(`react-${t}`); if(btn) btn.classList.toggle('active', data.voters[uid] === t);
+                document.getElementById(`c-${t}`).innerText = data[t] || 0;
+                document.getElementById(`react-${t}`).classList.toggle('active', data.voters[auth.currentUser?.uid] === t);
             });
         }
 
@@ -313,16 +333,12 @@
             document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
             document.getElementById(`${p}-page`).classList.add('active');
             if(document.getElementById(`nav-${p}`)) document.getElementById(`nav-${p}`).classList.add('active');
-            if(p === 'matches') loadLive('football');
-            if(p === 'standings') loadStand('2');
+            if(p === 'matches') document.getElementById('live-inject').innerHTML = `<api-sports-widget data-type="games" data-sport="football" data-refresh="30" data-theme="dark"></api-sports-widget>`;
+            if(p === 'standings') document.getElementById('stand-inject').innerHTML = `<api-sports-widget data-type="standings" data-league="2" data-season="2025" data-theme="dark"></api-sports-widget>`;
             window.scrollTo(0,0);
         }
 
-        function loadLive(s) { document.getElementById('live-inject').innerHTML = `<api-sports-widget data-type="${s==='mma'?'fights':(s==='f1'?'races':'games')}" data-sport="${s}" data-refresh="30" data-theme="dark"></api-sports-widget>`; }
-        function loadStand(id) { document.getElementById('stand-inject').innerHTML = `<api-sports-widget data-type="standings" data-league="${id}" data-season="2025" data-theme="dark"></api-sports-widget>`; }
-
-        // --- QUIZ ---
-        const qBank = [{q:"Coach of Morocco 2026?", a:["Ouahbi","Regragui","Renard"], c:0},{q:"UCL Match tonight?", a:["Madrid vs City","PSG vs Bayern","Barca vs Inter"], c:0}];
+        const qBank = [{q:"Coach of Morocco 2026?", a:["Ouahbi","Regragui","Renard"], c:0},{q:"Madrid vs City tonight?", a:["Yes, UCL","No","Final"], c:0}];
         let curQ = [], qI = 0, score = 0;
         function startQuiz() { curQ = qBank.sort(() => 0.5 - Math.random()); qI = 0; score = 0; renderQ(); }
         function renderQ() {
@@ -338,7 +354,7 @@
         }
 
         function closeM() { document.getElementById('modal').style.display='none'; }
-        window.onclick = (e) => { if(e.target.className === 'modal') { closeM(); document.getElementById('auth-modal').style.display='none'; } }
+        window.onclick = (e) => { if(e.target.className === 'modal') closeM(); }
     </script>
 </body>
 </html>
