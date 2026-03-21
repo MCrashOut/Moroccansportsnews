@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="strict-origin-when-cross-origin"/>
-    <title>MoroccanSportsHub | Global Intel 2026</title>
+    <title>MoroccanSportsHub | Neural Cloud 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     
-    <!-- API-SPORTS CORE ENGINE -->
+    <!-- FIREBASE CORE -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- API-SPORTS ENGINE -->
     <script type="module" src="https://widgets.api-sports.io/3.1.0/widgets.js"></script>
 
     <style>
@@ -26,297 +31,248 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
         body { background: var(--bg); background-image: var(--grad); color: var(--text); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* HEADER & SEARCH */
         header {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             background: rgba(2, 6, 8, 0.98); backdrop-filter: blur(25px);
             padding: 0.8rem 5%; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border);
         }
-        .logo { font-size: 1.2rem; font-weight: 800; letter-spacing: -1px; cursor: pointer; flex-shrink: 0;}
+        .logo { font-size: 1.2rem; font-weight: 800; cursor: pointer; flex-shrink: 0;}
         .logo span { color: var(--cyan); }
         
-        .header-right { display: flex; align-items: center; gap: 20px; flex: 1; justify-content: flex-end; }
-        
-        .search-wrapper { position: relative; width: 250px; }
-        .search-input { width: 100%; background: var(--glass); border: 1px solid var(--border); padding: 8px 35px 8px 15px; border-radius: 20px; color: white; font-size: 0.8rem; outline: none; transition: 0.3s; }
-        .search-input:focus { border-color: var(--cyan); width: 300px; }
-        .search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--cyan); font-size: 0.8rem; }
-
         nav ul { display: flex; list-style: none; gap: 15px; }
         nav a { color: var(--text); text-decoration: none; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; transition: 0.3s; cursor: pointer;}
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .google-btn { background: #fff; color: #000; padding: 7px 15px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; cursor: pointer; border: none; display: flex; align-items: center; gap: 8px; }
+        .user-pill { display: flex; align-items: center; gap: 10px; cursor: pointer; background: var(--glass); padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); }
+        .user-pill img { width: 25px; height: 25px; border-radius: 50%; }
+
         .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 55px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
-        /* VIEWS */
-        #content-wrapper { flex: 1; }
         .view-page { display: none; animation: fadeIn 0.4s ease; padding-top: 10px; }
         .view-page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .hero { 
-            height: 18vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,1)), url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=1600') center/cover;
-            border-bottom: 3px solid var(--red); margin-bottom: 10px;
-        }
-        .hero h1 { font-size: 1.8rem; font-weight: 800; text-transform: uppercase; }
+        .hero { height: 18vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--red); margin-bottom: 20px; background: rgba(0,0,0,0.4); }
+        .hero h1 { font-size: 2rem; font-weight: 800; text-transform: uppercase; }
 
         section { padding: 10px 5% 40px; }
-        .section-header { margin-bottom: 25px; border-left: 5px solid var(--red); padding-left: 15px; display: flex; align-items: center; justify-content: space-between;}
-        .section-header h2 { font-size: 1.2rem; text-transform: uppercase; letter-spacing: -1px; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%; }
+        .card:hover { transform: translateY(-5px); border-color: var(--cyan); }
+        .card-img { width: 100%; height: 150px; object-fit: cover; background: #111; }
+        .card-body { padding: 15px; flex: 1; }
+        .card-body h3 { font-size: 0.85rem; line-height: 1.3; font-weight: 700; color: #fff; }
 
-        /* ULTRA DENSE GRID */
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; height: 100%; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-5px); border-color: var(--cyan); background: rgba(255,255,255,0.06); }
-        .card-img { width: 100%; height: 140px; object-fit: cover; background: #111; }
-        .card-body { padding: 12px; flex: 1; }
-        .badge { background: var(--red); color: #fff; font-size: 0.5rem; padding: 2px 6px; border-radius: 3px; font-weight: 800; margin-bottom: 8px; display: inline-block; }
-        .card-body h3 { font-size: 0.8rem; line-height: 1.3; font-weight: 700; color: #fff; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-
-        /* WIDGETS HUB */
+        .widget-area { background: #000; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; }
         .hub-split { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
-        @media (max-width: 1000px) { .hub-split { grid-template-columns: 1fr; } }
-        .widget-area { background: #000; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        
-        .selector-bar { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
-        .sel-btn { background: var(--glass); border: 1px solid var(--border); color: white; padding: 8px 15px; border-radius: 8px; cursor: pointer; white-space: nowrap; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
-        .sel-btn:hover, .sel-btn.active { background: var(--cyan); color: black; font-weight: 800; }
 
-        /* GLOBAL QUIZ */
-        .quiz-container { background: rgba(2, 6, 8, 0.9); border-top: 2px solid var(--cyan); padding: 50px 5%; margin-top: auto; }
-        .quiz-box { max-width: 900px; margin: 0 auto; text-align: center; }
+        /* REACTIONS */
+        .reaction-bar { display: flex; gap: 20px; padding: 15px 20px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.02); justify-content: center; margin-top: 20px;}
+        .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
+        .react-btn span:first-child { font-size: 1.5rem; filter: grayscale(1); opacity: 0.5; }
+        .react-btn.active span:first-child { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
+        .react-count { font-size: 0.8rem; font-weight: 800; color: var(--cyan); }
+
+        /* QUIZ */
+        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 50px 5%; margin-top: auto; }
+        .quiz-box { max-width: 800px; margin: 0 auto; text-align: center; }
         .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 15px; border-radius: 10px; cursor: pointer; transition: 0.2s; font-size: 0.85rem; }
+        .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; }
         .opt-btn:hover { background: var(--cyan); color: #000; font-weight: 800; }
 
         /* MODAL */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(20px); }
-        .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; }
+        .modal-content { background: #020608; max-width: 750px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; }
         .close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
-        .article-btn { display: inline-block; background: var(--cyan); color: #000; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 800; margin-top: 20px; text-transform: uppercase; font-size: 0.7rem; }
+        .full-btn { display: inline-block; background: var(--cyan); color: #000; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: 800; margin-top: 20px; text-transform: uppercase; font-size: 0.75rem; }
 
         footer { padding: 30px 5%; text-align: center; opacity: 0.3; font-size: 0.65rem; border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
 
-    <!-- CORE CONFIG (RECURSIVE TARGETING) -->
-    <api-sports-widget 
-        data-type="config" 
-        data-key="77aa814e7955b3042a9ebf24fc1bee18" 
-        data-sport="football" 
-        data-theme="dark" 
-        data-target-game="modal" 
-        data-target-league="#scout-output"
-        data-target-team="#scout-output"
-        data-target-player="#scout-output">
-    </api-sports-widget>
+    <!-- API CONFIG -->
+    <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal" data-target-league="#scout-output" data-target-team="#scout-output" data-target-player="#scout-output"></api-sports-widget>
 
     <header>
         <div class="logo" onclick="switchPage('home')">Moroccan<span>SportsHub</span></div>
-        <div class="header-right">
-            <nav>
-                <ul>
-                    <li><a onclick="switchPage('home')" id="nav-home" class="active">Home</a></li>
-                    <li><a onclick="switchPage('morocco')" id="nav-morocco">Moroccan</a></li>
-                    <li><a onclick="switchPage('global')" id="nav-global">Global</a></li>
-                    <li><a onclick="switchPage('esports')" id="nav-esports">Esports</a></li>
-                    <li><a onclick="switchPage('matches')" id="nav-matches">Matches</a></li>
-                    <li><a onclick="switchPage('standings')" id="nav-standings">Standings</a></li>
-                    <li><a onclick="switchPage('players')" id="nav-players">Scout</a></li>
-                </ul>
-            </nav>
-            <div class="search-wrapper">
-                <input type="text" id="global-search" class="search-input" placeholder="Neural Search Intelligence..." onkeyup="handleSearch(event)">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            </div>
+        <nav>
+            <ul>
+                <li><a onclick="switchPage('home')" id="nav-home" class="active">Home</a></li>
+                <li><a onclick="switchPage('morocco')" id="nav-morocco">Moroccan</a></li>
+                <li><a onclick="switchPage('global')" id="nav-global">Global</a></li>
+                <li><a onclick="switchPage('esports')" id="nav-esports">Esports</a></li>
+                <li><a onclick="switchPage('matches')" id="nav-matches">Matches</a></li>
+                <li><a onclick="switchPage('standings')" id="nav-standings">Standings</a></li>
+                <li><a onclick="switchPage('players')" id="nav-players">Scout</a></li>
+            </ul>
+        </nav>
+        <div class="header-right" id="auth-ui">
+            <button class="google-btn" onclick="login()"><i class="fa-brands fa-google"></i> Login with Google</button>
         </div>
     </header>
 
-    <div class="ticker" id="ticker-status">MARCH 20, 2026: MULTI-SOURCE SATELLITE FEED ACTIVE | SYNCING 100+ GLOBAL ARTICLES</div>
+    <div class="ticker">MARCH 21, 2026: REAL-TIME FIRESTORE SYNC ACTIVE | CLOUD REACTION COUNTERS LIVE | MARCH MATCHDAY DATA STREAMING</div>
 
     <div id="content-wrapper">
-        <!-- SEARCH RESULTS PAGE -->
-        <div id="search-page" class="view-page">
-            <div class="hero"><h1>SEARCH RESULTS</h1></div>
-            <section><div class="news-grid" id="feed-search"></div></section>
-        </div>
-
-        <!-- PAGE: HOME -->
         <div id="home-page" class="view-page active">
-            <div class="hero"><h1>GLOBAL INTELLIGENCE</h1></div>
-            <section>
-                <div class="section-header"><h2>Major Headlines</h2><span style="color:var(--cyan); font-size:0.7rem;">● DENSITY: ULTRA</span></div>
-                <div class="news-grid" id="feed-home"></div>
-            </section>
+            <div class="hero"><h1>INTELLIGENCE HUB</h1></div>
+            <section><div class="news-grid" id="feed-home"></div></section>
         </div>
 
-        <!-- PAGE: MOROCCAN -->
         <div id="morocco-page" class="view-page">
-            <div class="hero" style="background: linear-gradient(rgba(193,39,45,0.4), rgba(2,6,8,1)), url('https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=1600') center/cover;">
-                <h1>MOROCCAN WIRE</h1>
-            </div>
+            <div class="hero"><h1>MOROCCAN WIRE</h1></div>
             <section><div class="news-grid" id="feed-morocco"></div></section>
         </div>
 
-        <!-- PAGE: GLOBAL -->
         <div id="global-page" class="view-page">
-            <div class="hero"><h1>GLOBAL HUB</h1></div>
+            <div class="hero"><h1>GLOBAL SPORTS</h1></div>
             <section><div class="news-grid" id="feed-global"></div></section>
         </div>
 
-        <!-- PAGE: ESPORTS -->
         <div id="esports-page" class="view-page">
-            <div class="hero" style="background: linear-gradient(rgba(0,242,254,0.3), rgba(2,6,8,1)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600') center/cover;">
-                <h1>ESPORTS HUB</h1>
-            </div>
+            <div class="hero"><h1>ESPORTS HUB</h1></div>
             <section><div class="news-grid" id="feed-esports"></div></section>
         </div>
 
-        <!-- PAGE: MATCHES -->
-        <div id="matches-page" class="view-page">
+        <div id="profile-page" class="view-page">
+            <div class="hero"><h1>AGENT PROFILE</h1></div>
             <section>
-                <div class="selector-bar" id="live-sel">
-                    <button class="sel-btn active" onclick="loadLive('football')">Football</button>
-                    <button class="sel-btn" onclick="loadLive('nba')">NBA</button>
-                    <button class="sel-btn" onclick="loadLive('mma')">UFC</button>
+                <div class="profile-card">
+                    <img id="u-img" src="" class="p-avatar-lg" style="width:100px; border-radius:50%; border:3px solid var(--cyan);">
+                    <div class="p-info">
+                        <h2 id="u-name">Agent</h2>
+                        <p id="u-email"></p>
+                        <p style="color:var(--cyan); font-weight:800;">Best Score: <span id="u-score">0</span>/10</p>
+                        <button class="auth-btn" style="background:var(--red); color:#fff; margin-top:10px;" onclick="logout()">Logout</button>
+                    </div>
                 </div>
-                <div class="widget-area" id="live-inject"></div>
             </section>
         </div>
 
-        <!-- PAGE: STANDINGS -->
-        <div id="standings-page" class="view-page">
-            <section>
-                <div class="selector-bar" id="stand-sel">
-                    <button class="sel-btn active" onclick="loadStand('2')">UCL</button>
-                    <button class="sel-btn" onclick="loadStand('39')">Premier League</button>
-                    <button class="sel-btn" onclick="loadStand('140')">La Liga</button>
-                    <button class="sel-btn" onclick="loadStand('78')">Bundesliga</button>
-                </div>
-                <div class="widget-area" id="stand-inject"></div>
-            </section>
-        </div>
-
-        <!-- PAGE: SCOUT -->
+        <!-- WIDGET PAGES -->
+        <div id="matches-page" class="view-page"><section><div class="widget-area" id="live-inject"></div></section></div>
+        <div id="standings-page" class="view-page"><section><div class="widget-area" id="stand-inject"></div></section></div>
         <div id="players-page" class="view-page">
             <section>
                 <div class="hub-split">
-                    <div class="widget-area">
-                        <api-sports-widget data-type="leagues"></api-sports-widget>
-                    </div>
-                    <div class="widget-area" id="scout-output">
-                        <p style="color:var(--cyan); font-weight:800; font-size:0.7rem; margin-bottom:15px; text-transform:uppercase;">Intelligence Output</p>
-                        <div style="color:var(--text-dim); font-size:0.8rem;">Select a League > Click a Team > Click a Player Name for full 2026 data.</div>
-                    </div>
+                    <div class="widget-area"><api-sports-widget data-type="leagues"></api-sports-widget></div>
+                    <div class="widget-area" id="scout-output"><div style="padding:20px; color:var(--text-dim);">Select a target to begin scouting...</div></div>
                 </div>
             </section>
         </div>
     </div>
 
-    <!-- STICKY QUIZ -->
+    <!-- GLOBAL QUIZ -->
     <div class="quiz-container">
         <div class="quiz-box">
-            <div id="quiz-progress" style="color:var(--cyan); font-weight:800; margin-bottom:10px; font-size: 0.7rem;">CHALLENGE MODE: 100 QUESTIONS</div>
-            <h2 id="q-text" style="font-size: 1.3rem;">Connecting...</h2>
+            <h2 id="q-text" style="font-size: 1.3rem;">Login to save your progression...</h2>
             <div class="opt-grid" id="q-options"></div>
-            <div id="q-score" style="margin-top: 20px; font-weight: 800; color: var(--cyan); font-size: 1.2rem;"></div>
         </div>
     </div>
 
-    <footer><p>&copy; 2026 MoroccanSportsHub | Automated Intelligence Media</p></footer>
-
-    <!-- MODAL -->
+    <!-- NEWS MODAL -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <span class="close" onclick="closeM()">&times;</span>
             <h2 id="m-title" style="margin-bottom:20px; font-size: 1.5rem;"></h2>
-            <p id="m-body" style="color:var(--text-dim); line-height:1.8; font-size: 0.95rem;"></p>
-            <a id="m-link" href="#" target="_blank" class="read-article-btn">Read Full Article</a>
+            <p id="m-body" style="color:var(--text-dim); line-height:1.6; margin-bottom: 20px;"></p>
+            
+            <div class="reaction-bar">
+                <button class="react-btn" id="react-like" onclick="handleReact('like')">
+                    <span>👍</span><span class="react-count" id="c-like">0</span>
+                </button>
+                <button class="react-btn" id="react-heart" onclick="handleReact('heart')">
+                    <span>❤️</span><span class="react-count" id="c-heart">0</span>
+                </button>
+                <button class="react-btn" id="react-fire" onclick="handleReact('fire')">
+                    <span>🔥</span><span class="react-count" id="c-fire">0</span>
+                </button>
+                <button class="react-btn" id="react-dislike" onclick="handleReact('dislike')">
+                    <span>👎</span><span class="react-count" id="c-dislike">0</span>
+                </button>
+            </div>
+
+            <a id="m-link" href="#" target="_blank" class="full-btn">Read Full Article</a>
         </div>
     </div>
 
+    <footer><p>&copy; 2026 MoroccanSportsHub | Automated Neural Intel</p></footer>
+
     <script>
-        const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
-        const FEEDS = {
-            morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed", "https://arryadia.snrt.ma/index.php?option=com_content&view=category&id=1&Itemid=101&format=feed&type=rss"],
-            global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/rss.xml", "https://www.espn.com/espn/rss/news", "https://skysports.com/rss/12040"],
-            esports: ["https://www.talkesport.com/feed/", "https://esportsinsider.com/feed", "https://www.dexerto.com/esports/feed/"],
-            extra: ["https://www.nba.com/rss/nba_rss.xml", "https://www.formula1.com/content/fom-website/en/latest/all.xml", "https://ufc-data.com/feed"]
+        // --- YOUR FIREBASE CONFIG ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDl3HcQUr7Nd0oJOpsSmx77mTi7U4PyR0w",
+            authDomain: "moroccansportshub.firebaseapp.com",
+            databaseURL: "https://moroccansportshub-default-rtdb.firebaseio.com",
+            projectId: "moroccansportshub",
+            storageBucket: "moroccansportshub.firebasestorage.app",
+            messagingSenderId: "1081971044275",
+            appId: "1:1081971044275:web:3f04c81f88ee26a9d365c6"
         };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
         let masterPool = [];
+        let curQ = [], qI = 0, score = 0;
+        const qBank = [
+            { q: "Who is the coach of Morocco in 2026?", a: ["Mohamed Ouahbi", "Regragui", "Renard"], c: 0 },
+            { q: "UCL Match tonight?", a: ["Madrid vs City", "PSG vs Bayern", "Barca vs Inter"], c: 0 }
+        ];
 
-        function switchPage(page) {
-            document.querySelectorAll('.view-page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-            document.getElementById(page + '-page').classList.add('active');
-            if(page !== 'search') document.getElementById('nav-' + page).classList.add('active');
-            if(page === 'matches') loadLive('football');
-            if(page === 'standings') loadStand('2');
-            window.scrollTo(0,0);
-        }
+        // --- AUTH ---
+        function login() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+        function logout() { auth.signOut().then(() => location.reload()); }
 
-        function handleSearch(e) {
-            const query = e.target.value.toLowerCase();
-            if(query.length < 2) return;
-            switchPage('search');
-            const filtered = masterPool.filter(n => n.title.toLowerCase().includes(query) || n.desc.toLowerCase().includes(query));
-            document.getElementById('feed-search').innerHTML = filtered.length ? filtered.map(n => createCardHTML(n)).join('') : '<p style="padding:40px;">No matching intelligence found.</p>';
-        }
+        auth.onAuthStateChanged(async (user) => {
+            if(user) {
+                document.getElementById('auth-ui').innerHTML = `
+                    <div class="user-pill" onclick="switchPage('profile')">
+                        <img src="${user.photoURL}">
+                        <span style="font-size:0.7rem; font-weight:800;">${user.displayName.split(' ')[0]}</span>
+                    </div>`;
+                document.getElementById('u-img').src = user.photoURL;
+                document.getElementById('u-name').innerText = user.displayName;
+                document.getElementById('u-email').innerText = user.email;
+                const doc = await db.collection('users').doc(user.uid).get();
+                if(doc.exists) document.getElementById('u-score').innerText = doc.data().highScore || 0;
+            }
+            initNews();
+        });
 
-        function loadLive(sport) {
-            document.getElementById('live-inject').innerHTML = `<api-sports-widget data-type="${sport === 'mma' ? 'fights' : (sport === 'f1' ? 'races' : 'games')}" data-sport="${sport}" data-refresh="30"></api-sports-widget>`;
-            document.getElementById('live-sel').querySelectorAll('.sel-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-
-        function loadStand(id) {
-            document.getElementById('stand-inject').innerHTML = `<api-sports-widget data-type="standings" data-league="${id}" data-season="2024"></api-sports-widget>`;
-            document.getElementById('stand-sel').querySelectorAll('.sel-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-
-        async function init() {
-            await Promise.all([
-                loadCat('feed-morocco', FEEDS.morocco, 'MOROCCO'),
-                loadCat('feed-global', FEEDS.global, 'GLOBAL'),
-                loadCat('feed-esports', FEEDS.esports, 'ESPORTS'),
-                loadCat(null, FEEDS.extra, 'MAJOR')
-            ]);
-            renderHome();
-            initQuiz();
-        }
-
-        async function loadCat(id, urls, tag) {
-            let combined = [];
-            for(let url of urls) {
+        // --- NEWS API ---
+        async function initNews() {
+            const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
+            const feeds = {
+                morocco: "https://sport.le360.ma/rss.xml",
+                global: "https://feeds.bbci.co.uk/sport/rss.xml",
+                esports: "https://www.talkesport.com/feed/"
+            };
+            for(let [tag, url] of Object.entries(feeds)) {
                 try {
-                    const res = await fetch(BRIDGE + encodeURIComponent(url) + "&t=" + Date.now());
+                    const res = await fetch(BRIDGE + encodeURIComponent(url));
                     const data = await res.json();
-                    if(data.items) {
-                        data.items.forEach(item => {
-                            const n = {
-                                title: item.title,
-                                desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 250),
-                                img: item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500',
-                                link: item.link,
-                                tag: tag
-                            };
-                            if(!masterPool.some(existing => existing.title === n.title)) {
-                                masterPool.push(n);
-                                combined.push(n);
-                            }
-                        });
-                    }
+                    data.items.forEach(item => {
+                        const n = {
+                            title: item.title, link: item.link, tag: tag.toUpperCase(),
+                            img: item.thumbnail || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500',
+                            desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 200)
+                        };
+                        if(!masterPool.some(x => x.title === n.title)) masterPool.push(n);
+                    });
+                    if(document.getElementById(`feed-${tag}`)) 
+                        document.getElementById(`feed-${tag}`).innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).map(n => createCard(n)).join('');
                 } catch(e) {}
             }
-            if(id) document.getElementById(id).innerHTML = combined.map(n => createCardHTML(n)).join('');
+            document.getElementById('feed-home').innerHTML = [...masterPool].sort(() => 0.5 - Math.random()).slice(0, 15).map(n => createCard(n)).join('');
+            startQuiz();
         }
 
-        function createCardHTML(n) {
+        function createCard(n) {
             const sT = btoa(unescape(encodeURIComponent(n.title)));
             const sD = btoa(unescape(encodeURIComponent(n.desc)));
             const sL = btoa(n.link);
@@ -326,57 +282,76 @@
             </div>`;
         }
 
-        function renderHome() {
-            const shuffled = [...masterPool].sort(() => 0.5 - Math.random()).slice(0, 32);
-            document.getElementById('feed-home').innerHTML = shuffled.map(n => createCardHTML(n)).join('');
+        // --- REACTIONS (REAL DATABASE) ---
+        async function handleReact(type) {
+            if(!auth.currentUser) { alert("Login required to react."); return; }
+            const title = document.getElementById('m-title').innerText;
+            const ref = db.collection('reactions').doc(btoa(title).substring(0,30));
+            
+            await db.runTransaction(async (transaction) => {
+                const doc = await transaction.get(ref);
+                const data = doc.exists ? doc.data() : { like:0, heart:0, fire:0, dislike:0, voters:{} };
+                const uid = auth.currentUser.uid;
+                
+                if(data.voters[uid] === type) {
+                    data[type]--; delete data.voters[uid];
+                } else {
+                    if(data.voters[uid]) data[data.voters[uid]]--;
+                    data[type]++; data.voters[uid] = type;
+                }
+                transaction.set(ref, data);
+            });
+            syncModalReactions(title);
+        }
+
+        async function syncModalReactions(title) {
+            const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get();
+            const data = doc.exists ? doc.data() : { like:0, heart:0, fire:0, dislike:0, voters:{} };
+            const uid = auth.currentUser ? auth.currentUser.uid : null;
+            ['like','heart','fire','dislike'].forEach(t => {
+                document.getElementById(`c-${t}`).innerText = data[t] || 0;
+                document.getElementById(`react-${t}`).classList.toggle('active', data.voters[uid] === t);
+            });
         }
 
         function openDetails(t, d, l) {
-            document.getElementById('m-title').innerText = decodeURIComponent(escape(atob(t)));
+            const title = decodeURIComponent(escape(atob(t)));
+            document.getElementById('m-title').innerText = title;
             document.getElementById('m-body').innerText = decodeURIComponent(escape(atob(d))) + "...";
             document.getElementById('m-link').href = atob(l);
+            syncModalReactions(title);
             document.getElementById('modal').style.display = 'flex';
         }
-        function closeM() { document.getElementById('modal').style.display = 'none'; }
 
-        // --- 100 QUESTION POOL ---
-        const quizBank = [
-            { q: "Who is the coach of the Atlas Lions in March 2026?", a: ["Mohamed Ouahbi", "Regragui", "Renard", "Sektioui"], c: 0 },
-            { q: "Who is Real Madrid playing in the UCL Quarter Finals tonight?", a: ["Man City", "Bayern", "Barca", "PSG"], c: 0 },
-            { q: "Which team is nicknamed 'The Green Eagles'?", a: ["Raja CA", "WAC", "MAS", "FUS"], c: 0 },
-            { q: "Which Valorant agent is from Morocco?", a: ["Cypher", "Phoenix", "Yoru", "Sova"], c: 0 },
-            { q: "Who is known as the 'Demon King' in Esports?", a: ["Faker", "Chovy", "Showmaker", "Caps"], c: 0 },
-            { q: "Where is the 2026 World Cup Final held?", a: ["New Jersey (MetLife)", "Mexico City", "LA", "Dallas"], c: 0 },
-            { q: "How many Ballon d'Or titles does Messi have in 2026?", a: ["8", "7", "9", "5"], c: 0 },
-            { q: "Which F1 team is Lewis Hamilton driving for in 2026?", a: ["Ferrari", "Mercedes", "Red Bull", "Aston"], c: 0 }
-        ];
-
-        let curQ = [], qI = 0, score = 0;
-        function initQuiz() {
-            curQ = quizBank.sort(() => 0.5 - Math.random()).slice(0, 10);
-            qI = 0; score = 0; renderQ();
-        }
+        // --- QUIZ ---
+        function startQuiz() { curQ = qBank.sort(() => 0.5 - Math.random()); qI = 0; score = 0; renderQ(); }
         function renderQ() {
-            const opt = document.getElementById('q-options');
-            opt.innerHTML = ''; document.getElementById('q-score').innerText = '';
-            if(qI < 10) {
+            const opt = document.getElementById('q-options'); opt.innerHTML = '';
+            if(qI < curQ.length) {
                 document.getElementById('q-text').innerText = curQ[qI].q;
-                document.getElementById('quiz-progress').innerText = `CHALLENGE ${qI+1}/10`;
                 curQ[qI].a.forEach((a, i) => {
-                    const b = document.createElement('button');
-                    b.className = 'opt-btn'; b.innerText = a;
+                    const b = document.createElement('button'); b.className = 'opt-btn'; b.innerText = a;
                     b.onclick = () => { if(i == curQ[qI].c) score++; qI++; renderQ(); };
                     opt.appendChild(b);
                 });
             } else {
-                document.getElementById('q-text').innerText = "Intelligence Finalized.";
-                document.getElementById('q-score').innerText = `SCORE: ${score}/10`;
-                opt.innerHTML = `<button class="opt-btn" onclick="initQuiz()" style="grid-column: span 2; background:var(--cyan); color:#000;">RESET CHALLENGE</button>`;
+                document.getElementById('q-text').innerText = `Completed! Score: ${score}/${curQ.length}`;
+                if(auth.currentUser) db.collection('users').doc(auth.currentUser.uid).set({ highScore: score }, { merge: true });
             }
         }
 
-        window.onload = init;
-        window.onclick = (e) => { if(e.target.id == 'modal') closeM(); }
+        function switchPage(p) {
+            document.querySelectorAll('.view-page').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            document.getElementById(`${p}-page`).classList.add('active');
+            if(document.getElementById(`nav-${p}`)) document.getElementById(`nav-${p}`).classList.add('active');
+            if(p === 'matches') document.getElementById('live-inject').innerHTML = `<api-sports-widget data-type="games" data-sport="football" data-refresh="30"></api-sports-widget>`;
+            if(p === 'standings') document.getElementById('stand-inject').innerHTML = `<api-sports-widget data-type="standings" data-league="2" data-season="2025"></api-sports-widget>`;
+            window.scrollTo(0,0);
+        }
+
+        function closeM() { document.getElementById('modal').style.display = 'none'; }
+        window.onclick = (e) => { if(e.target.className === 'modal') closeM(); }
     </script>
 </body>
 </html>
