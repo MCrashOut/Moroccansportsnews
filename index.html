@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="strict-origin-when-cross-origin"/>
+    
+    <!-- GOOGLE VERIFICATION & SEO -->
+    <meta name="google-site-verification" content="642c4bd2953b31ef" />
     <title>MoroccanSportsHub | Elite Intelligence 2026</title>
+    <meta name="description" content="The ultimate hub for Moroccan and Global sports. Real-time scores for Botola Pro, UCL, NBA, and UFC. Intelligence feed and player scouting.">
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     
@@ -12,8 +17,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    
-    <!-- API-SPORTS & ELFSIGHT -->
     <script type="module" src="https://widgets.api-sports.io/3.1.0/widgets.js"></script>
     <script src="https://elfsightcdn.com/platform.js" async></script>
 
@@ -45,61 +48,58 @@
         nav a { color: var(--text); text-decoration: none; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; cursor: pointer;}
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
+        .header-right { display: flex; align-items: center; gap: 15px; }
         .auth-btn { background: var(--cyan); color: #000; padding: 6px 15px; border-radius: 20px; font-size: 0.6rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
-        .user-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; object-fit: cover; }
+        .user-avatar { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; object-fit: cover; }
 
-        .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 55px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+        .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 60px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
         .view-page { display: none; animation: fadeIn 0.4s ease; padding-top: 10px; flex: 1; }
         .view-page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* ORGANIZED HERO AREA */
-        .hero-trending { 
-            width: 100%; height: 380px; border-radius: 25px; overflow: hidden; position: relative; margin: 20px 5%; width: 90%;
-            border: 1px solid var(--border); cursor: pointer;
-        }
-        .hero-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); transition: 0.5s; }
-        .hero-featured:hover .hero-img { transform: scale(1.05); }
-        .hero-content { position: absolute; bottom: 40px; left: 40px; right: 40px; }
-        .hero-content h1 { font-size: 2.2rem; line-height: 1.1; margin-bottom: 15px; text-transform: uppercase; }
+        /* ORGANIZED HERO */
+        .hero-featured { width: 100%; height: 350px; border-radius: 25px; overflow: hidden; position: relative; margin: 20px 5%; width: 90%; border: 1px solid var(--border); cursor: pointer; }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); }
+        .hero-content { position: absolute; bottom: 30px; left: 30px; right: 30px; }
+        .hero-content h1 { font-size: 2rem; margin-bottom: 10px; text-transform: uppercase; }
 
-        /* GRID SYSTEM */
+        /* HIGH DENSITY GRID */
         section { padding: 10px 5% 40px; }
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%; }
-        .card:hover { transform: translateY(-5px); border-color: var(--cyan); background: rgba(255,255,255,0.05); }
+        .card:hover { transform: translateY(-5px); border-color: var(--cyan); }
         .card-img { width: 100%; height: 140px; object-fit: cover; background: #111; }
         .card-body { padding: 15px; flex: 1; }
         .card-body h3 { font-size: 0.8rem; line-height: 1.3; font-weight: 700; color: #fff; }
 
-        /* AUTH INPUT FIX (NO WHITE BACKGROUND) */
-        .auth-input { 
-            width: 100%; background: #000 !important; border: 1px solid var(--border); padding: 12px; 
-            border-radius: 10px; color: #fff !important; margin-bottom: 10px; outline: none; 
-        }
+        /* AUTH INPUT FIX */
+        .auth-input { width: 100%; background: #000 !important; border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: #fff !important; margin-bottom: 10px; outline: none; }
         .auth-input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px #000 inset !important; -webkit-text-fill-color: #fff !important; }
 
         /* WIDGETS */
-        .widget-area { background: #000 !important; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; }
+        .widget-area { background: #000 !important; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
         .hub-split { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
+        .selector-bar { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
+        .sel-btn { background: var(--glass); border: 1px solid var(--border); color: white; padding: 10px 18px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
+        .sel-btn.active { background: var(--cyan); color: black; font-weight: 800; }
 
-        /* QUIZ */
-        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 50px 5%; margin-top: auto; }
-        .quiz-box { max-width: 900px; margin: 0 auto; text-align: center; }
-        .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; }
-        .opt-btn:hover { background: var(--cyan); color: #000; font-weight: 800; }
-
-        /* MODAL */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; padding: 20px; backdrop-filter: blur(20px); }
-        .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; }
-        .close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
-        
+        /* REACTIONS */
         .reaction-bar { display: flex; gap: 15px; padding: 15px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.02); justify-content: center; margin-top: 20px;}
         .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
         .react-count { font-size: 0.75rem; font-weight: 800; color: var(--cyan); }
 
+        /* QUIZ */
+        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 40px 5%; margin-top: auto; }
+        .quiz-box { max-width: 900px; margin: 0 auto; text-align: center; }
+        .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; }
+
+        /* MODAL */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; padding: 20px; backdrop-filter: blur(20px); }
+        .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); }
+        .close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
+        
         footer { padding: 30px 5%; text-align: center; opacity: 0.3; font-size: 0.65rem; border-top: 1px solid var(--border); }
     </style>
 </head>
@@ -126,49 +126,42 @@
         </div>
     </header>
 
-    <!-- ELFSIGHT AUDIO PLAYER -->
-    <div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
-        <div class="elfsight-app-32c8aece-3b03-41a8-90cd-aa80ccfa2a2a" data-elfsight-app-lazy></div>
-    </div>
-
-    <div class="ticker">MARCH 22, 2026: UNIQUE TRENDING FEED ACTIVE | UCL QUARTER FINALS PREVIEW | CLOUD SYNC ACTIVE</div>
+    <div class="ticker">MARCH 22, 2026: UNIQUE TRENDING FEED ACTIVE | GOOGLE VERIFIED HUB | CLOUD SYNC ACTIVE</div>
 
     <div id="content-wrapper">
         <!-- HOME PAGE -->
         <div id="home-page" class="view-page active">
-            <div class="hero-trending" id="home-hero">
+            <div class="hero-featured" id="home-hero">
                 <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200" class="hero-img" id="hero-img">
                 <div class="hero-content">
-                    <span class="badge" style="background:var(--red); padding:5px 15px; border-radius:5px; font-weight:800; font-size:0.7rem; margin-bottom:10px; display:inline-block;">FEATURED INTELLIGENCE</span>
+                    <span class="badge" style="background:var(--red); padding:5px 15px; border-radius:5px; font-weight:800; font-size:0.7rem; margin-bottom:10px; display:inline-block;">TRENDING NOW</span>
                     <h1 id="hero-title">Syncing Satellite Intelligence...</h1>
                 </div>
             </div>
-            <section>
-                <div class="section-header"><h2>Trending Now</h2></div>
-                <div class="news-grid" id="feed-home"></div>
-            </section>
+            <section><div class="news-grid" id="feed-home"></div></section>
         </div>
         
-        <!-- OTHER PAGES -->
+        <!-- PAGES -->
         <div id="morocco-page" class="view-page"><div class="hero"><h1>MOROCCAN WIRE</h1></div><section><div class="news-grid" id="feed-morocco"></div></section></div>
         <div id="global-page" class="view-page"><div class="hero"><h1>GLOBAL SPORTS</h1></div><section><div class="news-grid" id="feed-global"></div></section></div>
         <div id="esports-page" class="view-page"><div class="hero"><h1>ESPORTS HUB</h1></div><section><div class="news-grid" id="feed-esports"></div></section></div>
 
-        <!-- ACCOUNT SETTINGS -->
+        <!-- SETTINGS -->
         <div id="profile-page" class="view-page">
-            <div class="hero"><h1>AGENT COMMAND</h1></div>
+            <div class="hero"><h1>AGENT SETTINGS</h1></div>
             <section>
                 <div class="settings-card">
                     <img id="u-img" src="" style="width:80px; border-radius:50%; border:3px solid var(--cyan); margin-bottom:20px; display:none; margin: 0 auto 20px;">
-                    <div class="input-group"><label>Agent ID</label><input type="text" id="set-name"></div>
-                    <div class="input-group"><label>Email</label><input type="email" id="set-email"></div>
+                    <div class="input-group"><label>Agent ID (Username)</label><input type="text" id="set-name"></div>
+                    <div class="input-group"><label>Update Email</label><input type="email" id="set-email"></div>
                     <div class="input-group"><label>New Password</label><input type="password" id="set-pass" placeholder="Enter new password..."></div>
-                    <button class="auth-btn" style="width:100%; padding:15px;" onclick="updateProfile()">Save Hub Data</button>
-                    <button class="auth-btn" style="background:var(--red); color:#fff; width:100%; margin-top:20px;" onclick="logout()">Logout</button>
+                    <button class="auth-btn" style="width:100%; padding:15px;" onclick="updateProfile()">Update Agent Data</button>
+                    <button class="auth-btn" style="width:100%; padding:15px; background:var(--red); color:white; margin-top:15px;" onclick="logout()">Logout / Deauthorize</button>
                 </div>
             </section>
         </div>
 
+        <!-- WIDGET PAGES -->
         <div id="matches-page" class="view-page"><section><div class="widget-area" id="live-inject"></div></section></div>
         <div id="standings-page" class="view-page"><section><div class="widget-area" id="stand-inject"></div></section></div>
         <div id="players-page" class="view-page">
@@ -179,16 +172,16 @@
                 </div>
             </section>
         </div>
-        
-        <!-- QUIZ -->
-        <section id="quiz-sec">
-            <div class="quiz-box">
-                <div style="color:var(--cyan); font-weight:800; margin-bottom:15px; font-size: 0.7rem; text-transform:uppercase; letter-spacing:2px;">Challenge Mode: 10 Questions</div>
-                <h2 id="q-text" style="font-size: 1.5rem;">Login to save score...</h2>
-                <div class="opt-grid" id="q-options"></div>
-                <div id="q-score" style="margin-top: 30px; font-weight: 800; color: var(--cyan); font-size: 1.8rem;"></div>
-            </div>
-        </section>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-container">
+        <div class="quiz-box">
+            <div style="color:var(--cyan); font-weight:800; margin-bottom:15px; font-size: 0.7rem; text-transform:uppercase; letter-spacing:2px;">Challenge Mode: 10 Questions</div>
+            <h2 id="q-text" style="font-size: 1.5rem;">Login to save score...</h2>
+            <div class="opt-grid" id="q-options"></div>
+            <div id="q-score" style="margin-top: 30px; font-weight: 800; color: var(--cyan); font-size: 1.8rem;"></div>
+        </div>
     </div>
 
     <!-- AUTH MODAL -->
@@ -196,14 +189,14 @@
         <div class="modal-content" style="max-width:400px; text-align:center;">
             <span class="close" onclick="document.getElementById('auth-modal').style.display='none'">&times;</span>
             <div class="auth-tabs">
-                <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')">LOGIN</div>
-                <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')">SIGN UP</div>
+                <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')" style="flex:1; padding:10px; cursor:pointer; font-weight:800;">LOGIN</div>
+                <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')" style="flex:1; padding:10px; cursor:pointer; font-weight:800;">SIGN UP</div>
             </div>
             <input type="email" id="email" placeholder="Email" class="auth-input">
             <input type="password" id="pass" placeholder="Password" class="auth-input">
             <button class="auth-btn" style="width:100%; padding:15px;" id="auth-submit" onclick="handleAuth()">Enter Hub</button>
             <div style="margin:15px; font-size:0.7rem; opacity:0.4;">OR</div>
-            <button class="auth-btn" style="width:100%; padding:15px; background:#fff; color:#000;" onclick="loginGoogle()"><i class="fa-brands fa-google"></i> Google Account</button>
+            <button class="auth-btn" style="width:100%; padding:15px; background:#fff; color:#000;" onclick="loginGoogle()"><i class="fa-brands fa-google"></i> Google Login</button>
         </div>
     </div>
 
@@ -223,7 +216,12 @@
         </div>
     </div>
 
-    <footer><p>&copy; 2026 MoroccanSportsHub | Automated Intelligence Feed</p></footer>
+    <!-- ELFSIGHT AUDIO -->
+    <div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
+        <div class="elfsight-app-32c8aece-3b03-41a8-90cd-aa80ccfa2a2a" data-elfsight-app-lazy></div>
+    </div>
+
+    <footer><p>&copy; 2026 MoroccanSportsHub | Quality Intelligence Feed</p></footer>
 
     <script>
         // --- FIREBASE CONFIG ---
@@ -238,8 +236,14 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(), db = firebase.firestore();
 
-        let masterPool = [], authMode = 'login';
-        let curQ = [], qI = 0, score = 0;
+        let masterPool = [], authMode = 'login', curQ = [], qI = 0, score = 0;
+
+        const FEEDS = {
+            morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed"],
+            global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/football/rss.xml"],
+            esports: ["https://www.talkesport.com/feed/", "https://www.esports.net/news/feed/"],
+            home_special: ["https://www.nba.com/rss/nba_rss.xml", "https://www.formula1.com/content/fom-website/en/latest/all.xml", "https://www.mmafighting.com/rss/index.xml"]
+        };
 
         // --- AUTH & SETTINGS ---
         function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
@@ -257,47 +261,32 @@
                 if(user.photoURL) { document.getElementById('u-img').src = user.photoURL; document.getElementById('u-img').style.display='block'; }
                 document.getElementById('set-name').value = user.displayName || user.email.split('@')[0];
                 document.getElementById('set-email').value = user.email;
-                const doc = await db.collection('users').doc(user.uid).get();
-                if(doc.exists) document.getElementById('u-score').innerText = doc.data().highScore || 0;
             }
             initNews();
         });
 
         async function updateProfile() {
-            const user = auth.currentUser;
-            try {
-                await user.updateProfile({ displayName: document.getElementById('set-name').value });
-                if(document.getElementById('set-email').value !== user.email) await user.updateEmail(document.getElementById('set-email').value);
-                if(document.getElementById('set-pass').value) await user.updatePassword(document.getElementById('set-pass').value);
-                alert("Credentials Updated.");
-            } catch(e) { alert("Re-login required for sensitive security changes."); }
+            try { await auth.currentUser.updateProfile({ displayName: document.getElementById('set-name').value }); alert("Updated."); } catch(e) { alert("Re-login required."); }
         }
 
         // --- NEWS API ---
         async function initNews() {
             const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
-            const feeds = {
-                morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed"],
-                global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/football/rss.xml"],
-                esports: ["https://www.talkesport.com/feed/", "https://esportsinsider.com/feed"]
-            };
-            for(let [tag, urls] of Object.entries(feeds)) {
+            for(let [tag, urls] of Object.entries(FEEDS)) {
                 for(let url of urls) {
                     try {
                         const res = await fetch(BRIDGE + encodeURIComponent(url) + "&t=" + Date.now());
                         const data = await res.json();
                         if(data.items) data.items.forEach(item => {
-                            const n = { title: item.title, desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 200), img: item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', link: item.link, tag: tag.toUpperCase() };
+                            const n = { title: item.title, desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 180), img: item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', link: item.link, tag: tag.toUpperCase() };
                             if(!masterPool.some(x => x.title === n.title)) masterPool.push(n);
                         });
                     } catch(e) {}
                 }
                 const el = document.getElementById(`feed-${tag}`);
-                if(el) el.innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).slice(0, 24).map(n => createCard(n)).join('');
+                if(el) el.innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).slice(0, 15).map(n => createCard(n)).join('');
             }
-            
-            // Home Page Rendering
-            const trend = [...masterPool].sort(() => 0.5 - Math.random());
+            const trend = masterPool.filter(x => x.tag === 'HOME_SPECIAL' || x.tag === 'MOROCCO').sort(() => 0.5 - Math.random());
             if(trend[0]) {
                 document.getElementById('hero-title').innerText = trend[0].title;
                 document.getElementById('hero-img').src = trend[0].img;
@@ -353,14 +342,14 @@
             window.scrollTo(0,0);
         }
 
-        // --- 100 QUESTION MEGA QUIZ ---
+        // --- 100 QUESTION POOL ---
         const quizBank = [
             { q: "Who is the coach of the Atlas Lions in March 2026?", a: ["Mohamed Ouahbi", "Regragui", "Renard", "Sektioui"], c: 0 },
             { q: "Who is Real Madrid playing in the UCL Quarter Finals tonight?", a: ["Man City", "Bayern", "Barca", "PSG"], c: 0 },
             { q: "Which team is nicknamed 'The Green Eagles'?", a: ["Raja CA", "WAC", "MAS", "FUS"], c: 0 },
             { q: "Which Valorant agent is from Morocco?", a: ["Cypher", "Phoenix", "Yoru", "Sova"], c: 0 },
             { q: "Who is known as the 'Demon King' in Esports?", a: ["Faker", "Chovy", "Showmaker", "Caps"], c: 0 },
-            { q: "Where is the 2026 World Cup Final held?", a: ["New Jersey", "Mexico City", "LA", "Dallas"], c: 0 },
+            { q: "Where is the 2026 World Cup Final held?", a: ["New Jersey (MetLife)", "Mexico City", "LA", "Dallas"], c: 0 },
             { q: "How many Ballon d'Or titles does Messi have in 2026?", a: ["8", "7", "9", "5"], c: 0 },
             { q: "Which F1 team is Lewis Hamilton driving for in 2026?", a: ["Ferrari", "Mercedes", "Red Bull", "Aston"], c: 0 },
             { q: "Which team is called 'The Oranges'?", a: ["RSB Berkane", "Raja", "MAS", "KACM"], c: 0 },
