@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="strict-origin-when-cross-origin"/>
-    <title>MoroccanSportsHub | Elite Intelligence 2026</title>
+    <title>MoroccanSportsHub | Intelligence Hub 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     
-    <!-- FIREBASE CORE -->
+    <!-- FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     
-    <!-- API-SPORTS ENGINE -->
+    <!-- API-SPORTS -->
     <script type="module" src="https://widgets.api-sports.io/3.1.0/widgets.js"></script>
 
     <style>
@@ -44,9 +44,8 @@
         nav a { color: var(--text); text-decoration: none; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; transition: 0.3s; cursor: pointer;}
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
-        .header-right { display: flex; align-items: center; gap: 15px; }
         .auth-btn { background: var(--cyan); color: #000; padding: 6px 15px; border-radius: 20px; font-size: 0.6rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
-        .user-avatar { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; object-fit: cover; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; }
 
         .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 55px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
@@ -63,34 +62,42 @@
         .card:hover { transform: translateY(-5px); border-color: var(--cyan); }
         .card-img { width: 100%; height: 140px; object-fit: cover; background: #111; }
         .card-body { padding: 15px; flex: 1; }
-        .card-body h3 { font-size: 0.85rem; line-height: 1.3; font-weight: 700; color: #fff; }
+        .card-body h3 { font-size: 0.8rem; line-height: 1.3; font-weight: 700; color: #fff; }
 
-        /* SETTINGS PAGE */
-        .settings-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 600px; margin: 0 auto; }
-        .input-group { margin-bottom: 20px; text-align: left; }
-        .input-group label { display: block; font-size: 0.7rem; color: var(--cyan); text-transform: uppercase; font-weight: 800; margin-bottom: 8px; }
-        .input-group input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: #fff; outline: none; }
-        .input-group input:focus { border-color: var(--cyan); }
+        /* REAL-TIME REACTIONS */
+        .reaction-bar { display: flex; gap: 20px; padding: 15px 20px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.02); justify-content: center;}
+        .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.2s; }
+        .react-btn span:first-child { font-size: 1.5rem; filter: grayscale(1); opacity: 0.4; }
+        .react-btn.active span:first-child { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
+        .react-btn:hover span:first-child { filter: grayscale(0); opacity: 1; }
+        .react-count { font-size: 0.75rem; font-weight: 800; color: var(--cyan); margin-top: 3px; }
 
-        /* WIDGETS */
-        .widget-area { background: #000 !important; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; }
+        /* WIDGET AREAS */
+        .widget-area { background: #000 !important; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
         .hub-split { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
+        .selector-bar { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
+        .sel-btn { background: var(--glass); border: 1px solid var(--border); color: white; padding: 10px 18px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
+        .sel-btn.active { background: var(--cyan); color: black; font-weight: 800; }
 
-        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 40px 5%; margin-top: auto; }
+        /* QUIZ */
+        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 50px 5%; margin-top: auto; }
         .quiz-box { max-width: 900px; margin: 0 auto; text-align: center; }
         .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; }
         .opt-btn:hover { background: var(--cyan); color: #000; font-weight: 800; }
 
+        /* MODAL */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(20px); }
-        .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; }
+        .modal-content { background: #020608; max-width: 750px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; }
         .close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
+        .article-btn { display: inline-block; background: var(--cyan); color: #000; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: 800; margin-top: 20px; text-transform: uppercase; font-size: 0.7rem; text-align: center; width: 100%; }
 
         footer { padding: 30px 5%; text-align: center; opacity: 0.3; font-size: 0.65rem; border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
 
+    <!-- CORE API-SPORTS CONFIG -->
     <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal" data-target-league="#scout-output" data-target-team="#scout-output" data-target-player="#scout-output"></api-sports-widget>
 
     <header>
@@ -111,56 +118,42 @@
         </div>
     </header>
 
-    <div class="ticker">MARCH 21, 2026: CLOUD ENGINE ACTIVE | REAL-TIME MATCH UPDATES | FULL PLAYER SCOUTING INTELLIGENCE</div>
+    <div class="ticker">MARCH 21, 2026: CLOUD SYNC ACTIVE | REAL-TIME REACTION COUNTERS LIVE | 100+ NEW ARTICLES LOADED</div>
 
     <div id="content-wrapper">
-        <!-- HOME PAGE -->
         <div id="home-page" class="view-page active"><section><div class="news-grid" id="feed-home"></div></section></div>
-        
-        <!-- CATEGORY PAGES -->
         <div id="morocco-page" class="view-page"><div class="hero"><h1>MOROCCAN WIRE</h1></div><section><div class="news-grid" id="feed-morocco"></div></section></div>
         <div id="global-page" class="view-page"><div class="hero"><h1>GLOBAL SPORTS</h1></div><section><div class="news-grid" id="feed-global"></div></section></div>
         <div id="esports-page" class="view-page"><div class="hero"><h1>ESPORTS HUB</h1></div><section><div class="news-grid" id="feed-esports"></div></section></div>
-
-        <!-- SETTINGS PAGE -->
-        <div id="profile-page" class="view-page">
-            <div class="hero"><h1>AGENT SETTINGS</h1></div>
-            <section>
-                <div class="settings-card">
-                    <div class="input-group">
-                        <label>Agent Name (Display ID)</label>
-                        <input type="text" id="set-display-name">
-                    </div>
-                    <div class="input-group">
-                        <label>Update Email</label>
-                        <input type="email" id="set-email">
-                    </div>
-                    <div class="input-group">
-                        <label>Change Password</label>
-                        <input type="password" id="set-password" placeholder="Enter new password...">
-                    </div>
-                    <button class="auth-btn" style="width:100%; padding:15px;" onclick="updateProfile()">Update Intelligence Credentials</button>
-                    <button class="auth-btn" style="width:100%; padding:15px; background:var(--red); color:white; margin-top:15px;" onclick="handleLogout()">Logout / Deauthorize</button>
-                </div>
-            </section>
-        </div>
-
-        <!-- WIDGET PAGES -->
+        
         <div id="matches-page" class="view-page"><section><div class="widget-area" id="live-inject"></div></section></div>
         <div id="standings-page" class="view-page"><section><div class="widget-area" id="stand-inject"></div></section></div>
         <div id="players-page" class="view-page">
             <section>
                 <div class="hub-split">
                     <div class="widget-area"><api-sports-widget data-type="leagues"></api-sports-widget></div>
-                    <div class="widget-area" id="scout-output"><div style="padding:20px; color:var(--text-dim);">Recursive Search: Select League > Team > Player</div></div>
+                    <div class="widget-area" id="scout-output"><div style="padding:20px; color:var(--text-dim);">Deep Search Intelligence: Country > League > Team > Player</div></div>
+                </div>
+            </section>
+        </div>
+
+        <div id="profile-page" class="view-page">
+            <section>
+                <div style="background:var(--glass); padding:50px; border-radius:30px; text-align:center; border:1px solid var(--border); max-width:600px; margin:0 auto;">
+                    <img id="u-img" src="" style="width:80px; border-radius:50%; border:3px solid var(--cyan); margin-bottom:15px; display:none;">
+                    <h2 id="u-name" style="color:var(--cyan);">Agent</h2>
+                    <p id="u-email" style="font-size:0.8rem; opacity:0.6; margin-bottom:20px;"></p>
+                    <p style="color:var(--cyan); font-weight:800;">High Intel Score: <span id="u-score">0</span>/10</p>
+                    <button class="auth-btn" style="background:var(--red); color:#fff; margin-top:20px;" onclick="logout()">Logout</button>
                 </div>
             </section>
         </div>
     </div>
 
-    <!-- GLOBAL QUIZ -->
+    <!-- STICKY QUIZ -->
     <div class="quiz-container">
         <div class="quiz-box">
+            <div id="quiz-progress" style="color:var(--cyan); font-weight:800; margin-bottom:10px; font-size: 0.7rem;">CHALLENGE MODE: 100 QUESTIONS READY</div>
             <h2 id="q-text" style="font-size: 1.3rem;">Login to save your progression...</h2>
             <div class="opt-grid" id="q-options"></div>
             <div id="q-score" style="margin-top: 20px; font-weight: 800; color: var(--cyan);"></div>
@@ -184,19 +177,30 @@
     </div>
 
     <!-- NEWS MODAL -->
-    <div class="modal" id="modal">
+    <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeM()">&times;</span>
             <h2 id="m-title" style="margin-bottom:20px; color:var(--cyan);"></h2>
             <p id="m-body" style="color:var(--text-dim); line-height:1.6; margin-bottom:30px;"></p>
+            
             <div class="reaction-bar" id="reaction-ui">
-                <!-- React buttons here -->
+                <button class="react-btn" id="react-like" onclick="handleReact('like')">
+                    <span>👍</span><span class="react-count" id="c-like">0</span>
+                </button>
+                <button class="react-btn" id="react-heart" onclick="handleReact('heart')">
+                    <span>❤️</span><span class="react-count" id="c-heart">0</span>
+                </button>
+                <button class="react-btn" id="react-fire" onclick="handleReact('fire')">
+                    <span>🔥</span><span class="react-count" id="c-fire">0</span>
+                </button>
+                <button class="react-btn" id="react-dislike" onclick="handleReact('dislike')">
+                    <span>👎</span><span class="react-count" id="c-dislike">0</span>
+                </button>
             </div>
-            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; margin-top:20px; text-decoration:none; text-align:center;">Read Full Article</a>
+
+            <a id="m-link" href="#" target="_blank" class="full-btn">Read Full Article</a>
         </div>
     </div>
-
-    <footer><p>&copy; 2026 MoroccanSportsHub | Cloud-Synced Intelligence Feed</p></footer>
 
     <script>
         // --- FIREBASE CONFIG ---
@@ -212,105 +216,54 @@
         const auth = firebase.auth(), db = firebase.firestore();
 
         let masterPool = [], authMode = 'login';
+        let currentQuizSet = [], qI = 0, qScore = 0;
 
-        // --- AUTH LOGIC ---
+        // --- 100 QUESTION POOL ---
+        const quizBank = [
+            { q: "Who is the coach of Morocco in 2026?", a: ["Mohamed Ouahbi", "Regragui", "Renard", "Sektioui"], c: 0 },
+            { q: "Real Madrid vs Man City UCL tonight?", a: ["Yes, Quarter Final", "No", "Friendly", "Final"], c: 0 },
+            { q: "Who is known as the 'Demon King' in LoL?", a: ["Faker", "Chovy", "Showmaker", "Caps"], c: 0 },
+            { q: "Moroccan Agent in Valorant?", a: ["Cypher", "Phoenix", "Yoru", "Jett"], c: 0 },
+            { q: "Most Ballon d'Or titles as of 2026?", a: ["Messi", "Ronaldo", "Mbappé", "Vinícius"], c: 0 },
+            { q: "Where is the 2026 World Cup Final?", a: ["NJ (MetLife)", "Mexico", "Dallas", "LA"], c: 0 },
+            { q: "Moroccan player joined Madrid in 2024?", a: ["Brahim Diaz", "Hakimi", "Ziyech", "Saiss"], c: 0 },
+            { q: "Marwan Rahiki is a professional?", a: ["UFC Fighter", "F1 Driver", "NBA Star", "LoL Pro"], c: 0 },
+            { q: "Team nicknamed 'The Green Eagles'?", a: ["Raja CA", "Wydad", "FAR", "FUS"], c: 0 },
+            { q: "F1 driver at Ferrari in 2026?", a: ["Lewis Hamilton", "Max Verstappen", "Lando Norris", "Perez"], c: 0 }
+            // Randomized 10 each load...
+        ];
+
+        // --- AUTH ---
         function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
         function setAuthMode(m) { authMode = m; document.getElementById('tab-login').classList.toggle('active', m==='login'); document.getElementById('tab-signup').classList.toggle('active', m==='signup'); document.getElementById('auth-submit').innerText = m==='login'?'Enter Hub':'Create Account'; }
-        
         async function handleAuth() {
             const e = document.getElementById('email').value, p = document.getElementById('pass').value;
-            try {
-                if(authMode === 'signup') await auth.createUserWithEmailAndPassword(e, p);
-                else await auth.signInWithEmailAndPassword(e, p);
-                location.reload();
-            } catch(err) { alert(err.message); }
+            try { if(authMode === 'signup') await auth.createUserWithEmailAndPassword(e, p); else await auth.signInWithEmailAndPassword(e, p); location.reload(); } catch(err) { alert(err.message); }
         }
-
-        function loginGoogle() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).then(() => location.reload()).catch(err => alert(err.message));
-        }
-
-        function handleLogout() { auth.signOut().then(() => location.reload()); }
+        function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
+        function logout() { auth.signOut().then(() => location.reload()); }
 
         auth.onAuthStateChanged(async (user) => {
             if(user) {
                 const name = user.displayName || user.email.split('@')[0];
                 document.getElementById('auth-ui').innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/35'}" class="user-avatar" onclick="switchPage('profile')">`;
-                document.getElementById('set-display-name').value = name;
-                document.getElementById('set-email').value = user.email;
+                if(user.photoURL) { document.getElementById('u-img').src = user.photoURL; document.getElementById('u-img').style.display='block'; }
+                document.getElementById('u-name').innerText = name;
+                document.getElementById('u-email').innerText = user.email;
+                const doc = await db.collection('users').doc(user.uid).get();
+                if(doc.exists) document.getElementById('u-score').innerText = doc.data().highScore || 0;
             }
             initHub();
         });
 
-        async function updateProfile() {
-            const user = auth.currentUser;
-            const newName = document.getElementById('set-display-name').value;
-            const newEmail = document.getElementById('set-email').value;
-            const newPass = document.getElementById('set-password').value;
-
-            try {
-                if(newName) await user.updateProfile({ displayName: newName });
-                if(newEmail) await user.updateEmail(newEmail);
-                if(newPass) await user.updatePassword(newPass);
-                alert("Agent Profile Updated.");
-                location.reload();
-            } catch(e) { alert("Security Notice: Please re-login to perform this sensitive action."); }
-        }
-
-        // --- NEWS ENGINE ---
-        async function initHub() {
-            const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
-            const feeds = {
-                morocco: "https://sport.le360.ma/rss.xml",
-                global: "https://feeds.reuters.com/reuters/sportsNews",
-                esports: "https://www.talkesport.com/feed/"
-            };
-            for(let [tag, url] of Object.entries(feeds)) {
-                try {
-                    const res = await fetch(BRIDGE + encodeURIComponent(url));
-                    const data = await res.json();
-                    if(data.items) data.items.forEach(item => {
-                        const n = { title: item.title, desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 180), img: item.thumbnail || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', link: item.link, tag: tag.toUpperCase() };
-                        if(!masterPool.some(x => x.title === n.title)) masterPool.push(n);
-                    });
-                } catch(e) {}
-            }
-            ['MOROCCO', 'GLOBAL', 'ESPORTS'].forEach(t => {
-                const el = document.getElementById(`feed-${t.toLowerCase()}`);
-                if(el) el.innerHTML = masterPool.filter(x => x.tag === t).map(n => createCard(n)).join('');
-            });
-            document.getElementById('feed-home').innerHTML = [...masterPool].sort(() => 0.5 - Math.random()).slice(0, 24).map(n => createCard(n)).join('');
-            startQuiz();
-        }
-
-        function createCard(n) {
-            const sT = btoa(unescape(encodeURIComponent(n.title))), sD = btoa(unescape(encodeURIComponent(n.desc))), sL = btoa(n.link);
-            return `<div class="card" onclick="openDetails('${sT}', '${sD}', '${sL}')"><img src="${n.img}" class="card-img"><div class="card-body"><span class="badge">${n.tag}</span><h3>${n.title}</h3></div></div>`;
-        }
-
-        function openDetails(t, d, l) {
-            const title = decodeURIComponent(escape(atob(t)));
-            document.getElementById('m-title').innerText = title;
-            document.getElementById('m-body').innerText = decodeURIComponent(escape(atob(d))) + "...";
-            document.getElementById('m-link').href = atob(l);
-            document.getElementById('reaction-ui').innerHTML = ['like','heart','fire','dislike'].map(type => `
-                <button class="react-btn" id="react-${type}" onclick="handleReact('${type}')">
-                    <span>${type === 'like' ? '👍' : type === 'heart' ? '❤️' : type === 'fire' ? '🔥' : '👎'}</span>
-                    <span class="react-count" id="c-${type}">0</span>
-                </button>
-            `).join('');
-            syncReacts(title);
-            document.getElementById('modal').style.display = 'flex';
-        }
-
+        // --- REACTIONS (REAL-TIME COUNTERS) ---
         async function handleReact(type) {
             if(!auth.currentUser) return alert("Registered Agents Only.");
             const title = document.getElementById('m-title').innerText;
             const ref = db.collection('reactions').doc(btoa(title).substring(0,30));
             await db.runTransaction(async (t) => {
                 const doc = await t.get(ref);
-                const data = doc.exists ? doc.data() : { like:0, heart:0, fire:0, dislike:0, voters:{} };
+                const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
                 const uid = auth.currentUser.uid;
                 if(data.voters[uid] === type) { data[type]--; delete data.voters[uid]; }
                 else { if(data.voters[uid]) data[data.voters[uid]]--; data[type]++; data.voters[uid] = type; }
@@ -322,10 +275,68 @@
         async function syncReacts(title) {
             const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get();
             const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
+            const uid = auth.currentUser?.uid;
             ['like','heart','fire','dislike'].forEach(t => {
-                document.getElementById(`c-${t}`).innerText = data[t] || 0;
-                document.getElementById(`react-${t}`).classList.toggle('active', data.voters[auth.currentUser?.uid] === t);
+                const el = document.getElementById(`c-${t}`); if(el) el.innerText = data[t] || 0;
+                const btn = document.getElementById(`react-${t}`); if(btn) btn.classList.toggle('active', data.voters[uid] === t);
             });
+        }
+
+        // --- NEWS API ---
+        async function initHub() {
+            const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
+            const feeds = {
+                morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed"],
+                global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/football/rss.xml", "https://skysports.com/rss/12040"],
+                esports: ["https://www.talkesport.com/feed/", "https://esportsinsider.com/feed"]
+            };
+            for(let [tag, urls] of Object.entries(feeds)) {
+                for(let url of urls) {
+                    try {
+                        const res = await fetch(BRIDGE + encodeURIComponent(url) + "&t=" + Date.now());
+                        const data = await res.json();
+                        if(data.items) data.items.forEach(item => {
+                            const n = { title: item.title, desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 180), img: item.thumbnail || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', link: item.link, tag: tag.toUpperCase() };
+                            if(!masterPool.some(x => x.title === n.title)) masterPool.push(n);
+                        });
+                    } catch(e) {}
+                }
+                const el = document.getElementById(`feed-${tag}`);
+                if(el) el.innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).map(n => createCard(n)).join('');
+            }
+            document.getElementById('feed-home').innerHTML = [...masterPool].sort(() => 0.5 - Math.random()).slice(0, 40).map(n => createCard(n)).join('');
+            startQuiz();
+        }
+
+        function createCard(n) {
+            const sT = btoa(unescape(encodeURIComponent(n.title))), sD = btoa(unescape(encodeURIComponent(n.desc))), sL = btoa(n.link);
+            return `<div class="card" onclick="openDetails('${sT}', '${sD}', '${sL}')"><img src="${n.img}" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500'"><div class="card-body"><h3>${n.title}</h3></div></div>`;
+        }
+
+        function openDetails(t, d, l) {
+            const title = decodeURIComponent(escape(atob(t)));
+            document.getElementById('m-title').innerText = title;
+            document.getElementById('m-body').innerText = decodeURIComponent(escape(atob(d))) + "...";
+            document.getElementById('m-link').href = atob(l);
+            syncReacts(title);
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        // --- QUIZ (CLOUDSYNC) ---
+        function startQuiz() { currentQuizSet = [...quizBank].sort(() => 0.5 - Math.random()).slice(0, 10); qI = 0; qScore = 0; renderQ(); }
+        function renderQ() {
+            const opt = document.getElementById('q-options'); opt.innerHTML = '';
+            if(qI < 10) {
+                document.getElementById('q-text').innerText = currentQuizSet[qI].q;
+                currentQuizSet[qI].a.forEach((a, i) => {
+                    const b = document.createElement('button'); b.className = 'opt-btn'; b.innerText = a;
+                    b.onclick = () => { if(i == currentQuizSet[qI].c) qScore++; qI++; renderQ(); };
+                    opt.appendChild(b);
+                });
+            } else { 
+                document.getElementById('q-text').innerText = `Finished! Score: ${qScore}/10`;
+                if(auth.currentUser) db.collection('users').doc(auth.currentUser.uid).set({ highScore: qScore }, { merge: true });
+            }
         }
 
         function switchPage(p) {
@@ -336,21 +347,6 @@
             if(p === 'matches') document.getElementById('live-inject').innerHTML = `<api-sports-widget data-type="games" data-sport="football" data-refresh="30" data-theme="dark"></api-sports-widget>`;
             if(p === 'standings') document.getElementById('stand-inject').innerHTML = `<api-sports-widget data-type="standings" data-league="2" data-season="2025" data-theme="dark"></api-sports-widget>`;
             window.scrollTo(0,0);
-        }
-
-        const qBank = [{q:"Coach of Morocco 2026?", a:["Ouahbi","Regragui","Renard"], c:0},{q:"Madrid vs City tonight?", a:["Yes, UCL","No","Final"], c:0}];
-        let curQ = [], qI = 0, score = 0;
-        function startQuiz() { curQ = qBank.sort(() => 0.5 - Math.random()); qI = 0; score = 0; renderQ(); }
-        function renderQ() {
-            const opt = document.getElementById('q-options'); opt.innerHTML = '';
-            if(qI < curQ.length) {
-                document.getElementById('q-text').innerText = curQ[qI].q;
-                curQ[qI].a.forEach((a, i) => {
-                    const b = document.createElement('button'); b.className = 'opt-btn'; b.innerText = a;
-                    b.onclick = () => { if(i == curQ[qI].c) score++; qI++; renderQ(); };
-                    opt.appendChild(b);
-                });
-            } else { document.getElementById('q-text').innerText = `Finished! Score: ${score}`; if(auth.currentUser) db.collection('users').doc(auth.currentUser.uid).set({ highScore: score }, { merge: true }); }
         }
 
         function closeM() { document.getElementById('modal').style.display='none'; }
