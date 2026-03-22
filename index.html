@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
     
-    <!-- CORE LIBRARIES -->
+    <!-- LIBRARIES -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
@@ -53,58 +53,50 @@
         .search-trigger { color: var(--cyan); cursor: pointer; font-size: 1.1rem; }
         .auth-btn { background: var(--cyan); color: #000; padding: 8px 20px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; transition: 0.3s; }
 
-        #search-overlay { 
-            position: fixed; top: 60px; left: 0; width: 100%; background: #000; 
-            border-bottom: 1px solid var(--cyan); padding: 15px 5%; z-index: 999;
-            display: none; align-items: center; gap: 15px;
-        }
+        #search-overlay { position: fixed; top: 60px; left: 0; width: 100%; background: #000; border-bottom: 1px solid var(--cyan); padding: 15px 5%; z-index: 999; display: none; align-items: center; gap: 15px; }
         #search-overlay input { flex: 1; background: transparent; border: none; color: #fff; font-size: 1rem; outline: none; }
 
-        .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 80px; }
+        .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 60px; }
         .view-page.active { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* HOME GRID */
+        /* NEWSPAPER GRID (HOME) */
         .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 40px; padding: 20px 5%; }
         @media (max-width: 1100px) { .newspaper-grid { grid-template-columns: 1fr; } }
         .side-wire { border-right: 1px solid var(--border); padding-right: 25px; }
-        .wire-item { cursor: pointer; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom:15px; transition: 0.3s; }
+        .wire-item { cursor: pointer; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
         .wire-item:hover h4 { color: var(--cyan); }
         .wire-item h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-dim); line-height: 1.4; }
-
-        .main-feature h1 { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; cursor: pointer; color: #fff; }
-        .main-feature-img { width: 100%; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; cursor: pointer; object-fit: cover; }
+        .main-feature h1 { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; cursor: pointer; }
+        .main-feature-img { width: 100%; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; cursor: pointer; }
         .intel-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
 
-        .right-card { cursor: pointer; background: var(--glass); padding: 18px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; transition: 0.3s; height: auto; }
+        /* GRID SYSTEM (ESPORTS & CHESS NEWS) */
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px 5%; }
+        .right-card { cursor: pointer; background: var(--glass); padding: 18px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; height: auto; }
         .right-card:hover { border-color: var(--cyan); transform: translateY(-3px); }
         .right-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #fff; font-weight: 700; line-height: 1.2; }
 
-        /* CHESS */
-        .board-container { background: var(--glass); border: 1px solid var(--border); padding: 30px; border-radius: 30px; text-align: center; max-width: 600px; margin: 0 auto; }
-        #myBoard { width: 450px; max-width: 100%; margin: 0 auto; border: 6px solid #222; border-radius: 8px; }
-
-        /* AUTH MODAL CENTRAL */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; }
-        .modal-content { background: #020608; max-width: 420px; width: 90%; border-radius: 30px; padding: 40px; border: 1px solid var(--border); position: relative; text-align: center; }
-        .auth-tabs-row { display: flex; width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
-        .auth-tab { flex: 1; text-align: center; padding: 15px; cursor: pointer; font-weight: 800; font-size: 0.8rem; opacity: 0.4; transition: 0.3s; }
-        .auth-tab.active { opacity: 1; color: var(--cyan); border-bottom: 3px solid var(--cyan); }
-        .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 15px; margin: 10px 0; border-radius: 12px; color: #fff; outline: none; }
-
-        /* PROFILE */
-        .profile-dashboard { background: var(--glass); border: 1px solid var(--border); border-radius: 30px; padding: 40px; max-width: 600px; margin: 40px auto; text-align: center; }
-
-        /* REACTIONS (FIXED BACKGROUND) */
-        .reaction-bar { display: flex; gap: 20px; padding: 15px; border-top: 1px solid var(--border); justify-content: center; margin-top: 20px;}
+        /* REACTION BAR (NO WHITE BACKGROUND) */
+        .reaction-bar { display: flex; gap: 20px; padding: 20px; border-top: 1px solid var(--border); justify-content: center; margin-top: 20px;}
         .react-btn { background: none; border: none; outline: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; padding: 5px; }
         .react-btn:hover { transform: scale(1.2); }
         .react-count { font-size: 0.8rem; font-weight: 800; color: var(--cyan); }
 
-        .widget-area { background: #000; min-height: 800px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; position: relative; }
+        /* AUTH HUB */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; }
+        .modal-content { background: #020608; max-width: 420px; width: 90%; border-radius: 30px; padding: 40px; border: 1px solid var(--border); position: relative; text-align: center; }
+        .auth-tabs-row { display: flex; width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+        .auth-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 800; opacity: 0.4; }
+        .auth-tab.active { opacity: 1; color: var(--cyan); border-bottom: 3px solid var(--cyan); }
+        .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 15px; margin: 10px 0; border-radius: 12px; color: #fff; outline: none; }
+
+        /* CHESS BOARD */
+        .board-container { background: var(--glass); border: 1px solid var(--border); padding: 30px; border-radius: 30px; text-align: center; max-width: 600px; margin: 40px auto; }
+        #myBoard { width: 450px; max-width: 100%; margin: 0 auto; border: 6px solid #222; border-radius: 8px; }
+
+        .widget-area { background: #000; min-height: 850px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; position: relative; }
         .close { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; object-fit: cover; }
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px 5%; }
         footer { padding: 40px 5%; text-align: center; opacity: 0.3; border-top: 1px solid var(--border); font-size: 0.7rem;}
     </style>
 </head>
@@ -134,13 +126,13 @@
 
     <div id="search-overlay">
         <i class="fa-solid fa-magnifying-glass" style="color:var(--cyan)"></i>
-        <input type="text" id="active-search-input" placeholder="Search Intelligence..." onkeyup="handleSearch(event)">
+        <input type="text" id="active-search-input" placeholder="Search Intelligence Database..." onkeyup="handleSearch(event)">
         <i class="fa-solid fa-xmark" onclick="toggleSearch()" style="color:var(--red); cursor:pointer"></i>
     </div>
 
     <div id="content-wrapper">
         <div id="home-page" class="view-page active">
-            <div id="search-results-area" style="display:none; padding: 0 5% 40px;"><div class="news-grid" id="search-output-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px;"></div></div>
+            <div id="search-results-area" style="display:none; padding: 0 5% 40px;"><div class="news-grid" id="search-output-grid"></div></div>
             <div class="newspaper-grid" id="standard-home-layout">
                 <div class="side-wire" id="wire-left"></div>
                 <div id="center-intel" class="main-feature"></div>
@@ -154,7 +146,8 @@
 
         <!-- CHESS HUB -->
         <div id="chess-page" class="view-page">
-            <div class="news-grid" id="feed-chess" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding:20px 5%;"></div>
+            <h2 style="padding:0 5%; margin-bottom:20px; border-left:5px solid var(--cyan); margin-left:5%;">Grandmaster Intelligence</h2>
+            <div class="news-grid" id="feed-chess"></div>
             <div class="board-container">
                 <h2 style="margin-bottom:20px; color:var(--cyan);">Elite Neural AI</h2>
                 <div id="myBoard"></div>
@@ -162,11 +155,10 @@
                     <button class="auth-btn" onclick="initChess('white')">Play White</button>
                     <button class="auth-btn" onclick="initChess('black')">Play Black</button>
                 </div>
-                <p id="game-status" style="margin-top:15px; color:var(--text-dim); font-weight:800;">Turn: Agent move...</p>
+                <p id="game-status" style="margin-top:15px; color:var(--text-dim); font-weight:800;">Turn: Choose side...</p>
             </div>
         </div>
 
-        <!-- WIDGET PAGES -->
         <div id="matches-page" class="view-page"><div class="widget-area" id="live-inject"></div></div>
         <div id="players-page" class="view-page">
             <div style="display:grid; grid-template-columns: 350px 1fr; gap:20px; padding:20px 5%;">
@@ -177,9 +169,8 @@
             </div>
         </div>
 
-        <!-- PROFILE Dashboard -->
         <div id="profile-page" class="view-page">
-            <div class="profile-dashboard">
+            <div class="profile-dashboard" style="background:var(--glass); border:1px solid var(--border); padding:40px; border-radius:30px; text-align:center; max-width:500px; margin: 40px auto;">
                 <h2 style="color:var(--cyan); margin-bottom:25px;">Agent Identity Sync</h2>
                 <input type="text" id="set-name" class="auth-input" placeholder="Update Agent ID">
                 <input type="email" id="set-email" class="auth-input" placeholder="Change Email">
@@ -200,8 +191,8 @@
             </div>
             <input type="email" id="email" placeholder="Agent Email" class="auth-input">
             <input type="password" id="pass" placeholder="Security Key" class="auth-input">
-            <button class="auth-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="handleAuth()">Enter Hub</button>
-            <button class="auth-btn" style="width:100%; margin-top:10px; background:#fff; color:#000; padding:15px;" onclick="loginGoogle()">
+            <button class="auth-btn" style="width:100%; margin-top:20px;" onclick="handleAuth()">Enter Hub</button>
+            <button class="auth-btn" style="width:100%; margin-top:10px; background:#fff; color:#000;" onclick="loginGoogle()">
                 <i class="fa-brands fa-google" style="margin-right:8px"></i> Google Login
             </button>
         </div>
@@ -223,8 +214,6 @@
         </div>
     </div>
 
-    <div style="position:fixed; bottom:20px; right:20px; z-index:9999;"><div class="elfsight-app-32c8aece-3b03-41a8-90cd-aa80ccfa2a2a" data-elfsight-app-lazy></div></div>
-
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDl3HcQUr7Nd0oJOpsSmx77mTi7U4PyR0w",
@@ -245,19 +234,24 @@
             $('nav a').removeClass('active');
             $('#nav-'+p).addClass('active');
             
-            // WIDGET HARD RE-INJECTION ENGINE
+            // WIDGET DYNAMIC INJECTION (FORCE LOAD BUG FIX)
             if(p === 'matches' || p === 'players') {
                 const target = p === 'matches' ? '#live-inject' : '#scout-leagues-inject';
                 const type = p === 'matches' ? 'games' : 'leagues';
                 const dataTarget = p === 'players' ? 'data-target-team="#scout-main-inject" data-target-player="#scout-main-inject"' : '';
                 
                 $(target).empty().append(`<api-sports-widget data-type="${type}" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18" ${dataTarget}></api-sports-widget>`);
-                $.getScript('https://widgets.api-sports.io/3.1.0/widgets.js?t=' + Date.now());
+                
+                // Force script to re-parse the container
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js?v=' + Date.now();
+                document.head.appendChild(script);
             }
             window.scrollTo(0,0);
         }
 
-        // --- CHESS AI ---
+        // --- CHESS ENGINE ---
         function initChess(side) {
             game.reset();
             board = Chessboard('myBoard', {
@@ -271,7 +265,6 @@
                 pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
             });
             if(side === 'black') window.setTimeout(makeAiMove, 500);
-            document.getElementById('game-status').innerText = "Neural System Synchronized.";
         }
         function makeAiMove() {
             let moves = game.moves(); if(moves.length === 0) return;
@@ -279,7 +272,40 @@
             board.position(game.fen());
         }
 
-        // --- AUTH ---
+        // --- REACTIONS (MULTIPLE EMOJIS PER USER) ---
+        async function submitReact(type) {
+            if(!auth.currentUser) return alert("Login Required.");
+            const title = document.getElementById('m-title').innerText;
+            const ref = db.collection('reactions').doc(btoa(title).substring(0,30));
+            const uid = auth.currentUser.uid;
+
+            await db.runTransaction(async (t) => {
+                const doc = await t.get(ref);
+                const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
+                
+                // Initialize user voter profile if not exists
+                if(!data.voters[uid]) data.voters[uid] = {};
+
+                // Toggle logic: If user already reacted with THIS type, remove it.
+                if(data.voters[uid][type]) {
+                    data[type]--;
+                    data.voters[uid][type] = false;
+                } else {
+                    data[type]++;
+                    data.voters[uid][type] = true;
+                }
+                t.set(ref, data);
+            });
+            syncReacts(title);
+        }
+
+        async function syncReacts(title) {
+            const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get();
+            const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0};
+            ['like','heart','fire','dislike'].forEach(t => { $(`#c-${t}`).text(data[t] || 0); });
+        }
+
+        // --- CORE ENGINES ---
         function openAuth() { $('#auth-modal').css('display','flex'); }
         function setAuthMode(m) { authMode = m; $('.auth-tab').removeClass('active'); $('#tab-'+m).addClass('active'); }
         async function handleAuth() {
@@ -292,31 +318,10 @@
             try {
                 const u = auth.currentUser;
                 if($('#set-name').val()) await u.updateProfile({displayName: $('#set-name').val()});
-                if($('#set-pass').val()) await u.updatePassword($('#set-pass').val());
-                alert("Agent Profile Updated.");
+                alert("Profile Synced.");
             } catch(e) { alert(e.message); }
         }
 
-        // --- REACTIONS ---
-        async function submitReact(type) {
-            if(!auth.currentUser) return alert("Login Required.");
-            const title = document.getElementById('m-title').innerText;
-            const ref = db.collection('reactions').doc(btoa(title).substring(0,30));
-            await db.runTransaction(async (t) => {
-                const doc = await t.get(ref); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
-                if(data.voters[auth.currentUser.uid] === type) { data[type]--; delete data.voters[auth.currentUser.uid]; }
-                else { if(data.voters[auth.currentUser.uid]) data[data.voters[auth.currentUser.uid]]--; data[type]++; data.voters[auth.currentUser.uid] = type; }
-                t.set(ref, data);
-            });
-            syncReacts(title);
-        }
-        async function syncReacts(title) {
-            const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get();
-            const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0};
-            ['like','heart','fire','dislike'].forEach(t => { $(`#c-${t}`).text(data[t] || 0); });
-        }
-
-        // --- SEARCH ---
         function toggleSearch() { $('#search-overlay').toggle(); if($('#search-overlay').is(':visible')) $('#active-search-input').focus(); }
         function handleSearch(e) {
             const q = e.target.value.toLowerCase();
@@ -326,20 +331,17 @@
             } else { $('#search-results-area').hide(); $('#standard-home-layout').show(); }
         }
 
-        // --- NEWS ---
         async function initNews() {
+            const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
             const feeds = { morocco: "https://sport.le360.ma/rss.xml", global: "https://feeds.bbci.co.uk/sport/football/rss.xml", esports: "https://www.talkesport.com/feed/", chess: "https://www.chess.com/rss/news" };
             for(let [tag, url] of Object.entries(feeds)) {
                 try {
-                    const res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(url));
+                    const res = await fetch(BRIDGE + encodeURIComponent(url));
                     const data = await res.json();
                     let html = "";
                     data.items.forEach(item => {
                         const n = { id: masterPool.length, title: item.title, desc: item.description.replace(/<[^>]*>?/gm, ''), img: item.thumbnail || item.enclosure?.link, link: item.link, tag: tag.toUpperCase() };
-                        if(!masterPool.some(x => x.title === n.title)) {
-                            masterPool.push(n);
-                            html += `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag" style="color:var(--blue-intel)">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`;
-                        }
+                        if(!masterPool.some(x => x.title === n.title)) { masterPool.push(n); html += `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`; }
                     });
                     $(`#feed-${tag}`).html(html);
                 } catch(e) {}
@@ -353,14 +355,10 @@
             $('#wire-left').html(pool.slice(1,10).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join(''));
             $('#wire-right').html(pool.slice(11,18).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
         }
-        function openDetails(id) { 
-            const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); 
-            $('#m-link').off('click').on('click', function(e){ e.preventDefault(); window.open(n.link, '_blank'); });
-            syncReacts(n.title); $('#modal').css('display','flex'); 
-        }
+        function openDetails(id) { const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); $('#m-link').off('click').on('click', function(e){ e.preventDefault(); window.open(n.link, '_blank'); }); syncReacts(n.title); $('#modal').css('display','flex'); }
 
         auth.onAuthStateChanged((u) => { 
-            if(u) { $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile')">Agent Hub</button>`); $('#set-name').val(u.displayName); }
+            if(u) { $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile')">Agent Hub</button>`); $('#set-name').val(u.displayName); $('#set-email').val(u.email); }
             initNews(); 
         });
     </script>
