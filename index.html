@@ -50,11 +50,14 @@
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
         .header-right { display: flex; align-items: center; gap: 20px; }
-        .search-trigger { color: var(--cyan); cursor: pointer; font-size: 1.1rem; transition: 0.3s; }
-        .auth-btn { background: var(--cyan); color: #000; padding: 8px 22px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; transition: 0.3s; }
-        .auth-btn:hover { box-shadow: 0 0 15px var(--cyan); transform: scale(1.02); }
+        .search-trigger { color: var(--cyan); cursor: pointer; font-size: 1.1rem; }
+        .auth-btn { background: var(--cyan); color: #000; padding: 8px 20px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; transition: 0.3s; }
 
-        #search-overlay { position: fixed; top: 60px; left: 0; width: 100%; background: #000; border-bottom: 1px solid var(--cyan); padding: 15px 5%; z-index: 999; display: none; align-items: center; gap: 15px; }
+        #search-overlay { 
+            position: fixed; top: 60px; left: 0; width: 100%; background: #000; 
+            border-bottom: 1px solid var(--cyan); padding: 15px 5%; z-index: 999;
+            display: none; align-items: center; gap: 15px;
+        }
         #search-overlay input { flex: 1; background: transparent; border: none; color: #fff; font-size: 1rem; outline: none; }
 
         .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 80px; }
@@ -65,15 +68,15 @@
         .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 40px; padding: 20px 5%; }
         @media (max-width: 1100px) { .newspaper-grid { grid-template-columns: 1fr; } }
         .side-wire { border-right: 1px solid var(--border); padding-right: 25px; }
-        .wire-item { cursor: pointer; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom:10px; transition: 0.3s; }
+        .wire-item { cursor: pointer; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom:15px; transition: 0.3s; }
         .wire-item:hover h4 { color: var(--cyan); }
         .wire-item h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-dim); line-height: 1.4; }
 
         .main-feature h1 { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; cursor: pointer; color: #fff; }
-        .main-feature-img { width: 100%; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 20px; cursor: pointer; object-fit: cover; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        .intel-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; letter-spacing: 1px; }
+        .main-feature-img { width: 100%; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; cursor: pointer; object-fit: cover; }
+        .intel-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
 
-        .right-card { cursor: pointer; background: var(--glass); padding: 18px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; transition: 0.3s; }
+        .right-card { cursor: pointer; background: var(--glass); padding: 18px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; transition: 0.3s; height: auto; }
         .right-card:hover { border-color: var(--cyan); transform: translateY(-3px); }
         .right-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #fff; font-weight: 700; line-height: 1.2; }
 
@@ -81,25 +84,27 @@
         .board-container { background: var(--glass); border: 1px solid var(--border); padding: 30px; border-radius: 30px; text-align: center; max-width: 600px; margin: 0 auto; }
         #myBoard { width: 450px; max-width: 100%; margin: 0 auto; border: 6px solid #222; border-radius: 8px; }
 
-        /* AUTH TABS SIDE-BY-SIDE */
+        /* AUTH MODAL CENTRAL */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; }
+        .modal-content { background: #020608; max-width: 420px; width: 90%; border-radius: 30px; padding: 40px; border: 1px solid var(--border); position: relative; text-align: center; }
         .auth-tabs-row { display: flex; width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
         .auth-tab { flex: 1; text-align: center; padding: 15px; cursor: pointer; font-weight: 800; font-size: 0.8rem; opacity: 0.4; transition: 0.3s; }
         .auth-tab.active { opacity: 1; color: var(--cyan); border-bottom: 3px solid var(--cyan); }
         .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 15px; margin: 10px 0; border-radius: 12px; color: #fff; outline: none; }
 
         /* PROFILE */
-        .profile-card { background: var(--glass); border: 1px solid var(--border); border-radius: 30px; padding: 40px; max-width: 600px; margin: 40px auto; text-align: center; }
+        .profile-dashboard { background: var(--glass); border: 1px solid var(--border); border-radius: 30px; padding: 40px; max-width: 600px; margin: 40px auto; text-align: center; }
 
-        /* REACTIONS */
-        .reaction-bar { display: flex; gap: 20px; padding: 20px; border-top: 1px solid var(--border); justify-content: center; margin-top: 20px;}
-        .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
+        /* REACTIONS (FIXED BACKGROUND) */
+        .reaction-bar { display: flex; gap: 20px; padding: 15px; border-top: 1px solid var(--border); justify-content: center; margin-top: 20px;}
+        .react-btn { background: none; border: none; outline: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; padding: 5px; }
         .react-btn:hover { transform: scale(1.2); }
         .react-count { font-size: 0.8rem; font-weight: 800; color: var(--cyan); }
 
-        .widget-area { background: #000; min-height: 800px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; }
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; }
-        .modal-content { background: #020608; max-width: 750px; width: 90%; border-radius: 30px; padding: 40px; border: 1px solid var(--border); position: relative; max-height: 90vh; overflow-y: auto; }
+        .widget-area { background: #000; min-height: 800px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; position: relative; }
         .close { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; object-fit: cover; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px 5%; }
         footer { padding: 40px 5%; text-align: center; opacity: 0.3; border-top: 1px solid var(--border); font-size: 0.7rem;}
     </style>
 </head>
@@ -143,9 +148,9 @@
             </div>
         </div>
 
-        <div id="morocco-page" class="view-page"><div class="news-grid" id="feed-morocco" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding:20px 5%;"></div></div>
-        <div id="global-page" class="view-page"><div class="news-grid" id="feed-global" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding:20px 5%;"></div></div>
-        <div id="esports-page" class="view-page"><div class="news-grid" id="feed-esports" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding:20px 5%;"></div></div>
+        <div id="morocco-page" class="view-page"><div class="news-grid" id="feed-morocco"></div></div>
+        <div id="global-page" class="view-page"><div class="news-grid" id="feed-global"></div></div>
+        <div id="esports-page" class="view-page"><div class="news-grid" id="feed-esports"></div></div>
 
         <!-- CHESS HUB -->
         <div id="chess-page" class="view-page">
@@ -157,17 +162,25 @@
                     <button class="auth-btn" onclick="initChess('white')">Play White</button>
                     <button class="auth-btn" onclick="initChess('black')">Play Black</button>
                 </div>
-                <p id="game-status" style="margin-top:15px; color:var(--text-dim); font-weight:800;">Turn: Agent Move...</p>
+                <p id="game-status" style="margin-top:15px; color:var(--text-dim); font-weight:800;">Turn: Agent move...</p>
             </div>
         </div>
 
+        <!-- WIDGET PAGES -->
         <div id="matches-page" class="view-page"><div class="widget-area" id="live-inject"></div></div>
-        <div id="players-page" class="view-page"><div class="widget-area" id="scout-inject"></div></div>
+        <div id="players-page" class="view-page">
+            <div style="display:grid; grid-template-columns: 350px 1fr; gap:20px; padding:20px 5%;">
+                <div class="widget-area" id="scout-leagues-inject"></div>
+                <div class="widget-area" id="scout-main-inject">
+                    <div style="padding:40px; text-align:center; color:var(--text-dim);">Select League to Initiate Scout Protocol</div>
+                </div>
+            </div>
+        </div>
 
-        <!-- PROFILE -->
+        <!-- PROFILE Dashboard -->
         <div id="profile-page" class="view-page">
-            <div class="profile-card">
-                <h2 style="color:var(--cyan); margin-bottom:20px;">Agent Identity Sync</h2>
+            <div class="profile-dashboard">
+                <h2 style="color:var(--cyan); margin-bottom:25px;">Agent Identity Sync</h2>
                 <input type="text" id="set-name" class="auth-input" placeholder="Update Agent ID">
                 <input type="email" id="set-email" class="auth-input" placeholder="Change Email">
                 <input type="password" id="set-pass" class="auth-input" placeholder="New Password">
@@ -185,10 +198,10 @@
                 <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')">LOGIN</div>
                 <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')">SIGN UP</div>
             </div>
-            <input type="email" id="email" placeholder="Email" class="auth-input">
-            <input type="password" id="pass" placeholder="Password" class="auth-input">
-            <button class="auth-btn" style="width:100%; margin-top:20px;" onclick="handleAuth()">Enter Hub</button>
-            <button class="auth-btn" style="width:100%; margin-top:10px; background:#fff; color:#000;" onclick="loginGoogle()">
+            <input type="email" id="email" placeholder="Agent Email" class="auth-input">
+            <input type="password" id="pass" placeholder="Security Key" class="auth-input">
+            <button class="auth-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="handleAuth()">Enter Hub</button>
+            <button class="auth-btn" style="width:100%; margin-top:10px; background:#fff; color:#000; padding:15px;" onclick="loginGoogle()">
                 <i class="fa-brands fa-google" style="margin-right:8px"></i> Google Login
             </button>
         </div>
@@ -206,9 +219,11 @@
                 <button class="react-btn" onclick="submitReact('fire')">🔥<span class="react-count" id="c-fire">0</span></button>
                 <button class="react-btn" onclick="submitReact('dislike')">👎<span class="react-count" id="c-dislike">0</span></button>
             </div>
-            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; text-align:center; margin-top:20px;">Read Full Intelligence</a>
+            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; text-align:center; margin-top:20px;">Read Full Intel</a>
         </div>
     </div>
+
+    <div style="position:fixed; bottom:20px; right:20px; z-index:9999;"><div class="elfsight-app-32c8aece-3b03-41a8-90cd-aa80ccfa2a2a" data-elfsight-app-lazy></div></div>
 
     <script>
         const firebaseConfig = {
@@ -232,15 +247,17 @@
             
             // WIDGET HARD RE-INJECTION ENGINE
             if(p === 'matches' || p === 'players') {
+                const target = p === 'matches' ? '#live-inject' : '#scout-leagues-inject';
                 const type = p === 'matches' ? 'games' : 'leagues';
-                const target = p === 'matches' ? '#live-inject' : '#scout-inject';
-                $(target).empty().append(`<api-sports-widget data-type="${type}" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18"></api-sports-widget>`);
-                $.getScript('https://widgets.api-sports.io/3.1.0/widgets.js');
+                const dataTarget = p === 'players' ? 'data-target-team="#scout-main-inject" data-target-player="#scout-main-inject"' : '';
+                
+                $(target).empty().append(`<api-sports-widget data-type="${type}" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18" ${dataTarget}></api-sports-widget>`);
+                $.getScript('https://widgets.api-sports.io/3.1.0/widgets.js?t=' + Date.now());
             }
             window.scrollTo(0,0);
         }
 
-        // --- CHESS ENGINE ---
+        // --- CHESS AI ---
         function initChess(side) {
             game.reset();
             board = Chessboard('myBoard', {
@@ -254,7 +271,7 @@
                 pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
             });
             if(side === 'black') window.setTimeout(makeAiMove, 500);
-            document.getElementById('game-status').innerText = "Strategic Session Active.";
+            document.getElementById('game-status').innerText = "Neural System Synchronized.";
         }
         function makeAiMove() {
             let moves = game.moves(); if(moves.length === 0) return;
@@ -321,7 +338,7 @@
                         const n = { id: masterPool.length, title: item.title, desc: item.description.replace(/<[^>]*>?/gm, ''), img: item.thumbnail || item.enclosure?.link, link: item.link, tag: tag.toUpperCase() };
                         if(!masterPool.some(x => x.title === n.title)) {
                             masterPool.push(n);
-                            html += `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`;
+                            html += `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag" style="color:var(--blue-intel)">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`;
                         }
                     });
                     $(`#feed-${tag}`).html(html);
@@ -332,14 +349,18 @@
 
         function renderNewspaper() {
             const pool = [...masterPool].sort(() => 0.5 - Math.random()); if(pool.length < 5) return;
-            $('#center-intel').html(`<span class="intel-tag" style="color:var(--red)">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})"><p>${pool[0].desc.substring(0,250)}...</p>`);
+            $('#center-intel').html(`<span class="intel-tag" style="color:var(--blue-intel)">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})"><p style="color:var(--text-dim)">${pool[0].desc.substring(0,250)}...</p>`);
             $('#wire-left').html(pool.slice(1,10).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join(''));
             $('#wire-right').html(pool.slice(11,18).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
         }
-        function openDetails(id) { const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); $('#m-link').attr('href', n.link); syncReacts(n.title); $('#modal').css('display','flex'); }
+        function openDetails(id) { 
+            const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); 
+            $('#m-link').off('click').on('click', function(e){ e.preventDefault(); window.open(n.link, '_blank'); });
+            syncReacts(n.title); $('#modal').css('display','flex'); 
+        }
 
         auth.onAuthStateChanged((u) => { 
-            if(u) { $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile')">Agent Hub</button>`); $('#set-name').val(u.displayName); $('#set-email').val(u.email); }
+            if(u) { $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile')">Agent Hub</button>`); $('#set-name').val(u.displayName); }
             initNews(); 
         });
     </script>
