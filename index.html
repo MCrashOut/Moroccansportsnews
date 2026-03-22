@@ -51,45 +51,52 @@
 
         .header-right { display: flex; align-items: center; gap: 20px; }
         .search-trigger { color: var(--cyan); cursor: pointer; font-size: 1.1rem; }
-        .auth-btn { background: var(--cyan); color: #000; padding: 8px 20px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+        .auth-btn { background: var(--cyan); color: #000; padding: 8px 20px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; transition: 0.3s; }
 
-        #search-overlay { 
-            position: fixed; top: 60px; left: 0; width: 100%; background: #000; 
-            border-bottom: 1px solid var(--cyan); padding: 15px 5%; z-index: 999;
-            display: none; align-items: center; gap: 15px;
-        }
+        #search-overlay { position: fixed; top: 60px; left: 0; width: 100%; background: #000; border-bottom: 1px solid var(--cyan); padding: 15px 5%; z-index: 999; display: none; align-items: center; gap: 15px; }
         #search-overlay input { flex: 1; background: transparent; border: none; color: #fff; font-size: 1rem; outline: none; }
 
-        .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; }
+        .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 60px; }
         .view-page.active { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* HOME GRID */
+        /* NEWSPAPER GRID (HOME) */
         .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 40px; padding: 20px 5%; }
         @media (max-width: 1100px) { .newspaper-grid { grid-template-columns: 1fr; } }
+        
         .side-wire { border-right: 1px solid var(--border); padding-right: 25px; }
         .wire-item { cursor: pointer; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; transition: 0.3s; }
-        .wire-item:hover h4 { color: var(--cyan); }
         .wire-item h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-dim); line-height: 1.4; }
+        .wire-item:hover h4 { color: var(--cyan); }
+
         .main-feature h1 { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; cursor: pointer; }
-        .main-feature-img { width: 100%; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; cursor: pointer; }
+        .main-feature-img { width: 100%; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; cursor: pointer; object-fit: cover; }
         .intel-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        
         .right-card { cursor: pointer; background: var(--glass); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; }
+        .right-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #fff; font-weight: 700; line-height:1.2; }
 
-        /* PROFILE Dashboard */
-        .profile-container { max-width: 700px; margin: 0 auto; padding: 40px 5%; }
-        .settings-card { background: var(--glass); border: 1px solid var(--border); padding: 35px; border-radius: 30px; text-align: center; }
-        .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 15px; margin: 10px 0; border-radius: 12px; color: #fff; outline: none; }
+        /* REACTION BAR */
+        .reaction-bar { display: flex; gap: 20px; padding: 20px; border-top: 1px solid var(--border); justify-content: center; margin-top: 20px;}
+        .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
+        .react-btn:hover { transform: scale(1.2); }
+        .react-count { font-size: 0.8rem; font-weight: 800; color: var(--cyan); }
 
-        /* AUTH MODAL */
+        /* CHESS */
+        .board-container { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 30px; text-align: center; max-width: 600px; margin: 40px auto; }
+        #myBoard { width: 450px; max-width: 100%; margin: 0 auto; border: 6px solid #222; border-radius: 8px; }
+
+        /* AUTH MODAL CENTRAL */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; }
         .modal-content { background: #020608; max-width: 420px; width: 90%; border-radius: 30px; padding: 40px; border: 1px solid var(--border); position: relative; text-align: center; }
         .auth-tabs-row { display: flex; width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
         .auth-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 800; opacity: 0.4; }
         .auth-tab.active { opacity: 1; color: var(--cyan); border-bottom: 3px solid var(--cyan); }
+        .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 15px; margin: 10px 0; border-radius: 12px; color: #fff; outline: none; text-align: left;}
 
         .widget-area { background: #000; min-height: 800px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; }
         .close { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px 5%; }
         footer { padding: 40px 5%; text-align: center; opacity: 0.3; border-top: 1px solid var(--border); font-size: 0.7rem;}
     </style>
 </head>
@@ -119,56 +126,52 @@
 
     <div id="search-overlay">
         <i class="fa-solid fa-magnifying-glass" style="color:var(--cyan)"></i>
-        <input type="text" id="active-search-input" placeholder="Search Intel..." onkeyup="handleSearch(event)">
+        <input type="text" id="active-search-input" placeholder="Search Intelligence..." onkeyup="handleSearch(event)">
         <i class="fa-solid fa-xmark" onclick="toggleSearch()" style="color:var(--red); cursor:pointer"></i>
     </div>
 
     <div id="content-wrapper">
+        <!-- HOME PAGE -->
         <div id="home-page" class="view-page active">
-            <div id="search-results-area" style="display:none; padding: 0 5% 40px;"><div class="news-grid" id="search-output-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px;"></div></div>
+            <div id="search-results-area" style="display:none; padding: 0 5% 40px;"><div class="news-grid" id="search-output-grid"></div></div>
             <div class="newspaper-grid" id="standard-home-layout">
                 <div class="side-wire" id="wire-left"></div>
-                <div class="main-feature" id="center-intel"></div>
+                <div id="center-intel" class="main-feature"></div>
                 <div class="intel-files" id="wire-right"></div>
             </div>
         </div>
 
-        <div id="morocco-page" class="view-page"><div id="feed-morocco" style="padding:20px 5%; display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px;"></div></div>
-        <div id="global-page" class="view-page"><div id="feed-global" style="padding:20px 5%; display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px;"></div></div>
-        <div id="esports-page" class="view-page"><div id="feed-esports" style="padding:20px 5%; display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px;"></div></div>
+        <div id="morocco-page" class="view-page"><div class="news-grid" id="feed-morocco"></div></div>
+        <div id="global-page" class="view-page"><div class="news-grid" id="feed-global"></div></div>
+        <div id="esports-page" class="view-page"><div class="news-grid" id="feed-esports"></div></div>
 
-        <!-- CHESS -->
+        <!-- CHESS HUB -->
         <div id="chess-page" class="view-page">
-            <div class="chess-grid" style="display:grid; grid-template-columns: 1fr 380px; gap:30px; padding:20px 5%;">
-                <div class="board-container" style="background:var(--glass); padding:30px; border-radius:30px; text-align:center;">
-                    <h2 style="margin-bottom:20px; color:var(--cyan);">Elite Neural AI</h2>
-                    <div id="myBoard" style="width:400px; margin: 0 auto;"></div>
-                    <div style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
-                        <button class="auth-btn" onclick="initChess('white')">Play White</button>
-                        <button class="auth-btn" onclick="initChess('black')">Play Black</button>
-                    </div>
+            <div class="news-grid" id="feed-chess"></div>
+            <div class="board-container">
+                <h2 style="margin-bottom:20px; color:var(--cyan);">Elite Neural AI</h2>
+                <div id="myBoard"></div>
+                <div style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
+                    <button class="auth-btn" onclick="resetChess('white')">Play White</button>
+                    <button class="auth-btn" onclick="resetChess('black')">Play Black</button>
                 </div>
-                <div id="feed-chess" style="background:var(--glass); border-radius:20px; padding:20px; border:1px solid var(--border);"></div>
+                <p id="game-status" style="margin-top:15px; color:var(--text-dim); font-weight:800;">Waiting for Agent...</p>
             </div>
         </div>
 
-        <!-- WIDGETS -->
         <div id="matches-page" class="view-page"><div class="widget-area" id="live-inject"></div></div>
         <div id="players-page" class="view-page"><div class="widget-area" id="scout-inject"></div></div>
 
-        <!-- PROFILE Dashboard -->
+        <!-- PROFILE -->
         <div id="profile-page" class="view-page">
-            <div class="profile-container">
+            <div class="profile-container" style="max-width:500px; margin:0 auto;">
                 <div class="settings-card">
-                    <h2 style="color:var(--cyan); margin-bottom:10px;">Agent Identification</h2>
-                    <p style="font-size:0.7rem; margin-bottom:20px; color:var(--text-dim);">LEVEL SYSTEM: 10,000 XP PER RANK</p>
-                    
-                    <input type="text" id="set-name" class="auth-input" placeholder="Update Agent ID (Display Name)">
-                    <input type="email" id="set-email" class="auth-input" placeholder="Change Email Address">
-                    <input type="password" id="set-pass" class="auth-input" placeholder="New Security Key (Password)">
-                    
-                    <button class="auth-btn" style="width:100%; margin-top:15px; padding:15px;" onclick="updateAgentDetails()">Sync Profile Data</button>
-                    <button class="auth-btn" style="width:100%; margin-top:10px; background:var(--red); color:#fff; padding:15px;" onclick="logout()">Sign Out of Hub</button>
+                    <h2 style="color:var(--cyan); margin-bottom:20px;">Agent Identification</h2>
+                    <input type="text" id="set-name" class="auth-input" placeholder="Change Agent ID">
+                    <input type="email" id="set-email" class="auth-input" placeholder="Change Email">
+                    <input type="password" id="set-pass" class="auth-input" placeholder="New Password">
+                    <button class="auth-btn" style="width:100%; margin-top:15px; padding:15px;" onclick="updateAgentDetails()">Sync Profile</button>
+                    <button class="auth-btn" style="width:100%; margin-top:10px; background:var(--red); color:#fff; padding:15px;" onclick="logout()">Logout</button>
                 </div>
             </div>
         </div>
@@ -184,17 +187,26 @@
             </div>
             <input type="email" id="email" placeholder="Agent Email" class="auth-input">
             <input type="password" id="pass" placeholder="Security Key" class="auth-input">
-            <button class="auth-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="handleAuth()">Access Hub</button>
-            <button class="auth-btn" style="width:100%; margin-top:10px; background:#fff; color:#000; padding:15px;" onclick="loginGoogle()">Google Login</button>
+            <button class="auth-btn" style="width:100%; margin-top:20px;" onclick="handleAuth()">Enter Hub</button>
+            <button class="auth-btn" style="width:100%; margin-top:10px; background:#fff; color:#000;" onclick="loginGoogle()">
+                <i class="fa-brands fa-google" style="margin-right:8px"></i> Google Intelligence Access
+            </button>
         </div>
     </div>
 
+    <!-- ARTICLE MODAL -->
     <div class="modal" id="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width:750px;">
             <span class="close" onclick="$('.modal').hide()">&times;</span>
             <h2 id="m-title" style="color:var(--cyan); margin-bottom:15px;"></h2>
             <p id="m-body" style="color:var(--text-dim); line-height:1.6; text-align:left;"></p>
-            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; text-align:center; margin-top:20px;">Full Story</a>
+            <div class="reaction-bar" id="reaction-ui">
+                <button class="react-btn" onclick="submitReact('like')"><span>👍</span><span class="react-count" id="c-like">0</span></button>
+                <button class="react-btn" onclick="submitReact('heart')"><span>❤️</span><span class="react-count" id="c-heart">0</span></button>
+                <button class="react-btn" onclick="submitReact('fire')"><span>🔥</span><span class="react-count" id="c-fire">0</span></button>
+                <button class="react-btn" onclick="submitReact('dislike')"><span>👎</span><span class="react-count" id="c-dislike">0</span></button>
+            </div>
+            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; text-align:center; margin-top:20px;">Read Full Intel</a>
         </div>
     </div>
 
@@ -208,7 +220,7 @@
             appId: "1:1081971044275:web:3f04c81f88ee26a9d365c6"
         };
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        const auth = firebase.auth(), db = firebase.firestore();
 
         let masterPool = [], authMode = 'login', board = null, game = new Chess();
 
@@ -218,21 +230,17 @@
             $('nav a').removeClass('active');
             $('#nav-'+p).addClass('active');
             
-            // WIDGET AUTO-INIT (NUCLEAR FIX)
             if(p === 'matches' || p === 'players') {
                 const target = p === 'matches' ? '#live-inject' : '#scout-inject';
                 const type = p === 'matches' ? 'games' : 'leagues';
                 $(target).empty().append(`<api-sports-widget data-type="${type}" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18"></api-sports-widget>`);
-                // Force script run
-                const s = document.createElement('script');
-                s.type = 'module'; s.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
-                document.head.appendChild(s);
+                $.getScript('https://widgets.api-sports.io/3.1.0/widgets.js');
             }
             window.scrollTo(0,0);
         }
 
-        // --- CHESS ENGINE ---
-        function initChess(side) {
+        // --- CHESS AI ---
+        function resetChess(side) {
             game.reset();
             board = Chessboard('myBoard', {
                 draggable: true, position: 'start', orientation: side,
@@ -240,31 +248,50 @@
                 onDrop: (src, tar) => {
                     let move = game.move({ from: src, to: tar, promotion: 'q' });
                     if (move === null) return 'snapback';
-                    window.setTimeout(() => {
-                        let moves = game.moves(); if(moves.length > 0) game.move(moves[Math.floor(Math.random() * moves.length)]);
-                        board.position(game.fen());
-                    }, 500);
+                    window.setTimeout(makeAiMove, 500);
                 },
                 pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
             });
-            if(side === 'black') window.setTimeout(() => { let moves = game.moves(); game.move(moves[Math.floor(Math.random() * moves.length)]); board.position(game.fen()); }, 500);
+            if(side === 'black') window.setTimeout(makeAiMove, 500);
+            document.getElementById('game-status').innerText = "Strategic Session Active.";
+        }
+        function makeAiMove() {
+            let moves = game.moves(); if(moves.length === 0) return;
+            game.move(moves[Math.floor(Math.random() * moves.length)]);
+            board.position(game.fen());
+        }
+
+        // --- REACTIONS ENGINE ---
+        async function submitReact(type) {
+            if(!auth.currentUser) return alert("Login Required for Reactions.");
+            const title = document.getElementById('m-title').innerText;
+            const ref = db.collection('reactions').doc(btoa(title).substring(0,30));
+            await db.runTransaction(async (t) => {
+                const doc = await t.get(ref); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
+                if(data.voters[auth.currentUser.uid] === type) { data[type]--; delete data.voters[auth.currentUser.uid]; }
+                else { if(data.voters[auth.currentUser.uid]) data[data.voters[auth.currentUser.uid]]--; data[type]++; data.voters[auth.currentUser.uid] = type; }
+                t.set(ref, data);
+            });
+            syncReacts(title);
+        }
+        async function syncReacts(title) {
+            const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get();
+            const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0};
+            ['like','heart','fire','dislike'].forEach(t => { $(`#c-${t}`).text(data[t] || 0); });
         }
 
         // --- PROFILE CONTROL ---
         async function updateAgentDetails() {
             const user = auth.currentUser;
-            const newName = $('#set-name').val();
-            const newEmail = $('#set-email').val();
-            const newPass = $('#set-pass').val();
             try {
-                if(newName) await user.updateProfile({displayName: newName});
-                if(newEmail) await user.updateEmail(newEmail);
-                if(newPass) await user.updatePassword(newPass);
-                alert("Agent Intelligence Synchronized Successfully.");
-            } catch(e) { alert("Requires recent login for security: " + e.message); }
+                if($('#set-name').val()) await user.updateProfile({displayName: $('#set-name').val()});
+                if($('#set-email').val()) await user.updateEmail($('#set-email').val());
+                if($('#set-pass').val()) await user.updatePassword($('#set-pass').val());
+                alert("Agent Intelligence Synchronized.");
+            } catch(e) { alert("Requires recent login: " + e.message); }
         }
 
-        // --- AUTH ---
+        // --- AUTH & SEARCH ---
         function openAuth() { $('#auth-modal').css('display','flex'); }
         function setAuthMode(m) { authMode = m; $('.auth-tab').removeClass('active'); $('#tab-'+m).addClass('active'); }
         async function handleAuth() {
@@ -274,13 +301,12 @@
         function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
         function logout() { auth.signOut().then(() => location.reload()); }
 
-        // --- SEARCH ---
         function toggleSearch() { $('#search-overlay').toggle(); if($('#search-overlay').is(':visible')) $('#active-search-input').focus(); }
         function handleSearch(e) {
             const q = e.target.value.toLowerCase();
             if(q.length > 1) {
                 switchPage('home'); $('#search-results-area').show(); $('#standard-home-layout').hide();
-                $('#search-output-grid').html(masterPool.filter(n => n.title.toLowerCase().includes(q)).map(n => `<div class="right-card" onclick="openDetails(${n.id})" style="background:var(--glass); padding:20px; border-radius:15px; border:1px solid var(--border);"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
+                $('#search-output-grid').html(masterPool.filter(n => n.title.toLowerCase().includes(q)).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
             } else { $('#search-results-area').hide(); $('#standard-home-layout').show(); }
         }
 
@@ -293,8 +319,11 @@
                     const data = await res.json();
                     let html = "";
                     data.items.forEach(item => {
-                        const n = { id: masterPool.length, title: item.title, desc: item.description, img: item.thumbnail || item.enclosure?.link, link: item.link, tag: tag.toUpperCase() };
-                        if(!masterPool.some(x => x.title === n.title)) { masterPool.push(n); html += `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`; }
+                        const n = { id: masterPool.length, title: item.title, desc: item.description.replace(/<[^>]*>?/gm, ''), img: item.thumbnail || item.enclosure?.link, link: item.link, tag: tag.toUpperCase() };
+                        if(!masterPool.some(x => x.title === n.title)) {
+                            masterPool.push(n);
+                            html += `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`;
+                        }
                     });
                     $(`#feed-${tag}`).html(html);
                 } catch(e) {}
@@ -304,11 +333,12 @@
 
         function renderNewspaper() {
             const pool = [...masterPool].sort(() => 0.5 - Math.random()); if(pool.length < 5) return;
-            $('#center-intel').html(`<span class="intel-tag">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})">`);
+            $('#center-intel').html(`<span class="intel-tag" style="color:var(--red)">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})">`);
             $('#wire-left').html(pool.slice(1,10).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join(''));
             $('#wire-right').html(pool.slice(11,18).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
         }
-        function openDetails(id) { const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); $('#modal').css('display','flex'); }
+        function openDetails(id) { const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); syncReacts(n.title); $('#modal').css('display','flex'); }
+        function closeM() { $('.modal').hide(); }
 
         auth.onAuthStateChanged((u) => { 
             if(u) {
