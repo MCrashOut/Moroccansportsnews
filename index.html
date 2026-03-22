@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="strict-origin-when-cross-origin"/>
-    
-    <!-- SEO & GOOGLE -->
-    <meta name="google-site-verification" content="642c4bd2953b31ef" />
     <title>MoroccanSportsHub | Elite Intelligence 2026</title>
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true">
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
@@ -17,7 +16,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     
-    <!-- API-SPORTS & ELFSIGHT -->
+    <!-- API SPORTS -->
     <script type="module" src="https://widgets.api-sports.io/3.1.0/widgets.js"></script>
     <script src="https://elfsightcdn.com/platform.js" async></script>
 
@@ -43,120 +42,106 @@
             padding: 0.8rem 5%; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border);
         }
-        .logo { font-size: 1.1rem; font-weight: 800; cursor: pointer; flex-shrink: 0;}
+
+        .logo { font-size: 1.2rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; letter-spacing: -1px; }
+        .logo img { width: 28px; height: 28px; border-radius: 4px; margin-right: 8px; border: 1px solid var(--cyan); }
         .logo span { color: var(--cyan); }
         
         nav ul { display: flex; list-style: none; gap: 15px; align-items: center; }
         nav a { color: var(--text); text-decoration: none; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; cursor: pointer;}
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
-        /* --- HEADER SEARCH UI --- */
-        .nav-search-container { display: none; align-items: center; gap: 10px; margin-left: 10px; transition: 0.3s; }
-        .nav-search-input { background: #000; border: 1px solid var(--cyan); border-radius: 8px; padding: 5px 12px; color: #fff; font-size: 0.75rem; outline: none; width: 180px; }
-        .nav-search-input:focus { box-shadow: 0 0 10px rgba(0,242,254,0.3); }
-
         .header-right { display: flex; align-items: center; gap: 15px; }
-        .auth-btn { background: var(--cyan); color: #000; padding: 6px 15px; border-radius: 20px; font-size: 0.6rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
-        .user-avatar { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; background: #111; object-fit: cover; }
+        .auth-btn { background: var(--cyan); color: #000; padding: 7px 18px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
 
-        .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.65rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 60px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+        #search-overlay { position: fixed; top: 60px; left: 0; width: 100%; background: #000; border-bottom: 1px solid var(--cyan); padding: 15px 5%; z-index: 999; display: none; align-items: center; gap: 15px; }
+        #search-overlay input { flex: 1; background: transparent; border: none; color: #fff; font-size: 1rem; outline: none; }
 
-        .view-page { display: none; animation: fadeIn 0.4s ease; padding-top: 10px; flex: 1; }
+        .ticker { background: rgba(0, 242, 254, 0.1); padding: 10px; text-align: center; font-size: 0.6rem; color: var(--cyan); border-bottom: 1px solid var(--border); margin-top: 60px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+
+        .view-page { display: none; padding-top: 10px; flex: 1; }
         .view-page.active { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- NEWSPAPER LAYOUT --- */
-        .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 30px; padding: 20px 5%; margin-top: 20px; }
+        .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 40px; padding: 20px 5%; }
         @media (max-width: 1100px) { .newspaper-grid { grid-template-columns: 1fr; } }
-        .side-wire { display: flex; flex-direction: column; gap: 20px; border-right: 1px solid var(--border); padding-right: 20px; }
+
+        .side-wire { display: flex; flex-direction: column; gap: 15px; border-right: 1px solid var(--border); padding-right: 25px; }
         .wire-item { cursor: pointer; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .wire-item h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-dim); line-height: 1.3; }
+        .wire-item h4 { font-size: 0.8rem; font-weight: 400; color: var(--text-dim); line-height: 1.4; }
 
-        .main-feature-img { width: 100%; height: 420px; object-fit: cover; border-radius: 15px; margin: 20px 0; border: 1px solid var(--border); }
-        .intel-files { display: flex; flex-direction: column; gap: 25px; border-left: 1px solid var(--border); padding-left: 20px; }
-        
-        /* CARD STYLES */
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 20px 5%; }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%; min-height: 280px; }
-        .card:hover { transform: translateY(-5px); border-color: var(--cyan); }
-        .card-img { width: 100%; height: 140px; object-fit: cover; background: #111; }
-        .card-body { padding: 15px; flex: 1; }
-        .card-body h3 { font-size: 0.85rem; line-height: 1.3; font-weight: 700; color: #fff; }
+        .main-feature { text-align: left; }
+        .master-label { color: var(--red); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; display: block; }
+        .main-feature h1 { font-size: 2.4rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; color: #fff; }
+        .main-feature-img { width: 100%; max-height: 480px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; }
 
-        .card.text-only { background: transparent; border: none; border-bottom: 1px solid var(--border); border-radius: 0; min-height: auto; padding: 15px 0; }
-        .card.text-only .card-body { padding: 5px 0; }
-        .card.text-only .badge { background: none !important; color: var(--blue-intel) !important; padding: 0 !important; font-size: 0.7rem !important; letter-spacing: 1px; margin-bottom: 8px; font-weight: 800; display: block; text-transform: uppercase; }
-        .card.text-only h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; line-height: 1.2; color: #fff; }
+        .intel-files { display: flex; flex-direction: column; gap: 25px; }
+        .right-card { cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .blue-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .right-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #fff; line-height: 1.2; font-weight: 700; }
 
-        /* WIDGETS */
-        .widget-area { background: #000 !important; border: 1px solid var(--border); border-radius: 20px; padding: 10px; min-height: 650px; overflow: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        .hub-split { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
-        .selector-bar { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
-        .sel-btn { background: var(--glass); border: 1px solid var(--border); color: white; padding: 10px 18px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
-        .sel-btn.active { background: var(--cyan); color: black; font-weight: 800; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; padding: 40px 5%; }
+        .widget-area { background: #000; border: 1px solid var(--border); border-radius: 15px; padding: 15px; min-height: 700px; }
 
-        /* SETTINGS */
-        .settings-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 600px; margin: 0 auto; text-align: center; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 0.65rem; color: var(--cyan); text-transform: uppercase; font-weight: 800; margin-bottom: 5px; }
-        .input-group input { width: 100%; background: #000 !important; border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: #fff !important; outline: none; }
-
-        /* QUIZ */
-        .quiz-container { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 40px 5%; margin-top: auto; }
-        .quiz-box { max-width: 900px; margin: 0 auto; text-align: center; }
-        .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .opt-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; }
-        .opt-btn:hover { background: var(--cyan); color: #000; font-weight: 800; }
-
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; padding: 20px; backdrop-filter: blur(20px); }
-        .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 30px; padding: 40px; position: relative; border: 1px solid var(--border); }
-        .close { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
-        
+        /* REACTION SYSTEM */
         .reaction-bar { display: flex; gap: 15px; padding: 15px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.02); justify-content: center; margin-top: 20px;}
         .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
         .react-count { font-size: 0.75rem; font-weight: 800; color: var(--cyan); }
 
-        footer { padding: 30px 5%; text-align: center; opacity: 0.3; font-size: 0.65rem; border-top: 1px solid var(--border); }
+        /* QUIZ SYSTEM */
+        .quiz-sec { background: rgba(2, 6, 8, 0.98); border-top: 2px solid var(--cyan); padding: 50px 5%; margin-top: 50px; text-align: center;}
+        .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 600px; margin: 20px auto; }
+        .opt-btn { background: var(--glass); border: 1px solid var(--border); color: #fff; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.9rem; }
+        .opt-btn:hover { background: var(--cyan); color: #000; font-weight: 800; }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; backdrop-filter: blur(20px); }
+        .modal-content { background: #020608; max-width: 700px; width: 100%; border-radius: 25px; padding: 35px; border: 1px solid var(--border); position: relative; }
+        .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+        .auth-tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-size: 0.7rem; font-weight: 800; opacity: 0.4; }
+        .auth-tab.active { opacity: 1; color: var(--cyan); border-bottom: 2px solid var(--cyan); }
+        .auth-input { width: 100%; background: #111; border: 1px solid var(--border); padding: 12px; margin-top: 10px; border-radius: 8px; color: #fff; outline: none; }
+
+        .close { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: var(--cyan); }
+        .user-avatar { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; object-fit: cover; }
+        footer { padding: 30px 5%; text-align: center; opacity: 0.3; font-size: 0.6rem; border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
 
-    <!-- API CONFIG -->
-    <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal" data-target-league="#scout-output" data-target-team="#scout-output" data-target-player="#scout-output"></api-sports-widget>
+    <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark"></api-sports-widget>
 
     <header>
-        <div class="logo" onclick="switchPage('home')">Moroccan<span>SportsHub</span></div>
+        <div class="logo" onclick="switchPage('home')">
+            <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="H">
+            Moroccan<span>SportsHub</span>
+        </div>
         <nav>
             <ul>
-                <li style="display:flex; align-items:center;">
-                    <a onclick="switchPage('home')" id="nav-home" class="active">Home</a>
-                    <i class="fa-solid fa-magnifying-glass" id="search-icon" onclick="toggleSearch()" style="color:var(--cyan); margin-left:10px; cursor:pointer; font-size:0.8rem;"></i>
-                    <div class="nav-search-container" id="nav-search-box">
-                        <input type="text" id="global-search" class="nav-search-input" placeholder="Search Intelligence..." onkeyup="handleSearch(event)">
-                    </div>
-                </li>
+                <li><a onclick="switchPage('home')" id="nav-home" class="active">Home</a></li>
                 <li><a onclick="switchPage('morocco')" id="nav-morocco">Moroccan</a></li>
                 <li><a onclick="switchPage('global')" id="nav-global">Global</a></li>
                 <li><a onclick="switchPage('esports')" id="nav-esports">Esports</a></li>
                 <li><a onclick="switchPage('matches')" id="nav-matches">Matches</a></li>
-                <li><a onclick="switchPage('standings')" id="nav-standings">Standing</a></li>
                 <li><a onclick="switchPage('players')" id="nav-players">Scout</a></li>
             </ul>
         </nav>
         <div class="header-right" id="auth-ui">
+            <i class="fa-solid fa-magnifying-glass" onclick="toggleSearch()" style="color:var(--cyan); cursor:pointer;"></i>
             <button class="auth-btn" onclick="openAuth()">Access Hub</button>
         </div>
     </header>
 
-    <div class="ticker">MARCH 22, 2026: NEURAL SEARCH ACTIVE | REAL-TIME MATCH UPDATES | REACTION ENGINE LOADED</div>
+    <div id="search-overlay">
+        <input type="text" id="active-search-input" placeholder="Scanning 2026 intelligence database..." onkeyup="handleSearch(event)">
+        <i class="fa-solid fa-xmark" onclick="toggleSearch()" style="color:var(--red); cursor:pointer;"></i>
+    </div>
+
+    <div class="ticker">ELITE INTELLIGENCE ONLINE | REACTION ENGINE LIVE | SEARCH LOGIC ENGAGED</div>
 
     <div id="content-wrapper">
-        <!-- HOME PAGE -->
         <div id="home-page" class="view-page active">
             <div id="search-results-area" style="display:none; padding: 0 5% 40px;">
                 <div class="news-grid" id="search-output-grid"></div>
             </div>
-
             <div class="newspaper-grid" id="standard-home-layout">
                 <div class="side-wire" id="wire-left"></div>
                 <div class="main-feature" id="center-intel"></div>
@@ -164,87 +149,54 @@
             </div>
         </div>
         
-        <div id="morocco-page" class="view-page"><section><div class="news-grid" id="feed-morocco"></div></section></div>
-        <div id="global-page" class="view-page"><section><div class="news-grid" id="feed-global"></div></section></div>
-        <div id="esports-page" class="view-page"><section><div class="news-grid" id="feed-esports"></div></section></div>
+        <div id="morocco-page" class="view-page"><div class="news-grid" id="feed-morocco"></div></div>
+        <div id="global-page" class="view-page"><div class="news-grid" id="feed-global"></div></div>
+        <div id="esports-page" class="view-page"><div class="news-grid" id="feed-esports"></div></div>
+        <div id="matches-page" class="view-page"><div class="widget-area" id="live-inject"></div></div>
+        <div id="players-page" class="view-page"><div class="widget-area" id="scout-inject"></div></div>
 
-        <!-- SETTINGS -->
-        <div id="profile-page" class="view-page">
-            <section>
-                <div class="settings-card">
-                    <img id="u-img" src="" style="width:80px; border-radius:50%; border:3px solid var(--cyan); margin-bottom:20px; display:none; margin:0 auto;">
-                    <div class="input-group"><label>Agent ID</label><input type="text" id="set-name" class="auth-input"></div>
-                    <div class="input-group"><label>Email</label><input type="email" id="set-email" class="auth-input"></div>
-                    <div class="input-group"><label>New Password</label><input type="password" id="set-pass" placeholder="Update hub security..." class="auth-input"></div>
-                    <button class="auth-btn" style="width:100%; padding:15px;" onclick="updateProfile()">Update Profile</button>
-                    <button class="auth-btn" style="background:var(--red); color:#fff; width:100%; margin-top:10px;" onclick="logout()">Logout</button>
-                </div>
-            </section>
-        </div>
-
-        <div id="matches-page" class="view-page"><section><div class="widget-area" id="live-inject"></div></section></div>
-        <div id="standings-page" class="view-page">
-            <section>
-                <div class="selector-bar" id="stand-sel">
-                    <button class="sel-btn active" onclick="loadTable('39')">Premier League</button>
-                    <button class="sel-btn" onclick="loadTable('140')">La Liga</button>
-                    <button class="sel-btn" onclick="loadTable('2')">UCL</button>
-                    <button class="sel-btn" onclick="loadTable('78')">Bundesliga</button>
-                </div>
-                <div class="widget-area" id="stand-inject"></div>
-            </section>
-        </div>
-        <div id="players-page" class="view-page">
-            <section>
-                <div class="hub-split">
-                    <div class="widget-area"><api-sports-widget data-type="leagues"></api-sports-widget></div>
-                    <div class="widget-area" id="scout-output"><div style="padding:20px; color:var(--text-dim);">Recursive Search: League > Team > Player</div></div>
-                </div>
-            </section>
-        </div>
-
-        <section id="quiz-sec">
-            <div class="quiz-box">
-                <div style="color:var(--cyan); font-weight:800; margin-bottom:15px; font-size: 0.7rem; text-transform:uppercase; letter-spacing:2px;">Challenge Mode: 10 Questions</div>
-                <h2 id="q-text" style="font-size: 1.5rem;">Login to save progression...</h2>
-                <div class="opt-grid" id="q-options"></div>
-                <div id="q-score" style="margin-top: 30px; font-weight: 800; color: var(--cyan); font-size: 1.8rem;"></div>
-            </div>
+        <!-- QUIZ -->
+        <section class="quiz-sec">
+            <h2 id="q-text" style="font-size: 1.8rem; margin-bottom: 20px;">Take the Hub Challenge</h2>
+            <div class="opt-grid" id="q-options"></div>
+            <div id="q-score" style="margin-top:20px; font-weight:800; color:var(--cyan);"></div>
         </section>
     </div>
 
-    <div style="position:fixed; bottom:20px; right:20px; z-index:9999;"><div class="elfsight-app-32c8aece-3b03-41a8-90cd-aa80ccfa2a2a" data-elfsight-app-lazy></div></div>
-
-    <!-- MODALS -->
+    <!-- AUTH MODAL -->
     <div id="auth-modal" class="modal">
-        <div class="modal-content" style="max-width:400px; text-align:center;">
+        <div class="modal-content">
             <span class="close" onclick="document.getElementById('auth-modal').style.display='none'">&times;</span>
             <div class="auth-tabs">
-                <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')" style="flex:1; padding:10px; cursor:pointer; font-weight:800;">LOGIN</div>
-                <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')" style="flex:1; padding:10px; cursor:pointer; font-weight:800;">SIGN UP</div>
+                <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')">LOGIN</div>
+                <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')">SIGN UP</div>
             </div>
             <input type="email" id="email" placeholder="Email" class="auth-input">
             <input type="password" id="pass" placeholder="Password" class="auth-input">
-            <button class="auth-btn" style="width:100%; padding:15px;" id="auth-submit" onclick="handleAuth()">Enter Hub</button>
-            <div style="margin:15px; font-size:0.7rem; opacity:0.4;">OR</div>
-            <button class="auth-btn" style="width:100%; padding:15px; background:#fff; color:#000;" onclick="loginGoogle()">Google Login</button>
+            <button class="auth-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="handleAuth()">Enter Hub</button>
+            <button class="auth-btn" style="width:100%; padding:15px; background:#fff; color:#000; margin-top:10px;" onclick="loginGoogle()">Google Login</button>
         </div>
     </div>
 
+    <!-- ARTICLE MODAL -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <span class="close" onclick="closeM()">&times;</span>
-            <h2 id="m-title" style="margin-bottom:20px; color:var(--cyan);"></h2>
-            <p id="m-body" style="color:var(--text-dim); line-height:1.6; margin-bottom: 20px;"></p>
+            <h2 id="m-title" style="color:var(--cyan); margin-bottom:15px;"></h2>
+            <p id="m-body" style="color:var(--text-dim); line-height:1.6;"></p>
             <div class="reaction-bar" id="reaction-ui">
                 <button class="react-btn" onclick="submitReact('like')"><span>👍</span><span class="react-count" id="c-like">0</span></button>
                 <button class="react-btn" onclick="submitReact('heart')"><span>❤️</span><span class="react-count" id="c-heart">0</span></button>
                 <button class="react-btn" onclick="submitReact('fire')"><span>🔥</span><span class="react-count" id="c-fire">0</span></button>
-                <button class="react-btn" id="react-dislike" onclick="submitReact('dislike')"><span>👎</span><span class="react-count" id="c-dislike">0</span></button>
+                <button class="react-btn" onclick="submitReact('dislike')"><span>👎</span><span class="react-count" id="c-dislike">0</span></button>
             </div>
-            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; text-align:center; text-decoration:none;">Read Full Intel</a>
+            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; text-align:center; margin-top:20px; text-decoration:none;">Full Intel</a>
         </div>
     </div>
+
+    <div style="position:fixed; bottom:20px; right:20px; z-index:9999;"><div class="elfsight-app-32c8aece-3b03-41a8-90cd-aa80ccfa2a2a" data-elfsight-app-lazy></div></div>
+
+    <footer><p>&copy; 2026 MoroccanSportsHub | Intelligence Feed</p></footer>
 
     <script>
         const firebaseConfig = {
@@ -258,17 +210,23 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(), db = firebase.firestore();
 
-        // 2026 Cache
-        const cache2026 = [
-            { id: 0, tag: "MOROCCO", title: "Coach Mohamed Ouahbi confirms Brazil Friendly list", desc: "The new Lions coach integrates 4 U23 stars into the senior squad.", img: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=500", link: "#" },
-            { id: 1, tag: "GLOBAL", title: "Real Madrid vs Man City: Tonight Bernabéu", desc: "Mbappé and Vinícius set to start against Haaland's City.", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500", link: "#" }
-        ];
+        let masterPool = [], authMode = 'login', curQ = [], qI = 0, score = 0;
 
-        let masterPool = [...cache2026], authMode = 'login', curQ = [], qI = 0, score = 0;
+        function switchPage(p) {
+            document.querySelectorAll('.view-page').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            document.getElementById(p + '-page').classList.add('active');
+            if(document.getElementById('nav-' + p)) document.getElementById('nav-' + p).classList.add('active');
+            
+            if(p === 'matches') document.getElementById('live-inject').innerHTML = `<api-sports-widget data-type="games" data-sport="football" data-refresh="30" data-theme="dark"></api-sports-widget>`;
+            if(p === 'players') document.getElementById('scout-inject').innerHTML = `<api-sports-widget data-type="leagues"></api-sports-widget>`;
+            
+            window.scrollTo(0,0);
+        }
 
         function toggleSearch() {
-            const box = document.getElementById('nav-search-box');
-            box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
+            const overlay = document.getElementById('search-overlay');
+            overlay.style.display = (overlay.style.display === 'flex') ? 'none' : 'flex';
         }
 
         function handleSearch(e) {
@@ -276,26 +234,26 @@
             const resultsArea = document.getElementById('search-results-area');
             const standardArea = document.getElementById('standard-home-layout');
             if(query.length > 1) {
-                resultsArea.style.display = 'block'; standardArea.style.display = 'none';
-                const filtered = masterPool.filter(n => n.title.toLowerCase().includes(query) || n.desc.toLowerCase().includes(query));
-                document.getElementById('search-output-grid').innerHTML = filtered.map(n => createStandardCard(n, n.tag)).join('');
+                // FIXED: Now works on all pages by switching to home results view
+                switchPage('home'); 
+                resultsArea.style.display = 'block'; 
+                standardArea.style.display = 'none';
+                const filtered = masterPool.filter(n => n.title.toLowerCase().includes(query));
+                document.getElementById('search-output-grid').innerHTML = filtered.map(n => `
+                    <div class="right-card" onclick="openDetails(${n.id})" style="background:var(--glass); padding:20px; border-radius:15px; border:1px solid var(--border);">
+                        <span class="blue-tag">${n.tag}</span>
+                        <h3>${n.title}</h3>
+                    </div>`).join('');
             } else { resultsArea.style.display = 'none'; standardArea.style.display = 'grid'; }
         }
 
-        function switchPage(p) {
-            document.querySelectorAll('.view-page').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-            const target = document.getElementById(p + '-page');
-            if(target) target.classList.add('active');
-            const navLink = document.getElementById('nav-' + p);
-            if(navLink) navLink.classList.add('active');
-            if(p === 'matches') document.getElementById('live-inject').innerHTML = `<api-sports-widget data-type="games" data-sport="football" data-refresh="30" data-theme="dark"></api-sports-widget>`;
-            if(p === 'standings') loadStand('39');
-            window.scrollTo(0,0);
+        function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
+        function setAuthMode(m) {
+            authMode = m;
+            document.getElementById('tab-login').classList.toggle('active', m==='login');
+            document.getElementById('tab-signup').classList.toggle('active', m==='signup');
         }
 
-        function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
-        function setAuthMode(m) { authMode = m; document.getElementById('tab-login').classList.toggle('active', m==='login'); document.getElementById('tab-signup').classList.toggle('active', m==='signup'); }
         async function handleAuth() {
             const e = document.getElementById('email').value, p = document.getElementById('pass').value;
             try { if(authMode === 'signup') await auth.createUserWithEmailAndPassword(e, p); else await auth.signInWithEmailAndPassword(e, p); location.reload(); } catch(err) { alert(err.message); }
@@ -303,62 +261,74 @@
         function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
         function logout() { auth.signOut().then(() => location.reload()); }
 
-        auth.onAuthStateChanged(async (user) => {
-            if(user) {
-                const name = user.displayName || user.email.split('@')[0];
-                document.getElementById('auth-ui').innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/35'}" class="user-avatar" onclick="switchPage('profile')">`;
-                document.getElementById('set-name').value = name; document.getElementById('set-email').value = user.email;
-                if(user.photoURL) { document.getElementById('u-img').src = user.photoURL; document.getElementById('u-img').style.display='block'; }
-            }
+        auth.onAuthStateChanged((user) => {
+            if(user) document.getElementById('auth-ui').innerHTML = `<i class="fa-solid fa-magnifying-glass" onclick="toggleSearch()" style="color:var(--cyan); cursor:pointer; margin-right:15px;"></i><img src="${user.photoURL || 'https://via.placeholder.com/35'}" class="user-avatar" onclick="switchPage('profile')">`;
             initNews();
         });
 
         async function initNews() {
             const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
-            const feeds = { morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed"], global: ["https://feeds.reuters.com/reuters/sportsNews", "https://feeds.bbci.co.uk/sport/football/rss.xml"], esports: ["https://www.talkesport.com/feed/"] };
+            const feeds = { 
+                morocco: ["https://sport.le360.ma/rss.xml", "https://www.hesspress.com/sport/feed"], 
+                global: ["https://feeds.bbci.co.uk/sport/football/rss.xml"], 
+                esports: ["https://www.talkesport.com/feed/"] 
+            };
             for(let [tag, urls] of Object.entries(feeds)) {
+                let catHtml = "";
                 for(let url of urls) {
                     try {
-                        const res = await fetch(BRIDGE + encodeURIComponent(url) + "&t=" + Date.now());
+                        const res = await fetch(BRIDGE + encodeURIComponent(url));
                         const data = await res.json();
-                        if(data.items) data.items.forEach(item => {
+                        data.items.forEach(item => {
                             const n = { id: masterPool.length, title: item.title, desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 180), img: item.thumbnail || item.enclosure?.link, link: item.link, tag: tag.toUpperCase() };
-                            if(!masterPool.some(x => x.title === n.title)) masterPool.push(n);
+                            if(!masterPool.some(x => x.title === n.title)) {
+                                masterPool.push(n);
+                                catHtml += `<div class="right-card" onclick="openDetails(${n.id})" style="background:var(--glass); padding:20px; border-radius:15px; border:1px solid var(--border);"><span class="blue-tag">${n.tag}</span><h3>${n.title}</h3></div>`;
+                            }
                         });
                     } catch(e) {}
                 }
                 const el = document.getElementById(`feed-${tag}`);
-                if(el) el.innerHTML = masterPool.filter(x => x.tag === tag.toUpperCase()).map(n => createStandardCard(n, tag.toUpperCase())).join('');
+                if(el) el.innerHTML = catHtml;
             }
             renderNewspaper(); startQuiz();
         }
 
         function renderNewspaper() {
             const pool = [...masterPool].sort(() => 0.5 - Math.random());
-            if(pool.length < 5) return;
-            document.getElementById('center-intel').innerHTML = `<div onclick="openDetails(${pool[0].id})"><span class="intel-tag" style="color:var(--red)">Master Intel</span><h1>${pool[0].title}</h1><img src="${pool[0].img || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800'}" class="main-feature-img"><p>${pool[0].desc}...</p></div>`;
-            document.getElementById('wire-left').innerHTML = pool.slice(1, 10).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join('');
-            document.getElementById('wire-right').innerHTML = pool.slice(10, 18).map(n => `<div class="intel-card" onclick="openDetails(${n.id})"><span class="intel-tag" style="color:var(--blue-intel)">${n.tag}</span><h3>${n.title}</h3></div>`).join('');
-        }
-
-        function createStandardCard(n, tag) {
-            if(!n.img) return `<div class="card text-only" onclick="openDetails(${n.id})"><div class="card-body"><span class="badge" style="color:var(--blue-intel)">${tag}</span><h3>${n.title}</h3></div></div>`;
-            return `<div class="card" onclick="openDetails(${n.id})"><img src="${n.img}" class="card-img" onerror="this.parentElement.classList.add('text-only'); this.remove();"><div class="card-body"><h3>${n.title}</h3></div></div>`;
+            if(pool.length < 15) return;
+            document.getElementById('wire-left').innerHTML = pool.slice(1, 12).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join('');
+            document.getElementById('center-intel').innerHTML = `
+                <div onclick="openDetails(${pool[0].id})">
+                    <span class="master-label">Master Intel</span>
+                    <h1>${pool[0].title}</h1>
+                    <img src="${pool[0].img || ''}" class="main-feature-img">
+                    <p style="color:var(--text-dim);">${pool[0].desc}...</p>
+                </div>`;
+            document.getElementById('wire-right').innerHTML = pool.slice(12, 19).map(n => `
+                <div class="right-card" onclick="openDetails(${n.id})">
+                    <span class="blue-tag">${n.tag}</span>
+                    <h3>${n.title}</h3>
+                </div>`).join('');
         }
 
         function openDetails(id) {
-            const n = masterPool[id]; document.getElementById('m-title').innerText = n.title; document.getElementById('m-body').innerText = n.desc + "..."; document.getElementById('m-link').href = n.link; syncReacts(n.title); document.getElementById('modal').style.display = 'flex';
+            const n = masterPool[id];
+            document.getElementById('m-title').innerText = n.title;
+            document.getElementById('m-body').innerText = n.desc;
+            document.getElementById('m-link').href = n.link;
+            syncReacts(n.title);
+            document.getElementById('modal').style.display = 'flex';
         }
 
         async function submitReact(type) {
-            if(!auth.currentUser) return alert("Login required.");
+            if(!auth.currentUser) return alert("Access Hub Required.");
             const title = document.getElementById('m-title').innerText;
             const ref = db.collection('reactions').doc(btoa(title).substring(0,30));
-            const uid = auth.currentUser.uid;
             await db.runTransaction(async (t) => {
                 const doc = await t.get(ref); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
-                if(data.voters[uid] === type) { data[type]--; delete data.voters[uid]; }
-                else { if(data.voters[uid]) data[data.voters[uid]]--; data[type]++; data.voters[uid] = type; }
+                if(data.voters[auth.currentUser.uid] === type) { data[type]--; delete data.voters[auth.currentUser.uid]; }
+                else { if(data.voters[auth.currentUser.uid]) data[data.voters[auth.currentUser.uid]]--; data[type]++; data.voters[auth.currentUser.uid] = type; }
                 t.set(ref, data);
             });
             syncReacts(title);
@@ -370,26 +340,17 @@
             ['like','heart','fire','dislike'].forEach(t => document.getElementById(`c-${t}`).innerText = data[t] || 0);
         }
 
-        async function updateProfile() {
-            try { await auth.currentUser.updateProfile({ displayName: document.getElementById('set-name').value }); if(document.getElementById('set-email').value !== auth.currentUser.email) await auth.currentUser.updateEmail(document.getElementById('set-email').value); if(document.getElementById('set-pass').value) await auth.currentUser.updatePassword(document.getElementById('set-pass').value); alert("Credentials Updated."); } catch(e) { alert("Action requires recent login."); }
-        }
-
-        function loadStand(id) {
-            document.getElementById('stand-inject').innerHTML = `<api-sports-widget data-type="standings" data-league="${id}" data-season="2025" data-theme="dark"></api-sports-widget>`;
-        }
-
-        // --- 100 QUESTION POOL (Sample of 10 for logic) ---
         const quizBank = [
             { q: "Who is the coach of the Atlas Lions in March 2026?", a: ["Mohamed Ouahbi", "Regragui", "Renard", "Sektioui"], c: 0 },
-            { q: "Who is Real Madrid playing in the UCL Quarter Finals tonight?", a: ["Man City", "Bayern", "Barca", "PSG"], c: 0 },
-            { q: "Who won LoL Worlds 2023?", a: ["T1", "JDG", "GenG", "WBG"], c: 0 },
-            { q: "Marwan Rahiki professional in?", a: ["UFC", "NBA", "F1", "LoL"], c: 0 },
-            { q: "Where is the 2026 World Cup Final held?", a: ["New Jersey (MetLife)", "Mexico City", "LA", "Dallas"], c: 0 },
-            { q: "How many Ballon d'Or titles does Messi have in 2026?", a: ["8", "7", "9", "5"], c: 0 },
             { q: "Which team is nicknamed 'The Green Eagles'?", a: ["Raja CA", "WAC", "MAS", "FUS"], c: 0 },
-            { q: "Most Moroccan goals in World Cup history?", a: ["En-Nesyri", "Bassir", "Faras", "Khairi"], c: 0 },
+            { q: "Where is the 2026 World Cup Final held?", a: ["New Jersey", "Mexico City", "LA", "Dallas"], c: 0 },
             { q: "Which Valorant agent is from Morocco?", a: ["Cypher", "Phoenix", "Yoru", "Sova"], c: 0 },
-            { q: "Which team is called 'The Oranges'?", a: ["RSB Berkane", "Raja", "MAS", "KACM"], c: 0 }
+            { q: "Who is the 'Demon King' in Esports?", a: ["Faker", "Chovy", "Showmaker", "Caps"], c: 0 },
+            { q: "Most Ballon d'Or titles in history?", a: ["Messi", "Ronaldo", "Pelé", "Mbappé"], c: 0 },
+            { q: "Marwan Rahiki professional in?", a: ["UFC", "NBA", "F1", "LoL"], c: 0 },
+            { q: "Which driver is at Ferrari in 2026?", a: ["Lewis Hamilton", "Max Verstappen", "Leclerc", "Norris"], c: 2 },
+            { q: "Which team is called 'The Oranges'?", a: ["RSB Berkane", "Raja", "MAS", "KACM"], c: 0 },
+            { q: "How many questions in this challenge?", a: ["10", "20", "5", "100"], c: 0 }
         ];
 
         function startQuiz() { curQ = quizBank.sort(() => 0.5 - Math.random()).slice(0, 10); qI = 0; score = 0; renderQ(); }
@@ -403,13 +364,12 @@
                     opt.appendChild(b);
                 });
             } else { 
-                document.getElementById('q-text').innerText = `Finished! Score: ${score}/10`; 
-                if(auth.currentUser) db.collection('users').doc(auth.currentUser.uid).set({ highScore: score }, { merge: true });
-                opt.innerHTML = `<button class="opt-btn" onclick="startQuiz()" style="grid-column: span 2; background:var(--cyan); color:#000;">RESET CHALLENGE</button>`;
+                document.getElementById('q-text').innerText = `Challenge Finished: ${score}/10`; 
+                opt.innerHTML = `<button class="opt-btn" onclick="startQuiz()" style="grid-column: span 2;">RETRY CHALLENGE</button>`;
             }
         }
 
-        function closeM() { document.getElementById('modal').style.display='none'; }
+        function closeM() { document.getElementById('modal').style.display = 'none'; }
     </script>
 </body>
 </html>
