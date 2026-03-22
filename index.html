@@ -9,10 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     
+    <!-- FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     
+    <!-- WIDGETS ENGINE -->
     <script type="module" src="https://widgets.api-sports.io/3.1.0/widgets.js"></script>
     <script src="https://elfsightcdn.com/platform.js" async></script>
 
@@ -55,49 +57,61 @@
 
         .view-page { display: none; padding-top: 85px; flex: 1; animation: fadeIn 0.4s ease; }
         .view-page.active { display: block !important; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* HOME GRID */
+        /* NEWSPAPER GRID */
         .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 40px; padding: 20px 5%; }
+        @media (max-width: 1100px) { .newspaper-grid { grid-template-columns: 1fr; } }
         .side-wire { display: flex; flex-direction: column; gap: 15px; border-right: 1px solid var(--border); padding-right: 25px; }
         .wire-item { cursor: pointer; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .wire-item h4 { font-size: 0.8rem; font-weight: 400; color: var(--text-dim); line-height: 1.4; }
         .main-feature h1 { font-size: 2.4rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; color: #fff; }
         .main-feature-img { width: 100%; max-height: 480px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; }
         .blue-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .right-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: #fff; font-weight: 700; line-height:1.2; margin-bottom: 15px;}
+        .right-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #fff; font-weight: 700; line-height:1.2; margin-bottom: 15px;}
+
+        /* SIDE BY SIDE AUTH TABS */
+        .auth-tabs-row { display: flex; width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+        .auth-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 800; font-size: 0.7rem; opacity: 0.4; transition: 0.3s; }
+        .auth-tab.active { opacity: 1; color: var(--cyan); border-bottom: 2px solid var(--cyan); }
+
+        /* PROFILE DASHBOARD */
+        .profile-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 350px 1fr; gap: 30px; padding: 40px 5%; }
+        .lvl-badge { background: var(--glass); border: 2px solid var(--cyan); padding: 40px; border-radius: 30px; text-align: center; }
+        .lvl-icon { font-size: 5rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--cyan)); }
+        .xp-bar { width: 100%; height: 12px; background: #111; border-radius: 6px; margin: 20px 0; overflow: hidden; }
+        .xp-fill { height: 100%; background: var(--cyan); transition: 1s ease-out; width: 0%; }
+        .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 14px; margin: 12px 0; border-radius: 10px; color: #fff; outline: none; }
 
         /* QUIZ ENGINE */
         .quiz-hub { max-width: 1100px; margin: 0 auto; padding: 20px 5%; text-align: center; }
-        .quiz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
+        .quiz-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
         .quiz-box { background: var(--glass); border: 1px solid var(--border); padding: 30px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
         .quiz-box:hover { border-color: var(--cyan); transform: translateY(-5px); }
         .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 700px; margin: 30px auto; }
         .opt-btn { background: var(--glass); border: 1px solid var(--border); color: #fff; padding: 20px; border-radius: 12px; cursor: pointer; }
         .opt-btn:hover { background: var(--cyan); color: #000; font-weight: 800; }
 
-        /* PROFILE */
-        .profile-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 350px 1fr; gap: 30px; padding: 40px 5%; }
-        .lvl-badge { background: var(--glass); border: 2px solid var(--cyan); padding: 40px; border-radius: 30px; text-align: center; }
-        .lvl-icon { font-size: 5rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--cyan)); }
-        .xp-bar { width: 100%; height: 12px; background: #111; border-radius: 6px; margin: 20px 0; overflow: hidden; border: 1px solid var(--border); }
-        .xp-fill { height: 100%; background: var(--cyan); transition: 1s ease-out; width: 0%; }
-        .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 14px; margin: 12px 0; border-radius: 10px; color: #fff; outline: none; }
+        /* WIDGET AREA */
+        .widget-area { background: #000; min-height: 800px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; }
 
-        /* MODALS & REACTIONS */
-        .reaction-bar { display: flex; gap: 20px; padding: 20px; border-top: 1px solid var(--border); justify-content: center; margin-top: 20px;}
-        .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .react-count { font-size: 0.8rem; font-weight: 800; color: var(--cyan); }
-
+        /* MODALS */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; backdrop-filter: blur(20px); }
         .modal-content { background: #020608; max-width: 750px; width: 90%; border-radius: 30px; padding: 40px; border: 1px solid var(--border); position: relative; max-height: 90vh; overflow-y: auto; }
         .close { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
         .user-avatar { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--cyan); cursor: pointer; object-fit: cover; }
-        .widget-area { background: #000; min-height: 750px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; }
+        
+        .reaction-bar { display: flex; gap: 20px; padding: 20px; border-top: 1px solid var(--border); justify-content: center; margin-top: 20px;}
+        .react-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .react-count { font-size: 0.8rem; font-weight: 800; color: var(--cyan); }
+
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; padding: 40px 5%; }
         footer { padding: 40px 5%; text-align: center; opacity: 0.3; font-size: 0.7rem; border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
+
+    <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark"></api-sports-widget>
 
     <header>
         <div class="logo" onclick="switchPage('home')">
@@ -122,7 +136,7 @@
     </header>
 
     <div id="search-overlay">
-        <input type="text" id="active-search-input" placeholder="Scanning Neural Database..." onkeyup="handleSearch(event)">
+        <input type="text" id="active-search-input" placeholder="Scanning Database..." onkeyup="handleSearch(event)">
         <i class="fa-solid fa-xmark" onclick="toggleSearch()" style="color:var(--red); cursor:pointer;"></i>
     </div>
 
@@ -140,22 +154,25 @@
         <div id="global-page" class="view-page"><div class="news-grid" id="feed-global"></div></div>
         <div id="esports-page" class="view-page"><div class="news-grid" id="feed-esports"></div></div>
         
+        <!-- WIDGET CONTAINERS -->
         <div id="matches-page" class="view-page"><div class="widget-area" id="live-inject"></div></div>
         <div id="players-page" class="view-page"><div class="widget-area" id="scout-inject"></div></div>
 
         <!-- CHALLENGES -->
         <div id="quiz-page" class="view-page">
             <div class="quiz-hub" id="quiz-sport-select">
-                <h1 style="font-size:2.5rem; margin-bottom:10px;">Elite Intelligence Hub</h1>
+                <h1>Hub Intelligence Testing</h1>
                 <div class="quiz-grid">
                     <div class="quiz-box" onclick="selectSport('FOOTBALL')">⚽ Football</div>
-                    <div class="quiz-box" onclick="selectSport('MOROCCO')">🇲🇦 Moroccan Sports</div>
+                    <div class="quiz-box" onclick="selectSport('MOROCCO')">🇲🇦 Morocco</div>
                     <div class="quiz-box" onclick="selectSport('BASKETBALL')">🏀 Basketball</div>
-                    <div class="quiz-box" onclick="selectSport('MMA')">🥊 MMA / UFC</div>
+                    <div class="quiz-box" onclick="selectSport('MMA')">🥊 MMA</div>
                     <div class="quiz-box" onclick="selectSport('F1')">🏎️ Formula 1</div>
                     <div class="quiz-box" onclick="selectSport('TENNIS')">🎾 Tennis</div>
                     <div class="quiz-box" onclick="selectSport('BOXING')">🥊 Boxing</div>
                     <div class="quiz-box" onclick="selectSport('RUGBY')">🏉 Rugby</div>
+                    <div class="quiz-box" onclick="selectSport('VOLLEYBALL')">🏐 Volley</div>
+                    <div class="quiz-box" onclick="selectSport('ESPORTS')">🎮 Esports</div>
                 </div>
             </div>
             <div class="quiz-hub" id="quiz-diff-select" style="display:none;">
@@ -170,7 +187,7 @@
             <div class="quiz-hub" id="quiz-active" style="display:none;">
                 <h2 id="q-text" style="font-size:1.8rem; margin-bottom:30px;"></h2>
                 <div class="opt-grid" id="q-options"></div>
-                <p id="q-progress" style="color:var(--cyan); font-weight:800;"></p>
+                <p id="q-progress" style="color:var(--cyan); font-weight:800; font-size:1.2rem;"></p>
             </div>
         </div>
 
@@ -182,27 +199,27 @@
                     <h2 id="user-lvl-name">Recruit</h2>
                     <p>Level <span id="user-lvl-num">1</span> Agent</p>
                     <div class="xp-bar"><div class="xp-fill" id="user-xp-fill"></div></div>
-                    <p style="font-weight:800;"><span id="user-xp-cur">0</span> / <span id="user-xp-max">250</span> XP</p>
+                    <p style="font-weight:800;"><span id="user-xp-cur">0</span> / <span id="user-xp-max">10000</span> XP</p>
                 </div>
                 <div class="settings-card" style="background:var(--glass); border:1px solid var(--border); padding:30px; border-radius:30px;">
-                    <h3>Update Credentials</h3>
-                    <input type="text" id="set-name" class="auth-input" placeholder="New Agent ID">
-                    <input type="email" id="set-email" class="auth-input" placeholder="New Email">
+                    <h3>Profile Access</h3>
+                    <input type="text" id="set-name" class="auth-input" placeholder="Change Agent ID">
+                    <input type="email" id="set-email" class="auth-input" placeholder="Primary Email">
                     <input type="password" id="set-pass" class="auth-input" placeholder="New Password">
                     <button class="auth-btn" style="width:100%; padding:18px; margin-top:10px;" onclick="saveCredentials()">Update Database</button>
-                    <button class="auth-btn" style="width:100%; padding:18px; background:var(--red); color:#fff; margin-top:10px;" onclick="logout()">Logout</button>
+                    <button class="auth-btn" style="width:100%; padding:18px; background:var(--red); color:#fff; margin-top:10px;" onclick="logout()">Sign Out</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- AUTH MODAL -->
+    <!-- AUTH MODAL WITH SIDE-BY-SIDE TABS -->
     <div id="auth-modal" class="modal">
         <div class="modal-content" style="max-width:400px;">
             <span class="close" onclick="document.getElementById('auth-modal').style.display='none'">&times;</span>
-            <div style="display:flex; border-bottom:1px solid var(--border); margin-bottom:20px;">
-                <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')" style="flex:1; text-align:center; padding:12px; cursor:pointer; font-weight:800;">LOGIN</div>
-                <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')" style="flex:1; text-align:center; padding:12px; cursor:pointer; font-weight:800;">SIGN UP</div>
+            <div class="auth-tabs-row">
+                <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')">LOGIN</div>
+                <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')">SIGN UP</div>
             </div>
             <input type="email" id="email" placeholder="Email" class="auth-input">
             <input type="password" id="pass" placeholder="Password" class="auth-input">
@@ -211,19 +228,18 @@
         </div>
     </div>
 
-    <!-- DETAIL MODAL -->
+    <!-- DETAILS MODAL -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <span class="close" onclick="closeM()">&times;</span>
             <h2 id="m-title" style="color:var(--cyan); margin-bottom:15px;"></h2>
             <p id="m-body" style="color:var(--text-dim); line-height:1.6;"></p>
             <div class="reaction-bar" id="reaction-ui">
-                <button class="react-btn" onclick="submitReact('like')"><span>👍</span><span class="react-count" id="c-like">0</span></button>
-                <button class="react-btn" onclick="submitReact('heart')"><span>❤️</span><span class="react-count" id="c-heart">0</span></button>
-                <button class="react-btn" onclick="submitReact('fire')"><span>🔥</span><span class="react-count" id="c-fire">0</span></button>
-                <button class="react-btn" onclick="submitReact('dislike')"><span>👎</span><span class="react-count" id="c-dislike">0</span></button>
+                <button class="react-btn" onclick="submitReact('like')">👍<span class="react-count" id="c-like">0</span></button>
+                <button class="react-btn" onclick="submitReact('heart')">❤️<span class="react-count" id="c-heart">0</span></button>
+                <button class="react-btn" onclick="submitReact('fire')">🔥<span class="react-count" id="c-fire">0</span></button>
             </div>
-            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; text-align:center; margin-top:20px; text-decoration:none;">Full Story</a>
+            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; text-align:center; margin-top:20px; text-decoration:none;">Full Intel</a>
         </div>
     </div>
 
@@ -245,10 +261,10 @@
 
         const ranks = [
             { name: "Recruit", icon: "🥉", xp: 0 },
-            { name: "Scout", icon: "🥈", xp: 300 },
-            { name: "Analyst", icon: "🥇", xp: 1000 },
-            { name: "Elite Agent", icon: "💎", xp: 2500 },
-            { name: "Legend", icon: "👑", xp: 6000 }
+            { name: "Scout", icon: "🥈", xp: 10000 },
+            { name: "Analyst", icon: "🥇", xp: 20000 },
+            { name: "Elite Agent", icon: "💎", xp: 30000 },
+            { name: "Legend", icon: "👑", xp: 40000 }
         ];
 
         function switchPage(p) {
@@ -257,6 +273,7 @@
             document.getElementById(p + '-page').classList.add('active');
             if(document.getElementById('nav-' + p)) document.getElementById('nav-' + p).classList.add('active');
             
+            // DYNAMIC WIDGET RE-INJECTION (FIX FOR BLANK WIDGETS)
             if(p === 'matches') {
                 const box = document.getElementById('live-inject'); box.innerHTML = '';
                 const w = document.createElement('api-sports-widget');
@@ -266,7 +283,7 @@
             if(p === 'players') {
                 const box = document.getElementById('scout-inject'); box.innerHTML = '';
                 const w = document.createElement('api-sports-widget');
-                w.setAttribute('data-type', 'leagues');
+                w.setAttribute('data-type', 'leagues'); w.setAttribute('data-theme', 'dark');
                 box.appendChild(w);
             }
             window.scrollTo(0,0);
@@ -281,92 +298,35 @@
                 if(name) await user.updateProfile({displayName: name});
                 if(email && email !== user.email) await user.updateEmail(email);
                 if(pass) await user.updatePassword(pass);
-                alert("Agent Profile Synchronized.");
-            } catch(e) { alert(e.message); }
+                alert("Database Update Success.");
+            } catch(e) { alert("Action requires recent login: " + e.message); }
         }
 
         function updateProfileUI() {
             let rank = ranks[0];
             ranks.forEach(r => { if(userXP >= r.xp) rank = r; });
             const next = ranks[ranks.indexOf(rank) + 1] || rank;
-            const progress = ((userXP - rank.xp) / (next.xp - rank.xp || 1)) * 100;
+            const progress = ((userXP - rank.xp) / (10000)) * 100;
             document.getElementById('user-lvl-icon').innerText = rank.icon;
             document.getElementById('user-lvl-name').innerText = rank.name;
             document.getElementById('user-lvl-num').innerText = ranks.indexOf(rank) + 1;
             document.getElementById('user-xp-cur').innerText = userXP;
-            document.getElementById('user-xp-max').innerText = next.xp;
+            document.getElementById('user-xp-max').innerText = (ranks.indexOf(rank) + 1) * 10000;
             document.getElementById('user-xp-fill').style.width = progress + "%";
         }
 
-        // --- REAL QUIZ DATABASE ---
+        // --- QUIZ DATA ---
         const quizMaster = {
-            FOOTBALL: {
-                EASY: [
-                    {q:"Who won 2022 World Cup?", a:["France","Argentina","Brazil"], c:1},
-                    {q:"Lionel Messi first club?", a:["Newell's","Barca","PSG"], c:0},
-                    {q:"Most WC titles?", a:["Italy","Germany","Brazil"], c:2},
-                    {q:"What is a hat-trick?", a:["2 goals","3 goals","4 goals"], c:1},
-                    {q:"CR7 is from?", a:["Portugal","Spain","Brazil"], c:0},
-                    {q:"Team in London?", a:["Arsenal","Real Madrid","AC Milan"], c:0},
-                    {q:"Haaland plays for?", a:["City","United","Chelsea"], c:0},
-                    {q:"Ballon d'Or 2023?", a:["Mbappe","Messi","Haaland"], c:1},
-                    {q:"Duration of full match?", a:["80m","90m","100m"], c:1},
-                    {q:"Who is 'El Fenomeno'?", a:["Ronaldinho","Ronaldo Nazario","C. Ronaldo"], c:1}
-                ],
-                MEDIUM: [
-                    {q:"Who won Euro 2024?", a:["England","France","Spain"], c:2},
-                    {q:"Zidane headbutt year?", a:["2002","2006","2010"], c:1},
-                    {q:"Most UCL titles?", a:["Milan","Liverpool","Real Madrid"], c:2},
-                    {q:"Year PL started?", a:["1990","1992","1988"], c:1},
-                    {q:"Haaland previous club?", a:["Dortmund","Salzburg","Molde"], c:0},
-                    {q:"Only player with 3 WCs?", a:["Maradona","Pele","Puskas"], c:1},
-                    {q:"Arsenal stadium?", a:["Highbury","Emirates","Stamford"], c:1},
-                    {q:"Winner of 1998 WC?", a:["Brazil","France","Croatia"], c:1},
-                    {q:"Messi's current club (2024)?", a:["PSG","Miami","Barca"], c:1},
-                    {q:"Top PL scorer all time?", a:["Shearer","Rooney","Kane"], c:0}
-                ]
-            },
-            MOROCCO: {
-                EASY: [
-                    {q:"Lions nickname?", a:["Eagles","Lions","Wolves"], c:1},
-                    {q:"Flag color?", a:["Red/Green","Blue/White","Yellow"], c:0},
-                    {q:"2024 Coach?", a:["Renard","Regragui","Halilhodzic"], c:1},
-                    {q:"Hakimi's club?", a:["Real","PSG","City"], c:1},
-                    {q:"Bono position?", a:["GK","Defender","Striker"], c:0},
-                    {q:"Raja city?", a:["Rabat","Casablanca","Fes"], c:1},
-                    {q:"2022 WC result?", a:["Semi Final","Final","Quarter"], c:0},
-                    {q:"First Moroccan to win UCL?", a:["Hakimi","Ziyech","Munir"], c:0},
-                    {q:"Stadium Batouta city?", a:["Tangier","Agadir","Rabat"], c:0},
-                    {q:"Botola is...?", a:["League","Stadium","Player"], c:0}
-                ],
-                HARDCORE: [
-                    {q:"Year Raja founded?", a:["1949","1952","1940"], c:0},
-                    {q:"1986 WC Coach?", a:["Faria","Blinda","Zaki"], c:0},
-                    {q:"Most capped player?", a:["Naybet","Zaki","Bassir"], c:0},
-                    {q:"WAC founded year?", a:["1937","1945","1955"], c:0},
-                    {q:"Top Botola scorer record?", a:["Ahmed Faras","Merry Krimau","Faras"], c:0},
-                    {q:"Year FAR Rabat founded?", a:["1958","1955","1960"], c:0},
-                    {q:"RSB Berkane nickname?", a:["The Oranges","The Lions","The Eagles"], c:0},
-                    {q:"Score vs Germany 1986?", a:["0-1","1-1","0-0"], c:0},
-                    {q:"1976 AFCON winner?", a:["Morocco","Egypt","Nigeria"], c:0},
-                    {q:"MAS city?", a:["Fes","Rabat","Meknes"], c:0}
-                ]
-            }
-            // Add more as needed...
+            FOOTBALL: { EASY: [{q:"Who won 2022 World Cup?", a:["France","Argentina","Brazil"], c:1}, {q:"Messi club?", a:["Real","Barca","PSG"], c:1}, {q:"Handball results in?", a:["Goal","Foul","Win"], c:1}, {q:"Players per team?", a:["11","10","12"], c:0}, {q:"CR7 is from?", a:["Portugal","Spain","Brazil"], c:0}, {q:"Team in London?", a:["Arsenal","Madrid","Ajax"], c:0}, {q:"Ballon d'Or 2023?", a:["Messi","Haaland","Mbappe"], c:0}, {q:"UCL is for?", a:["Clubs","Countries","Schools"], c:0}, {q:"Duration of game?", a:["90m","60m","100m"], c:0}, {q:"Goalie can use?", a:["Feet","Hands","Both"], c:2}] },
+            MOROCCO: { EASY: [{q:"Nickname of National team?", a:["Atlas Lions","Eagles","Wolves"], c:0}, {q:"Flag color?", a:["Red/Green","Blue","Yellow"], c:0}, {q:"Hakimi's club?", a:["PSG","Real","City"], c:0}, {q:"Bono position?", a:["GK","Striker","Defender"], c:0}, {q:"Lions coach 2024?", a:["Regragui","Renard","Zaki"], c:0}, {q:"First WC Semi-Final for?", a:["Morocco","Ghana","Egypt"], c:0}, {q:"Raja city?", a:["Casablanca","Rabat","Fes"], c:0}, {q:"Stadium Batouta city?", a:["Tangier","Agadir","Rabat"], c:0}, {q:"Botola is...?", a:["League","Stadium","Cup"], c:0}, {q:"Hakimi position?", a:["Defender","Midfield","GK"], c:0}] }
         };
 
-        function selectSport(s) {
-            currentSport = s;
-            document.getElementById('quiz-sport-select').style.display='none';
-            document.getElementById('quiz-diff-select').style.display='block';
-            document.getElementById('selected-sport-title').innerText = s + " Challenges";
-        }
+        function selectSport(s) { currentSport = s; document.getElementById('quiz-sport-select').style.display='none'; document.getElementById('quiz-diff-select').style.display='block'; document.getElementById('selected-sport-title').innerText = s + " Intel Check"; }
         function resetQuizHub() { document.getElementById('quiz-sport-select').style.display='block'; document.getElementById('quiz-diff-select').style.display='none'; document.getElementById('quiz-active').style.display='none'; }
 
         function startQuiz(d) {
             currentDiff = d;
             const pool = quizMaster[currentSport]?.[d] || quizMaster['FOOTBALL']['EASY'];
-            // DYNAMIC SHUFFLE LOGIC
             curQ = pool.sort(() => 0.5 - Math.random()).slice(0, 10);
             qI = 0; score = 0;
             document.getElementById('quiz-diff-select').style.display = 'none';
@@ -380,11 +340,12 @@
                 document.getElementById('q-text').innerText = curQ[qI].q;
                 curQ[qI].a.forEach((a, i) => {
                     const b = document.createElement('button'); b.className = 'opt-btn'; b.innerText = a;
-                    b.onclick = () => { 
+                    b.onclick = async () => { 
                         if(i == curQ[qI].c) {
                             score++; 
                             const gain = (currentDiff==='EASY'?10:(currentDiff==='MEDIUM'?25:60));
                             userXP += gain;
+                            if(auth.currentUser) await db.collection('users').doc(auth.currentUser.uid).set({xp: userXP}, {merge:true});
                         }
                         qI++; renderQuizQ(); 
                     };
@@ -392,33 +353,23 @@
                 });
                 document.getElementById('q-progress').innerText = `Question ${qI+1}/10`;
             } else {
-                document.getElementById('q-text').innerText = `Concluded: ${score}/10 Correct`;
-                opt.innerHTML = `<button class="opt-btn" onclick="syncXP()" style="grid-column:span 2">SYNC XP & LEVEL</button>`;
+                document.getElementById('q-text').innerText = `Concluded: ${score}/10 Correct. Data syncing...`;
+                opt.innerHTML = `<button class="opt-btn" onclick="syncFinal()" style="grid-column:span 2">FINALIZE HUB DATA</button>`;
             }
         }
+        function syncFinal() { updateProfileUI(); resetQuizHub(); switchPage('profile'); }
 
-        async function syncXP() {
-            if(auth.currentUser) {
-                await db.collection('users').doc(auth.currentUser.uid).set({xp: userXP}, {merge:true});
-                updateProfileUI();
-            }
-            resetQuizHub(); switchPage('profile');
-        }
-
-        // --- AUTH & CORE ---
+        // --- AUTH ---
         function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
         function setAuthMode(m) { 
             authMode = m; 
             document.getElementById('tab-login').classList.toggle('active', m==='login'); 
             document.getElementById('tab-signup').classList.toggle('active', m==='signup');
+            document.getElementById('auth-main-btn').innerText = (m==='login') ? "Sign In to Hub" : "Create Agent Account";
         }
         async function handleAuth() {
             const e = document.getElementById('email').value, p = document.getElementById('pass').value;
-            try { 
-                if(authMode === 'signup') await auth.createUserWithEmailAndPassword(e, p); 
-                else await auth.signInWithEmailAndPassword(e, p); 
-                location.reload(); 
-            } catch(err) { alert(err.message); }
+            try { if(authMode === 'signup') await auth.createUserWithEmailAndPassword(e, p); else await auth.signInWithEmailAndPassword(e, p); location.reload(); } catch(err) { alert(err.message); }
         }
         function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
         function logout() { auth.signOut().then(() => location.reload()); }
@@ -473,12 +424,13 @@
             syncReacts(n.title);
             document.getElementById('modal').style.display = 'flex';
         }
+
         async function submitReact(type) {
             if(!auth.currentUser) return alert("Login Required.");
             const title = document.getElementById('m-title').innerText;
             const ref = db.collection('reactions').doc(btoa(title).substring(0,30));
             await db.runTransaction(async (t) => {
-                const doc = await t.get(ref); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
+                const doc = await t.get(ref); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, voters:{}};
                 if(data.voters[auth.currentUser.uid] === type) { data[type]--; delete data.voters[auth.currentUser.uid]; }
                 else { if(data.voters[auth.currentUser.uid]) data[data.voters[auth.currentUser.uid]]--; data[type]++; data.voters[auth.currentUser.uid] = type; }
                 t.set(ref, data);
@@ -488,7 +440,7 @@
         async function syncReacts(title) {
             const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get();
             const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0};
-            ['like','heart','fire','dislike'].forEach(t => document.getElementById(`c-${t}`).innerText = data[t] || 0);
+            ['like','heart','fire'].forEach(t => document.getElementById(`c-${t}`).innerText = data[t] || 0);
         }
 
         function toggleSearch() {
