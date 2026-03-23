@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
     
+    <!-- CORE LIBRARIES -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
@@ -50,7 +51,7 @@
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
         .header-right { display: flex; align-items: center; gap: 15px; }
-        .auth-btn { background: var(--cyan); color: #000; padding: 8px 20px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; position: relative; z-index: 1100; pointer-events: auto; }
+        .auth-btn { background: var(--cyan); color: #000; padding: 7px 18px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; transition: 0.3s; }
 
         .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 80px; }
         .view-page.active { display: block !important; }
@@ -59,13 +60,17 @@
         /* POST CARDS */
         .post-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-bottom: 20px; position: relative; transition: 0.3s; }
         .post-card.pinned { border: 2px solid var(--cyan); box-shadow: 0 0 20px rgba(0, 242, 254, 0.1); }
-        .post-user { color: var(--cyan); font-weight: 800; font-size: 0.9rem; margin-bottom: 5px; display: block; }
+        .post-user { color: var(--cyan); font-weight: 800; font-size: 0.9rem; margin-bottom: 10px; display: block; }
         
-        /* REACTION BUTTONS - NO BG */
+        /* REACTIONS - TRANSPARENT FIX */
         .feed-react-btn { background: transparent !important; border: none !important; outline: none !important; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #fff; filter: grayscale(1); transition: 0.2s; padding: 5px; box-shadow: none !important; }
         .feed-react-btn.active { filter: grayscale(0); color: var(--cyan); font-weight: 800; }
+        .react-count { font-size: 0.8rem; font-weight: 800; color: var(--cyan); }
 
-        /* NEWSPAPER GRID */
+        .pin-btn { position: absolute; top: 22px; right: 55px; color: var(--cyan); cursor: pointer; opacity: 0.4; }
+        .delete-btn { position: absolute; top: 22px; right: 20px; color: var(--red); cursor: pointer; opacity: 0.4; }
+
+        /* HOME GRID */
         .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 40px; padding: 20px 5%; }
         @media (max-width: 1100px) { .newspaper-grid { grid-template-columns: 1fr; } }
         .side-wire { border-right: 1px solid var(--border); padding-right: 25px; }
@@ -73,11 +78,11 @@
         .main-feature h1 { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; cursor: pointer; }
         .main-feature-img { width: 100%; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; cursor: pointer; }
         .intel-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; padding: 20px 5%; justify-content: center; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px 5%; }
         .right-card { cursor: pointer; background: var(--glass); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; }
 
-        /* AUTH MODAL */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 9999; }
+        /* MODAL */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; }
         .modal-content { background: #020608; max-width: 420px; width: 90%; border-radius: 30px; padding: 40px; border: 1px solid var(--border); position: relative; text-align: center; }
         .auth-tabs-row { display: flex; width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
         .auth-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 800; opacity: 0.4; }
@@ -85,14 +90,14 @@
         .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 15px; margin: 10px 0; border-radius: 12px; color: #fff; outline: none; }
         
         .widget-area { background: #000; min-height: 800px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; }
+        #myBoard { width: 450px; max-width: 100%; margin: 0 auto; border: 6px solid #222; border-radius: 8px; }
         .close { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
         footer { padding: 40px 5%; text-align: center; opacity: 0.3; border-top: 1px solid var(--border); font-size: 0.7rem;}
     </style>
 </head>
 <body>
 
-    <!-- GLOBAL CONFIG -->
-    <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal"></api-sports-widget>
+    <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark"></api-sports-widget>
 
     <header>
         <div class="logo" onclick="switchPage('home')">
@@ -112,7 +117,7 @@
         </nav>
         <div class="header-right">
             <div id="auth-ui"><button class="auth-btn" onclick="openAuth()">Access Hub</button></div>
-            <i class="fa-solid fa-magnifying-glass search-trigger" onclick="toggleSearch()" style="color:var(--cyan); cursor:pointer; font-size:1.1rem;"></i>
+            <i class="fa-solid fa-magnifying-glass search-trigger" onclick="toggleSearch()" style="color:var(--cyan); cursor:pointer; font-size:1.1rem; margin-left:10px;"></i>
         </div>
     </header>
 
@@ -132,7 +137,7 @@
             </div>
         </div>
 
-        <!-- COMMUNITY FEED -->
+        <!-- FEED -->
         <div id="feed-page" class="view-page">
             <div style="padding:20px 5%; max-width:800px; margin:auto;">
                 <h2 style="color:var(--cyan); margin-bottom:20px; text-transform:uppercase; letter-spacing:2px;">Community Intelligence Feed</h2>
@@ -151,7 +156,7 @@
 
         <div id="matches-page" class="view-page"><div class="widget-area" id="live-inject"></div></div>
 
-        <!-- PROFILE -->
+        <!-- PROFILE Dashboard -->
         <div id="profile-page" class="view-page">
             <div class="profile-dashboard" style="background:var(--glass); border:1px solid var(--border); padding:40px; border-radius:30px; text-align:center; max-width:500px; margin: 40px auto;">
                 <h2 style="color:var(--cyan); margin-bottom:25px;">Agent Identity Sync</h2>
@@ -164,16 +169,17 @@
         </div>
     </div>
 
-    <!-- MODALS -->
+    <!-- POST MODAL -->
     <div id="post-modal" class="modal">
         <div class="modal-content" style="max-width:600px;">
             <span class="close" onclick="$('#post-modal').hide()">&times;</span>
             <h2 style="color:var(--cyan); margin-bottom:20px;">Broadcast News</h2>
             <textarea id="post-content" placeholder="Share breaking news..." style="width:100%; height:150px; padding:15px; border-radius:15px; background:#000; border:1px solid var(--border); color:#fff; outline:none; resize:none;"></textarea>
-            <button class="auth-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="createPost()">Broadcast Post</button>
+            <button class="auth-btn" id="post-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="createPost()">Broadcast Post</button>
         </div>
     </div>
 
+    <!-- AUTH MODAL -->
     <div id="auth-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="$('#auth-modal').hide()">&times;</span>
@@ -189,15 +195,6 @@
         </div>
     </div>
 
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <span class="close" onclick="$('.modal').hide()">&times;</span>
-            <h2 id="m-title" style="color:var(--cyan); margin-bottom:15px;"></h2>
-            <p id="m-body" style="color:var(--text-dim); line-height:1.6; text-align:left;"></p>
-            <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; text-align:center; margin-top:20px;">Read Full Intel</a>
-        </div>
-    </div>
-
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDl3HcQUr7Nd0oJOpsSmx77mTi7U4PyR0w",
@@ -210,7 +207,7 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(), db = firebase.firestore();
 
-        let masterPool = [], authMode = 'login';
+        let masterPool = [], authMode = 'login', game = new Chess(), board = null, feedListener = null;
 
         function switchPage(p) {
             $('.view-page').removeClass('active');
@@ -226,28 +223,42 @@
                     $.getScript('https://widgets.api-sports.io/3.1.0/widgets.js');
                 }, 150);
             }
+            if(p === 'chess' && !board) board = Chessboard('myBoard', { draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' });
             window.scrollTo(0,0);
         }
 
         // --- FEED ---
         async function createPost() {
-            if(!auth.currentUser) return alert("Login required.");
+            if(!auth.currentUser) return alert("Agent Hub login required.");
             const content = $('#post-content').val().trim();
             if(!content) return;
-            await db.collection('posts').add({
-                userId: auth.currentUser.uid,
-                username: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
-                content: content, score: 0, likes: 0, dislikes: 0, fires: 0, hearts: 0, pinned: false,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            $('#post-content').val(''); $('#post-modal').hide();
+            try {
+                await db.collection('posts').add({
+                    userId: auth.currentUser.uid,
+                    username: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
+                    content: content, score: 0, likes: 0, dislikes: 0, fires: 0, hearts: 0, pinned: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                $('#post-content').val(''); $('#post-modal').hide();
+            } catch(e) { alert(e.message); }
         }
 
         function loadFeed() {
-            db.collection('posts').orderBy('pinned', 'desc').orderBy('score', 'desc').onSnapshot(snapshot => {
+            if(feedListener) feedListener();
+            // Listen to ALL posts, sort in Javascript to avoid complex Firebase Index errors
+            feedListener = db.collection('posts').onSnapshot(snapshot => {
                 const container = $('#feed-container').empty();
-                snapshot.forEach(async doc => {
-                    const post = doc.data(), pid = doc.id;
+                let posts = [];
+                snapshot.forEach(doc => posts.push({id: doc.id, ...doc.data()}));
+                
+                // Sort by Pinned then by Score
+                posts.sort((a,b) => {
+                    if(a.pinned !== b.pinned) return b.pinned ? 1 : -1;
+                    return (b.score || 0) - (a.score || 0);
+                });
+
+                posts.forEach(async post => {
+                    const pid = post.id;
                     const isAdmin = auth.currentUser && auth.currentUser.email === "rabiimodz@gmail.com";
                     const isOwner = auth.currentUser && (post.userId === auth.currentUser.uid || isAdmin);
                     
@@ -256,12 +267,13 @@
                         const r = await db.collection('reactions_feed').doc(`${pid}_${auth.currentUser.uid}`).get();
                         if(r.exists) active[r.data().type] = true;
                     }
+
                     container.append(`
-                        <div class="post-card ${post.pinned?'pinned':''}">
-                            ${isAdmin ? `<i class="fa-solid fa-thumbtack" onclick="togglePin('${pid}', ${post.pinned})" style="position:absolute; top:20px; right:50px; color:var(--cyan); cursor:pointer;"></i>`:''}
-                            ${isOwner ? `<i class="fa-solid fa-trash" onclick="deletePost('${pid}')" style="position:absolute; top:20px; right:20px; color:var(--red); cursor:pointer;"></i>`:''}
-                            <span class="post-user">@${post.username} ${post.pinned?'📌 pinned':''}</span>
-                            <p style="color:#fff; line-height:1.6;">${post.content}</p>
+                        <div class="post-card ${post.pinned ? 'pinned' : ''}">
+                            ${isOwner ? `<i class="fa-solid fa-trash delete-btn" onclick="deletePost('${pid}')"></i>` : ''}
+                            ${isOwner ? `<i class="fa-solid fa-thumbtack pin-btn ${post.pinned?'active':''}" onclick="togglePin('${pid}', ${post.pinned})"></i>` : ''}
+                            <span class="post-user">@${post.username} ${post.pinned ? '📌 pinned' : ''}</span>
+                            <p style="color:#fff; line-height:1.6; margin-bottom:15px;">${post.content}</p>
                             <div style="display:flex; gap:15px; border-top:1px solid var(--border); padding-top:10px;">
                                 <button class="feed-react-btn ${active.like?'active':''}" onclick="reactToFeedPost('${pid}', 'like')">👍 ${post.likes||0}</button>
                                 <button class="feed-react-btn ${active.heart?'active':''}" onclick="reactToFeedPost('${pid}', 'heart')">❤️ ${post.hearts||0}</button>
@@ -275,30 +287,42 @@
         }
         async function togglePin(id, s) { await db.collection('posts').doc(id).update({ pinned: !s }); }
         async function deletePost(id) { if(confirm("Terminate broadcast?")) await db.collection('posts').doc(id).delete(); }
+
         async function reactToFeedPost(postId, type) {
             if(!auth.currentUser) return alert("Login required.");
-            const rid = `${postId}_${auth.currentUser.uid}`, rref = db.collection('reactions_feed').doc(rid), pref = db.collection('posts').doc(postId);
+            const uid = auth.currentUser.uid;
+            const rid = `${postId}_${uid}`, rref = db.collection('reactions_feed').doc(rid), pref = db.collection('posts').doc(postId);
             const w = { like: 1, dislike: -1, fire: 2, heart: 2 };
+
             await db.runTransaction(async t => {
                 const rd = await t.get(rref), pd = await t.get(pref);
                 if(!pd.exists) return;
                 let post = pd.data(), sc = 0, up = {};
+
                 if(rd.exists) {
                     const old = rd.data().type;
-                    sc -= w[old]; up[old+'s'] = (post[old+'s']||1)-1;
-                    if(old === type) t.delete(rref);
-                    else { sc += w[type]; t.update(rref, {type}); up[type+'s'] = (post[type+'s']||0)+1; }
-                } else {
-                    sc += w[type]; t.set(rref, {type, userId: auth.currentUser.uid, postId});
+                    if(old === type) { // Remove
+                        sc -= w[old]; up[old+'s'] = (post[old+'s']||1)-1;
+                        t.delete(rref);
+                    } else { // Exclusive Toggle
+                        const isPos = (x) => x !== 'dislike';
+                        sc = sc - w[old] + w[type];
+                        up[old+'s'] = (post[old+'s']||1)-1;
+                        up[type+'s'] = (post[type+'s']||0)+1;
+                        t.update(rref, {type});
+                    }
+                } else { // New
+                    sc += w[type]; t.set(rref, {type, userId: uid, postId});
                     up[type+'s'] = (post[type+'s']||0)+1;
                 }
-                up.score = (post.score||0) + sc; t.update(pref, up);
+                up.score = (post.score||0) + sc;
+                t.update(pref, up);
             });
         }
 
         // --- AUTH ---
         function openAuth() { $('#auth-modal').css('display','flex'); }
-        function setAuthMode(m) { authMode = m; $('.auth-tab').removeClass('active'); $('#tab-'+m).addClass('active'); $('#signup-fields').toggle(m==='signup'); $('#auth-submit-btn').text(m==='login'?'Enter Hub':'Initialize Agent'); }
+        function setAuthMode(m) { authMode = m; $('.auth-tab').removeClass('active'); $('#tab-'+m).addClass('active'); $('#signup-fields').toggle(m === 'signup'); $('#auth-submit-btn').text(m==='login'?'Enter Hub':'Initialize Agent'); }
         async function handleAuth() {
             const e=$('#email').val(), p=$('#pass').val(), u=$('#username').val();
             try { if(authMode==='signup'){ const res=await auth.createUserWithEmailAndPassword(e,p); await res.user.updateProfile({displayName:u}); } else await auth.signInWithEmailAndPassword(e,p); location.reload(); } catch(err){alert(err.message);}
@@ -316,7 +340,7 @@
                     const data = await res.json();
                     let html = "";
                     data.items.forEach(item => {
-                        const n = { id: masterPool.length, title: item.title, desc: item.description.replace(/<[^>]*>?/gm, ''), img: item.thumbnail || 'https://via.placeholder.com/400x200', link: item.link, tag: tag.toUpperCase() };
+                        const n = { id: masterPool.length, title: item.title, desc: item.description, img: item.thumbnail || 'https://via.placeholder.com/400x200', link: item.link, tag: tag.toUpperCase() };
                         if(!masterPool.some(x => x.title === n.title)) { masterPool.push(n); html += `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`; }
                     });
                     $(`#feed-${tag}`).html(html);
@@ -327,7 +351,7 @@
 
         function renderNewspaper() {
             const pool = [...masterPool].sort(() => 0.5 - Math.random()); if(pool.length < 5) return;
-            $('#center-intel').html(`<span class="intel-tag" style="color:var(--blue-intel)">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})">`);
+            $('#center-intel').html(`<span class="intel-tag">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})">`);
             $('#wire-left').html(pool.slice(1,11).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`));
             $('#wire-right').html(pool.slice(11,18).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`));
         }
