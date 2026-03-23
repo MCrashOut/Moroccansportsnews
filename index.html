@@ -17,8 +17,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    
-    <!-- API SPORTS SCRIPT -->
     <script type="module" src="https://widgets.api-sports.io/3.1.0/widgets.js"></script>
 
     <style>
@@ -53,25 +51,20 @@
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
         .header-right { display: flex; align-items: center; gap: 15px; z-index: 1100; }
-        .auth-btn { background: var(--cyan); color: #000; padding: 7px 18px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; transition: 0.3s; }
+        .auth-btn { background: var(--cyan); color: #000; padding: 7px 18px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
 
         .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 80px; }
         .view-page.active { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* POST CARDS */
-        .post-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-bottom: 20px; position: relative; transition: 0.3s; }
+        .post-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-bottom: 20px; position: relative; }
         .post-card.pinned { border: 2px solid var(--cyan); box-shadow: 0 0 20px rgba(0, 242, 254, 0.1); }
         .post-user { color: var(--cyan); font-weight: 800; font-size: 0.9rem; margin-bottom: 10px; display: block; }
         
-        /* REACTIONS - NO BG */
-        .react-btn, .feed-react-btn { background: transparent !important; border: none !important; outline: none !important; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: 0.2s; padding: 5px; box-shadow: none !important; color: #fff; }
+        /* REACTION BUTTONS */
+        .feed-react-btn { background: transparent !important; border: none !important; outline: none !important; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #fff; filter: grayscale(1); transition: 0.2s; padding: 5px; }
         .feed-react-btn.active { filter: grayscale(0); color: var(--cyan); font-weight: 800; }
-        .react-count { font-size: 0.75rem; font-weight: 800; color: var(--cyan); }
-
-        .pin-btn { position: absolute; top: 22px; right: 55px; color: var(--cyan); cursor: pointer; opacity: 0.4; }
-        .pin-btn.active { opacity: 1; color: var(--cyan); }
-        .delete-btn { position: absolute; top: 22px; right: 20px; color: var(--red); cursor: pointer; opacity: 0.4; }
 
         /* NEWSPAPER GRID */
         .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 40px; padding: 20px 5%; }
@@ -79,28 +72,29 @@
         .side-wire { border-right: 1px solid var(--border); padding-right: 25px; }
         .wire-item { cursor: pointer; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px; }
         .main-feature h1 { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; cursor: pointer; color: #fff; }
-        .main-feature-img { width: 100%; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; cursor: pointer; }
         .intel-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px 5%; justify-content: center; }
-        .right-card { cursor: pointer; background: var(--glass); padding: 18px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; height: auto; }
+        .right-card { cursor: pointer; background: var(--glass); padding: 18px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; }
+
+        /* CHESS CENTERING */
+        .board-container { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 30px; text-align: center; max-width: 600px; margin: 40px auto; display: flex; flex-direction: column; align-items: center; }
+        #myBoard { width: 450px; max-width: 100%; border: 6px solid #222; border-radius: 8px; margin: 0 auto; }
+        #game-status { margin-top: 20px; color: var(--cyan); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; font-size: 0.9rem; }
 
         /* AUTH MODAL */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 9999; }
         .modal-content { background: #020608; max-width: 420px; width: 90%; border-radius: 30px; padding: 40px; border: 1px solid var(--border); position: relative; text-align: center; }
         .auth-tabs-row { display: flex; width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
-        .auth-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 800; font-size: 0.8rem; opacity: 0.4; transition: 0.3s; }
+        .auth-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 800; opacity: 0.4; }
         .auth-tab.active { opacity: 1; color: var(--cyan); border-bottom: 3px solid var(--cyan); }
         .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 15px; margin: 10px 0; border-radius: 12px; color: #fff; outline: none; }
         
-        .widget-area { background: #000; min-height: 800px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; position: relative; }
-        #myBoard { width: 450px; max-width: 100%; margin: 0 auto; border: 6px solid #222; border-radius: 8px; }
+        .widget-area { background: #000; min-height: 850px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; position: relative; }
         .close { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
         footer { padding: 40px 5%; text-align: center; opacity: 0.3; border-top: 1px solid var(--border); font-size: 0.7rem;}
     </style>
 </head>
 <body>
 
-    <!-- GLOBAL CONFIG -->
     <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal"></api-sports-widget>
 
     <header>
@@ -127,13 +121,13 @@
 
     <div id="search-overlay" style="position:fixed; top:60px; left:0; width:100%; background:#000; border-bottom:1px solid var(--cyan); padding:15px 5%; z-index:999; display:none; align-items:center; gap:15px;">
         <i class="fa-solid fa-magnifying-glass" style="color:var(--cyan)"></i>
-        <input type="text" id="active-search-input" placeholder="Search Neural Intelligence..." onkeyup="handleSearch(event)" style="flex:1; background:transparent; border:none; color:#fff; outline:none;">
+        <input type="text" id="active-search-input" placeholder="Search Intelligence..." onkeyup="handleSearch(event)" style="flex:1; background:transparent; border:none; color:#fff; outline:none;">
         <i class="fa-solid fa-xmark" onclick="toggleSearch()" style="color:var(--red); cursor:pointer"></i>
     </div>
 
     <div id="content-wrapper">
         <div id="home-page" class="view-page active">
-            <div id="search-results-area" style="display:none; padding: 0 5% 40px;"><div class="news-grid" id="search-output-grid"></div></div>
+            <div id="search-results-area" style="display:none; padding: 0 5% 40px;"><div class="news-grid" id="search-output-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:20px;"></div></div>
             <div class="newspaper-grid" id="standard-home-layout">
                 <div class="side-wire" id="wire-left"></div>
                 <div id="center-intel" class="main-feature"></div>
@@ -158,23 +152,21 @@
 
         <!-- CHESS HUB -->
         <div id="chess-page" class="view-page">
-            <h2 style="padding:0 5%; margin-bottom:20px; border-left:5px solid var(--cyan); margin-left:5%;">Grandmaster Intelligence</h2>
+            <h2 style="padding:0 5%; text-align:center; margin-bottom:20px; color:var(--cyan);">Grandmaster Intelligence</h2>
             <div class="news-grid" id="feed-chess"></div>
+            
             <div class="board-container">
-                <h2 style="margin-bottom:20px; color:var(--cyan);">Elite Neural AI</h2>
                 <div id="myBoard"></div>
+                <p id="game-status">Choose side to initiate protocol...</p>
                 <div style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
-                    <button class="auth-btn" onclick="initChess('white')">Play White</button>
-                    <button class="auth-btn" onclick="initChess('black')">Play Black</button>
+                    <button class="auth-btn" onclick="startChess('white')">Play White</button>
+                    <button class="auth-btn" onclick="startChess('black')">Play Black</button>
                 </div>
-                <p id="game-status" style="margin-top:15px; color:var(--text-dim); font-weight:800;">Turn: Agent move...</p>
             </div>
         </div>
 
-        <!-- MATCHES WIDGET -->
         <div id="matches-page" class="view-page"><div class="widget-area" id="live-inject"></div></div>
 
-        <!-- PROFILE Dashboard -->
         <div id="profile-page" class="view-page">
             <div class="profile-dashboard" style="background:var(--glass); border:1px solid var(--border); padding:40px; border-radius:30px; text-align:center; max-width:500px; margin: 40px auto;">
                 <h2 style="color:var(--cyan); margin-bottom:25px;">Agent Identity Sync</h2>
@@ -191,9 +183,9 @@
     <div id="post-modal" class="modal">
         <div class="modal-content" style="max-width:600px;">
             <span class="close" onclick="$('#post-modal').hide()">&times;</span>
-            <h2 style="color:var(--cyan); margin-bottom:20px;">Broadcast News</h2>
-            <textarea id="post-content" placeholder="Share sports news..." style="width:100%; height:150px; padding:15px; border-radius:15px; background:#000; border:1px solid var(--border); color:#fff; outline:none; resize:none;"></textarea>
-            <button class="auth-btn" id="post-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="createPost()">Broadcast Post</button>
+            <h2 style="color:var(--cyan); margin-bottom:20px;">Broadcast news</h2>
+            <textarea id="post-content" placeholder="Share sports intel..." style="width:100%; height:150px; padding:15px; border-radius:15px; background:#000; border:1px solid var(--border); color:#fff; outline:none; resize:none;"></textarea>
+            <button class="auth-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="createPost()">Broadcast Post</button>
         </div>
     </div>
 
@@ -205,15 +197,14 @@
                 <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')">LOGIN</div>
                 <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')">SIGN UP</div>
             </div>
-            <div id="signup-fields" style="display:none;"><input type="text" id="username" placeholder="Agent ID" class="auth-input"></div>
+            <div id="signup-fields" style="display:none;"><input type="text" id="username" placeholder="Agent Username" class="auth-input"></div>
             <input type="email" id="email" placeholder="Agent Email" class="auth-input">
             <input type="password" id="pass" placeholder="Security Key" class="auth-input">
             <button class="auth-btn" id="auth-submit-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="handleAuth()">Enter Hub</button>
-            <button class="auth-btn" style="width:100%; margin-top:10px; background:white; color:black; padding:15px;" onclick="loginGoogle()">Google Login</button>
+            <button class="auth-btn" style="width:100%; margin-top:10px; background:white; color:black; padding:15px;" onclick="loginGoogle()">Google Access</button>
         </div>
     </div>
 
-    <!-- DETAIL MODAL -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <span class="close" onclick="$('.modal').hide()">&times;</span>
@@ -241,7 +232,7 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(), db = firebase.firestore();
 
-        let masterPool = [], authMode = 'login', game = new Chess(), board = null, feedListener = null;
+        let masterPool = [], authMode = 'login', game = new Chess(), board = null, feedListener = null, playerSide = 'w';
 
         function switchPage(p) {
             $('.view-page').removeClass('active');
@@ -250,89 +241,104 @@
             $('#nav-'+p).addClass('active');
             
             if(p === 'feed') loadFeed();
-            
             if(p === 'matches') {
-                const liveBox = $('#live-inject').empty();
-                // WAIT FOR VISIBILITY THEN INJECT
+                const box = $('#live-inject').empty();
                 setTimeout(() => {
-                    liveBox.append('<api-sports-widget data-type="games" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18"></api-sports-widget>');
-                    // FORCE RE-PARSE OF WIDGET
+                    box.append('<api-sports-widget data-type="games" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-target-game="modal"></api-sports-widget>');
                     const script = document.createElement('script');
                     script.type = 'module';
                     script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js?v=' + Date.now();
                     document.head.appendChild(script);
-                }, 100);
+                }, 150);
             }
             window.scrollTo(0,0);
         }
 
-        // --- ADMIN PINNING ONLY (Strict Check) ---
-        function isAdmin() { return auth.currentUser && auth.currentUser.email.toLowerCase() === "rabiimodz@gmail.com"; }
+        // --- CHESS LOGIC ---
+        function startChess(side) {
+            playerSide = side === 'white' ? 'w' : 'b';
+            game.reset();
+            board = Chessboard('myBoard', {
+                draggable: true, position: 'start', orientation: side,
+                onDragStart: (src, p) => { 
+                    if (game.game_over() || game.turn() !== playerSide || p.search(new RegExp('^' + playerSide)) === -1) return false; 
+                },
+                onDrop: (src, tar) => {
+                    let move = game.move({ from: src, to: tar, promotion: 'q' });
+                    if (move === null) return 'snapback';
+                    document.getElementById('game-status').innerText = "AI Processing...";
+                    window.setTimeout(makeAiMove, 500);
+                },
+                pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
+            });
+            if(playerSide === 'b') window.setTimeout(makeAiMove, 500);
+            document.getElementById('game-status').innerText = "Game Engaged.";
+        }
+        function makeAiMove() {
+            let moves = game.moves(); if(moves.length === 0) return;
+            game.move(moves[Math.floor(Math.random() * moves.length)]);
+            board.position(game.fen());
+            document.getElementById('game-status').innerText = "Your Turn Agent...";
+        }
 
+        // --- FEED ---
         function loadFeed() {
             if(feedListener) feedListener();
             feedListener = db.collection('posts').onSnapshot(snapshot => {
                 const container = $('#feed-container').empty();
                 let posts = []; snapshot.forEach(doc => posts.push({id: doc.id, ...doc.data()}));
-                // JS sorting to bypass Index requirements
                 posts.sort((a,b) => (b.pinned - a.pinned) || (b.score - a.score));
 
                 posts.forEach(async post => {
-                    const adminUser = isAdmin();
+                    const isAdmin = auth.currentUser && auth.currentUser.email.toLowerCase() === "rabiimodz@gmail.com";
                     const isOwner = auth.currentUser && post.userId === auth.currentUser.uid;
-                    let active = "";
+                    let active = {};
                     if(auth.currentUser) {
                         const r = await db.collection('reactions_feed').doc(`${post.id}_${auth.currentUser.uid}`).get();
-                        if(r.exists) active = r.data().type;
+                        if(r.exists) active[r.data().type] = true;
                     }
                     container.append(`
-                        <div class="post-card ${post.pinned ? 'pinned' : ''}">
-                            ${adminUser ? `<i class="fa-solid fa-thumbtack pin-btn ${post.pinned?'active':''}" onclick="togglePin('${post.id}', ${post.pinned})"></i>` : ''}
-                            ${adminUser || isOwner ? `<i class="fa-solid fa-trash delete-btn" onclick="deletePost('${post.id}')"></i>` : ''}
+                        <div class="post-card ${post.pinned?'pinned':''}">
+                            ${isAdmin ? `<i class="fa-solid fa-thumbtack pin-btn ${post.pinned?'active':''}" onclick="togglePin('${post.id}', ${post.pinned})"></i>` : ''}
+                            ${isAdmin || isOwner ? `<i class="fa-solid fa-trash delete-btn" onclick="deletePost('${post.id}')"></i>` : ''}
                             <span class="post-user">@${post.username} ${post.pinned ? '📌 Pinned Intelligence' : ''}</span>
                             <p style="color:#fff; line-height:1.6; margin-bottom:15px;">${post.content}</p>
                             <div style="display:flex; gap:15px; border-top:1px solid var(--border); padding-top:10px;">
-                                <button class="feed-react-btn ${active==='like'?'active':''}" onclick="reactToFeedPost('${post.id}', 'like')">👍 ${post.likes||0}</button>
-                                <button class="feed-react-btn ${active==='heart'?'active':''}" onclick="reactToFeedPost('${post.id}', 'heart')">❤️ ${post.hearts||0}</button>
-                                <button class="feed-react-btn ${active==='fire'?'active':''}" onclick="reactToFeedPost('${post.id}', 'fire')">🔥 ${post.fires||0}</button>
-                                <button class="feed-react-btn ${active==='dislike'?'active':''}" onclick="reactToFeedPost('${post.id}', 'dislike')">👎 ${post.dislikes||0}</button>
+                                <button class="feed-react-btn ${active.like?'active':''}" onclick="reactToFeedPost('${post.id}', 'like')">👍 ${post.likes||0}</button>
+                                <button class="feed-react-btn ${active.heart?'active':''}" onclick="reactToFeedPost('${post.id}', 'heart')">❤️ ${post.hearts||0}</button>
+                                <button class="feed-react-btn ${active.fire?'active':''}" onclick="reactToFeedPost('${post.id}', 'fire')">🔥 ${post.fires||0}</button>
+                                <button class="feed-react-btn ${active.dislike?'active':''}" onclick="reactToFeedPost('${post.id}', 'dislike')">👎 ${post.dislikes||0}</button>
                             </div>
                         </div>
                     `);
                 });
             });
         }
-        async function togglePin(id, s) { if(!isAdmin()) return; await db.collection('posts').doc(id).update({ pinned: !s }); }
-        async function deletePost(id) { if(confirm("Terminate broadcast?")) await db.collection('posts').doc(id).delete(); }
-        async function createPost() {
-            if(!auth.currentUser) return alert("Login required.");
-            const content = $('#post-content').val().trim();
-            if(!content) return;
-            await db.collection('posts').add({
-                userId: auth.currentUser.uid, username: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
-                content: content, score: 0, likes: 0, dislikes: 0, fires: 0, hearts: 0, pinned: false,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            $('#post-content').val(''); $('#post-modal').hide();
-        }
-
-        // --- REACTIONS LOGIC (EXCLUSIVE TOGGLE) ---
         async function reactToFeedPost(postId, type) {
             if(!auth.currentUser) return alert("Login required.");
-            const rid = `${postId}_${auth.currentUser.uid}`, rref = db.collection('reactions_feed').doc(rid), pref = db.collection('posts').doc(postId);
-            const w = { like: 1, dislike: -1, fire: 2, heart: 2 };
+            const uid = auth.currentUser.uid, rid = `${postId}_${uid}`, rref = db.collection('reactions_feed').doc(rid), pref = db.collection('posts').doc(postId);
+            const weights = { like: 1, dislike: -1, fire: 2, heart: 2 };
             await db.runTransaction(async t => {
                 const rd = await t.get(rref), pd = await t.get(pref);
                 if(!pd.exists) return;
-                let data = pd.data(), sc = 0, up = {};
+                let post = pd.data(), sc = 0, up = {};
                 if(rd.exists) {
                     const old = rd.data().type;
-                    if(old === type) { sc -= w[old]; up[old+'s'] = (data[old+'s']||1)-1; t.delete(rref); }
-                    else { sc = sc - w[old] + w[type]; up[old+'s'] = (data[old+'s']||1)-1; up[type+'s'] = (data[type+'s']||0)+1; t.update(rref, {type}); }
-                } else { sc += w[type]; t.set(rref, {type, userId: auth.currentUser.uid, postId}); up[type+'s'] = (data[type+'s']||0)+1; }
-                up.score = (data.score||0) + sc; t.update(pref, up);
+                    if(old === type) { sc -= weights[old]; up[old+'s'] = (post[old+'s']||1)-1; t.delete(rref); }
+                    else {
+                        const isPos = (x) => x !== 'dislike';
+                        sc = sc - weights[old] + weights[type];
+                        up[old+'s'] = (post[old+'s']||1)-1;
+                        up[type+'s'] = (post[type+'s']||0)+1;
+                        t.update(rref, {type});
+                    }
+                } else { sc += weights[type]; t.set(rref, {type, userId: uid, postId}); up[type+'s'] = (post[type+'s']||0)+1; }
+                up.score = (post.score||0) + sc; t.update(pref, up);
             });
         }
+        async function createPost() { if(!auth.currentUser) return; const content = $('#post-content').val().trim(); if(!content) return; await db.collection('posts').add({ userId: auth.currentUser.uid, username: auth.currentUser.displayName || auth.currentUser.email.split('@')[0], content: content, score: 0, likes: 0, dislikes: 0, fires: 0, hearts: 0, pinned: false, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); $('#post-content').val(''); $('#post-modal').hide(); }
+        async function togglePin(id, s) { await db.collection('posts').doc(id).update({ pinned: !s }); }
+        async function deletePost(id) { if(confirm("Terminate broadcast?")) await db.collection('posts').doc(id).delete(); }
 
         // --- CORE ---
         async function initNews() {
@@ -343,7 +349,7 @@
                     const data = await res.json();
                     let html = "";
                     data.items.forEach(item => {
-                        const n = { id: masterPool.length, title: item.title, desc: item.description, img: item.thumbnail || 'https://via.placeholder.com/400x200', link: item.link, tag: tag.toUpperCase() };
+                        const n = { id: masterPool.length, title: item.title, desc: item.description.replace(/<[^>]*>?/gm, ''), img: item.thumbnail || 'https://via.placeholder.com/400x200', link: item.link, tag: tag.toUpperCase() };
                         if(!masterPool.some(x => x.title === n.title)) { masterPool.push(n); html += `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`; }
                     });
                     $(`#feed-${tag.toLowerCase()}`).html(html);
@@ -353,27 +359,22 @@
         }
         function renderNewspaper() {
             const pool = [...masterPool].sort(() => 0.5 - Math.random()); if(pool.length < 5) return;
-            $('#center-intel').html(`<span class="intel-tag">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})">`);
+            $('#center-intel').html(`<span class="intel-tag" style="color:var(--red)">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})">`);
             $('#wire-left').html(pool.slice(1,11).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`));
             $('#wire-right').html(pool.slice(11,18).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`));
         }
-        function initChess(side) { game.reset(); board = Chessboard('myBoard', { draggable: true, position: 'start', orientation: side, onDrop: (s, t) => { let move = game.move({ from: s, to: t, promotion: 'q' }); if (move === null) return 'snapback'; window.setTimeout(() => { let moves = game.moves(); if(moves.length > 0) game.move(moves[Math.floor(Math.random() * moves.length)]); board.position(game.fen()); }, 500); }, pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' }); }
+        function openDetails(id) { const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); $('#m-link').off('click').on('click', function(e){ e.preventDefault(); window.open(n.link, '_blank'); }); syncReacts(n.title); $('#modal').css('display','flex'); }
+        async function syncReacts(title) { const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get(); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0}; ['like','heart','fire','dislike'].forEach(t => { $(`#c-${t}`).text(data[t] || 0); }); }
+        async function submitReact(type) { if(!auth.currentUser) return alert("Login Required."); const title = document.getElementById('m-title').innerText; const ref = db.collection('reactions').doc(btoa(title).substring(0,30)); const uid = auth.currentUser.uid; await db.runTransaction(async (t) => { const doc = await t.get(ref); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}}; if(!data.voters[uid]) data.voters[uid] = {}; if(data.voters[uid][type]) { data[type]--; data.voters[uid][type] = false; } else { data[type]++; data.voters[uid][type] = true; } t.set(ref, data); }); syncReacts(title); }
+        function toggleSearch() { $('#search-overlay').toggle(); if($('#search-overlay').is(':visible')) $('#active-search-input').focus(); }
+        function handleSearch(e) { const q = e.target.value.toLowerCase(); if(q.length > 1) { switchPage('home'); $('#search-results-area').show(); $('#standard-home-layout').hide(); $('#search-output-grid').html(masterPool.filter(n => n.title.toLowerCase().includes(q)).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`)); } else { $('#search-results-area').hide(); $('#standard-home-layout').show(); } }
         function openAuth() { $('#auth-modal').css('display','flex'); }
-        function setAuthMode(m) { authMode = m; $('.auth-tab').removeClass('active'); $('#tab-'+m).addClass('active'); $('#signup-fields').toggle(m==='signup'); }
+        function setAuthMode(m) { authMode = m; $('.auth-tab').removeClass('active'); $('#tab-'+m).addClass('active'); $('#signup-fields').toggle(m==='signup'); $('#auth-submit-btn').text(m==='login'?'Enter Hub':'Initialize Agent'); }
         async function handleAuth() { const e=$('#email').val(), p=$('#pass').val(), u=$('#username').val(); try { if(authMode==='signup'){ const res=await auth.createUserWithEmailAndPassword(e,p); await res.user.updateProfile({displayName:u}); } else await auth.signInWithEmailAndPassword(e,p); location.reload(); } catch(err){alert(err.message);} }
         function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
         function logout() { auth.signOut().then(() => location.reload()); }
         async function updateProfileData() { try { if($('#set-name').val()) await auth.currentUser.updateProfile({displayName:$('#set-name').val()}); alert("Synced."); } catch(e){alert(e.message);} }
-        function toggleSearch() { $('#search-overlay').toggle(); if($('#search-overlay').is(':visible')) $('#active-search-input').focus(); }
-        function handleSearch(e) {
-            const q = e.target.value.toLowerCase();
-            if(q.length > 1) { switchPage('home'); $('#search-results-area').show(); $('#standard-home-layout').hide(); $('#search-output-grid').html(masterPool.filter(n => n.title.toLowerCase().includes(q)).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`)); }
-            else { $('#search-results-area').hide(); $('#standard-home-layout').show(); }
-        }
-        function openDetails(id) { const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); $('#m-link').attr('href', n.link); syncReacts(n.title); $('#modal').css('display','flex'); }
-        async function syncReacts(title) { const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get(); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0}; ['like','heart','fire','dislike'].forEach(t => { $(`#c-${t}`).text(data[t] || 0); }); }
-        async function submitReact(type) { if(!auth.currentUser) return alert("Login Required."); const title = document.getElementById('m-title').innerText; const ref = db.collection('reactions').doc(btoa(title).substring(0,30)); const uid = auth.currentUser.uid; await db.runTransaction(async (t) => { const doc = await t.get(ref); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}}; if(!data.voters[uid]) data.voters[uid] = {}; if(data.voters[uid][type]) { data[type]--; data.voters[uid][type] = false; } else { data[type]++; data.voters[uid][type] = true; } t.set(ref, data); }); syncReacts(title); }
-        auth.onAuthStateChanged(u => { if(u) { $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile')">Agent Hub</button>`); $('#set-name').val(u.displayName); } initNews(); });
+        auth.onAuthStateChanged(u => { if(u) { $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile')">Agent Hub</button>`); $('#set-name').val(u.displayName); $('#set-email').val(u.email); } initNews(); });
     </script>
 </body>
 </html>
