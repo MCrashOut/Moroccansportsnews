@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
     
-    <!-- CORE LIBRARIES -->
+    <!-- LIBRARIES -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
@@ -17,9 +17,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    
-    <!-- API SPORTS WIDGET SCRIPT -->
-    <script type="module" src="https://widgets.api-sports.io/3.1.0/widgets.js"></script>
 
     <style>
         :root {
@@ -49,61 +46,57 @@
         .logo span { color: var(--cyan); }
         
         nav ul { display: flex; list-style: none; gap: 15px; align-items: center; }
-        nav a { color: var(--text); text-decoration: none; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; cursor: pointer;}
+        nav a { color: var(--text); text-decoration: none; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; cursor: pointer;}
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
-        .header-right { display: flex; align-items: center; gap: 20px; }
-        .search-trigger { color: var(--cyan); cursor: pointer; font-size: 1.1rem; transition: 0.3s; }
-        .auth-btn { background: var(--cyan); color: #000; padding: 8px 20px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; transition: 0.3s; }
+        .auth-btn { background: var(--cyan); color: #000; padding: 8px 20px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
 
-        #search-overlay { position: fixed; top: 60px; left: 0; width: 100%; background: #000; border-bottom: 1px solid var(--cyan); padding: 15px 5%; z-index: 999; display: none; align-items: center; gap: 15px; }
-        #search-overlay input { flex: 1; background: transparent; border: none; color: #fff; font-size: 1rem; outline: none; }
-
-        .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 60px; }
+        .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 80px; }
         .view-page.active { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* NEWSPAPER GRID */
+        /* COMPACT POST TRIGGER */
+        .post-trigger-bar { background: var(--glass); border: 1px solid var(--border); border-radius: 50px; padding: 12px 25px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; transition: 0.3s; }
+        .post-trigger-bar:hover { border-color: var(--cyan); }
+        .post-trigger-bar span { opacity: 0.5; font-size: 0.9rem; }
+
+        /* GRID SYSTEM */
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px 5%; justify-content: center; max-width: 1400px; margin: 0 auto; }
+        .right-card { cursor: pointer; background: var(--glass); padding: 18px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; transition: 0.3s; height: auto; }
+        .right-card:hover { border-color: var(--cyan); transform: translateY(-3px); }
+        .intel-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .right-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #fff; font-weight: 700; line-height: 1.2; }
+
+        /* HOME NEWSPAPER GRID */
         .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 40px; padding: 20px 5%; }
         @media (max-width: 1100px) { .newspaper-grid { grid-template-columns: 1fr; } }
         .side-wire { border-right: 1px solid var(--border); padding-right: 25px; }
-        .wire-item { cursor: pointer; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom:15px; transition: 0.3s; }
-        .wire-item:hover h4 { color: var(--cyan); }
-        .wire-item h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-dim); line-height: 1.4; }
-
+        .wire-item { cursor: pointer; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom:10px; }
         .main-feature h1 { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; cursor: pointer; color: #fff; }
         .main-feature-img { width: 100%; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; cursor: pointer; object-fit: cover; }
-        .intel-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
 
-        .right-card { cursor: pointer; background: var(--glass); padding: 18px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; height: auto; }
-        .right-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #fff; font-weight: 700; line-height: 1.2; }
-
-        /* REACTIONS (FIXED) */
+        /* REACTIONS */
         .reaction-bar { display: flex; gap: 20px; padding: 15px; border-top: 1px solid var(--border); justify-content: center; margin-top: 20px;}
-        .react-btn { background: transparent !important; border: none !important; outline: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
+        .react-btn { background: transparent !important; border: none !important; outline: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; padding: 5px; }
+        .react-btn:hover { transform: scale(1.2); }
         .react-count { font-size: 0.8rem; font-weight: 800; color: var(--cyan); }
 
-        /* AUTH HUB (FIXED GOOGLE BTN) */
+        /* MODALS */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; }
         .modal-content { background: #020608; max-width: 420px; width: 90%; border-radius: 30px; padding: 40px; border: 1px solid var(--border); position: relative; text-align: center; }
         .auth-tabs-row { display: flex; width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
-        .auth-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 800; opacity: 0.4; transition: 0.3s; }
+        .auth-tab { flex: 1; text-align: center; padding: 15px; cursor: pointer; font-weight: 800; opacity: 0.4; }
         .auth-tab.active { opacity: 1; color: var(--cyan); border-bottom: 3px solid var(--cyan); }
         .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 15px; margin: 10px 0; border-radius: 12px; color: #fff; outline: none; }
-        .google-btn { background: transparent !important; color: #fff !important; border: 1px solid #fff !important; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; border-radius: 12px; font-weight: 600; cursor: pointer; }
-        .google-btn:hover { background: rgba(255,255,255,0.05) !important; }
 
-        /* CHESS */
-        .board-container { background: var(--glass); border: 1px solid var(--border); padding: 30px; border-radius: 30px; text-align: center; max-width: 600px; margin: 40px auto; }
-        #myBoard { width: 450px; max-width: 100%; margin: 0 auto; border: 5px solid #222; border-radius: 8px; }
-
-        .widget-area { background: #000; min-height: 850px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; }
+        .board-container { background: var(--glass); border: 1px solid var(--border); padding: 30px; border-radius: 30px; text-align: center; max-width: 550px; margin: 40px auto; }
+        #myBoard { width: 450px; max-width: 100%; margin: 0 auto; border: 6px solid #222; border-radius: 8px; }
+        .close { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
         footer { padding: 40px 5%; text-align: center; opacity: 0.3; border-top: 1px solid var(--border); font-size: 0.7rem;}
     </style>
 </head>
 <body>
 
-    <!-- OFFICIAL API CONFIG WIDGET -->
     <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark"></api-sports-widget>
 
     <header>
@@ -114,6 +107,7 @@
         <nav>
             <ul>
                 <li><a onclick="switchPage('home')" id="nav-home" class="active">Home</a></li>
+                <li><a onclick="switchPage('feed')" id="nav-feed">Feed</a></li>
                 <li><a onclick="switchPage('morocco')" id="nav-morocco">Moroccan</a></li>
                 <li><a onclick="switchPage('global')" id="nav-global">Global</a></li>
                 <li><a onclick="switchPage('esports')" id="nav-esports">Esports</a></li>
@@ -122,20 +116,21 @@
             </ul>
         </nav>
         <div class="header-right">
-            <i class="fa-solid fa-magnifying-glass search-trigger" onclick="toggleSearch()"></i>
+            <i class="fa-solid fa-magnifying-glass search-trigger" onclick="toggleSearch()" style="color:var(--cyan); cursor:pointer; font-size:1.1rem; margin-right:15px;"></i>
             <div id="auth-ui"><button class="auth-btn" onclick="openAuth()">Access Hub</button></div>
         </div>
     </header>
 
-    <div id="search-overlay">
+    <div id="search-overlay" style="position:fixed; top:60px; left:0; width:100%; background:#000; border-bottom:1px solid var(--cyan); padding:15px 5%; z-index:999; display:none; align-items:center; gap:15px;">
         <i class="fa-solid fa-magnifying-glass" style="color:var(--cyan)"></i>
-        <input type="text" id="active-search-input" placeholder="Search Intelligence..." onkeyup="handleSearch(event)">
+        <input type="text" id="active-search-input" placeholder="Search Intelligence..." onkeyup="handleSearch(event)" style="flex:1; background:transparent; border:none; color:#fff; outline:none;">
         <i class="fa-solid fa-xmark" onclick="toggleSearch()" style="color:var(--red); cursor:pointer"></i>
     </div>
 
     <div id="content-wrapper">
+        <!-- HOME PAGE -->
         <div id="home-page" class="view-page active">
-            <div id="search-results-area" style="display:none; padding: 0 5% 40px;"><div class="news-grid" id="search-output-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px;"></div></div>
+            <div id="search-results-area" style="display:none; padding: 0 5% 40px;"><div class="news-grid" id="search-output-grid"></div></div>
             <div class="newspaper-grid" id="standard-home-layout">
                 <div class="side-wire" id="wire-left"></div>
                 <div id="center-intel" class="main-feature"></div>
@@ -143,13 +138,29 @@
             </div>
         </div>
 
-        <div id="morocco-page" class="view-page"><div class="news-grid" id="feed-morocco" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding:20px 5%;"></div></div>
-        <div id="global-page" class="view-page"><div class="news-grid" id="feed-global" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding:20px 5%;"></div></div>
-        <div id="esports-page" class="view-page"><div class="news-grid" id="feed-esports" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding:20px 5%;"></div></div>
+        <!-- COMMUNITY FEED (REPOSITIONED & COMPACT) -->
+        <div id="feed-page" class="view-page">
+            <div style="padding:20px 5%; max-width:800px; margin:auto;">
+                <h2 style="color:var(--cyan); margin-bottom:20px; text-transform:uppercase; letter-spacing:2px;">Community Intelligence Feed</h2>
+                
+                <!-- COMPACT TRIGGER -->
+                <div class="post-trigger-bar" onclick="$('#post-modal').css('display','flex')">
+                    <span>What breaking sports intelligence do you have?</span>
+                    <i class="fa-solid fa-paper-plane" style="color:var(--cyan)"></i>
+                </div>
 
-        <!-- CHESS HUB -->
+                <div id="feed-container"></div>
+            </div>
+        </div>
+
+        <div id="morocco-page" class="view-page"><div class="news-grid" id="feed-morocco"></div></div>
+        <div id="global-page" class="view-page"><div class="news-grid" id="feed-global"></div></div>
+        <div id="esports-page" class="view-page"><div class="news-grid" id="feed-esports"></div></div>
+
+        <!-- CHESS HUB (NEWS FIRST, BOARD BOTTOM) -->
         <div id="chess-page" class="view-page">
-            <div class="news-grid" id="feed-chess" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding:20px 5%;"></div>
+            <h2 style="padding:0 5%; margin-bottom:20px; border-left:5px solid var(--cyan); margin-left:5%;">Grandmaster Intelligence Feed</h2>
+            <div class="news-grid" id="feed-chess"></div>
             <div class="board-container">
                 <h2 style="margin-bottom:20px; color:var(--cyan);">Elite Neural AI</h2>
                 <div id="myBoard"></div>
@@ -162,17 +173,16 @@
         </div>
 
         <div id="matches-page" class="view-page"><div class="widget-area" id="live-inject"></div></div>
+    </div>
 
-        <!-- PROFILE Dashboard -->
-        <div id="profile-page" class="view-page">
-            <div class="profile-dashboard" style="background:var(--glass); border:1px solid var(--border); padding:40px; border-radius:30px; text-align:center; max-width:500px; margin: 40px auto;">
-                <h2 style="color:var(--cyan); margin-bottom:25px;">Agent Identity Sync</h2>
-                <input type="text" id="set-name" class="auth-input" placeholder="Update Agent ID">
-                <input type="email" id="set-email" class="auth-input" placeholder="Change Email">
-                <input type="password" id="set-pass" class="auth-input" placeholder="New Password">
-                <button class="auth-btn" style="width:100%; margin-top:15px; padding:15px;" onclick="updateProfileData()">Sync Database</button>
-                <button class="auth-btn" style="width:100%; margin-top:10px; background:var(--red); color:#fff; padding:15px;" onclick="logout()">Logout</button>
-            </div>
+    <!-- POST MODAL -->
+    <div id="post-modal" class="modal">
+        <div class="modal-content" style="max-width:600px;">
+            <span class="close" onclick="$('#post-modal').hide()">&times;</span>
+            <h2 style="color:var(--cyan); margin-bottom:20px;">Broadcast News</h2>
+            <textarea id="post-content" placeholder="Share sports intel with the community..." 
+                style="width:100%; height:150px; padding:15px; border-radius:15px; background:#000; border:1px solid var(--border); color:#fff; outline:none; resize:none;"></textarea>
+            <button class="auth-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="createPost()">Broadcast Post</button>
         </div>
     </div>
 
@@ -186,16 +196,15 @@
             </div>
             <input type="email" id="email" placeholder="Agent Email" class="auth-input">
             <input type="password" id="pass" placeholder="Security Key" class="auth-input">
-            <button class="auth-btn" id="auth-submit-btn" style="width:100%; margin-top:20px; padding:15px;" onclick="handleAuth()">Enter Hub</button>
-            <button class="google-btn" onclick="loginGoogle()">
-                <i class="fa-brands fa-google"></i> Google Intelligence Access
+            <button class="auth-btn" id="auth-submit-btn" style="width:100%; margin-top:20px;" onclick="handleAuth()">Enter Hub</button>
+            <button class="auth-btn" style="width:100%; margin-top:10px; background:transparent; color:#fff; border:1px solid #fff;" onclick="loginGoogle()">
+                <i class="fa-brands fa-google" style="margin-right:8px"></i> Google Login
             </button>
         </div>
     </div>
 
-    <!-- DETAIL MODAL -->
     <div class="modal" id="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width:750px;">
             <span class="close" onclick="$('.modal').hide()">&times;</span>
             <h2 id="m-title" style="color:var(--cyan); margin-bottom:15px;"></h2>
             <p id="m-body" style="color:var(--text-dim); line-height:1.6; text-align:left;"></p>
@@ -229,69 +238,76 @@
             $('nav a').removeClass('active');
             $('#nav-'+p).addClass('active');
             
-            // WIDGET HARD RELOAD (DOCUMENTED RE-INITIALIZATION)
+            if(p === 'feed') loadFeed();
             if(p === 'matches') {
                 $('#live-inject').empty().append('<api-sports-widget data-type="games" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18"></api-sports-widget>');
-                const script = document.createElement('script');
-                script.type = 'module';
-                script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js?v=' + Date.now();
-                document.head.appendChild(script);
+                $.getScript('https://widgets.api-sports.io/3.1.0/widgets.js');
             }
             window.scrollTo(0,0);
         }
 
-        // --- CHESS ENGINE ---
-        function initChess(side) {
-            game.reset();
-            board = Chessboard('myBoard', {
-                draggable: true, position: 'start', orientation: side,
-                onDragStart: (src, p) => { if (game.game_over() || game.turn() !== side[0] || p.search(new RegExp('^' + side[0])) === -1) return false; },
-                onDrop: (src, tar) => {
-                    let move = game.move({ from: src, to: tar, promotion: 'q' });
-                    if (move === null) return 'snapback';
-                    window.setTimeout(makeAiMove, 500);
-                },
-                pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
-            });
-            if(side === 'black') window.setTimeout(makeAiMove, 500);
-        }
-        function makeAiMove() {
-            let moves = game.moves(); if(moves.length === 0) return;
-            game.move(moves[Math.floor(Math.random() * moves.length)]);
-            board.position(game.fen());
-        }
-
-        // --- AUTH ---
-        function openAuth() { $('#auth-modal').css('display','flex'); }
-        function setAuthMode(m) { 
-            authMode = m; 
-            $('.auth-tab').removeClass('active'); 
-            $('#tab-'+m).addClass('active'); 
-            $('#auth-submit-btn').text(m === 'login' ? "Enter Hub" : "Initialize Agent Account");
-        }
-        async function handleAuth() {
-            const e=$('#email').val(), p=$('#pass').val();
-            try { if(authMode==='signup') await auth.createUserWithEmailAndPassword(e,p); else await auth.signInWithEmailAndPassword(e,p); location.reload(); } catch(err){alert(err.message);}
-        }
-        function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
-        function logout() { auth.signOut().then(() => location.reload()); }
-        async function updateProfileData() {
+        // --- FEED ---
+        async function createPost() {
+            if(!auth.currentUser) return alert("Log in required.");
+            const content = $('#post-content').val().trim();
+            if(!content) return;
             try {
-                const u = auth.currentUser;
-                if($('#set-name').val()) await u.updateProfile({displayName: $('#set-name').val()});
-                alert("Profile Synced.");
+                await db.collection('posts').add({
+                    userId: auth.currentUser.uid,
+                    username: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
+                    content: content,
+                    score: 0, likes: 0, dislikes: 0, fires: 0, hearts: 0,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                $('#post-content').val('');
+                $('#post-modal').hide();
             } catch(e) { alert(e.message); }
         }
 
-        // --- SEARCH ---
-        function toggleSearch() { $('#search-overlay').toggle(); if($('#search-overlay').is(':visible')) $('#active-search-input').focus(); }
-        function handleSearch(e) {
-            const q = e.target.value.toLowerCase();
-            if(q.length > 1) {
-                switchPage('home'); $('#search-results-area').show(); $('#standard-home-layout').hide();
-                $('#search-output-grid').html(masterPool.filter(n => n.title.toLowerCase().includes(q)).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
-            } else { $('#search-results-area').hide(); $('#standard-home-layout').show(); }
+        function loadFeed() {
+            db.collection('posts').orderBy('score', 'desc').onSnapshot(async snapshot => {
+                const container = $('#feed-container').empty();
+                for(let doc of snapshot.docs) {
+                    const post = doc.data();
+                    const postId = doc.id;
+                    const isOwner = auth.currentUser && (post.userId === auth.currentUser.uid || auth.currentUser.email === "rabiimodz@gmail.com");
+                    container.append(`
+                        <div class="post-card" style="background:var(--glass); border:1px solid var(--border); border-radius:20px; padding:25px; margin-bottom:20px; position:relative;">
+                            ${isOwner ? `<i class="fa-solid fa-trash" onclick="deletePost('${postId}')" style="position:absolute; top:20px; right:20px; color:var(--red); cursor:pointer;"></i>` : ''}
+                            <span style="color:var(--cyan); font-weight:800; display:block; margin-bottom:10px;">@${post.username}</span>
+                            <p style="color:#fff; line-height:1.6;">${post.content}</p>
+                            <div style="display:flex; gap:15px; margin-top:15px; border-top:1px solid var(--border); padding-top:15px;">
+                                <button class="react-btn" onclick="reactToPost('${postId}', 'like')">👍 ${post.likes||0}</button>
+                                <button class="react-btn" onclick="reactToPost('${postId}', 'fire')">🔥 ${post.fires||0}</button>
+                                <button class="react-btn" onclick="reactToPost('${postId}', 'heart')">❤️ ${post.hearts||0}</button>
+                            </div>
+                        </div>
+                    `);
+                }
+            });
         }
+
+        async function reactToPost(postId, type) {
+            if(!auth.currentUser) return alert("Login required.");
+            const rid = `${postId}_${auth.currentUser.uid}`, rref = db.collection('reactions_feed').doc(rid), pref = db.collection('posts').doc(postId);
+            const w = { like: 1, dislike: -1, fire: 2, heart: 2 };
+            await db.runTransaction(async t => {
+                const rd = await t.get(rref), pd = await t.get(pref);
+                if(!pd.exists) return;
+                let data = pd.data(), sc = 0, up = {};
+                if(rd.exists) {
+                    const old = rd.data().type;
+                    sc -= w[old]; up[old+'s'] = (data[old+'s']||1)-1;
+                    if(old === type) t.delete(rref);
+                    else { sc += w[type]; t.update(rref, {type}); up[type+'s'] = (data[type+'s']||0)+1; }
+                } else {
+                    sc += w[type]; t.set(rref, {type, userId: auth.currentUser.uid, postId}); up[type+'s'] = (data[type+'s']||0)+1;
+                }
+                up.score = (data.score||0) + sc;
+                t.update(pref, up);
+            });
+        }
+        async function deletePost(id) { if(confirm("Terminate broadcast?")) await db.collection('posts').doc(id).delete(); }
 
         // --- NEWS ---
         async function initNews() {
@@ -316,41 +332,45 @@
 
         function renderNewspaper() {
             const pool = [...masterPool].sort(() => 0.5 - Math.random()); if(pool.length < 5) return;
-            $('#center-intel').html(`<span class="intel-tag" style="color:var(--blue-intel)">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})"><p style="color:var(--text-dim)">${pool[0].desc.substring(0,250)}...</p>`);
-            $('#wire-left').html(pool.slice(1,10).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join(''));
-            $('#wire-right').html(pool.slice(11,18).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
-        }
-        function openDetails(id) { 
-            const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); 
-            $('#m-link').off('click').on('click', function(e){ e.preventDefault(); window.open(n.link, '_blank'); });
-            syncReacts(n.title); $('#modal').css('display','flex'); 
+            $('#center-intel').html(`<span class="intel-tag">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})">`);
+            $('#wire-left').html(pool.slice(1,11).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`));
+            $('#wire-right').html(pool.slice(11,18).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`));
         }
 
-        async function submitReact(type) {
-            if(!auth.currentUser) return alert("Login Required.");
-            const title = document.getElementById('m-title').innerText;
-            const ref = db.collection('reactions').doc(btoa(title).substring(0,30));
-            const uid = auth.currentUser.uid;
-            await db.runTransaction(async (t) => {
-                const doc = await t.get(ref);
-                const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}};
-                if(!data.voters[uid]) data.voters[uid] = {};
-                if(data.voters[uid][type]) { data[type]--; data.voters[uid][type] = false; }
-                else { data[type]++; data.voters[uid][type] = true; }
-                t.set(ref, data);
+        // --- CHESS ---
+        function initChess(side) {
+            game.reset();
+            board = Chessboard('myBoard', {
+                draggable: true, position: 'start', orientation: side,
+                onDragStart: (src, p) => { if (game.game_over() || game.turn() !== side[0] || p.search(new RegExp('^' + side[0])) === -1) return false; },
+                onDrop: (src, tar) => {
+                    let move = game.move({ from: src, to: tar, promotion: 'q' });
+                    if (move === null) return 'snapback';
+                    window.setTimeout(() => {
+                        let moves = game.moves(); if(moves.length > 0) game.move(moves[Math.floor(Math.random() * moves.length)]);
+                        board.position(game.fen());
+                    }, 500);
+                },
+                pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
             });
-            syncReacts(title);
-        }
-        async function syncReacts(title) {
-            const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get();
-            const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0};
-            ['like','heart','fire','dislike'].forEach(t => { $(`#c-${t}`).text(data[t] || 0); });
         }
 
-        auth.onAuthStateChanged((u) => { 
-            if(u) { $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile')">Agent Hub</button>`); $('#set-name').val(u.displayName); }
-            initNews(); 
-        });
+        function toggleSearch() { $('#search-overlay').toggle(); if($('#search-overlay').is(':visible')) $('#active-search-input').focus(); }
+        function handleSearch(e) {
+            const q = e.target.value.toLowerCase();
+            if(q.length > 1) {
+                switchPage('home'); $('#search-results-area').show(); $('#standard-home-layout').hide();
+                $('#search-output-grid').html(masterPool.filter(n => n.title.toLowerCase().includes(q)).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`));
+            } else { $('#search-results-area').hide(); $('#standard-home-layout').show(); }
+        }
+        function openAuth() { $('#auth-modal').css('display','flex'); }
+        function setAuthMode(m) { authMode = m; $('.auth-tab').removeClass('active'); $('#tab-'+m).addClass('active'); $('#auth-submit-btn').text(m==='login'?'Enter Hub':'Initialize Agent'); }
+        async function handleAuth() { const e=$('#email').val(), p=$('#pass').val(); try { if(authMode==='signup') await auth.createUserWithEmailAndPassword(e,p); else await auth.signInWithEmailAndPassword(e,p); location.reload(); } catch(err){alert(err.message);} }
+        function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
+        function logout() { auth.signOut().then(() => location.reload()); }
+        function openDetails(id) { const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); $('#m-link').off('click').on('click', function(e){ e.preventDefault(); window.open(n.link, '_blank'); }); $('#modal').css('display','flex'); }
+        function closeM() { $('.modal').hide(); }
+        auth.onAuthStateChanged(u => { if(u) $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile')">Agent Hub</button>`); initNews(); });
     </script>
 </body>
 </html>
