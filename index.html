@@ -43,59 +43,85 @@
         }
 
         .logo { font-size: 1.2rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; letter-spacing: -1px; }
-        .logo img { width: 28px; height: 28px; border-radius: 4px; margin-right: 8px; border: 1px solid var(--cyan); }
+        .logo img { width: 24px; height: 24px; border-radius: 4px; margin-right: 8px; border: 1px solid var(--cyan); }
         .logo span { color: var(--cyan); }
         
+        nav { overflow-x: auto; scrollbar-width: none; }
+        nav::-webkit-scrollbar { display: none; }
         nav ul { display: flex; list-style: none; gap: 15px; align-items: center; }
-        nav a { color: var(--text); text-decoration: none; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; cursor: pointer;}
+        nav a { color: var(--text); text-decoration: none; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; cursor: pointer; white-space: nowrap; }
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
-        .header-right { display: flex; align-items: center; gap: 15px; }
-        .auth-btn { background: var(--cyan); color: #000; padding: 7px 18px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+        .header-right { display: flex; align-items: center; gap: 12px; z-index: 1100; }
+        .auth-btn { background: var(--cyan); color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.6rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; white-space: nowrap; transition: 0.3s; }
 
-        .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 80px; }
+        .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 100px; }
         .view-page.active { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- MOBILE NAV (BOTTOM) --- */
-        .mobile-nav { position: fixed; bottom: 0; width: 100%; height: 65px; background: #000; border-top: 1px solid var(--border); display: none; justify-content: space-around; align-items: center; z-index: 2000; padding-bottom: env(safe-area-inset-bottom); }
-        .mobile-nav button { background: none; border: none; color: #555; font-size: 1.4rem; cursor: pointer; transition: 0.2s; }
-        .mobile-nav button.active { color: var(--cyan); transform: scale(1.1); }
+        /* HORIZONTAL REACTION ALIGNMENT */
+        .reaction-bar, .post-actions { 
+            display: flex !important; 
+            flex-direction: row !important; 
+            align-items: center !important; 
+            justify-content: center; 
+            gap: 15px; 
+            margin-top: 20px; 
+            border-top: 1px solid var(--border); 
+            padding-top: 15px; 
+        }
+        .post-actions { justify-content: flex-start; padding-left: 5px; }
+
+        .react-btn, .feed-react-btn { 
+            background: transparent !important; 
+            border: none !important; 
+            outline: none !important; 
+            cursor: pointer; 
+            display: flex !important; 
+            flex-direction: row !important; 
+            align-items: center !important; 
+            gap: 6px; 
+            color: #fff; 
+            filter: grayscale(1); 
+            transition: 0.2s; 
+            padding: 5px; 
+        }
+        .feed-react-btn.active, .react-btn.active { filter: grayscale(0); color: var(--cyan); font-weight: 800; }
+        .react-count { font-size: 0.85rem; font-weight: 800; color: var(--cyan); }
+
+        /* POST CARDS */
+        .post-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-bottom: 20px; position: relative; width: 100%; transition: 0.3s; }
+        .post-card.pinned { border: 2px solid var(--cyan); box-shadow: 0 0 20px rgba(0, 242, 254, 0.15); }
+        .post-user { color: var(--cyan); font-weight: 800; font-size: 0.9rem; margin-bottom: 10px; display: block; }
+        .pin-btn { position: absolute; top: 22px; right: 55px; color: var(--cyan); cursor: pointer; opacity: 0.4; padding: 5px; }
+        .delete-btn { position: absolute; top: 22px; right: 20px; color: var(--red); cursor: pointer; opacity: 0.4; padding: 5px; }
 
         /* NEWSPAPER GRID (PC) */
         .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 40px; padding: 20px 5%; }
+        @media (max-width: 1100px) { .newspaper-grid { grid-template-columns: 1fr; } .side-wire { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; } }
         .side-wire { border-right: 1px solid var(--border); padding-right: 25px; }
-        .wire-item { cursor: pointer; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px; }
-        .wire-item:hover h4 { color: var(--cyan); }
-        .wire-item h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-dim); line-height: 1.4; }
-
+        .wire-item { cursor: pointer; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px; }
+        
         .main-feature { text-align: left; }
         .master-label { color: var(--red); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; display: block; }
         .main-feature h1 { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; cursor: pointer; color: #fff; }
         .main-feature-img { width: 100%; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; cursor: pointer; object-fit: cover; }
         .intel-tag { color: var(--blue-intel); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
 
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; padding: 20px 5%; justify-content: center; max-width: 1400px; margin: 0 auto; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px 5%; justify-content: center; }
         .right-card { cursor: pointer; background: var(--glass); padding: 18px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; height: auto; }
 
-        /* REACTIONS - NO BG */
-        .reaction-bar, .post-actions { display: flex; gap: 15px; padding: 15px; border-top: 1px solid var(--border); justify-content: center; margin-top: 20px;}
-        .react-btn, .feed-react-btn { background: transparent !important; border: none !important; outline: none !important; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; padding: 5px; color: #fff; }
-        .react-btn:hover { transform: scale(1.2); }
-        .react-count { font-size: 0.8rem; font-weight: 800; color: var(--cyan); }
+        /* MOBILE BOTTOM NAV */
+        .mobile-nav { position: fixed; bottom: 0; width: 100%; height: 65px; background: #000; border-top: 1px solid var(--border); display: none; justify-content: space-around; align-items: center; z-index: 2000; padding-bottom: env(safe-area-inset-bottom); }
+        @media (max-width: 1024px) { header nav { display: none; } .mobile-nav { display: flex; } }
+        .mobile-nav button { background: none; border: none; color: #555; font-size: 1.4rem; cursor: pointer; }
+        .mobile-nav button.active { color: var(--cyan); }
 
-        /* POST CARDS */
-        .post-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-bottom: 20px; position: relative; transition: 0.3s; }
-        .post-card.pinned { border: 2px solid var(--cyan); box-shadow: 0 0 20px rgba(0, 242, 254, 0.1); }
-        .post-user { color: var(--cyan); font-weight: 800; font-size: 0.9rem; margin-bottom: 10px; display: block; }
-        .pin-btn { position: absolute; top: 22px; right: 55px; color: var(--cyan); cursor: pointer; opacity: 0.4; }
-        .delete-btn { position: absolute; top: 22px; right: 20px; color: var(--red); cursor: pointer; opacity: 0.4; }
-
-        /* AUTH MODAL */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 5000; }
+        /* MODALS */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 15px; }
         .modal-content { background: #020608; max-width: 420px; width: 90%; border-radius: 30px; padding: 40px; border: 1px solid var(--border); position: relative; text-align: center; }
         .auth-tabs-row { display: flex; width: 100%; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
-        .auth-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 800; opacity: 0.4; }
+        .auth-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 800; font-size: 0.8rem; opacity: 0.4; }
         .auth-tab.active { opacity: 1; color: var(--cyan); border-bottom: 3px solid var(--cyan); }
         .auth-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 15px; margin: 10px 0; border-radius: 12px; color: #fff; outline: none; }
         
@@ -103,23 +129,11 @@
         #myBoard { width: 100% !important; max-width: 450px; border: 5px solid #222; border-radius: 5px; }
         .widget-area { background: #000; min-height: 800px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; position: relative; }
         .close { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
-        
-        /* RESPONSIVE MEDIA QUERIES */
-        @media (max-width: 1024px) {
-            header nav { display: none; }
-            .mobile-nav { display: flex; }
-            .newspaper-grid { grid-template-columns: 1fr; }
-            .side-wire { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 20px; }
-            .main-feature h1 { font-size: 1.7rem; }
-            .view-page { padding-bottom: 100px; }
-        }
-
         footer { padding: 40px 5%; text-align: center; opacity: 0.3; border-top: 1px solid var(--border); font-size: 0.7rem;}
     </style>
 </head>
 <body>
 
-    <!-- GLOBAL CONFIG -->
     <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal"></api-sports-widget>
 
     <header>
@@ -161,9 +175,9 @@
 
         <div id="feed-page" class="view-page">
             <div style="padding:10px 5%; max-width:700px; margin:auto;">
-                <h2 style="color:var(--cyan); margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; font-size:1.2rem;">Intelligence Feed</h2>
+                <h2 style="color:var(--cyan); margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; font-size:1.2rem;">Community Intelligence Feed</h2>
                 <div style="background:var(--glass); border:1px solid var(--border); border-radius:50px; padding:12px 25px; cursor:pointer; display:flex; justify-content:space-between; margin-bottom:25px;" onclick="$('#post-modal').css('display', 'flex')">
-                    <span style="opacity:0.5; font-size:0.8rem;">Broadcast your sports intelligence...</span>
+                    <span style="opacity:0.5; font-size:0.8rem;">Broadcast news...</span>
                     <i class="fa-solid fa-paper-plane" style="color:var(--cyan)"></i>
                 </div>
                 <div id="feed-container"></div>
@@ -177,7 +191,7 @@
         <!-- CHESS HUB -->
         <div id="chess-page" class="view-page">
             <h2 style="padding:0 5%; text-align:center; margin-bottom:20px; color:var(--cyan); font-size:1.2rem;">Grandmaster Intelligence</h2>
-            <div class="news-grid" id="feed-chess"></div>
+            <div class="news-grid" id="feed-chess" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding:20px 5%;"></div>
             <div class="board-container">
                 <div id="myBoard"></div>
                 <p id="game-status" style="margin-top:15px; font-size:0.75rem; color:var(--cyan); font-weight:800;">Initiate Protocol...</p>
@@ -236,15 +250,15 @@
     </div>
 
     <div class="modal" id="modal">
-        <div class="modal-content" style="max-width:750px;">
+        <div class="modal-content">
             <span class="close" onclick="$('.modal').hide()">&times;</span>
             <h2 id="m-title" style="color:var(--cyan); margin-bottom:15px;"></h2>
             <p id="m-body" style="color:var(--text-dim); line-height:1.6; text-align:left;"></p>
             <div class="reaction-bar" id="reaction-ui">
-                <button class="react-btn" onclick="submitReact('like')">👍<span class="react-count" id="c-like">0</span></button>
-                <button class="react-btn" onclick="submitReact('heart')">❤️<span class="react-count" id="c-heart">0</span></button>
-                <button class="react-btn" onclick="submitReact('fire')">🔥<span class="react-count" id="c-fire">0</span></button>
-                <button class="react-btn" onclick="submitReact('dislike')">👎<span class="react-count" id="c-dislike">0</span></button>
+                <button class="react-btn" onclick="submitReact('like')">👍 <span class="react-count" id="c-like">0</span></button>
+                <button class="react-btn" onclick="submitReact('heart')">❤️ <span class="react-count" id="c-heart">0</span></button>
+                <button class="react-btn" onclick="submitReact('fire')">🔥 <span class="react-count" id="c-fire">0</span></button>
+                <button class="react-btn" onclick="submitReact('dislike')">👎 <span class="react-count" id="c-dislike">0</span></button>
             </div>
             <a id="m-link" href="#" target="_blank" class="auth-btn" style="display:block; text-align:center; margin-top:20px;">Read Full Intel</a>
         </div>
@@ -265,12 +279,7 @@
         let masterPool = [], authMode = 'login', game = new Chess(), board = null, feedListener = null, playerSide = 'w';
 
         function switchPage(p) {
-            // PROFILE LOGIC FOR MOBILE
-            if(p === 'profile-check') {
-                if(!auth.currentUser) { openAuth(); return; }
-                p = 'profile';
-            }
-
+            if(p === 'profile-check') { if(!auth.currentUser) { openAuth(); return; } p = 'profile'; }
             $('.view-page').removeClass('active');
             $('#'+p+'-page').addClass('active');
             $('nav a, .mobile-nav button').removeClass('active');
@@ -278,17 +287,14 @@
             
             if(p === 'feed') loadFeed();
             if(p === 'matches') {
-                $('#live-inject').empty();
+                const box = $('#live-inject').empty();
                 setTimeout(() => {
-                    $('#live-inject').append('<api-sports-widget data-type="games" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-target-game="modal"></api-sports-widget>');
+                    box.append('<api-sports-widget data-type="games" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-target-game="modal"></api-sports-widget>');
                     $.getScript('https://widgets.api-sports.io/3.1.0/widgets.js');
                 }, 150);
             }
             window.scrollTo(0,0);
         }
-
-        // --- ADMIN & PIN ---
-        function isAdmin() { return auth.currentUser && auth.currentUser.email.toLowerCase() === "rabiimodz@gmail.com"; }
 
         // --- CHESS ---
         function startChess(side) {
@@ -300,6 +306,7 @@
                 onDrop: (src, tar) => {
                     let move = game.move({ from: src, to: tar, promotion: 'q' });
                     if (move === null) return 'snapback';
+                    document.getElementById('game-status').innerText = "AI Processing...";
                     window.setTimeout(makeAiMove, 600);
                 },
                 pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
@@ -321,9 +328,8 @@
                 const container = $('#feed-container').empty();
                 let posts = []; snapshot.forEach(doc => posts.push({id: doc.id, ...doc.data()}));
                 posts.sort((a,b) => (b.pinned - a.pinned) || (b.score - a.score));
-
                 posts.forEach(async post => {
-                    const admin = isAdmin();
+                    const isAdmin = auth.currentUser && auth.currentUser.email.toLowerCase() === "rabiimodz@gmail.com";
                     const isOwner = auth.currentUser && post.userId === auth.currentUser.uid;
                     let active = {};
                     if(auth.currentUser) {
@@ -332,10 +338,10 @@
                     }
                     container.append(`
                         <div class="post-card ${post.pinned?'pinned':''}">
-                            ${admin ? `<i class="fa-solid fa-thumbtack pin-btn ${post.pinned?'active':''}" onclick="togglePin('${post.id}', ${post.pinned})"></i>` : ''}
-                            ${admin || isOwner ? `<i class="fa-solid fa-trash delete-btn" onclick="deletePost('${post.id}')"></i>` : ''}
+                            ${isAdmin ? `<i class="fa-solid fa-thumbtack pin-btn ${post.pinned?'active':''}" onclick="togglePin('${post.id}', ${post.pinned})"></i>` : ''}
+                            ${isAdmin || isOwner ? `<i class="fa-solid fa-trash delete-btn" onclick="deletePost('${post.id}')"></i>` : ''}
                             <span class="post-user">@${post.username} ${post.pinned?'📌 pinned':''}</span>
-                            <p style="color:#fff; line-height:1.6; font-size:0.9rem;">${post.content}</p>
+                            <p style="color:#fff; line-height:1.6;">${post.content}</p>
                             <div class="post-actions">
                                 <button class="feed-react-btn ${active.like?'active':''}" onclick="reactToFeedPost('${post.id}', 'like')">👍 ${post.likes||0}</button>
                                 <button class="feed-react-btn ${active.heart?'active':''}" onclick="reactToFeedPost('${post.id}', 'heart')">❤️ ${post.hearts||0}</button>
@@ -347,14 +353,10 @@
                 });
             });
         }
-        async function createPost() {
-            if(!auth.currentUser) return openAuth();
-            const content = $('#post-content').val().trim(); if(!content) return;
-            await db.collection('posts').add({ userId: auth.currentUser.uid, username: auth.currentUser.displayName || auth.currentUser.email.split('@')[0], content: content, score: 0, likes: 0, dislikes: 0, fires: 0, hearts: 0, pinned: false, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-            $('#post-content').val(''); $('#post-modal').hide();
-        }
-        async function togglePin(id, s) { if(!isAdmin()) return; await db.collection('posts').doc(id).update({ pinned: !s }); }
+        async function createPost() { if(!auth.currentUser) return openAuth(); const content = $('#post-content').val().trim(); if(!content) return; await db.collection('posts').add({ userId: auth.currentUser.uid, username: auth.currentUser.displayName || auth.currentUser.email.split('@')[0], content: content, score: 0, likes: 0, dislikes: 0, fires: 0, hearts: 0, pinned: false, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); $('#post-content').val(''); $('#post-modal').hide(); }
+        async function togglePin(id, s) { if(!auth.currentUser || auth.currentUser.email !== "rabiimodz@gmail.com") return; await db.collection('posts').doc(id).update({ pinned: !s }); }
         async function deletePost(id) { if(confirm("Terminate broadcast?")) await db.collection('posts').doc(id).delete(); }
+
         async function reactToFeedPost(postId, type) {
             if(!auth.currentUser) return openAuth();
             const uid = auth.currentUser.uid, rid = `${postId}_${uid}`, rref = db.collection('reactions_feed').doc(rid), pref = db.collection('posts').doc(postId);
@@ -372,16 +374,6 @@
         }
 
         // --- AUTH & NEWS ---
-        function openAuth() { $('#auth-modal').css('display','flex'); }
-        function setAuthMode(m) { authMode = m; $('.auth-tab').removeClass('active'); $('#tab-'+m).addClass('active'); $('#signup-fields').toggle(m==='signup'); }
-        async function handleAuth() {
-            const e=$('#email').val(), p=$('#pass').val(), u=$('#username').val();
-            try { if(authMode==='signup'){ const res=await auth.createUserWithEmailAndPassword(e,p); await res.user.updateProfile({displayName:u}); } else await auth.signInWithEmailAndPassword(e,p); location.reload(); } catch(err){alert(err.message);}
-        }
-        function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
-        function logout() { auth.signOut().then(() => location.reload()); }
-        async function updateProfileData() { try { if($('#set-name').val()) await auth.currentUser.updateProfile({displayName:$('#set-name').val()}); alert("Synced."); } catch(e){alert(e.message);} }
-
         async function initNews() {
             const feeds = { morocco: "https://sport.le360.ma/rss.xml", global: "https://feeds.bbci.co.uk/sport/football/rss.xml", esports: "https://www.talkesport.com/feed/", chess: "https://www.chess.com/rss/news" };
             for(let [tag, url] of Object.entries(feeds)) {
@@ -404,13 +396,25 @@
             $('#wire-left').html(pool.slice(1,11).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`));
             $('#wire-right').html(pool.slice(11,18).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`));
         }
+
+        function openAuth() { $('#auth-modal').css('display','flex'); }
+        function setAuthMode(m) { authMode = m; $('.auth-tab').removeClass('active'); $('#tab-'+m).addClass('active'); $('#signup-fields').toggle(m==='signup'); $('#auth-submit-btn').text(m==='login'?'Enter Hub':'Initialize Agent'); }
+        async function handleAuth() {
+            const e=$('#email').val(), p=$('#pass').val(), u=$('#username').val();
+            try { if(authMode==='signup'){ const res=await auth.createUserWithEmailAndPassword(e,p); await res.user.updateProfile({displayName:u}); } else await auth.signInWithEmailAndPassword(e,p); location.reload(); } catch(err){alert(err.message);}
+        }
+        function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
+        function logout() { auth.signOut().then(() => location.reload()); }
+        async function updateProfileData() { try { if($('#set-name').val()) await auth.currentUser.updateProfile({displayName:$('#set-name').val()}); if($('#set-email').val()) await auth.currentUser.updateEmail($('#set-email').val()); if($('#set-pass').val()) await auth.currentUser.updatePassword($('#set-pass').val()); alert("Synced."); } catch(e){alert(e.message);} }
         function toggleSearch() { $('#search-overlay').toggle(); if($('#search-overlay').is(':visible')) $('#active-search-input').focus(); }
         function handleSearch(e) {
             const q = e.target.value.toLowerCase();
             if(q.length > 1) { switchPage('home'); $('#search-results-area').show(); $('#standard-home-layout').hide(); $('#search-output-grid').html(masterPool.filter(n => n.title.toLowerCase().includes(q)).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`)); }
             else { $('#search-results-area').hide(); $('#standard-home-layout').show(); }
         }
-        function openDetails(id) { const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); $('#m-link').attr('href', n.link); syncReacts(n.title); $('#modal').css('display','flex'); }
+        function openDetails(id) { const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); $('#m-link').off('click').on('click', function(e){ e.preventDefault(); window.open(n.link, '_blank'); }); syncReacts(n.title); $('#modal').css('display','flex'); }
+        async function syncReacts(title) { const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get(); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0}; ['like','heart','fire','dislike'].forEach(t => { $(`#c-${t}`).text(data[t] || 0); }); }
+        async function submitReact(type) { if(!auth.currentUser) return alert("Login required."); const title = document.getElementById('m-title').innerText; const ref = db.collection('reactions').doc(btoa(title).substring(0,30)); const uid = auth.currentUser.uid; await db.runTransaction(async (t) => { const doc = await t.get(ref); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}}; if(!data.voters[uid]) data.voters[uid] = {}; if(data.voters[uid][type]) { data[type]--; data.voters[uid][type] = false; } else { data[type]++; data.voters[uid][type] = true; } t.set(ref, data); }); syncReacts(title); }
         auth.onAuthStateChanged(u => { if(u) { $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile')">Agent Hub</button>`); $('#set-name').val(u.displayName); $('#set-email').val(u.email); } initNews(); });
     </script>
 </body>
