@@ -1,5 +1,3 @@
---- START OF FILE Paste March 24, 2026 - 1:15AM ---
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,18 +50,8 @@
         nav a { color: var(--text); text-decoration: none; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; opacity: 0.6; cursor: pointer;}
         nav a:hover, nav a.active { opacity: 1; color: var(--cyan); }
 
-        .header-right { display: flex; align-items: center; gap: 15px; z-index: 1100; }
+        .header-right { display: flex; align-items: center; gap: 12px; z-index: 1100; }
         .auth-btn { background: var(--cyan); color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.6rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; white-space: nowrap; transition: 0.3s; }
-
-        /* NOTIFICATIONS UI */
-        .notif-wrapper { position: relative; cursor: pointer; display: flex; align-items: center; }
-        .notif-badge { position: absolute; top: -8px; right: -8px; background: var(--red); color: #fff; font-size: 0.55rem; font-weight: 800; padding: 2px 5px; border-radius: 10px; display: none; }
-        .notif-panel { position: fixed; top: 70px; right: 5%; width: 320px; background: #050505; border: 1px solid var(--border); border-radius: 20px; display: none; flex-direction: column; z-index: 3000; max-height: 450px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
-        .notif-header { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.7rem; font-weight: 800; color: var(--cyan); display: flex; justify-content: space-between; }
-        .notif-list { overflow-y: auto; flex: 1; }
-        .notif-item { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.7rem; color: #ccc; transition: 0.2s; }
-        .notif-item.unread { background: rgba(0, 242, 254, 0.03); color: #fff; border-left: 3px solid var(--cyan); }
-        .notif-item:hover { background: rgba(255,255,255,0.05); }
 
         .view-page { display: none; padding-top: 85px; animation: fadeIn 0.4s ease; min-height: 100vh; padding-bottom: 100px; }
         .view-page.active { display: block !important; }
@@ -107,7 +95,7 @@
         .pin-btn { position: absolute; top: 22px; right: 55px; color: var(--cyan); cursor: pointer; opacity: 0.4; }
         .delete-btn { position: absolute; top: 22px; right: 20px; color: var(--red); cursor: pointer; opacity: 0.4; }
 
-        /* GRID STYLES */
+        /* NEWSPAPER GRID (HOME) */
         .newspaper-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 40px; padding: 20px 5%; }
         @media (max-width: 1100px) { .newspaper-grid { grid-template-columns: 1fr; } .side-wire { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; } }
         .side-wire { border-right: 1px solid var(--border); padding-right: 25px; }
@@ -122,7 +110,7 @@
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px 5%; justify-content: center; }
         .right-card { cursor: pointer; background: var(--glass); padding: 18px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; height: auto; }
 
-        /* MOBILE BOTTOM NAV */
+        /* MOBILE BOTTOM NAV - UPDATED FOR 6 ITEMS */
         .mobile-nav { position: fixed; bottom: 0; width: 100%; height: 65px; background: #000; border-top: 1px solid var(--border); display: none; justify-content: space-around; align-items: center; z-index: 2000; padding-bottom: env(safe-area-inset-bottom); }
         @media (max-width: 1024px) { header nav { display: none; } .mobile-nav { display: flex; } }
         .mobile-nav button { background: none; border: none; color: #555; font-size: 1.2rem; cursor: pointer; transition: 0.2s; }
@@ -140,9 +128,13 @@
         #myBoard { width: 100% !important; max-width: 450px; border: 5px solid #222; border-radius: 5px; }
         .widget-area { background: #000; min-height: 800px; border-radius: 20px; border: 1px solid var(--border); padding: 10px; overflow: hidden; }
         .close { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--cyan); }
+        footer { padding: 40px 5%; text-align: center; opacity: 0.3; border-top: 1px solid var(--border); font-size: 0.7rem;}
     </style>
 </head>
 <body>
+
+    <!-- GLOBAL API CONFIG -->
+    <api-sports-widget data-type="config" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-sport="football" data-theme="dark" data-target-game="modal"></api-sports-widget>
 
     <header>
         <div class="logo" onclick="switchPage('home')">
@@ -161,25 +153,10 @@
             </ul>
         </nav>
         <div class="header-right">
-            <div class="notif-wrapper" onclick="toggleNotifs()">
-                <i class="fa-solid fa-bell" style="color:var(--cyan); font-size:1.1rem;"></i>
-                <span id="notif-count" class="notif-badge">0</span>
-            </div>
-            <i class="fa-solid fa-magnifying-glass search-trigger" onclick="toggleSearch()" style="color:var(--cyan); cursor:pointer; font-size:1.1rem;"></i>
             <div id="auth-ui"><button class="auth-btn" onclick="openAuth()">Access Hub</button></div>
+            <i class="fa-solid fa-magnifying-glass search-trigger" onclick="toggleSearch()" style="color:var(--cyan); cursor:pointer; font-size:1.1rem; margin-left:10px;"></i>
         </div>
     </header>
-
-    <!-- NOTIFICATION PANEL -->
-    <div id="notif-panel" class="notif-panel">
-        <div class="notif-header">
-            <span>INTELLIGENCE ALERTS</span>
-            <span onclick="markAllRead()" style="cursor:pointer; opacity:0.6;">Clear All</span>
-        </div>
-        <div id="notif-list" class="notif-list">
-            <div style="padding:40px; text-align:center; opacity:0.3; font-size:0.7rem;">No current alerts</div>
-        </div>
-    </div>
 
     <div id="search-overlay" style="position:fixed; top:60px; left:0; width:100%; background:#000; border-bottom:1px solid var(--cyan); padding:15px 5%; z-index:999; display:none; align-items:center; gap:15px;">
         <input type="text" id="active-search-input" placeholder="Search Intelligence..." onkeyup="handleSearch(event)" style="flex:1; background:transparent; border:none; color:#fff; outline:none; font-size: 1rem;">
@@ -211,6 +188,7 @@
         <div id="global-page" class="view-page"><div class="news-grid" id="feed-global"></div></div>
         <div id="esports-page" class="view-page"><div class="news-grid" id="feed-esports"></div></div>
 
+        <!-- CHESS HUB -->
         <div id="chess-page" class="view-page">
             <h2 style="padding:0 5%; text-align:center; margin-bottom:20px; color:var(--cyan); font-size:1.2rem;">Grandmaster Intelligence</h2>
             <div class="news-grid" id="feed-chess"></div>
@@ -226,16 +204,20 @@
 
         <div id="matches-page" class="view-page"><div class="widget-area" id="live-inject"></div></div>
 
+        <!-- PROFILE Dashboard -->
         <div id="profile-page" class="view-page">
             <div class="profile-dashboard" style="background:var(--glass); border:1px solid var(--border); padding:40px; border-radius:30px; text-align:center; max-width:500px; margin: 40px auto;">
                 <h2 style="color:var(--cyan); margin-bottom:25px;">Agent Identity Sync</h2>
                 <input type="text" id="set-name" class="auth-input" placeholder="Update Agent ID">
+                <input type="email" id="set-email" class="auth-input" placeholder="Change Email">
+                <input type="password" id="set-pass" class="auth-input" placeholder="New Password">
                 <button class="auth-btn" style="width:100%; margin-top:15px; padding:15px;" onclick="updateProfileData()">Sync Database</button>
                 <button class="auth-btn" style="width:100%; margin-top:10px; background:var(--red); color:#fff; padding:15px;" onclick="logout()">Logout</button>
             </div>
         </div>
     </div>
 
+    <!-- MOBILE NAV -->
     <div class="mobile-nav">
         <button onclick="switchPage('home')" id="n-home" class="active"><i class="fa-solid fa-house"></i></button>
         <button onclick="switchPage('feed')" id="n-feed"><i class="fa-solid fa-rss"></i></button>
@@ -271,7 +253,6 @@
         </div>
     </div>
 
-    <!-- NEWS DETAIL MODAL -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <span class="close" onclick="$('.modal').hide()">&times;</span>
@@ -287,6 +268,8 @@
         </div>
     </div>
 
+    <div style="position:fixed; bottom:80px; right:20px; z-index:9999;"><div class="elfsight-app-32c8aece-3b03-41a8-90cd-aa80ccfa2a2a" data-elfsight-app-lazy></div></div>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDl3HcQUr7Nd0oJOpsSmx77mTi7U4PyR0w",
@@ -299,7 +282,7 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(), db = firebase.firestore();
 
-        let masterPool = [], authMode = 'login', game = new Chess(), board = null, feedListener = null, notifListener = null;
+        let masterPool = [], authMode = 'login', game = new Chess(), board = null, feedListener = null, playerSide = 'w';
 
         function switchPage(p) {
             if(p === 'profile-check') { if(!auth.currentUser) { openAuth(); return; } p = 'profile'; }
@@ -307,49 +290,44 @@
             $('#'+p+'-page').addClass('active');
             $('nav a, .mobile-nav button').removeClass('active');
             $(`#nav-${p}, #n-${p}`).addClass('active');
+            
             if(p === 'feed') loadFeed();
             if(p === 'matches') {
-                $('#live-inject').empty().append('<api-sports-widget data-type="games" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-target-game="modal"></api-sports-widget>');
-                $.getScript('https://widgets.api-sports.io/3.1.0/widgets.js');
+                const box = $('#live-inject').empty();
+                setTimeout(() => {
+                    box.append('<api-sports-widget data-type="games" data-sport="football" data-theme="dark" data-key="77aa814e7955b3042a9ebf24fc1bee18" data-target-game="modal"></api-sports-widget>');
+                    $.getScript('https://widgets.api-sports.io/3.1.0/widgets.js');
+                }, 150);
             }
             window.scrollTo(0,0);
         }
 
-        // --- NOTIFICATIONS ---
-        function toggleNotifs() { $('#notif-panel').toggle(); if($('#notif-panel').is(':visible')) markAllRead(); }
-        function listenToNotifs() {
-            if(!auth.currentUser) return;
-            if(notifListener) notifListener();
-            notifListener = db.collection('notifications').where('targetId', '==', auth.currentUser.uid).orderBy('createdAt', 'desc').limit(20).onSnapshot(snap => {
-                const list = $('#notif-list').empty();
-                let unread = 0;
-                if(snap.empty) list.html('<div style="padding:40px; text-align:center; opacity:0.3; font-size:0.7rem;">No current alerts</div>');
-                snap.forEach(doc => {
-                    const n = doc.data();
-                    if(!n.read) unread++;
-                    list.append(`<div class="notif-item ${n.read?'':'unread'}"><b>${n.fromName}</b> ${n.message}</div>`);
-                });
-                if(unread > 0) { $('#notif-count').text(unread).show(); } else { $('#notif-count').hide(); }
+        // --- CHESS AI ---
+        function startChess(side) {
+            playerSide = side === 'white' ? 'w' : 'b';
+            game.reset(); if(board) board.destroy();
+            board = Chessboard('myBoard', {
+                draggable: true, position: 'start', orientation: side,
+                onDragStart: (src, p) => { if (game.game_over() || game.turn() !== playerSide || p.search(new RegExp('^' + playerSide)) === -1) return false; },
+                onDrop: (src, tar) => {
+                    let move = game.move({ from: src, to: tar, promotion: 'q' });
+                    if (move === null) return 'snapback';
+                    document.getElementById('game-status').innerText = "AI Processing...";
+                    window.setTimeout(makeAiMove, 600);
+                },
+                pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
             });
+            if(playerSide === 'b') window.setTimeout(makeAiMove, 800);
+            else document.getElementById('game-status').innerText = "Turn: Agent (White)";
         }
-        async function markAllRead() {
-            const batch = db.batch();
-            const snap = await db.collection('notifications').where('targetId', '==', auth.currentUser.uid).where('read', '==', false).get();
-            snap.forEach(doc => batch.update(doc.ref, {read: true}));
-            await batch.commit();
-        }
-        async function createNotif(targetId, msg) {
-            if(!targetId || targetId === auth.currentUser.uid) return;
-            await db.collection('notifications').add({
-                targetId: targetId,
-                fromName: auth.currentUser.displayName || "Agent",
-                message: msg,
-                read: false,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
+        function makeAiMove() {
+            let moves = game.moves(); if(moves.length === 0) return;
+            game.move(moves[Math.floor(Math.random() * moves.length)]);
+            board.position(game.fen());
+            document.getElementById('game-status').innerText = "Your Turn Agent...";
         }
 
-        // --- FEED & REACTIONS ---
+        // --- FEED ---
         function loadFeed() {
             if(feedListener) feedListener();
             feedListener = db.collection('posts').onSnapshot(snapshot => {
@@ -357,7 +335,8 @@
                 let posts = []; snapshot.forEach(doc => posts.push({id: doc.id, ...doc.data()}));
                 posts.sort((a,b) => (b.pinned - a.pinned) || (b.score - a.score));
                 posts.forEach(async post => {
-                    const isAdmin = auth.currentUser && auth.currentUser.email === "rabiimodz@gmail.com";
+                    const isAdmin = auth.currentUser && auth.currentUser.email.toLowerCase() === "rabiimodz@gmail.com";
+                    const isOwner = auth.currentUser && post.userId === auth.currentUser.uid;
                     let active = {};
                     if(auth.currentUser) {
                         const r = await db.collection('reactions_feed').doc(`${post.id}_${auth.currentUser.uid}`).get();
@@ -365,55 +344,41 @@
                     }
                     container.append(`
                         <div class="post-card ${post.pinned?'pinned':''}">
-                            ${isAdmin ? `<i class="fa-solid fa-thumbtack pin-btn" onclick="togglePin('${post.id}', ${post.pinned})"></i>` : ''}
-                            <span class="post-user">@${post.username}</span>
-                            <p>${post.content}</p>
+                            ${isAdmin ? `<i class="fa-solid fa-thumbtack pin-btn ${post.pinned?'active':''}" onclick="togglePin('${post.id}', ${post.pinned})"></i>` : ''}
+                            ${isAdmin || isOwner ? `<i class="fa-solid fa-trash delete-btn" onclick="deletePost('${post.id}')"></i>` : ''}
+                            <span class="post-user">@${post.username} ${post.pinned?'📌 pinned':''}</span>
+                            <p style="color:#fff; line-height:1.6;">${post.content}</p>
                             <div class="post-actions">
-                                <button class="feed-react-btn ${active.like?'active':''}" onclick="reactToFeedPost('${post.id}', 'like', '${post.userId}')">👍 ${post.likes||0}</button>
-                                <button class="feed-react-btn ${active.heart?'active':''}" onclick="reactToFeedPost('${post.id}', 'heart', '${post.userId}')">❤️ ${post.hearts||0}</button>
-                                <button class="feed-react-btn ${active.fire?'active':''}" onclick="reactToFeedPost('${post.id}', 'fire', '${post.userId}')">🔥 ${post.fires||0}</button>
+                                <button class="feed-react-btn ${active.like?'active':''}" onclick="reactToFeedPost('${post.id}', 'like')">👍 ${post.likes||0}</button>
+                                <button class="feed-react-btn ${active.heart?'active':''}" onclick="reactToFeedPost('${post.id}', 'heart')">❤️ ${post.hearts||0}</button>
+                                <button class="feed-react-btn ${active.fire?'active':''}" onclick="reactToFeedPost('${post.id}', 'fire')">🔥 ${post.fires||0}</button>
+                                <button class="feed-react-btn ${active.dislike?'active':''}" onclick="reactToFeedPost('${post.id}', 'dislike')">👎 ${post.dislikes||0}</button>
                             </div>
                         </div>
                     `);
                 });
             });
         }
-        async function reactToFeedPost(postId, type, targetId) {
+        async function createPost() { if(!auth.currentUser) return openAuth(); const content = $('#post-content').val().trim(); if(!content) return; await db.collection('posts').add({ userId: auth.currentUser.uid, username: auth.currentUser.displayName || auth.currentUser.email.split('@')[0], content: content, score: 0, likes: 0, dislikes: 0, fires: 0, hearts: 0, pinned: false, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); $('#post-content').val(''); $('#post-modal').hide(); }
+        async function togglePin(id, s) { if(!auth.currentUser || auth.currentUser.email !== "rabiimodz@gmail.com") return; await db.collection('posts').doc(id).update({ pinned: !s }); }
+        async function deletePost(id) { if(confirm("Terminate broadcast?")) await db.collection('posts').doc(id).delete(); }
+        async function reactToFeedPost(postId, type) {
             if(!auth.currentUser) return openAuth();
             const uid = auth.currentUser.uid, rid = `${postId}_${uid}`, rref = db.collection('reactions_feed').doc(rid), pref = db.collection('posts').doc(postId);
+            const w = { like: 1, dislike: -1, fire: 2, heart: 2 };
             await db.runTransaction(async t => {
-                const rd = await t.get(rref), pd = await t.get(pref);
-                if(!pd.exists) return;
-                let data = pd.data(), up = {};
+                const rd = await t.get(rref), pd = await t.get(pref); if(!pd.exists) return;
+                let data = pd.data(), sc = 0, up = {};
                 if(rd.exists) {
                     const old = rd.data().type;
-                    if(old === type) { up[old+'s'] = (data[old+'s']||1)-1; t.delete(rref); }
-                    else { up[old+'s'] = (data[old+'s']||1)-1; up[type+'s'] = (data[type+'s']||0)+1; t.update(rref, {type}); }
-                } else { 
-                    t.set(rref, {type, userId: uid, postId}); 
-                    up[type+'s'] = (data[type+'s']||0)+1;
-                    createNotif(targetId, `reacted to your broadcast intelligence.`);
-                }
-                t.update(pref, up);
+                    if(old === type) { sc -= w[old]; up[old+'s'] = (data[old+'s']||1)-1; t.delete(rref); }
+                    else { sc = sc - w[old] + w[type]; up[old+'s'] = (data[old+'s']||1)-1; up[type+'s'] = (data[type+'s']||0)+1; t.update(rref, {type}); }
+                } else { sc += w[type]; t.set(rref, {type, userId: uid, postId}); up[type+'s'] = (data[type+'s']||0)+1; }
+                up.score = (data.score||0) + sc; t.update(pref, up);
             });
         }
 
-        // --- CHESS & NEWS ---
-        function startChess(side) {
-            game.reset(); if(board) board.destroy();
-            board = Chessboard('myBoard', {
-                draggable: true, position: 'start', orientation: side,
-                onDrop: (src, tar) => {
-                    let move = game.move({ from: src, to: tar, promotion: 'q' });
-                    if (move === null) return 'snapback';
-                    window.setTimeout(() => {
-                        let moves = game.moves(); if(moves.length === 0) return;
-                        game.move(moves[Math.floor(Math.random() * moves.length)]);
-                        board.position(game.fen());
-                    }, 600);
-                }
-            });
-        }
+        // --- AUTH & NEWS ---
         async function initNews() {
             const feeds = { morocco: "https://sport.le360.ma/rss.xml", global: "https://feeds.bbci.co.uk/sport/football/rss.xml", esports: "https://www.talkesport.com/feed/", chess: "https://www.chess.com/rss/news" };
             for(let [tag, url] of Object.entries(feeds)) {
@@ -423,35 +388,35 @@
                     let html = "";
                     data.items.forEach(item => {
                         const n = { id: masterPool.length, title: item.title, desc: item.description.replace(/<[^>]*>?/gm, ''), img: item.thumbnail || 'https://via.placeholder.com/400x200', link: item.link, tag: tag.toUpperCase() };
-                        masterPool.push(n);
-                        html += `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`;
+                        if(!masterPool.some(x => x.title === n.title)) { masterPool.push(n); html += `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`; }
                     });
-                    $(`#feed-${tag}`).html(html);
+                    $(`#feed-${tag.toLowerCase()}`).html(html);
                 } catch(e) {}
             }
             renderNewspaper();
         }
         function renderNewspaper() {
-            const pool = [...masterPool].sort(() => 0.5 - Math.random());
-            if(pool.length < 5) return;
-            $('#center-intel').html(`<span class="master-label">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img">`);
-            $('#wire-left').html(pool.slice(1,10).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`));
-            $('#wire-right').html(pool.slice(10,16).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`));
+            const pool = [...masterPool].sort(() => 0.5 - Math.random()); if(pool.length < 5) return;
+            $('#center-intel').html(`<span class="master-label">MASTER INTEL</span><h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1><img src="${pool[0].img}" class="main-feature-img" onclick="openDetails(${pool[0].id})">`);
+            $('#wire-left').html(pool.slice(1,11).map(n => `<div class="wire-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`));
+            $('#wire-right').html(pool.slice(11,18).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><span class="intel-tag">${n.tag}</span><h3>${n.title}</h3></div>`));
         }
-
-        // --- CORE FUNCTIONS ---
         function openDetails(id) { const n = masterPool[id]; $('#m-title').text(n.title); $('#m-body').text(n.desc); $('#m-link').attr('onclick', `window.open('${n.link}', '_blank')`); syncReacts(n.title); $('#modal').css('display','flex'); }
-        async function submitReact(type) { if(!auth.currentUser) return openAuth(); const title = $('#m-title').text(); const ref = db.collection('reactions').doc(btoa(title).substring(0,30)); await db.runTransaction(async t => { const doc = await t.get(ref); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}}; if(!data.voters[auth.currentUser.uid]) data.voters[auth.currentUser.uid] = {}; if(data.voters[auth.currentUser.uid][type]) { data[type]--; data.voters[auth.currentUser.uid][type] = false; } else { data[type]++; data.voters[auth.currentUser.uid][type] = true; } t.set(ref, data); }); syncReacts(title); }
-        async function syncReacts(title) { const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get(); const d = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0}; ['like','heart','fire','dislike'].forEach(t => $(`#c-${t}`).text(d[t]||0)); }
+        async function syncReacts(title) { const doc = await db.collection('reactions').doc(btoa(title).substring(0,30)).get(); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0}; ['like','heart','fire','dislike'].forEach(t => { $(`#c-${t}`).text(data[t] || 0); }); }
+        async function submitReact(type) { if(!auth.currentUser) return alert("Login required."); const title = document.getElementById('m-title').innerText; const ref = db.collection('reactions').doc(btoa(title).substring(0,30)); const uid = auth.currentUser.uid; await db.runTransaction(async (t) => { const doc = await t.get(ref); const data = doc.exists ? doc.data() : {like:0, heart:0, fire:0, dislike:0, voters:{}}; if(!data.voters[uid]) data.voters[uid] = {}; if(data.voters[uid][type]) { data[type]--; data.voters[uid][type] = false; } else { data[type]++; data.voters[uid][type] = true; } t.set(ref, data); }); syncReacts(title); }
+        function toggleSearch() { $('#search-overlay').toggle(); if($('#search-overlay').is(':visible')) $('#active-search-input').focus(); }
+        function handleSearch(e) {
+            const q = e.target.value.toLowerCase();
+            if(q.length > 1) { switchPage('home'); $('#search-results-area').show(); $('#standard-home-layout').hide(); $('#search-output-grid').html(masterPool.filter(n => n.title.toLowerCase().includes(q)).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`)); }
+            else { $('#search-results-area').hide(); $('#standard-home-layout').show(); }
+        }
         function openAuth() { $('#auth-modal').css('display','flex'); }
         function setAuthMode(m) { authMode = m; $('.auth-tab').removeClass('active'); $('#tab-'+m).addClass('active'); $('#signup-fields').toggle(m==='signup'); }
         async function handleAuth() { const e=$('#email').val(), p=$('#pass').val(), u=$('#username').val(); try { if(authMode==='signup'){ const res=await auth.createUserWithEmailAndPassword(e,p); await res.user.updateProfile({displayName:u}); } else await auth.signInWithEmailAndPassword(e,p); location.reload(); } catch(err){alert(err.message);} }
         function loginGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload()); }
         function logout() { auth.signOut().then(() => location.reload()); }
-        auth.onAuthStateChanged(u => { if(u) { $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">Agent Hub</button>`); listenToNotifs(); } initNews(); });
-        function toggleSearch() { $('#search-overlay').toggle(); }
-        function handleSearch(e) { const q = e.target.value.toLowerCase(); if(q.length > 1) { switchPage('home'); $('#search-results-area').show(); $('#standard-home-layout').hide(); $('#search-output-grid').html(masterPool.filter(n => n.title.toLowerCase().includes(q)).map(n => `<div class="right-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`)); } else { $('#search-results-area').hide(); $('#standard-home-layout').show(); } }
-        async function createPost() { if(!auth.currentUser) return openAuth(); const content = $('#post-content').val().trim(); if(!content) return; await db.collection('posts').add({ userId: auth.currentUser.uid, username: auth.currentUser.displayName || auth.currentUser.email.split('@')[0], content: content, score: 0, likes: 0, fires: 0, hearts: 0, pinned: false, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); $('#post-content').val(''); $('#post-modal').hide(); }
+        async function updateProfileData() { try { if($('#set-name').val()) await auth.currentUser.updateProfile({displayName:$('#set-name').val()}); alert("Synced."); } catch(e){alert(e.message);} }
+        auth.onAuthStateChanged(u => { if(u) { $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">Agent Hub</button>`); $('#set-name').val(u.displayName); $('#set-email').val(u.email); } initNews(); });
     </script>
 </body>
 </html>
