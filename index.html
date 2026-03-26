@@ -138,6 +138,10 @@
       cursor: pointer;
     }
 
+    .mobile-menu-btn {
+      display: none;
+    }
+
     .auth-btn, .solid-btn {
       border: 0;
       background: var(--cyan);
@@ -472,13 +476,6 @@
       overflow: hidden;
     }
 
-    .media-row {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-top: 8px;
-      flex-wrap: wrap;
-    }
     .file-note {
       color: var(--dim);
       font-size: .75rem;
@@ -559,6 +556,7 @@
     }
 
     .mobile-drawer {
+      display: none;
       position: fixed;
       top: 0;
       left: -320px;
@@ -576,11 +574,11 @@
     .mobile-drawer.open { left: 0; }
 
     .drawer-backdrop {
+      display: none;
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,.65);
       z-index: 4400;
-      display: none;
     }
     .drawer-backdrop.show { display: block; }
 
@@ -641,6 +639,8 @@
       header nav { display: none; }
       .page { padding-bottom: 104px; }
       .desktop-only-mobile-hide { display: none !important; }
+      .mobile-menu-btn { display: inline-flex; }
+      .mobile-drawer { display: block; }
     }
 
     @media (max-width: 640px) {
@@ -691,7 +691,7 @@
     </nav>
 
     <div class="header-right">
-      <button class="icon-btn" onclick="toggleDrawer()">
+      <button class="icon-btn mobile-menu-btn" onclick="toggleDrawer()">
         <i class="fa-solid fa-bars"></i>
       </button>
 
@@ -950,7 +950,6 @@
     let notifListener = null;
     let currentLang = localStorage.getItem('msh_lang') || 'en';
     let currentTheme = localStorage.getItem('msh_theme') || 'dark';
-    let translationCache = {};
 
     const uiText = {
       en: {
@@ -1002,7 +1001,6 @@
         drawerAdminDesc: 'Manage users and moderation',
         share: 'Share',
         noAlerts: 'No current alerts',
-        newsUnavailable: 'news unavailable right now.',
         usersBackfilled: 'Users backfilled from posts.',
         usernameUpdated: 'Username updated.',
         enterUsername: 'Enter a username.',
@@ -1015,7 +1013,6 @@
         userUnbanned: 'User unbanned.',
         userBanned: 'User banned.',
         noUsers: 'No users found.',
-        syncUsersBtn: 'Sync Users From Posts',
         light: 'Light',
         dark: 'Dark',
         uploadError: 'Upload failed.',
@@ -1024,7 +1021,8 @@
         profilePlaceholder: 'Update Agent ID',
         signup: 'SIGN UP',
         login: 'LOGIN',
-        agentId: 'Agent ID'
+        agentId: 'Agent ID',
+        posting: 'Posting...'
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -1075,7 +1073,6 @@
         drawerAdminDesc: 'Gestion et modération',
         share: 'Partager',
         noAlerts: 'Aucune alerte',
-        newsUnavailable: 'actualités indisponibles pour le moment.',
         usersBackfilled: 'Utilisateurs synchronisés depuis les posts.',
         usernameUpdated: 'Nom mis à jour.',
         enterUsername: 'Entrez un nom.',
@@ -1088,7 +1085,6 @@
         userUnbanned: 'Utilisateur débanni.',
         userBanned: 'Utilisateur banni.',
         noUsers: 'Aucun utilisateur trouvé.',
-        syncUsersBtn: 'Synchroniser depuis les posts',
         light: 'Clair',
         dark: 'Sombre',
         uploadError: 'Échec du téléchargement.',
@@ -1097,7 +1093,8 @@
         profilePlaceholder: 'Mettre à jour l’identifiant',
         signup: 'INSCRIPTION',
         login: 'CONNEXION',
-        agentId: 'Identifiant'
+        agentId: 'Identifiant',
+        posting: 'Publication...'
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -1148,7 +1145,6 @@
         drawerAdminDesc: 'إدارة المستخدمين والمحتوى',
         share: 'مشاركة',
         noAlerts: 'لا توجد إشعارات',
-        newsUnavailable: 'الأخبار غير متوفرة حالياً.',
         usersBackfilled: 'تمت مزامنة المستخدمين من المنشورات.',
         usernameUpdated: 'تم تحديث الاسم.',
         enterUsername: 'أدخل اسماً.',
@@ -1161,7 +1157,6 @@
         userUnbanned: 'تم إلغاء الحظر.',
         userBanned: 'تم الحظر.',
         noUsers: 'لا يوجد مستخدمون.',
-        syncUsersBtn: 'مزامنة المستخدمين من المنشورات',
         light: 'فاتح',
         dark: 'داكن',
         uploadError: 'فشل رفع الملف.',
@@ -1170,7 +1165,8 @@
         profilePlaceholder: 'تحديث اسم الحساب',
         signup: 'تسجيل',
         login: 'دخول',
-        agentId: 'اسم الحساب'
+        agentId: 'اسم الحساب',
+        posting: 'جارٍ النشر...'
       }
     };
 
@@ -1187,27 +1183,6 @@
 
     function toggleTheme() {
       setTheme(currentTheme === 'light' ? 'dark' : 'light');
-    }
-
-    async function translateText(text, target = currentLang) {
-      if (!text || target === 'en') return text;
-      const key = `${target}::${text}`;
-      if (translationCache[key]) return translationCache[key];
-
-      try {
-        const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent('auto|' + target)}`);
-        const data = await res.json();
-        const translated = data?.responseData?.translatedText || text;
-        translationCache[key] = translated;
-        return translated;
-      } catch {
-        return text;
-      }
-    }
-
-    async function translateContentValue(text) {
-      if (currentLang === 'en') return text;
-      return await translateText(text, currentLang);
     }
 
     async function setLanguage(lang) {
@@ -1300,6 +1275,7 @@
     }
 
     function toggleDrawer(force) {
+      if (window.innerWidth > 1024) return;
       const drawer = $('#mobile-drawer');
       const backdrop = $('#drawer-backdrop');
       const open = typeof force === 'boolean' ? force : !drawer.hasClass('open');
@@ -1313,15 +1289,26 @@
       }
     }
 
-    function autoCloseDrawerOnScroll() {
+    function maybeAutoCloseDrawerFromEventTarget(target) {
+      if (window.innerWidth > 1024) return;
+      if (!$('#mobile-drawer').hasClass('open')) return;
+      if (target && target.closest && target.closest('#mobile-drawer')) return;
+      toggleDrawer(false);
+    }
+
+    window.addEventListener('scroll', () => {
       if ($('#mobile-drawer').hasClass('open')) {
         toggleDrawer(false);
       }
-    }
+    }, { passive: true });
 
-    window.addEventListener('scroll', autoCloseDrawerOnScroll, { passive: true });
-    window.addEventListener('wheel', autoCloseDrawerOnScroll, { passive: true });
-    window.addEventListener('touchmove', autoCloseDrawerOnScroll, { passive: true });
+    document.addEventListener('wheel', (e) => {
+      maybeAutoCloseDrawerFromEventTarget(e.target);
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+      maybeAutoCloseDrawerFromEventTarget(e.target);
+    }, { passive: true });
 
     function switchPage(p) {
       if (p === 'profile-check') {
@@ -1442,6 +1429,12 @@
 
       applyUiLanguage();
       initNews();
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('post')) {
+        switchPage('feed');
+        loadFeed();
+      }
     });
 
     function loadProfile() {
@@ -1492,7 +1485,7 @@
 
       notifListener = db.collection('notifications')
         .where('targetId', '==', auth.currentUser.uid)
-        .onSnapshot(async snapshot => {
+        .onSnapshot(snapshot => {
           const list = $('#notif-list').empty();
           let unread = 0;
           let items = [];
@@ -1506,10 +1499,9 @@
 
           for (const n of items.slice(0, 15)) {
             if (!n.read) unread++;
-            const msg = await translateContentValue(`${n.fromName} ${n.message}`);
             list.append(`
               <div class="notif-item ${n.read ? '' : 'unread'}" onclick="openNotif('${n.postId || ''}', '${n.id}')">
-                ${msg}
+                <b>${n.fromName}</b> ${n.message}
               </div>
             `);
           }
@@ -1575,7 +1567,8 @@
       const user = auth.currentUser;
       const safeName = `${Date.now()}_${file.name.replace(/[^\w.\-]/g, '_')}`;
       const ref = storage.ref().child(`feed_media/${user.uid}/${safeName}`);
-      await ref.put(file);
+      const metadata = { contentType: file.type || 'application/octet-stream' };
+      await ref.put(file, metadata);
       const url = await ref.getDownloadURL();
       return {
         url,
@@ -1595,8 +1588,14 @@
       }
 
       const content = $('#post-content').val().trim();
-      const file = document.getElementById('post-media').files[0];
+      const fileInput = document.getElementById('post-media');
+      const file = fileInput.files[0];
       if (!content && !file) return;
+
+      const submitBtn = document.getElementById('post-submit-btn');
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = t('posting');
 
       const user = auth.currentUser;
       const username = user.displayName || 'Agent';
@@ -1604,54 +1603,56 @@
       let mediaUrl = '';
       let mediaType = '';
 
-      if (file) {
-        try {
+      try {
+        if (file) {
           const uploaded = await uploadPostMedia(file);
           mediaUrl = uploaded.url;
           mediaType = uploaded.type;
-        } catch (e) {
-          alert(t('uploadError'));
-          return;
         }
+
+        const postRef = await db.collection('posts').add({
+          userId: user.uid,
+          username,
+          content,
+          mediaUrl,
+          mediaType,
+          likes: 0,
+          hearts: 0,
+          fires: 0,
+          pinned: false,
+          score: 0,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        const users = await db.collection('users').get();
+        const batch = db.batch();
+
+        users.forEach(doc => {
+          const u = doc.data();
+          if (u.uid !== user.uid && !u.banned) {
+            const notifRef = db.collection('notifications').doc();
+            batch.set(notifRef, {
+              targetId: u.uid,
+              fromName: username,
+              message: 'posted new intelligence.',
+              postId: postRef.id,
+              read: false,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+        });
+
+        await batch.commit();
+
+        $('#post-content').val('');
+        fileInput.value = '';
+        $('#post-modal').hide();
+      } catch (e) {
+        alert(`${t('uploadError')} ${e.message || ''}`);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
       }
-
-      const postRef = await db.collection('posts').add({
-        userId: user.uid,
-        username,
-        content,
-        mediaUrl,
-        mediaType,
-        likes: 0,
-        hearts: 0,
-        fires: 0,
-        pinned: false,
-        score: 0,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-
-      const users = await db.collection('users').get();
-      const batch = db.batch();
-
-      users.forEach(doc => {
-        const u = doc.data();
-        if (u.uid !== user.uid && !u.banned) {
-          const notifRef = db.collection('notifications').doc();
-          batch.set(notifRef, {
-            targetId: u.uid,
-            fromName: username,
-            message: 'posted new intelligence.',
-            postId: postRef.id,
-            read: false,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        }
-      });
-
-      await batch.commit();
-
-      $('#post-content').val('');
-      $('#post-media').val('');
-      $('#post-modal').hide();
     }
 
     async function banUser(userId, currentStatus) {
@@ -1732,7 +1733,7 @@
     }
 
     function buildShareUrl(postId) {
-      return `${location.origin}${location.pathname}?post=${postId}`;
+      return `${location.origin}${location.pathname}?post=${encodeURIComponent(postId)}#feed`;
     }
 
     async function sharePost(postId) {
@@ -1753,15 +1754,19 @@
       }
     }
 
-    async function openPostFromUrlIfAny() {
+    function openPostFromUrlIfAny() {
       const params = new URLSearchParams(window.location.search);
       const postId = params.get('post');
       if (!postId) return;
 
       switchPage('feed');
+
       setTimeout(() => {
         const el = document.querySelector(`[data-post="${postId}"]`);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.style.boxShadow = '0 0 0 2px rgba(0,242,254,.5), 0 18px 40px rgba(0,0,0,.28)';
+        }
       }, 900);
     }
 
@@ -1792,7 +1797,6 @@
           const admin = isAdmin();
           const owner = auth.currentUser && auth.currentUser.uid === post.userId;
           let active = {};
-          let displayContent = await translateContentValue(post.content || '');
 
           if (auth.currentUser) {
             const r = await db.collection('reactions_feed').doc(`${post.id}_${auth.currentUser.uid}`).get();
@@ -1820,7 +1824,7 @@
                 </div>
               </div>
 
-              <div class="post-text">${displayContent || ''}</div>
+              <div class="post-text">${post.content || ''}</div>
               ${renderMedia(post.mediaUrl, post.mediaType)}
 
               <div class="post-actions">
@@ -1922,7 +1926,7 @@
         $('#standard-home-layout').hide();
         $('#search-output-grid').html(
           masterPool
-            .filter(n => n.title.toLowerCase().includes(q))
+            .filter(n => (n.title || '').toLowerCase().includes(q))
             .map(n => `<div class="mini-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`)
             .join('')
         );
@@ -1941,17 +1945,14 @@
       }
 
       let html = '';
-      for (const item of data.items) {
+      data.items.forEach(item => {
         const cleanDesc = (item.description || '').replace(/<[^>]*>?/gm, '');
         const image = item.thumbnail || item.enclosure?.link || 'https://via.placeholder.com/800x450?text=Moroccansportshub';
 
-        const translatedTitle = await translateContentValue(item.title || 'Untitled');
-        const translatedDesc = await translateContentValue(cleanDesc);
-
         const n = {
           id: masterPool.length,
-          title: translatedTitle,
-          desc: translatedDesc,
+          title: item.title || 'Untitled',
+          desc: cleanDesc,
           img: image,
           link: item.link || '#',
           tag: tag.toUpperCase()
@@ -1967,7 +1968,7 @@
             <h3>${n.title}</h3>
           </div>
         `;
-      }
+      });
 
       $('#feed-' + tag).html(html);
     }
