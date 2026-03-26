@@ -11,11 +11,13 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <link rel="icon" type="image/png" href="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -506,6 +508,80 @@
     }
     .mobile-nav button.active { color: var(--cyan); }
 
+    .mobile-menu-btn { display: none; }
+
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      left: -320px;
+      width: 300px;
+      max-width: 85vw;
+      height: 100vh;
+      background: #05080b;
+      border-right: 1px solid var(--border);
+      z-index: 4500;
+      transition: left .25s ease;
+      padding: 18px 16px;
+      overflow-y: auto;
+    }
+    .mobile-drawer.open { left: 0; }
+
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      z-index: 4400;
+      display: none;
+    }
+    .drawer-backdrop.show { display: block; }
+
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .drawer-top-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .drawer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .drawer-links button {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .drawer-links button i {
+      color: var(--cyan);
+      font-size: 1rem;
+      margin-top: 2px;
+    }
+    .drawer-links button div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .drawer-links button div span {
+      color: var(--dim);
+      font-size: .75rem;
+      line-height: 1.4;
+    }
+
     @media (max-width: 1100px) {
       .home-grid { grid-template-columns: 1fr; }
       .side-col { border-right: none; padding-right: 0; }
@@ -513,7 +589,8 @@
 
     @media (max-width: 1024px) {
       header nav { display: none; }
-      .mobile-nav { display: flex; }
+      .mobile-menu-btn { display: inline-flex; }
+      .mobile-nav { display: none !important; }
       .page { padding-bottom: 104px; }
     }
 
@@ -552,14 +629,89 @@
     </nav>
 
     <div class="header-right">
+      <button class="icon-btn mobile-menu-btn" onclick="toggleDrawer()">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
       <div class="notif-wrap">
         <button class="icon-btn" onclick="toggleNotifs()"><i class="fa-solid fa-bell"></i></button>
         <span id="notif-count" class="notif-badge"></span>
       </div>
+
       <button class="icon-btn" onclick="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
       <div id="auth-ui"><button class="auth-btn" onclick="openAuth()">Access Hub</button></div>
     </div>
   </header>
+
+  <div id="mobile-drawer" class="mobile-drawer">
+    <div class="drawer-head">
+      <div class="logo" onclick="switchPage('home'); toggleDrawer(false);">
+        <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
+        Moroccansportshub
+      </div>
+      <button class="icon-btn" onclick="toggleDrawer(false)">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="drawer-top-actions">
+      <button class="ghost-btn" onclick="toggleSearch(); toggleDrawer(false);">
+        <i class="fa-solid fa-magnifying-glass"></i> Search
+      </button>
+      <div id="drawer-auth-ui">
+        <button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">Access Hub</button>
+      </div>
+    </div>
+
+    <div class="drawer-links">
+      <button onclick="switchPage('home'); toggleDrawer(false);">
+        <i class="fa-solid fa-house"></i>
+        <div><strong>Home</strong><span>Main sports news hub</span></div>
+      </button>
+
+      <button onclick="switchPage('feed'); toggleDrawer(false);">
+        <i class="fa-solid fa-rss"></i>
+        <div><strong>Feed</strong><span>Community posts and reactions</span></div>
+      </button>
+
+      <button onclick="switchPage('morocco'); toggleDrawer(false);">
+        <i class="fa-solid fa-flag"></i>
+        <div><strong>Moroccan</strong><span>Moroccan sports news</span></div>
+      </button>
+
+      <button onclick="switchPage('global'); toggleDrawer(false);">
+        <i class="fa-solid fa-earth-africa"></i>
+        <div><strong>Global</strong><span>International sports stories</span></div>
+      </button>
+
+      <button onclick="switchPage('esports'); toggleDrawer(false);">
+        <i class="fa-solid fa-gamepad"></i>
+        <div><strong>Esports</strong><span>Gaming and esports updates</span></div>
+      </button>
+
+      <button onclick="switchPage('chess'); toggleDrawer(false);">
+        <i class="fa-solid fa-chess-knight"></i>
+        <div><strong>Chess</strong><span>Chess news and play area</span></div>
+      </button>
+
+      <button onclick="switchPage('matches'); toggleDrawer(false);">
+        <i class="fa-solid fa-futbol"></i>
+        <div><strong>Matches</strong><span>Live fixtures and scores</span></div>
+      </button>
+
+      <button onclick="switchPage('profile-check'); toggleDrawer(false);">
+        <i class="fa-solid fa-user-shield"></i>
+        <div><strong>Profile</strong><span>Your account settings</span></div>
+      </button>
+
+      <button id="drawer-admin-btn" style="display:none;" onclick="switchPage('admin'); toggleDrawer(false);">
+        <i class="fa-solid fa-shield"></i>
+        <div><strong>Admin</strong><span>Manage users and moderation</span></div>
+      </button>
+    </div>
+  </div>
+
+  <div id="drawer-backdrop" class="drawer-backdrop" onclick="toggleDrawer(false)"></div>
 
   <div id="notif-panel" class="notif-panel">
     <div class="notif-header">
@@ -595,9 +747,20 @@
       </div>
     </section>
 
-    <section id="morocco-page" class="page"><div class="section-title">Moroccan News</div><div id="feed-morocco" class="news-grid"></div></section>
-    <section id="global-page" class="page"><div class="section-title">Global News</div><div id="feed-global" class="news-grid"></div></section>
-    <section id="esports-page" class="page"><div class="section-title">Esports News</div><div id="feed-esports" class="news-grid"></div></section>
+    <section id="morocco-page" class="page">
+      <div class="section-title">Moroccan News</div>
+      <div id="feed-morocco" class="news-grid"></div>
+    </section>
+
+    <section id="global-page" class="page">
+      <div class="section-title">Global News</div>
+      <div id="feed-global" class="news-grid"></div>
+    </section>
+
+    <section id="esports-page" class="page">
+      <div class="section-title">Esports News</div>
+      <div id="feed-esports" class="news-grid"></div>
+    </section>
 
     <section id="chess-page" class="page">
       <div class="section-title" style="text-align:center;">Grandmaster Intelligence</div>
@@ -639,16 +802,6 @@
       </div>
     </section>
   </main>
-
-  <div class="mobile-nav">
-    <button id="n-home" class="active" onclick="switchPage('home')"><i class="fa-solid fa-house"></i></button>
-    <button id="n-feed" onclick="switchPage('feed')"><i class="fa-solid fa-rss"></i></button>
-    <button id="n-matches" onclick="switchPage('matches')"><i class="fa-solid fa-futbol"></i></button>
-    <button id="n-esports" onclick="switchPage('esports')"><i class="fa-solid fa-gamepad"></i></button>
-    <button id="n-chess" onclick="switchPage('chess')"><i class="fa-solid fa-chess-knight"></i></button>
-    <button id="n-profile" onclick="switchPage('profile-check')"><i class="fa-solid fa-user-shield"></i></button>
-    <button id="n-admin" style="display:none;" onclick="switchPage('admin')"><i class="fa-solid fa-shield"></i></button>
-  </div>
 
   <div id="post-modal" class="modal">
     <div class="modal-content">
@@ -713,9 +866,26 @@
       return auth.currentUser && auth.currentUser.email === 'rabiimodz@gmail.com';
     }
 
+    function toggleDrawer(force) {
+      const drawer = $('#mobile-drawer');
+      const backdrop = $('#drawer-backdrop');
+      const open = typeof force === 'boolean' ? force : !drawer.hasClass('open');
+
+      if (open) {
+        drawer.addClass('open');
+        backdrop.addClass('show');
+      } else {
+        drawer.removeClass('open');
+        backdrop.removeClass('show');
+      }
+    }
+
     function switchPage(p) {
       if (p === 'profile-check') {
-        if (!auth.currentUser) { openAuth(); return; }
+        if (!auth.currentUser) {
+          openAuth();
+          return;
+        }
         p = 'profile';
       }
 
@@ -735,10 +905,13 @@
       if (p === 'matches') loadMatchesWidget();
       if (p === 'admin') loadAdminPanel();
 
+      toggleDrawer(false);
       window.scrollTo(0, 0);
     }
 
-    function openAuth() { $('#auth-modal').css('display', 'flex'); }
+    function openAuth() {
+      $('#auth-modal').css('display', 'flex');
+    }
 
     function setAuthMode(mode) {
       authMode = mode;
@@ -779,6 +952,7 @@
 
       if (user) {
         $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">Agent Hub</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">Agent Hub</button>`);
         $('#set-name').val(user.displayName || '');
 
         await db.collection('users').doc(user.uid).set({
@@ -789,6 +963,7 @@
 
         const userSnap = await db.collection('users').doc(user.uid).get();
         const userData = userSnap.exists ? userSnap.data() : {};
+
         if (userData.banned) {
           alert('Your account has been banned.');
           await auth.signOut();
@@ -796,18 +971,24 @@
         }
 
         if (isAdmin()) {
-          $('#nav-admin, #n-admin').show();
+          $('#nav-admin, #drawer-admin-btn').show();
         } else {
-          $('#nav-admin, #n-admin').hide();
+          $('#nav-admin, #drawer-admin-btn').hide();
         }
 
         listenToNotifs();
       } else {
         $('#auth-ui').html(`<button class="auth-btn" onclick="openAuth()">Access Hub</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">Access Hub</button>`);
         $('#set-name').val('');
         $('#profile-email').text('');
-        $('#nav-admin, #n-admin').hide();
-        if (notifListener) { notifListener(); notifListener = null; }
+        $('#nav-admin, #drawer-admin-btn').hide();
+
+        if (notifListener) {
+          notifListener();
+          notifListener = null;
+        }
+
         $('#notif-list').empty();
         $('#notif-count').hide();
       }
@@ -824,6 +1005,7 @@
     async function updateProfileData() {
       try {
         if (!auth.currentUser) return openAuth();
+
         const newName = $('#set-name').val().trim();
         if (!newName) return alert('Enter a username.');
 
@@ -890,6 +1072,7 @@
 
     async function markAllRead() {
       if (!auth.currentUser) return;
+
       const snap = await db.collection('notifications')
         .where('targetId', '==', auth.currentUser.uid)
         .where('read', '==', false)
@@ -930,10 +1113,12 @@
     async function openNotif(postId, notifId) {
       await db.collection('notifications').doc(notifId).update({ read: true });
       switchPage('feed');
+
       setTimeout(() => {
         const el = document.querySelector(`[data-post="${postId}"]`);
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 500);
+
       $('#notif-panel').hide();
     }
 
@@ -942,6 +1127,7 @@
 
       const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
       const userData = userDoc.exists ? userDoc.data() : {};
+
       if (userData.banned) {
         alert('Your account is banned from posting.');
         return;
@@ -967,6 +1153,7 @@
 
       const users = await db.collection('users').get();
       const batch = db.batch();
+
       users.forEach(doc => {
         const u = doc.data();
         if (u.uid !== user.uid && !u.banned) {
@@ -981,6 +1168,7 @@
           });
         }
       });
+
       await batch.commit();
 
       $('#post-content').val('');
@@ -1044,7 +1232,7 @@
         const u = doc.data();
         const banned = !!u.banned;
 
-        if (doc.id === auth.currentUser.uid) return;
+        if (auth.currentUser && doc.id === auth.currentUser.uid) return;
 
         wrap.append(`
           <div class="post-card">
@@ -1331,26 +1519,44 @@
     }
 
     async function syncReacts(title) {
-      const doc = await db.collection('reactions').doc(btoa(title).substring(0, 30)).get();
-      const d = doc.exists ? doc.data() : { like: 0, heart: 0, fire: 0 };
-      ['like', 'heart', 'fire'].forEach(type => $('#c-' + type).text(d[type] || 0));
+      const ref = db.collection('reactions').doc(btoa(title).substring(0, 30));
+      const doc = await ref.get();
+      const d = doc.exists ? doc.data() : { like: 0, heart: 0, fire: 0, voters: {} };
+
+      $('#c-like').text(d.like || 0);
+      $('#c-heart').text(d.heart || 0);
+      $('#c-fire').text(d.fire || 0);
+
+      $('.react-btn').removeClass('active');
+
+      if (auth.currentUser && d.voters && d.voters[auth.currentUser.uid]) {
+        if (d.voters[auth.currentUser.uid].like) $('[onclick="submitReact(\'like\')"]').addClass('active');
+        if (d.voters[auth.currentUser.uid].heart) $('[onclick="submitReact(\'heart\')"]').addClass('active');
+        if (d.voters[auth.currentUser.uid].fire) $('[onclick="submitReact(\'fire\')"]').addClass('active');
+      }
     }
 
     async function submitReact(type) {
       if (!auth.currentUser) return openAuth();
+
       const title = $('#m-title').text();
       const ref = db.collection('reactions').doc(btoa(title).substring(0, 30));
 
       await db.runTransaction(async tr => {
         const doc = await tr.get(ref);
         const d = doc.exists ? doc.data() : { like: 0, heart: 0, fire: 0, voters: {} };
-        if (!d.voters[auth.currentUser.uid]) d.voters[auth.currentUser.uid] = {};
 
-        if (d.voters[auth.currentUser.uid][type]) {
-          d[type]--;
+        if (!d.voters[auth.currentUser.uid]) {
+          d.voters[auth.currentUser.uid] = { like: false, heart: false, fire: false };
+        }
+
+        const alreadyActive = !!d.voters[auth.currentUser.uid][type];
+
+        if (alreadyActive) {
+          d[type] = Math.max((d[type] || 1) - 1, 0);
           d.voters[auth.currentUser.uid][type] = false;
         } else {
-          d[type]++;
+          d[type] = (d[type] || 0) + 1;
           d.voters[auth.currentUser.uid][type] = true;
         }
 
@@ -1374,6 +1580,7 @@
           setTimeout(makeAiMove, 500);
         }
       });
+
       if (side === 'black') {
         $('#game-status').text('AI Moving (White)...');
         setTimeout(makeAiMove, 800);
@@ -1390,29 +1597,40 @@
       $('#game-status').text('Your Turn.');
     }
 
+    function getTodayDate() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
     function loadMatchesWidget() {
       const container = document.getElementById('live-inject');
-      container.innerHTML = '';
+      const today = getTodayDate();
 
-      const widget = document.createElement('api-sports-widget');
-      widget.setAttribute('data-type', 'games');
-      widget.setAttribute('data-sport', 'football');
-      widget.setAttribute('data-key', '77aa814e7955b3042a9ebf24fc1bee18');
-      widget.setAttribute('data-theme', 'dark');
-      widget.setAttribute('data-refresh', '15');
-
-      container.appendChild(widget);
+      container.innerHTML = `
+        <api-sports-widget
+          data-type="games"
+          data-date="${today}"
+          data-refresh="15"
+          data-show-toolbar="true"
+          data-tab="all"
+          data-games-style="2"
+          data-target-game="modal"
+          data-key="77aa814e7955b3042a9ebf24fc1bee18"
+          data-theme="dark">
+        </api-sports-widget>
+      `;
 
       const oldScript = document.getElementById('api-sports-script');
       if (oldScript) oldScript.remove();
 
-      setTimeout(() => {
-        const script = document.createElement('script');
-        script.id = 'api-sports-script';
-        script.type = 'module';
-        script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js?v=' + Date.now();
-        document.body.appendChild(script);
-      }, 100);
+      const script = document.createElement('script');
+      script.id = 'api-sports-script';
+      script.type = 'module';
+      script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js?v=' + Date.now();
+      document.body.appendChild(script);
     }
 
     $(document).on('click', '.modal', function(e) {
