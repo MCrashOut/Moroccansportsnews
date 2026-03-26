@@ -272,11 +272,14 @@
     }
     .feature img {
       width: 100%;
+      min-height: 260px;
+      max-height: 460px;
+      object-fit: cover;
       border-radius: 16px;
       border: 1px solid var(--border);
       margin-bottom: 16px;
       cursor: pointer;
-      object-fit: cover;
+      display: block;
     }
 
     .mini-card, .post-card, .profile-box, .board-box, .widget-area {
@@ -561,7 +564,7 @@
   <div id="notif-panel" class="notif-panel">
     <div class="notif-header">
       <span>INTELLIGENCE ALERTS</span>
-      <span onclick="markAllRead(); $('#notif-panel').hide();" style="cursor:pointer; opacity:.7;">Clear All</span>
+      <span onclick="clearAllNotifications()" style="cursor:pointer; opacity:.7;">Clear All</span>
     </div>
     <div id="notif-list" class="notif-list"></div>
   </div>
@@ -903,6 +906,27 @@
       $('#notif-count').hide();
     }
 
+    async function clearAllNotifications() {
+      if (!auth.currentUser) return;
+
+      const snap = await db.collection('notifications')
+        .where('targetId', '==', auth.currentUser.uid)
+        .get();
+
+      if (snap.empty) {
+        $('#notif-list').html('<div style="padding:40px; text-align:center; opacity:.35; font-size:.74rem;">No current alerts</div>');
+        $('#notif-count').hide();
+        return;
+      }
+
+      const batch = db.batch();
+      snap.forEach(doc => batch.delete(doc.ref));
+      await batch.commit();
+
+      $('#notif-list').html('<div style="padding:40px; text-align:center; opacity:.35; font-size:.74rem;">No current alerts</div>');
+      $('#notif-count').hide();
+    }
+
     async function openNotif(postId, notifId) {
       await db.collection('notifications').doc(notifId).update({ read: true });
       switchPage('feed');
@@ -1162,8 +1186,18 @@
     }
 
     function toggleSearch() {
-      $('#search-overlay').toggle();
-      if ($('#search-overlay').is(':visible')) $('#active-search-input').focus();
+      const overlay = $('#search-overlay');
+
+      if (overlay.is(':visible')) {
+        overlay.hide();
+        $('#active-search-input').val('');
+        $('#search-results-area').hide();
+        $('#standard-home-layout').show();
+        $('#search-output-grid').empty();
+      } else {
+        overlay.css('display', 'flex');
+        $('#active-search-input').focus();
+      }
     }
 
     function handleSearch(e) {
@@ -1194,14 +1228,18 @@
 
       let html = '';
       data.items.forEach(item => {
+        const cleanDesc = (item.description || '').replace(/<[^>]*>?/gm, '');
+        const image = item.thumbnail || item.enclosure?.link || 'https://via.placeholder.com/800x450?text=Moroccansportshub';
+
         const n = {
           id: masterPool.length,
           title: item.title || 'Untitled',
-          desc: (item.description || '').replace(/<[^>]*>?/gm, ''),
-          img: item.thumbnail || 'https://via.placeholder.com/800x450',
+          desc: cleanDesc,
+          img: image,
           link: item.link || '#',
           tag: tag.toUpperCase()
         };
+
         masterPool.push(n);
 
         html += `
@@ -1251,9 +1289,16 @@
       const pool = [...masterPool].sort(() => 0.5 - Math.random());
       if (pool.length < 5) return;
 
+      const imgSrc = pool[0].img && pool[0].img.trim() !== '' ? pool[0].img : 'https://via.placeholder.com/800x450?text=Moroccansportshub';
+
       $('#center-intel').html(`
         <h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1>
-        <img src="${pool[0].img}" alt="feature" onclick="openDetails(${pool[0].id})">
+        <img
+          src="${imgSrc}"
+          alt="${pool[0].title}"
+          onclick="openDetails(${pool[0].id})"
+          onerror="this.onerror=null;this.src='https://via.placeholder.com/800x450?text=Moroccansportshub';"
+        >
         <p style="color:var(--dim); line-height:1.6;">${(pool[0].desc || '').slice(0, 240)}...</p>
       `);
 
@@ -1354,16 +1399,20 @@
       widget.setAttribute('data-sport', 'football');
       widget.setAttribute('data-key', '77aa814e7955b3042a9ebf24fc1bee18');
       widget.setAttribute('data-theme', 'dark');
+      widget.setAttribute('data-refresh', '15');
+
       container.appendChild(widget);
 
       const oldScript = document.getElementById('api-sports-script');
       if (oldScript) oldScript.remove();
 
-      const script = document.createElement('script');
-      script.id = 'api-sports-script';
-      script.type = 'module';
-      script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
-      document.body.appendChild(script);
+      setTimeout(() => {
+        const script = document.createElement('script');
+        script.id = 'api-sports-script';
+        script.type = 'module';
+        script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js?v=' + Date.now();
+        document.body.appendChild(script);
+      }, 100);
     }
 
     $(document).on('click', '.modal', function(e) {
