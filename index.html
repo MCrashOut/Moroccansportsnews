@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,6 +21,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
@@ -35,28 +36,45 @@
 
   <style>
     :root {
-      --bg: #000;
+      --bg: #000000;
       --bg2: #091015;
       --card: rgba(255,255,255,.05);
-      --border: rgba(255,255,255,.1);
-      --text: #fff;
+      --border: rgba(255,255,255,.10);
+      --text: #ffffff;
       --dim: #9db0bb;
       --cyan: #00f2fe;
       --red: #c1272d;
       --amber: #ffb020;
       --green: #1cc98a;
+      --shadow: rgba(0,0,0,.28);
+      --input-bg: #000000;
+    }
+
+    body.light {
+      --bg: #f5f8fb;
+      --bg2: #e9f0f7;
+      --card: rgba(255,255,255,.78);
+      --border: rgba(15,23,42,.10);
+      --text: #0f172a;
+      --dim: #475569;
+      --cyan: #0ea5e9;
+      --red: #dc2626;
+      --amber: #d97706;
+      --green: #16a34a;
+      --shadow: rgba(15,23,42,.08);
+      --input-bg: #ffffff;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Poppins, sans-serif; }
+    html, body { min-height: 100%; }
     body {
       background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
       color: var(--text);
-      min-height: 100vh;
       overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
-    button { cursor: pointer; }
+    button, select, input, textarea { font: inherit; }
 
     header {
       position: fixed;
@@ -69,7 +87,7 @@
       justify-content: space-between;
       gap: 16px;
       padding: 12px 5%;
-      background: rgba(0,0,0,.92);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border);
     }
@@ -101,7 +119,7 @@
       font-size: .68rem;
       text-transform: uppercase;
       font-weight: 700;
-      opacity: .6;
+      opacity: .65;
       cursor: pointer;
     }
     nav a.active, nav a:hover { opacity: 1; color: var(--cyan); }
@@ -117,6 +135,7 @@
       background: transparent;
       color: var(--cyan);
       font-size: 1rem;
+      cursor: pointer;
     }
 
     .auth-btn, .solid-btn {
@@ -128,6 +147,7 @@
       border-radius: 999px;
       padding: 10px 16px;
       font-size: .68rem;
+      cursor: pointer;
     }
 
     .ghost-btn {
@@ -138,6 +158,7 @@
       padding: 10px 16px;
       font-size: .72rem;
       font-weight: 700;
+      cursor: pointer;
     }
 
     .amber-btn {
@@ -148,6 +169,7 @@
       padding: 10px 16px;
       font-size: .72rem;
       font-weight: 700;
+      cursor: pointer;
     }
 
     .green-btn {
@@ -158,6 +180,7 @@
       padding: 10px 16px;
       font-size: .72rem;
       font-weight: 700;
+      cursor: pointer;
     }
 
     .page {
@@ -175,7 +198,7 @@
       left: 0;
       width: 100%;
       z-index: 2800;
-      background: #000;
+      background: var(--bg);
       border-bottom: 1px solid var(--cyan);
       padding: 14px 5%;
       display: none;
@@ -215,13 +238,13 @@
       width: min(360px, 92vw);
       max-height: 70vh;
       z-index: 3500;
-      background: #050608;
+      background: var(--bg);
       border: 1px solid var(--border);
       border-top: 2px solid var(--cyan);
       border-radius: 20px;
       overflow: hidden;
       display: none;
-      box-shadow: 0 20px 50px rgba(0,0,0,.6);
+      box-shadow: 0 20px 50px rgba(0,0,0,.45);
     }
     .notif-header {
       padding: 14px 16px;
@@ -289,6 +312,8 @@
       border: 1px solid var(--border);
       border-radius: 18px;
       padding: 18px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 28px var(--shadow);
     }
 
     .mini-card { margin-bottom: 14px; cursor: pointer; }
@@ -303,7 +328,7 @@
       font-weight: 800;
     }
 
-    .feed-shell { max-width: 840px; margin: 0 auto; }
+    .feed-shell { max-width: 900px; margin: 0 auto; }
     .composer {
       background: var(--card);
       border: 1px solid var(--border);
@@ -314,18 +339,17 @@
       align-items: center;
       margin-bottom: 22px;
       cursor: pointer;
+      box-shadow: 0 12px 28px var(--shadow);
     }
     .composer span { color: var(--dim); font-size: .88rem; }
 
     .post-card {
-      padding: 22px;
       position: relative;
       margin-bottom: 18px;
-      box-shadow: 0 12px 28px rgba(0,0,0,.25);
     }
     .post-card.pinned {
       border: 2px solid var(--cyan);
-      box-shadow: 0 0 0 1px rgba(0,242,254,.15), 0 18px 40px rgba(0,0,0,.32);
+      box-shadow: 0 0 0 1px rgba(0,242,254,.15), 0 18px 40px var(--shadow);
     }
     .post-meta {
       display: flex;
@@ -341,6 +365,21 @@
     }
     .post-time { color: var(--dim); font-size: .74rem; }
     .post-text { line-height: 1.65; color: var(--text); white-space: pre-wrap; }
+
+    .post-media {
+      margin-top: 14px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.15);
+    }
+    .post-media img, .post-media video {
+      width: 100%;
+      max-height: 480px;
+      display: block;
+      object-fit: cover;
+      background: #000;
+    }
 
     .admin-controls {
       position: absolute;
@@ -369,7 +408,7 @@
       padding-top: 14px;
       flex-wrap: wrap;
     }
-    .feed-react-btn, .react-btn {
+    .feed-react-btn, .react-btn, .share-btn {
       border: 0;
       background: transparent;
       color: var(--text);
@@ -379,8 +418,9 @@
       filter: grayscale(1);
       font-weight: 700;
       font-size: .88rem;
+      cursor: pointer;
     }
-    .feed-react-btn.active, .react-btn.active {
+    .feed-react-btn.active, .react-btn.active, .share-btn:hover {
       color: var(--cyan);
       filter: grayscale(0);
     }
@@ -424,11 +464,41 @@
     #myBoard { max-width: 100%; width: 460px; margin: 0 auto; }
 
     .widget-area {
-      min-height: 540px;
-      display: block;
-      color: var(--dim);
-      text-align: center;
+      background: var(--card);
+      min-height: 800px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 10px;
       overflow: hidden;
+    }
+
+    .media-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .file-note {
+      color: var(--dim);
+      font-size: .75rem;
+      text-align: left;
+      margin-top: 6px;
+    }
+
+    .top-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .top-controls select {
+      background: var(--input-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 9px 12px;
+      outline: none;
     }
 
     .modal {
@@ -443,12 +513,13 @@
     }
     .modal-content {
       position: relative;
-      width: min(520px, 92vw);
-      background: #04080b;
+      width: min(560px, 92vw);
+      background: color-mix(in srgb, var(--bg) 92%, var(--card));
       border: 1px solid var(--border);
       border-radius: 28px;
       padding: 28px;
       text-align: center;
+      color: var(--text);
     }
     .close {
       position: absolute;
@@ -475,9 +546,9 @@
       opacity: 1;
       border-bottom: 3px solid var(--cyan);
     }
-    .auth-input, textarea {
+    .auth-input, textarea, input[type="file"] {
       width: 100%;
-      background: #000;
+      background: var(--input-bg);
       border: 1px solid var(--border);
       border-radius: 14px;
       color: var(--text);
@@ -487,29 +558,6 @@
       resize: vertical;
     }
 
-    .mobile-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 68px;
-      z-index: 3200;
-      background: rgba(0,0,0,.96);
-      border-top: 1px solid var(--border);
-      display: none;
-      align-items: center;
-      justify-content: space-around;
-    }
-    .mobile-nav button {
-      background: none;
-      border: 0;
-      color: #58636a;
-      font-size: 1.12rem;
-    }
-    .mobile-nav button.active { color: var(--cyan); }
-
-    .mobile-menu-btn { display: none; }
-
     .mobile-drawer {
       position: fixed;
       top: 0;
@@ -517,12 +565,13 @@
       width: 300px;
       max-width: 85vw;
       height: 100vh;
-      background: #05080b;
+      background: color-mix(in srgb, var(--bg) 96%, transparent);
       border-right: 1px solid var(--border);
       z-index: 4500;
       transition: left .25s ease;
       padding: 18px 16px;
       overflow-y: auto;
+      backdrop-filter: blur(18px);
     }
     .mobile-drawer.open { left: 0; }
 
@@ -565,6 +614,7 @@
       gap: 12px;
       align-items: flex-start;
       text-align: left;
+      cursor: pointer;
     }
     .drawer-links button i {
       color: var(--cyan);
@@ -589,9 +639,8 @@
 
     @media (max-width: 1024px) {
       header nav { display: none; }
-      .mobile-menu-btn { display: inline-flex; }
-      .mobile-nav { display: none !important; }
       .page { padding-bottom: 104px; }
+      .desktop-only-mobile-hide { display: none !important; }
     }
 
     @media (max-width: 640px) {
@@ -605,6 +654,19 @@
       .section-title { font-size: 1rem; }
       .notif-panel { right: 14px; width: calc(100vw - 28px); }
       .page { padding: 78px 14px 100px; }
+      .desktop-mobile-hide { display: none !important; }
+    }
+
+    html[dir="rtl"] body,
+    html[dir="rtl"] .drawer-links button,
+    html[dir="rtl"] .notif-item,
+    html[dir="rtl"] .post-text,
+    html[dir="rtl"] .modal-content,
+    html[dir="rtl"] .mini-card,
+    html[dir="rtl"] .post-card,
+    html[dir="rtl"] .feature,
+    html[dir="rtl"] .profile-box {
+      text-align: right;
     }
   </style>
 </head>
@@ -612,7 +674,7 @@
   <header>
     <div class="logo" onclick="switchPage('home')">
       <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
-      Moroccansportshub
+      <span id="brand-text">Moroccansportshub</span>
     </div>
 
     <nav>
@@ -629,7 +691,7 @@
     </nav>
 
     <div class="header-right">
-      <button class="icon-btn mobile-menu-btn" onclick="toggleDrawer()">
+      <button class="icon-btn" onclick="toggleDrawer()">
         <i class="fa-solid fa-bars"></i>
       </button>
 
@@ -638,8 +700,20 @@
         <span id="notif-count" class="notif-badge"></span>
       </div>
 
-      <button class="icon-btn" onclick="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
-      <div id="auth-ui"><button class="auth-btn" onclick="openAuth()">Access Hub</button></div>
+      <button class="icon-btn desktop-mobile-hide" onclick="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
+
+      <div class="top-controls desktop-mobile-hide">
+        <select id="lang-select" onchange="setLanguage(this.value)">
+          <option value="en">EN</option>
+          <option value="fr">FR</option>
+          <option value="ar">AR</option>
+        </select>
+        <button class="ghost-btn" onclick="toggleTheme()" id="theme-btn">Light</button>
+      </div>
+
+      <div id="auth-ui" class="desktop-mobile-hide">
+        <button class="auth-btn" onclick="openAuth()">Access Hub</button>
+      </div>
     </div>
   </header>
 
@@ -647,7 +721,7 @@
     <div class="drawer-head">
       <div class="logo" onclick="switchPage('home'); toggleDrawer(false);">
         <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
-        Moroccansportshub
+        <span id="drawer-brand-text">Moroccansportshub</span>
       </div>
       <button class="icon-btn" onclick="toggleDrawer(false)">
         <i class="fa-solid fa-xmark"></i>
@@ -655,58 +729,68 @@
     </div>
 
     <div class="drawer-top-actions">
-      <button class="ghost-btn" onclick="toggleSearch(); toggleDrawer(false);">
+      <button class="ghost-btn" onclick="toggleSearch(); toggleDrawer(false);" id="drawer-search-btn">
         <i class="fa-solid fa-magnifying-glass"></i> Search
       </button>
+
       <div id="drawer-auth-ui">
         <button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">Access Hub</button>
+      </div>
+
+      <div class="top-controls">
+        <select id="drawer-lang-select" onchange="setLanguage(this.value)">
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+          <option value="ar">العربية</option>
+        </select>
+        <button class="ghost-btn" onclick="toggleTheme()" id="drawer-theme-btn">Light</button>
       </div>
     </div>
 
     <div class="drawer-links">
       <button onclick="switchPage('home'); toggleDrawer(false);">
         <i class="fa-solid fa-house"></i>
-        <div><strong>Home</strong><span>Main sports news hub</span></div>
+        <div><strong id="d-home-title">Home</strong><span id="d-home-desc">Main sports news hub</span></div>
       </button>
 
       <button onclick="switchPage('feed'); toggleDrawer(false);">
         <i class="fa-solid fa-rss"></i>
-        <div><strong>Feed</strong><span>Community posts and reactions</span></div>
+        <div><strong id="d-feed-title">Feed</strong><span id="d-feed-desc">Community posts and reactions</span></div>
       </button>
 
       <button onclick="switchPage('morocco'); toggleDrawer(false);">
         <i class="fa-solid fa-flag"></i>
-        <div><strong>Moroccan</strong><span>Moroccan sports news</span></div>
+        <div><strong id="d-morocco-title">Moroccan</strong><span id="d-morocco-desc">Moroccan sports news</span></div>
       </button>
 
       <button onclick="switchPage('global'); toggleDrawer(false);">
         <i class="fa-solid fa-earth-africa"></i>
-        <div><strong>Global</strong><span>International sports stories</span></div>
+        <div><strong id="d-global-title">Global</strong><span id="d-global-desc">International sports stories</span></div>
       </button>
 
       <button onclick="switchPage('esports'); toggleDrawer(false);">
         <i class="fa-solid fa-gamepad"></i>
-        <div><strong>Esports</strong><span>Gaming and esports updates</span></div>
+        <div><strong id="d-esports-title">Esports</strong><span id="d-esports-desc">Gaming and esports updates</span></div>
       </button>
 
       <button onclick="switchPage('chess'); toggleDrawer(false);">
         <i class="fa-solid fa-chess-knight"></i>
-        <div><strong>Chess</strong><span>Chess news and play area</span></div>
+        <div><strong id="d-chess-title">Chess</strong><span id="d-chess-desc">Chess news and play area</span></div>
       </button>
 
       <button onclick="switchPage('matches'); toggleDrawer(false);">
         <i class="fa-solid fa-futbol"></i>
-        <div><strong>Matches</strong><span>Live fixtures and scores</span></div>
+        <div><strong id="d-matches-title">Matches</strong><span id="d-matches-desc">Live fixtures and scores</span></div>
       </button>
 
       <button onclick="switchPage('profile-check'); toggleDrawer(false);">
         <i class="fa-solid fa-user-shield"></i>
-        <div><strong>Profile</strong><span>Your account settings</span></div>
+        <div><strong id="d-profile-title">Profile</strong><span id="d-profile-desc">Your account settings</span></div>
       </button>
 
       <button id="drawer-admin-btn" style="display:none;" onclick="switchPage('admin'); toggleDrawer(false);">
         <i class="fa-solid fa-shield"></i>
-        <div><strong>Admin</strong><span>Manage users and moderation</span></div>
+        <div><strong id="d-admin-title">Admin</strong><span id="d-admin-desc">Manage users and moderation</span></div>
       </button>
     </div>
   </div>
@@ -715,8 +799,8 @@
 
   <div id="notif-panel" class="notif-panel">
     <div class="notif-header">
-      <span>INTELLIGENCE ALERTS</span>
-      <span onclick="clearAllNotifications()" style="cursor:pointer; opacity:.7;">Clear All</span>
+      <span id="notif-title">INTELLIGENCE ALERTS</span>
+      <span onclick="clearAllNotifications()" style="cursor:pointer; opacity:.7;" id="notif-clear">Clear All</span>
     </div>
     <div id="notif-list" class="notif-list"></div>
   </div>
@@ -738,9 +822,9 @@
 
     <section id="feed-page" class="page">
       <div class="feed-shell">
-        <div class="section-title">Community Feed</div>
+        <div class="section-title" id="feed-page-title">Community Feed</div>
         <div class="composer" onclick="$('#post-modal').css('display','flex')">
-          <span>Broadcast intelligence...</span>
+          <span id="composer-text">Broadcast intelligence...</span>
           <i class="fa-solid fa-paper-plane" style="color:var(--cyan)"></i>
         </div>
         <div id="feed-container"></div>
@@ -748,55 +832,55 @@
     </section>
 
     <section id="morocco-page" class="page">
-      <div class="section-title">Moroccan News</div>
+      <div class="section-title" id="morocco-page-title">Moroccan News</div>
       <div id="feed-morocco" class="news-grid"></div>
     </section>
 
     <section id="global-page" class="page">
-      <div class="section-title">Global News</div>
+      <div class="section-title" id="global-page-title">Global News</div>
       <div id="feed-global" class="news-grid"></div>
     </section>
 
     <section id="esports-page" class="page">
-      <div class="section-title">Esports News</div>
+      <div class="section-title" id="esports-page-title">Esports News</div>
       <div id="feed-esports" class="news-grid"></div>
     </section>
 
     <section id="chess-page" class="page">
-      <div class="section-title" style="text-align:center;">Grandmaster Intelligence</div>
+      <div class="section-title" id="chess-page-title" style="text-align:center;">Grandmaster Intelligence</div>
       <div id="feed-chess" class="news-grid"></div>
       <div class="board-box">
         <div id="myBoard"></div>
         <p id="game-status" style="margin-top:12px; color:var(--cyan); font-weight:800;">Initiate protocol...</p>
         <div style="display:flex; justify-content:center; gap:10px; margin-top:16px; flex-wrap:wrap;">
-          <button class="solid-btn" onclick="startChess('white')">Play White</button>
-          <button class="solid-btn" onclick="startChess('black')">Play Black</button>
+          <button class="solid-btn" id="play-white-btn" onclick="startChess('white')">Play White</button>
+          <button class="solid-btn" id="play-black-btn" onclick="startChess('black')">Play Black</button>
         </div>
       </div>
     </section>
 
     <section id="matches-page" class="page">
-      <div class="section-title">Matches</div>
+      <div class="section-title" id="matches-page-title">Matches</div>
       <div id="live-inject" class="widget-area"></div>
     </section>
 
     <section id="profile-page" class="page">
       <div class="profile-box">
-        <div class="section-title" style="margin-bottom:8px;">Agent Identity Sync</div>
+        <div class="section-title" id="profile-page-title" style="margin-bottom:8px;">Agent Identity Sync</div>
         <p id="profile-email" class="profile-email"></p>
         <input id="set-name" class="auth-input" type="text" placeholder="Update Agent ID">
-        <button class="solid-btn" style="width:100%; margin-top:8px;" onclick="updateProfileData()">Sync Database</button>
-        <button class="ghost-btn" style="width:100%; margin-top:10px;" onclick="logout()">Logout</button>
+        <button class="solid-btn" id="profile-sync-btn" style="width:100%; margin-top:8px;" onclick="updateProfileData()">Sync Database</button>
+        <button class="ghost-btn" id="profile-logout-btn" style="width:100%; margin-top:10px;" onclick="logout()">Logout</button>
       </div>
     </section>
 
     <section id="admin-page" class="page">
-      <div class="section-title">Admin Panel</div>
+      <div class="section-title" id="admin-page-title">Admin Panel</div>
       <div class="admin-grid">
         <div class="mini-card">
-          <h3 style="margin-bottom:8px;">Admin Tools</h3>
-          <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Ban or unban users from posting. You can also manage posts directly from the Feed page.</p>
-          <button class="solid-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
+          <h3 id="admin-tools-title" style="margin-bottom:8px;">Admin Tools</h3>
+          <p id="admin-tools-desc" style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Ban or unban users from posting. You can also manage posts directly from the Feed page.</p>
+          <button class="solid-btn" id="admin-sync-users-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
         </div>
         <div id="admin-users-list"></div>
       </div>
@@ -806,9 +890,11 @@
   <div id="post-modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="$('#post-modal').hide()">&times;</span>
-      <h2 style="color:var(--cyan); margin-bottom:14px;">Broadcast News</h2>
+      <h2 id="post-modal-title" style="color:var(--cyan); margin-bottom:14px;">Broadcast News</h2>
       <textarea id="post-content" rows="6" placeholder="Share sports news..."></textarea>
-      <button class="solid-btn" style="width:100%; margin-top:12px;" onclick="createPost()">Broadcast Post</button>
+      <input id="post-media" type="file" accept="image/*,video/*">
+      <div class="file-note" id="post-file-note">You can upload one image or one video.</div>
+      <button class="solid-btn" id="post-submit-btn" style="width:100%; margin-top:12px;" onclick="createPost()">Broadcast Post</button>
     </div>
   </div>
 
@@ -822,8 +908,8 @@
       <div id="signup-fields" style="display:none;"><input id="username" class="auth-input" type="text" placeholder="Agent ID"></div>
       <input id="email" class="auth-input" type="email" placeholder="Email">
       <input id="pass" class="auth-input" type="password" placeholder="Password">
-      <button class="solid-btn" style="width:100%; margin-top:8px;" onclick="handleAuth()">Enter Hub</button>
-      <button class="ghost-btn" style="width:100%; margin-top:10px;" onclick="loginGoogle()"><i class="fa-brands fa-google"></i> Google Login</button>
+      <button class="solid-btn" id="auth-submit-btn" style="width:100%; margin-top:8px;" onclick="handleAuth()">Enter Hub</button>
+      <button class="ghost-btn" id="auth-google-btn" style="width:100%; margin-top:10px;" onclick="loginGoogle()"><i class="fa-brands fa-google"></i> Google Login</button>
     </div>
   </div>
 
@@ -854,6 +940,7 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+    const storage = firebase.storage();
 
     let masterPool = [];
     let authMode = 'login';
@@ -861,9 +948,355 @@
     let board = null;
     let feedListener = null;
     let notifListener = null;
+    let currentLang = localStorage.getItem('msh_lang') || 'en';
+    let currentTheme = localStorage.getItem('msh_theme') || 'dark';
+    let translationCache = {};
 
-    function isAdmin() {
-      return auth.currentUser && auth.currentUser.email === 'rabiimodz@gmail.com';
+    const uiText = {
+      en: {
+        brand: 'Moroccansportshub',
+        home: 'Home',
+        feed: 'Feed',
+        morocco: 'Moroccan',
+        global: 'Global',
+        esports: 'Esports',
+        chess: 'Chess',
+        matches: 'Matches',
+        admin: 'Admin',
+        search: 'Search',
+        accessHub: 'Access Hub',
+        agentHub: 'Agent Hub',
+        notifTitle: 'INTELLIGENCE ALERTS',
+        notifClear: 'Clear All',
+        feedPageTitle: 'Community Feed',
+        composer: 'Broadcast intelligence...',
+        moroccoPageTitle: 'Moroccan News',
+        globalPageTitle: 'Global News',
+        esportsPageTitle: 'Esports News',
+        chessPageTitle: 'Grandmaster Intelligence',
+        matchesPageTitle: 'Matches',
+        profilePageTitle: 'Agent Identity Sync',
+        profileSync: 'Sync Database',
+        logout: 'Logout',
+        adminPageTitle: 'Admin Panel',
+        adminToolsTitle: 'Admin Tools',
+        adminToolsDesc: 'Ban or unban users from posting. You can also manage posts directly from the Feed page.',
+        adminSyncUsers: 'Sync Users From Posts',
+        postModalTitle: 'Broadcast News',
+        postPlaceholder: 'Share sports news...',
+        postFileNote: 'You can upload one image or one video.',
+        postSubmit: 'Broadcast Post',
+        readFull: 'Read Full Intel',
+        playWhite: 'Play White',
+        playBlack: 'Play Black',
+        enterHub: 'Enter Hub',
+        googleLogin: 'Google Login',
+        drawerHomeDesc: 'Main sports news hub',
+        drawerFeedDesc: 'Community posts and reactions',
+        drawerMoroccoDesc: 'Moroccan sports news',
+        drawerGlobalDesc: 'International sports stories',
+        drawerEsportsDesc: 'Gaming and esports updates',
+        drawerChessDesc: 'Chess news and play area',
+        drawerMatchesDesc: 'Live fixtures and scores',
+        drawerProfileDesc: 'Your account settings',
+        drawerAdminDesc: 'Manage users and moderation',
+        share: 'Share',
+        noAlerts: 'No current alerts',
+        newsUnavailable: 'news unavailable right now.',
+        usersBackfilled: 'Users backfilled from posts.',
+        usernameUpdated: 'Username updated.',
+        enterUsername: 'Enter a username.',
+        deletePost: 'Delete this post?',
+        notAllowed: 'Not allowed.',
+        accountBanned: 'Your account has been banned.',
+        postingBanned: 'Your account is banned from posting.',
+        unbanUser: 'Unban this user?',
+        banUser: 'Ban this user?',
+        userUnbanned: 'User unbanned.',
+        userBanned: 'User banned.',
+        noUsers: 'No users found.',
+        syncUsersBtn: 'Sync Users From Posts',
+        light: 'Light',
+        dark: 'Dark',
+        uploadError: 'Upload failed.',
+        noNewsMorocco: 'Moroccan news unavailable right now.',
+        noNewsGeneric: 'news unavailable right now.',
+        profilePlaceholder: 'Update Agent ID',
+        signup: 'SIGN UP',
+        login: 'LOGIN',
+        agentId: 'Agent ID'
+      },
+      fr: {
+        brand: 'Moroccansportshub',
+        home: 'Accueil',
+        feed: 'Fil',
+        morocco: 'Maroc',
+        global: 'Monde',
+        esports: 'Esport',
+        chess: 'Échecs',
+        matches: 'Matchs',
+        admin: 'Admin',
+        search: 'Recherche',
+        accessHub: 'Accéder',
+        agentHub: 'Espace Agent',
+        notifTitle: 'ALERTES',
+        notifClear: 'Tout effacer',
+        feedPageTitle: 'Fil Communautaire',
+        composer: 'Publier une info...',
+        moroccoPageTitle: 'Actualités Marocaines',
+        globalPageTitle: 'Actualités Mondiales',
+        esportsPageTitle: 'Actualités Esport',
+        chessPageTitle: 'Intelligence Échecs',
+        matchesPageTitle: 'Matchs',
+        profilePageTitle: 'Identité Agent',
+        profileSync: 'Synchroniser',
+        logout: 'Déconnexion',
+        adminPageTitle: 'Panneau Admin',
+        adminToolsTitle: 'Outils Admin',
+        adminToolsDesc: 'Bannir ou débannir les utilisateurs. Vous pouvez aussi gérer les posts depuis le Fil.',
+        adminSyncUsers: 'Synchroniser les utilisateurs depuis les posts',
+        postModalTitle: 'Publier une info',
+        postPlaceholder: 'Partagez une actualité sportive...',
+        postFileNote: 'Vous pouvez envoyer une image ou une vidéo.',
+        postSubmit: 'Publier',
+        readFull: 'Lire l’article',
+        playWhite: 'Jouer Blanc',
+        playBlack: 'Jouer Noir',
+        enterHub: 'Entrer',
+        googleLogin: 'Connexion Google',
+        drawerHomeDesc: 'Page principale des infos sportives',
+        drawerFeedDesc: 'Posts et réactions de la communauté',
+        drawerMoroccoDesc: 'Infos sportives marocaines',
+        drawerGlobalDesc: 'Actualités sportives internationales',
+        drawerEsportsDesc: 'Gaming et esport',
+        drawerChessDesc: 'Actualités d’échecs et jeu',
+        drawerMatchesDesc: 'Scores et matchs en direct',
+        drawerProfileDesc: 'Paramètres du compte',
+        drawerAdminDesc: 'Gestion et modération',
+        share: 'Partager',
+        noAlerts: 'Aucune alerte',
+        newsUnavailable: 'actualités indisponibles pour le moment.',
+        usersBackfilled: 'Utilisateurs synchronisés depuis les posts.',
+        usernameUpdated: 'Nom mis à jour.',
+        enterUsername: 'Entrez un nom.',
+        deletePost: 'Supprimer ce post ?',
+        notAllowed: 'Non autorisé.',
+        accountBanned: 'Votre compte a été banni.',
+        postingBanned: 'Votre compte ne peut pas publier.',
+        unbanUser: 'Débannir cet utilisateur ?',
+        banUser: 'Bannir cet utilisateur ?',
+        userUnbanned: 'Utilisateur débanni.',
+        userBanned: 'Utilisateur banni.',
+        noUsers: 'Aucun utilisateur trouvé.',
+        syncUsersBtn: 'Synchroniser depuis les posts',
+        light: 'Clair',
+        dark: 'Sombre',
+        uploadError: 'Échec du téléchargement.',
+        noNewsMorocco: 'Actualités marocaines indisponibles pour le moment.',
+        noNewsGeneric: 'actualités indisponibles pour le moment.',
+        profilePlaceholder: 'Mettre à jour l’identifiant',
+        signup: 'INSCRIPTION',
+        login: 'CONNEXION',
+        agentId: 'Identifiant'
+      },
+      ar: {
+        brand: 'Moroccansportshub',
+        home: 'الرئيسية',
+        feed: 'المنشورات',
+        morocco: 'المغرب',
+        global: 'العالم',
+        esports: 'الرياضات الإلكترونية',
+        chess: 'الشطرنج',
+        matches: 'المباريات',
+        admin: 'الإدارة',
+        search: 'بحث',
+        accessHub: 'الدخول',
+        agentHub: 'حسابي',
+        notifTitle: 'الإشعارات',
+        notifClear: 'مسح الكل',
+        feedPageTitle: 'منشورات المجتمع',
+        composer: 'انشر خبراً...',
+        moroccoPageTitle: 'أخبار المغرب',
+        globalPageTitle: 'أخبار العالم',
+        esportsPageTitle: 'أخبار الرياضات الإلكترونية',
+        chessPageTitle: 'أخبار الشطرنج',
+        matchesPageTitle: 'المباريات',
+        profilePageTitle: 'هوية الحساب',
+        profileSync: 'حفظ التغييرات',
+        logout: 'تسجيل الخروج',
+        adminPageTitle: 'لوحة الإدارة',
+        adminToolsTitle: 'أدوات الإدارة',
+        adminToolsDesc: 'حظر أو إلغاء حظر المستخدمين. ويمكنك أيضاً إدارة المنشورات من صفحة المنشورات.',
+        adminSyncUsers: 'مزامنة المستخدمين من المنشورات',
+        postModalTitle: 'نشر خبر',
+        postPlaceholder: 'شارك خبراً رياضياً...',
+        postFileNote: 'يمكنك رفع صورة واحدة أو فيديو واحد.',
+        postSubmit: 'نشر',
+        readFull: 'قراءة الخبر',
+        playWhite: 'العب بالأبيض',
+        playBlack: 'العب بالأسود',
+        enterHub: 'دخول',
+        googleLogin: 'تسجيل عبر جوجل',
+        drawerHomeDesc: 'الصفحة الرئيسية للأخبار الرياضية',
+        drawerFeedDesc: 'منشورات المجتمع والتفاعلات',
+        drawerMoroccoDesc: 'الأخبار الرياضية المغربية',
+        drawerGlobalDesc: 'الأخبار الرياضية الدولية',
+        drawerEsportsDesc: 'أخبار الألعاب والرياضات الإلكترونية',
+        drawerChessDesc: 'أخبار الشطرنج ومنطقة اللعب',
+        drawerMatchesDesc: 'النتائج والمباريات المباشرة',
+        drawerProfileDesc: 'إعدادات الحساب',
+        drawerAdminDesc: 'إدارة المستخدمين والمحتوى',
+        share: 'مشاركة',
+        noAlerts: 'لا توجد إشعارات',
+        newsUnavailable: 'الأخبار غير متوفرة حالياً.',
+        usersBackfilled: 'تمت مزامنة المستخدمين من المنشورات.',
+        usernameUpdated: 'تم تحديث الاسم.',
+        enterUsername: 'أدخل اسماً.',
+        deletePost: 'هل تريد حذف هذا المنشور؟',
+        notAllowed: 'غير مسموح.',
+        accountBanned: 'تم حظر حسابك.',
+        postingBanned: 'حسابك محظور من النشر.',
+        unbanUser: 'إلغاء حظر هذا المستخدم؟',
+        banUser: 'حظر هذا المستخدم؟',
+        userUnbanned: 'تم إلغاء الحظر.',
+        userBanned: 'تم الحظر.',
+        noUsers: 'لا يوجد مستخدمون.',
+        syncUsersBtn: 'مزامنة المستخدمين من المنشورات',
+        light: 'فاتح',
+        dark: 'داكن',
+        uploadError: 'فشل رفع الملف.',
+        noNewsMorocco: 'الأخبار المغربية غير متوفرة حالياً.',
+        noNewsGeneric: 'الأخبار غير متوفرة حالياً.',
+        profilePlaceholder: 'تحديث اسم الحساب',
+        signup: 'تسجيل',
+        login: 'دخول',
+        agentId: 'اسم الحساب'
+      }
+    };
+
+    function t(key) {
+      return (uiText[currentLang] && uiText[currentLang][key]) || uiText.en[key] || key;
+    }
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      localStorage.setItem('msh_theme', theme);
+      document.body.classList.toggle('light', theme === 'light');
+      $('#theme-btn, #drawer-theme-btn').text(theme === 'light' ? t('dark') : t('light'));
+    }
+
+    function toggleTheme() {
+      setTheme(currentTheme === 'light' ? 'dark' : 'light');
+    }
+
+    async function translateText(text, target = currentLang) {
+      if (!text || target === 'en') return text;
+      const key = `${target}::${text}`;
+      if (translationCache[key]) return translationCache[key];
+
+      try {
+        const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent('auto|' + target)}`);
+        const data = await res.json();
+        const translated = data?.responseData?.translatedText || text;
+        translationCache[key] = translated;
+        return translated;
+      } catch {
+        return text;
+      }
+    }
+
+    async function translateContentValue(text) {
+      if (currentLang === 'en') return text;
+      return await translateText(text, currentLang);
+    }
+
+    async function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('msh_lang', lang);
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      $('#lang-select').val(lang);
+      $('#drawer-lang-select').val(lang);
+      applyUiLanguage();
+      await initNews();
+      if ($('#feed-page').hasClass('active')) loadFeed();
+      if ($('#admin-page').hasClass('active')) loadAdminPanel();
+    }
+
+    function applyUiLanguage() {
+      $('#brand-text, #drawer-brand-text').text(t('brand'));
+      $('#nav-home').text(t('home'));
+      $('#nav-feed').text(t('feed'));
+      $('#nav-morocco').text(t('morocco'));
+      $('#nav-global').text(t('global'));
+      $('#nav-esports').text(t('esports'));
+      $('#nav-chess').text(t('chess'));
+      $('#nav-matches').text(t('matches'));
+      $('#nav-admin').text(t('admin'));
+      $('#drawer-search-btn').html(`<i class="fa-solid fa-magnifying-glass"></i> ${t('search')}`);
+      $('#notif-title').text(t('notifTitle'));
+      $('#notif-clear').text(t('notifClear'));
+      $('#feed-page-title').text(t('feedPageTitle'));
+      $('#composer-text').text(t('composer'));
+      $('#morocco-page-title').text(t('moroccoPageTitle'));
+      $('#global-page-title').text(t('globalPageTitle'));
+      $('#esports-page-title').text(t('esportsPageTitle'));
+      $('#chess-page-title').text(t('chessPageTitle'));
+      $('#matches-page-title').text(t('matchesPageTitle'));
+      $('#profile-page-title').text(t('profilePageTitle'));
+      $('#profile-sync-btn').text(t('profileSync'));
+      $('#profile-logout-btn').text(t('logout'));
+      $('#admin-page-title').text(t('adminPageTitle'));
+      $('#admin-tools-title').text(t('adminToolsTitle'));
+      $('#admin-tools-desc').text(t('adminToolsDesc'));
+      $('#admin-sync-users-btn').text(t('adminSyncUsers'));
+      $('#post-modal-title').text(t('postModalTitle'));
+      $('#post-content').attr('placeholder', t('postPlaceholder'));
+      $('#post-file-note').text(t('postFileNote'));
+      $('#post-submit-btn').text(t('postSubmit'));
+      $('#m-link').text(t('readFull'));
+      $('#play-white-btn').text(t('playWhite'));
+      $('#play-black-btn').text(t('playBlack'));
+      $('#tab-login').text(t('login'));
+      $('#tab-signup').text(t('signup'));
+      $('#username').attr('placeholder', t('agentId'));
+      $('#set-name').attr('placeholder', t('profilePlaceholder'));
+      $('#auth-submit-btn').text(t('enterHub'));
+      $('#auth-google-btn').html(`<i class="fa-brands fa-google"></i> ${t('googleLogin')}`);
+      $('#d-home-title').text(t('home'));
+      $('#d-home-desc').text(t('drawerHomeDesc'));
+      $('#d-feed-title').text(t('feed'));
+      $('#d-feed-desc').text(t('drawerFeedDesc'));
+      $('#d-morocco-title').text(t('morocco'));
+      $('#d-morocco-desc').text(t('drawerMoroccoDesc'));
+      $('#d-global-title').text(t('global'));
+      $('#d-global-desc').text(t('drawerGlobalDesc'));
+      $('#d-esports-title').text(t('esports'));
+      $('#d-esports-desc').text(t('drawerEsportsDesc'));
+      $('#d-chess-title').text(t('chess'));
+      $('#d-chess-desc').text(t('drawerChessDesc'));
+      $('#d-matches-title').text(t('matches'));
+      $('#d-matches-desc').text(t('drawerMatchesDesc'));
+      $('#d-profile-title').text(t('profilePageTitle'));
+      $('#d-profile-desc').text(t('drawerProfileDesc'));
+      $('#d-admin-title').text(t('admin'));
+      $('#d-admin-desc').text(t('drawerAdminDesc'));
+      $('#theme-btn, #drawer-theme-btn').text(currentTheme === 'light' ? t('dark') : t('light'));
+
+      if (auth.currentUser) {
+        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('agentHub')}</button>`);
+      } else {
+        $('#auth-ui').html(`<button class="auth-btn" onclick="openAuth()">${t('accessHub')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
+      }
+
+      $('#active-search-input').attr('placeholder', `${t('search')}...`);
+    }
+
+    async function initAppPrefs() {
+      setTheme(currentTheme);
+      await setLanguage(currentLang);
     }
 
     function toggleDrawer(force) {
@@ -880,6 +1313,16 @@
       }
     }
 
+    function autoCloseDrawerOnScroll() {
+      if ($('#mobile-drawer').hasClass('open')) {
+        toggleDrawer(false);
+      }
+    }
+
+    window.addEventListener('scroll', autoCloseDrawerOnScroll, { passive: true });
+    window.addEventListener('wheel', autoCloseDrawerOnScroll, { passive: true });
+    window.addEventListener('touchmove', autoCloseDrawerOnScroll, { passive: true });
+
     function switchPage(p) {
       if (p === 'profile-check') {
         if (!auth.currentUser) {
@@ -890,15 +1333,15 @@
       }
 
       if (p === 'admin' && !isAdmin()) {
-        alert('Not allowed.');
+        alert(t('notAllowed'));
         return;
       }
 
       $('.page').removeClass('active');
       $('#' + p + '-page').addClass('active');
 
-      $('nav a, .mobile-nav button').removeClass('active');
-      $('#nav-' + p + ', #n-' + p).addClass('active');
+      $('nav a').removeClass('active');
+      $('#nav-' + p).addClass('active');
 
       if (p === 'feed') loadFeed();
       if (p === 'profile') loadProfile();
@@ -947,12 +1390,16 @@
       auth.signOut().then(() => location.reload());
     }
 
+    function isAdmin() {
+      return auth.currentUser && auth.currentUser.email === 'rabiimodz@gmail.com';
+    }
+
     auth.onAuthStateChanged(async user => {
       masterPool = [];
 
       if (user) {
-        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">Agent Hub</button>`);
-        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">Agent Hub</button>`);
+        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('agentHub')}</button>`);
         $('#set-name').val(user.displayName || '');
 
         await db.collection('users').doc(user.uid).set({
@@ -965,7 +1412,7 @@
         const userData = userSnap.exists ? userSnap.data() : {};
 
         if (userData.banned) {
-          alert('Your account has been banned.');
+          alert(t('accountBanned'));
           await auth.signOut();
           return;
         }
@@ -978,8 +1425,8 @@
 
         listenToNotifs();
       } else {
-        $('#auth-ui').html(`<button class="auth-btn" onclick="openAuth()">Access Hub</button>`);
-        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">Access Hub</button>`);
+        $('#auth-ui').html(`<button class="auth-btn" onclick="openAuth()">${t('accessHub')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
         $('#set-name').val('');
         $('#profile-email').text('');
         $('#nav-admin, #drawer-admin-btn').hide();
@@ -993,6 +1440,7 @@
         $('#notif-count').hide();
       }
 
+      applyUiLanguage();
       initNews();
     });
 
@@ -1007,7 +1455,7 @@
         if (!auth.currentUser) return openAuth();
 
         const newName = $('#set-name').val().trim();
-        if (!newName) return alert('Enter a username.');
+        if (!newName) return alert(t('enterUsername'));
 
         const user = auth.currentUser;
         await user.updateProfile({ displayName: newName });
@@ -1023,7 +1471,7 @@
         postsSnap.forEach(doc => batch.update(doc.ref, { username: newName }));
         await batch.commit();
 
-        alert('Username updated.');
+        alert(t('usernameUpdated'));
         loadProfile();
         loadFeed();
       } catch (e) {
@@ -1044,7 +1492,7 @@
 
       notifListener = db.collection('notifications')
         .where('targetId', '==', auth.currentUser.uid)
-        .onSnapshot(snapshot => {
+        .onSnapshot(async snapshot => {
           const list = $('#notif-list').empty();
           let unread = 0;
           let items = [];
@@ -1053,17 +1501,18 @@
           items.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
           if (items.length === 0) {
-            list.html('<div style="padding:40px; text-align:center; opacity:.35; font-size:.74rem;">No current alerts</div>');
+            list.html(`<div style="padding:40px; text-align:center; opacity:.35; font-size:.74rem;">${t('noAlerts')}</div>`);
           }
 
-          items.slice(0, 15).forEach(n => {
+          for (const n of items.slice(0, 15)) {
             if (!n.read) unread++;
+            const msg = await translateContentValue(`${n.fromName} ${n.message}`);
             list.append(`
               <div class="notif-item ${n.read ? '' : 'unread'}" onclick="openNotif('${n.postId || ''}', '${n.id}')">
-                <b>${n.fromName}</b> ${n.message}
+                ${msg}
               </div>
             `);
-          });
+          }
 
           if (unread > 0) $('#notif-count').text(unread).css('display', 'flex');
           else $('#notif-count').hide();
@@ -1097,7 +1546,7 @@
         .get();
 
       if (snap.empty) {
-        $('#notif-list').html('<div style="padding:40px; text-align:center; opacity:.35; font-size:.74rem;">No current alerts</div>');
+        $('#notif-list').html(`<div style="padding:40px; text-align:center; opacity:.35; font-size:.74rem;">${t('noAlerts')}</div>`);
         $('#notif-count').hide();
         return;
       }
@@ -1106,7 +1555,7 @@
       snap.forEach(doc => batch.delete(doc.ref));
       await batch.commit();
 
-      $('#notif-list').html('<div style="padding:40px; text-align:center; opacity:.35; font-size:.74rem;">No current alerts</div>');
+      $('#notif-list').html(`<div style="padding:40px; text-align:center; opacity:.35; font-size:.74rem;">${t('noAlerts')}</div>`);
       $('#notif-count').hide();
     }
 
@@ -1122,6 +1571,18 @@
       $('#notif-panel').hide();
     }
 
+    async function uploadPostMedia(file) {
+      const user = auth.currentUser;
+      const safeName = `${Date.now()}_${file.name.replace(/[^\w.\-]/g, '_')}`;
+      const ref = storage.ref().child(`feed_media/${user.uid}/${safeName}`);
+      await ref.put(file);
+      const url = await ref.getDownloadURL();
+      return {
+        url,
+        type: file.type.startsWith('video/') ? 'video' : 'image'
+      };
+    }
+
     async function createPost() {
       if (!auth.currentUser) return openAuth();
 
@@ -1129,20 +1590,37 @@
       const userData = userDoc.exists ? userDoc.data() : {};
 
       if (userData.banned) {
-        alert('Your account is banned from posting.');
+        alert(t('postingBanned'));
         return;
       }
 
       const content = $('#post-content').val().trim();
-      if (!content) return;
+      const file = document.getElementById('post-media').files[0];
+      if (!content && !file) return;
 
       const user = auth.currentUser;
       const username = user.displayName || 'Agent';
+
+      let mediaUrl = '';
+      let mediaType = '';
+
+      if (file) {
+        try {
+          const uploaded = await uploadPostMedia(file);
+          mediaUrl = uploaded.url;
+          mediaType = uploaded.type;
+        } catch (e) {
+          alert(t('uploadError'));
+          return;
+        }
+      }
 
       const postRef = await db.collection('posts').add({
         userId: user.uid,
         username,
         content,
+        mediaUrl,
+        mediaType,
         likes: 0,
         hearts: 0,
         fires: 0,
@@ -1172,24 +1650,25 @@
       await batch.commit();
 
       $('#post-content').val('');
+      $('#post-media').val('');
       $('#post-modal').hide();
     }
 
     async function banUser(userId, currentStatus) {
-      if (!isAdmin()) return alert('Not allowed.');
-      if (!confirm(currentStatus ? 'Unban this user?' : 'Ban this user?')) return;
+      if (!isAdmin()) return alert(t('notAllowed'));
+      if (!confirm(currentStatus ? t('unbanUser') : t('banUser'))) return;
 
       await db.collection('users').doc(userId).set({
         banned: !currentStatus
       }, { merge: true });
 
-      alert(currentStatus ? 'User unbanned.' : 'User banned.');
+      alert(currentStatus ? t('userUnbanned') : t('userBanned'));
       loadFeed();
       loadAdminPanel();
     }
 
     async function backfillUsersFromPosts() {
-      if (!isAdmin()) return alert('Not allowed.');
+      if (!isAdmin()) return alert(t('notAllowed'));
 
       const postsSnap = await db.collection('posts').get();
       const batch = db.batch();
@@ -1209,13 +1688,13 @@
       });
 
       await batch.commit();
-      alert('Users backfilled from posts.');
+      alert(t('usersBackfilled'));
       loadAdminPanel();
     }
 
     async function loadAdminPanel() {
       if (!isAdmin()) {
-        alert('Not allowed.');
+        alert(t('notAllowed'));
         switchPage('home');
         return;
       }
@@ -1224,7 +1703,7 @@
       const snap = await db.collection('users').get();
 
       if (snap.empty) {
-        wrap.html('<p style="color:var(--dim)">No users found.</p>');
+        wrap.html(`<p style="color:var(--dim)">${t('noUsers')}</p>`);
         return;
       }
 
@@ -1252,7 +1731,49 @@
       });
     }
 
-    function loadFeed() {
+    function buildShareUrl(postId) {
+      return `${location.origin}${location.pathname}?post=${postId}`;
+    }
+
+    async function sharePost(postId) {
+      const url = buildShareUrl(postId);
+      const title = t('feedPageTitle');
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ title, url });
+        } catch {}
+      } else {
+        try {
+          await navigator.clipboard.writeText(url);
+          alert(url);
+        } catch {
+          prompt('Copy this link:', url);
+        }
+      }
+    }
+
+    async function openPostFromUrlIfAny() {
+      const params = new URLSearchParams(window.location.search);
+      const postId = params.get('post');
+      if (!postId) return;
+
+      switchPage('feed');
+      setTimeout(() => {
+        const el = document.querySelector(`[data-post="${postId}"]`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 900);
+    }
+
+    function renderMedia(mediaUrl, mediaType) {
+      if (!mediaUrl) return '';
+      if (mediaType === 'video') {
+        return `<div class="post-media"><video controls playsinline src="${mediaUrl}"></video></div>`;
+      }
+      return `<div class="post-media"><img src="${mediaUrl}" alt="media" onerror="this.style.display='none'"></div>`;
+    }
+
+    async function loadFeed() {
       if (feedListener) feedListener();
 
       feedListener = db.collection('posts').onSnapshot(async snapshot => {
@@ -1271,6 +1792,7 @@
           const admin = isAdmin();
           const owner = auth.currentUser && auth.currentUser.uid === post.userId;
           let active = {};
+          let displayContent = await translateContentValue(post.content || '');
 
           if (auth.currentUser) {
             const r = await db.collection('reactions_feed').doc(`${post.id}_${auth.currentUser.uid}`).get();
@@ -1298,16 +1820,20 @@
                 </div>
               </div>
 
-              <div class="post-text">${post.content}</div>
+              <div class="post-text">${displayContent || ''}</div>
+              ${renderMedia(post.mediaUrl, post.mediaType)}
 
               <div class="post-actions">
                 <button class="feed-react-btn ${active.like ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'like', '${post.userId}')">👍 ${post.likes || 0}</button>
                 <button class="feed-react-btn ${active.heart ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'heart', '${post.userId}')">❤️ ${post.hearts || 0}</button>
                 <button class="feed-react-btn ${active.fire ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'fire', '${post.userId}')">🔥 ${post.fires || 0}</button>
+                <button class="share-btn" onclick="sharePost('${post.id}')"><i class="fa-solid fa-share-nodes"></i> ${t('share')}</button>
               </div>
             </div>
           `);
         }
+
+        openPostFromUrlIfAny();
       });
     }
 
@@ -1364,7 +1890,7 @@
     }
 
     async function deletePost(id) {
-      if (!confirm('Delete this post?')) return;
+      if (!confirm(t('deletePost'))) return;
       await db.collection('posts').doc(id).delete();
     }
 
@@ -1415,14 +1941,17 @@
       }
 
       let html = '';
-      data.items.forEach(item => {
+      for (const item of data.items) {
         const cleanDesc = (item.description || '').replace(/<[^>]*>?/gm, '');
         const image = item.thumbnail || item.enclosure?.link || 'https://via.placeholder.com/800x450?text=Moroccansportshub';
 
+        const translatedTitle = await translateContentValue(item.title || 'Untitled');
+        const translatedDesc = await translateContentValue(cleanDesc);
+
         const n = {
           id: masterPool.length,
-          title: item.title || 'Untitled',
-          desc: cleanDesc,
+          title: translatedTitle,
+          desc: translatedDesc,
           img: image,
           link: item.link || '#',
           tag: tag.toUpperCase()
@@ -1438,7 +1967,7 @@
             <h3>${n.title}</h3>
           </div>
         `;
-      });
+      }
 
       $('#feed-' + tag).html(html);
     }
@@ -1452,7 +1981,7 @@
         try {
           await loadFeedSource('https://www.hespress.com/sport/feed', 'morocco');
         } catch (e2) {
-          $('#feed-morocco').html('<div class="mini-card"><h3>Moroccan news unavailable right now.</h3></div>');
+          $('#feed-morocco').html(`<div class="mini-card"><h3>${t('noNewsMorocco')}</h3></div>`);
         }
       }
 
@@ -1466,7 +1995,7 @@
         try {
           await loadFeedSource(url, tag);
         } catch (e) {
-          $('#feed-' + tag).html(`<div class="mini-card"><h3>${tag} news unavailable right now.</h3></div>`);
+          $('#feed-' + tag).html(`<div class="mini-card"><h3>${tag} ${t('noNewsGeneric')}</h3></div>`);
         }
       }
 
@@ -1582,10 +2111,10 @@
       });
 
       if (side === 'black') {
-        $('#game-status').text('AI Moving (White)...');
+        $('#game-status').text('AI Moving...');
         setTimeout(makeAiMove, 800);
       } else {
-        $('#game-status').text('Your Turn (White).');
+        $('#game-status').text('Your Turn.');
       }
     }
 
@@ -1597,29 +2126,23 @@
       $('#game-status').text('Your Turn.');
     }
 
-    function getTodayDate() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    }
-
     function loadMatchesWidget() {
       const container = document.getElementById('live-inject');
-      const today = getTodayDate();
-
       container.innerHTML = `
         <api-sports-widget
-          data-type="games"
-          data-date="${today}"
-          data-refresh="15"
-          data-show-toolbar="true"
-          data-tab="all"
-          data-games-style="2"
-          data-target-game="modal"
+          data-type="config"
           data-key="77aa814e7955b3042a9ebf24fc1bee18"
-          data-theme="dark">
+          data-sport="football"
+          data-theme="dark"
+          data-target-game="modal">
+        </api-sports-widget>
+
+        <api-sports-widget
+          data-type="games"
+          data-sport="football"
+          data-theme="dark"
+          data-key="77aa814e7955b3042a9ebf24fc1bee18"
+          data-target-game="modal">
         </api-sports-widget>
       `;
 
@@ -1629,13 +2152,15 @@
       const script = document.createElement('script');
       script.id = 'api-sports-script';
       script.type = 'module';
-      script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js?v=' + Date.now();
-      document.body.appendChild(script);
+      script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
+      container.appendChild(script);
     }
 
     $(document).on('click', '.modal', function(e) {
       if (e.target === this) $(this).hide();
     });
+
+    initAppPrefs();
   </script>
 </body>
 </html>
