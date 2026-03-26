@@ -10,7 +10,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-  <!-- FAVICON / LOGO -->
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png/icon.png" />
   <link rel="shortcut icon" href="/favicon.png/icon.png" />
   <link rel="apple-touch-icon" href="/favicon.png/icon.png" />
@@ -517,6 +516,15 @@
       outline: none;
     }
 
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--dim);
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      background: rgba(255,255,255,.02);
+    }
+
     .modal {
       display: none;
       position: fixed;
@@ -572,6 +580,12 @@
       padding: 14px;
       margin: 10px 0;
       resize: vertical;
+    }
+
+    .google-btn {
+      position: relative;
+      z-index: 20;
+      pointer-events: auto;
     }
 
     .mobile-drawer {
@@ -927,8 +941,8 @@
       <div id="signup-fields" style="display:none;"><input id="username" class="auth-input" type="text" placeholder="Agent ID"></div>
       <input id="email" class="auth-input" type="email" placeholder="Email">
       <input id="pass" class="auth-input" type="password" placeholder="Password">
-      <button class="solid-btn" id="auth-submit-btn" style="width:100%; margin-top:8px;" onclick="handleAuth()">Enter Hub</button>
-      <button class="ghost-btn" id="auth-google-btn" style="width:100%; margin-top:10px;" onclick="loginGoogle()"><i class="fa-brands fa-google"></i> Google Login</button>
+      <button class="solid-btn" id="auth-submit-btn" type="button" style="width:100%; margin-top:8px;" onclick="handleAuth()">Enter Hub</button>
+      <button class="ghost-btn google-btn" id="auth-google-btn" type="button" style="width:100%; margin-top:10px;" onclick="loginGoogle()"><i class="fa-brands fa-google"></i> Google Login</button>
     </div>
   </div>
 
@@ -947,248 +961,22 @@
   </div>
 
   <script>
-    const uiText = {
-      en: {
-        brand: 'Moroccansportshub',
-        home: 'Home',
-        feed: 'Feed',
-        morocco: 'Moroccan',
-        global: 'Global',
-        esports: 'Esports',
-        chess: 'Chess',
-        matches: 'Matches',
-        admin: 'Admin',
-        search: 'Search',
-        accessHub: 'Access Hub',
-        agentHub: 'Agent Hub',
-        notifTitle: 'INTELLIGENCE ALERTS',
-        notifClear: 'Clear All',
-        feedPageTitle: 'Community Feed',
-        composer: 'Broadcast intelligence...',
-        moroccoPageTitle: 'Moroccan News',
-        globalPageTitle: 'Global News',
-        esportsPageTitle: 'Esports News',
-        chessPageTitle: 'Grandmaster Intelligence',
-        matchesPageTitle: 'Matches',
-        profilePageTitle: 'Agent Identity Sync',
-        profileSync: 'Sync Database',
-        logout: 'Logout',
-        adminPageTitle: 'Admin Panel',
-        adminToolsTitle: 'Admin Tools',
-        adminToolsDesc: 'Ban or unban users from posting. You can also manage posts directly from the Feed page.',
-        adminSyncUsers: 'Sync Users From Posts',
-        postModalTitle: 'Broadcast News',
-        postPlaceholder: 'Share sports news...',
-        postFileNote: 'You can upload one image or one video.',
-        postSubmit: 'Broadcast Post',
-        readFull: 'Read Full Intel',
-        playWhite: 'Play White',
-        playBlack: 'Play Black',
-        enterHub: 'Enter Hub',
-        googleLogin: 'Google Login',
-        drawerHomeDesc: 'Main sports news hub',
-        drawerFeedDesc: 'Community posts and reactions',
-        drawerMoroccoDesc: 'Moroccan sports news',
-        drawerGlobalDesc: 'International sports stories',
-        drawerEsportsDesc: 'Gaming and esports updates',
-        drawerChessDesc: 'Chess news and play area',
-        drawerMatchesDesc: 'Live fixtures and scores',
-        drawerProfileDesc: 'Your account settings',
-        drawerAdminDesc: 'Manage users and moderation',
-        share: 'Share',
-        noAlerts: 'No current alerts',
-        usersBackfilled: 'Users backfilled from posts.',
-        usernameUpdated: 'Username updated.',
-        enterUsername: 'Enter a username.',
-        deletePost: 'Delete this post?',
-        notAllowed: 'Not allowed.',
-        accountBanned: 'Your account has been banned.',
-        postingBanned: 'Your account is banned from posting.',
-        unbanUser: 'Unban this user?',
-        banUser: 'Ban this user?',
-        userUnbanned: 'User unbanned.',
-        userBanned: 'User banned.',
-        noUsers: 'No users found.',
-        light: 'Light',
-        dark: 'Dark',
-        uploadError: 'Upload failed.',
-        noNewsMorocco: 'Moroccan news unavailable right now.',
-        noNewsGeneric: 'news unavailable right now.',
-        profilePlaceholder: 'Update Agent ID',
-        signup: 'SIGN UP',
-        login: 'LOGIN',
-        agentId: 'Agent ID',
-        posting: 'Posting...'
-      },
-      fr: {
-        brand: 'Moroccansportshub',
-        home: 'Accueil',
-        feed: 'Fil',
-        morocco: 'Maroc',
-        global: 'Monde',
-        esports: 'Esport',
-        chess: 'Échecs',
-        matches: 'Matchs',
-        admin: 'Admin',
-        search: 'Recherche',
-        accessHub: 'Accéder',
-        agentHub: 'Espace Agent',
-        notifTitle: 'ALERTES',
-        notifClear: 'Tout effacer',
-        feedPageTitle: 'Fil Communautaire',
-        composer: 'Publier une info...',
-        moroccoPageTitle: 'Actualités Marocaines',
-        globalPageTitle: 'Actualités Mondiales',
-        esportsPageTitle: 'Actualités Esport',
-        chessPageTitle: 'Intelligence Échecs',
-        matchesPageTitle: 'Matchs',
-        profilePageTitle: 'Identité Agent',
-        profileSync: 'Synchroniser',
-        logout: 'Déconnexion',
-        adminPageTitle: 'Panneau Admin',
-        adminToolsTitle: 'Outils Admin',
-        adminToolsDesc: 'Bannir ou débannir les utilisateurs. Vous pouvez aussi gérer les posts depuis le Fil.',
-        adminSyncUsers: 'Synchroniser les utilisateurs depuis les posts',
-        postModalTitle: 'Publier une info',
-        postPlaceholder: 'Partagez une actualité sportive...',
-        postFileNote: 'Vous pouvez envoyer une image ou une vidéo.',
-        postSubmit: 'Publier',
-        readFull: 'Lire l’article',
-        playWhite: 'Jouer Blanc',
-        playBlack: 'Jouer Noir',
-        enterHub: 'Entrer',
-        googleLogin: 'Connexion Google',
-        drawerHomeDesc: 'Page principale des infos sportives',
-        drawerFeedDesc: 'Posts et réactions de la communauté',
-        drawerMoroccoDesc: 'Infos sportives marocaines',
-        drawerGlobalDesc: 'Actualités sportives internationales',
-        drawerEsportsDesc: 'Gaming et esport',
-        drawerChessDesc: 'Actualités d’échecs et jeu',
-        drawerMatchesDesc: 'Scores et matchs en direct',
-        drawerProfileDesc: 'Paramètres du compte',
-        drawerAdminDesc: 'Gestion et modération',
-        share: 'Partager',
-        noAlerts: 'Aucune alerte',
-        usersBackfilled: 'Utilisateurs synchronisés depuis les posts.',
-        usernameUpdated: 'Nom mis à jour.',
-        enterUsername: 'Entrez un nom.',
-        deletePost: 'Supprimer ce post ?',
-        notAllowed: 'Non autorisé.',
-        accountBanned: 'Votre compte a été banni.',
-        postingBanned: 'Votre compte ne peut pas publier.',
-        unbanUser: 'Débannir cet utilisateur ?',
-        banUser: 'Bannir cet utilisateur ?',
-        userUnbanned: 'Utilisateur débanni.',
-        userBanned: 'Utilisateur banni.',
-        noUsers: 'Aucun utilisateur trouvé.',
-        light: 'Clair',
-        dark: 'Sombre',
-        uploadError: 'Échec du téléchargement.',
-        noNewsMorocco: 'Actualités marocaines indisponibles pour le moment.',
-        noNewsGeneric: 'actualités indisponibles pour le moment.',
-        profilePlaceholder: 'Mettre à jour l’identifiant',
-        signup: 'INSCRIPTION',
-        login: 'CONNEXION',
-        agentId: 'Identifiant',
-        posting: 'Publication...'
-      },
-      ar: {
-        brand: 'Moroccansportshub',
-        home: 'الرئيسية',
-        feed: 'المنشورات',
-        morocco: 'المغرب',
-        global: 'العالم',
-        esports: 'الرياضات الإلكترونية',
-        chess: 'الشطرنج',
-        matches: 'المباريات',
-        admin: 'الإدارة',
-        search: 'بحث',
-        accessHub: 'الدخول',
-        agentHub: 'حسابي',
-        notifTitle: 'الإشعارات',
-        notifClear: 'مسح الكل',
-        feedPageTitle: 'منشورات المجتمع',
-        composer: 'انشر خبراً...',
-        moroccoPageTitle: 'أخبار المغرب',
-        globalPageTitle: 'أخبار العالم',
-        esportsPageTitle: 'أخبار الرياضات الإلكترونية',
-        chessPageTitle: 'أخبار الشطرنج',
-        matchesPageTitle: 'المباريات',
-        profilePageTitle: 'هوية الحساب',
-        profileSync: 'حفظ التغييرات',
-        logout: 'تسجيل الخروج',
-        adminPageTitle: 'لوحة الإدارة',
-        adminToolsTitle: 'أدوات الإدارة',
-        adminToolsDesc: 'حظر أو إلغاء حظر المستخدمين. ويمكنك أيضاً إدارة المنشورات من صفحة المنشورات.',
-        adminSyncUsers: 'مزامنة المستخدمين من المنشورات',
-        postModalTitle: 'نشر خبر',
-        postPlaceholder: 'شارك خبراً رياضياً...',
-        postFileNote: 'يمكنك رفع صورة واحدة أو فيديو واحد.',
-        postSubmit: 'نشر',
-        readFull: 'قراءة الخبر',
-        playWhite: 'العب بالأبيض',
-        playBlack: 'العب بالأسود',
-        enterHub: 'دخول',
-        googleLogin: 'تسجيل عبر جوجل',
-        drawerHomeDesc: 'الصفحة الرئيسية للأخبار الرياضية',
-        drawerFeedDesc: 'منشورات المجتمع والتفاعلات',
-        drawerMoroccoDesc: 'الأخبار الرياضية المغربية',
-        drawerGlobalDesc: 'الأخبار الرياضية الدولية',
-        drawerEsportsDesc: 'أخبار الألعاب والرياضات الإلكترونية',
-        drawerChessDesc: 'أخبار الشطرنج ومنطقة اللعب',
-        drawerMatchesDesc: 'النتائج والمباريات المباشرة',
-        drawerProfileDesc: 'إعدادات الحساب',
-        drawerAdminDesc: 'إدارة المستخدمين والمحتوى',
-        share: 'مشاركة',
-        noAlerts: 'لا توجد إشعارات',
-        usersBackfilled: 'تمت مزامنة المستخدمين من المنشورات.',
-        usernameUpdated: 'تم تحديث الاسم.',
-        enterUsername: 'أدخل اسماً.',
-        deletePost: 'هل تريد حذف هذا المنشور؟',
-        notAllowed: 'غير مسموح.',
-        accountBanned: 'تم حظر حسابك.',
-        postingBanned: 'حسابك محظور من النشر.',
-        unbanUser: 'إلغاء حظر هذا المستخدم؟',
-        banUser: 'حظر هذا المستخدم؟',
-        userUnbanned: 'تم إلغاء الحظر.',
-        userBanned: 'تم الحظر.',
-        noUsers: 'لا يوجد مستخدمون.',
-        light: 'فاتح',
-        dark: 'داكن',
-        uploadError: 'فشل رفع الملف.',
-        noNewsMorocco: 'الأخبار المغربية غير متوفرة حالياً.',
-        noNewsGeneric: 'الأخبار غير متوفرة حالياً.',
-        profilePlaceholder: 'تحديث اسم الحساب',
-        signup: 'تسجيل',
-        login: 'دخول',
-        agentId: 'اسم الحساب',
-        posting: 'جارٍ النشر...'
-      }
+    const firebaseConfig = {
+      apiKey: "AIzaSyDl3HcQUr7Nd0oJOpsSmx77mTi7U4PyR0w",
+      authDomain: "moroccansportshub.firebaseapp.com",
+      projectId: "moroccansportshub",
+      storageBucket: "moroccansportshub.firebasestorage.app",
+      messagingSenderId: "1081971044275",
+      appId: "1:1081971044275:web:3f04c81f88ee26a9d365c6"
     };
 
-    let masterPool = [];
-    let authMode = 'login';
-    let game = new Chess();
-    let board = null;
-    let feedListener = null;
-    let notifListener = null;
-    let currentLang = localStorage.getItem('msh_lang') || 'en';
-    let currentTheme = localStorage.getItem('msh_theme') || 'dark';
-    let sharedPostHandled = false;
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
     function t(key) {
       return (uiText[currentLang] && uiText[currentLang][key]) || uiText.en[key] || key;
-    }
-
-    function setTheme(theme) {
-      currentTheme = theme;
-      localStorage.setItem('msh_theme', theme);
-      document.body.classList.toggle('light', theme === 'light');
-      $('#theme-btn, #drawer-theme-btn').text(theme === 'light' ? t('dark') : t('light'));
-    }
-
-    function toggleTheme() {
-      setTheme(currentTheme === 'light' ? 'dark' : 'light');
     }
 
     async function setLanguage(lang) {
@@ -1202,6 +990,17 @@
       await initNews();
       if ($('#feed-page').hasClass('active')) loadFeed();
       if ($('#admin-page').hasClass('active')) loadAdminPanel();
+    }
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      localStorage.setItem('msh_theme', theme);
+      document.body.classList.toggle('light', theme === 'light');
+      $('#theme-btn, #drawer-theme-btn').text(theme === 'light' ? t('dark') : t('light'));
+    }
+
+    function toggleTheme() {
+      setTheme(currentTheme === 'light' ? 'dark' : 'light');
     }
 
     function applyUiLanguage() {
@@ -1263,6 +1062,7 @@
       $('#d-admin-title').text(t('admin'));
       $('#d-admin-desc').text(t('drawerAdminDesc'));
       $('#theme-btn, #drawer-theme-btn').text(currentTheme === 'light' ? t('dark') : t('light'));
+      $('#active-search-input').attr('placeholder', `${t('search')}...`);
 
       if (auth.currentUser) {
         $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
@@ -1271,8 +1071,6 @@
         $('#auth-ui').html(`<button class="auth-btn" onclick="openAuth()">${t('accessHub')}</button>`);
         $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
       }
-
-      $('#active-search-input').attr('placeholder', `${t('search')}...`);
     }
 
     async function initAppPrefs() {
@@ -1303,9 +1101,7 @@
     }
 
     window.addEventListener('scroll', () => {
-      if ($('#mobile-drawer').hasClass('open')) {
-        toggleDrawer(false);
-      }
+      if ($('#mobile-drawer').hasClass('open')) toggleDrawer(false);
     }, { passive: true });
 
     document.addEventListener('wheel', (e) => {
@@ -1376,7 +1172,9 @@
     }
 
     function loginGoogle() {
-      auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => location.reload());
+      auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then(() => location.reload())
+        .catch(err => alert(err.message));
     }
 
     function logout() {
@@ -1434,7 +1232,7 @@
       }
 
       applyUiLanguage();
-      initNews();
+      await initNews();
 
       const params = new URLSearchParams(window.location.search);
       if (params.get('post')) {
@@ -1503,14 +1301,14 @@
             list.html(`<div style="padding:40px; text-align:center; opacity:.35; font-size:.74rem;">${t('noAlerts')}</div>`);
           }
 
-          for (const n of items.slice(0, 15)) {
+          items.slice(0, 15).forEach(n => {
             if (!n.read) unread++;
             list.append(`
               <div class="notif-item ${n.read ? '' : 'unread'}" onclick="openNotif('${n.postId || ''}', '${n.id}')">
                 <b>${n.fromName}</b> ${n.message}
               </div>
             `);
-          }
+          });
 
           if (unread > 0) $('#notif-count').text(unread).css('display', 'flex');
           else $('#notif-count').hide();
@@ -1603,18 +1401,18 @@
       submitBtn.disabled = true;
       submitBtn.textContent = t('posting');
 
-      const user = auth.currentUser;
-      const username = user.displayName || 'Agent';
-
-      let mediaUrl = '';
-      let mediaType = '';
-
       try {
+        let mediaUrl = '';
+        let mediaType = '';
+
         if (file) {
           const uploaded = await uploadPostMedia(file);
           mediaUrl = uploaded.url;
           mediaType = uploaded.type;
         }
+
+        const user = auth.currentUser;
+        const username = user.displayName || 'Agent';
 
         const postRef = await db.collection('posts').add({
           userId: user.uid,
@@ -1653,6 +1451,7 @@
         $('#post-content').val('');
         fileInput.value = '';
         $('#post-modal').hide();
+        if ($('#feed-page').hasClass('active')) loadFeed();
       } catch (e) {
         alert(`${t('uploadError')} ${e.message || ''}`);
       } finally {
@@ -1800,6 +1599,11 @@
           return (b.score || 0) - (a.score || 0);
         });
 
+        if (posts.length === 0) {
+          container.html(`<div class="empty-state">No posts yet.</div>`);
+          return;
+        }
+
         for (const post of posts) {
           const admin = isAdmin();
           const owner = auth.currentUser && auth.currentUser.uid === post.userId;
@@ -1845,6 +1649,8 @@
         }
 
         openPostFromUrlIfAny();
+      }, err => {
+        $('#feed-container').html(`<div class="empty-state">${err.message}</div>`);
       });
     }
 
@@ -1943,23 +1749,60 @@
       }
     }
 
-    async function loadFeedSource(url, tag) {
+    async function fetchRssViaRss2Json(url) {
       const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url));
+      if (!res.ok) throw new Error('rss2json failed');
       const data = await res.json();
+      if (!data.items || !data.items.length) throw new Error('No items');
+      return data.items.map(item => ({
+        title: item.title || 'Untitled',
+        description: (item.description || '').replace(/<[^>]*>?/gm, ''),
+        thumbnail: item.thumbnail || item.enclosure?.link || '',
+        link: item.link || '#'
+      }));
+    }
 
-      if (!data.items || !data.items.length) {
-        throw new Error(`No items for ${tag}`);
+    async function fetchRssViaAllOrigins(url) {
+      const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+      const res = await fetch(proxyUrl);
+      if (!res.ok) throw new Error('allorigins failed');
+      const xmlText = await res.text();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(xmlText, 'text/xml');
+      const items = [...xml.querySelectorAll('item')].slice(0, 12);
+
+      if (!items.length) throw new Error('No XML items');
+
+      return items.map(item => {
+        const title = item.querySelector('title')?.textContent?.trim() || 'Untitled';
+        const description = (item.querySelector('description')?.textContent || '').replace(/<[^>]*>?/gm, '');
+        const link = item.querySelector('link')?.textContent?.trim() || '#';
+        const enclosure = item.querySelector('enclosure')?.getAttribute('url') || '';
+        const mediaContent = item.querySelector('media\\:content, content')?.getAttribute('url') || '';
+        const mediaThumb = item.querySelector('media\\:thumbnail, thumbnail')?.getAttribute('url') || '';
+        const thumbnail = enclosure || mediaContent || mediaThumb || '';
+        return { title, description, thumbnail, link };
+      });
+    }
+
+    async function fetchFeedItems(url) {
+      try {
+        return await fetchRssViaRss2Json(url);
+      } catch {
+        return await fetchRssViaAllOrigins(url);
       }
+    }
+
+    async function loadFeedSource(url, tag) {
+      const items = await fetchFeedItems(url);
 
       let html = '';
-      data.items.forEach(item => {
-        const cleanDesc = (item.description || '').replace(/<[^>]*>?/gm, '');
-        const image = item.thumbnail || item.enclosure?.link || 'https://via.placeholder.com/800x450?text=Moroccansportshub';
-
+      items.forEach(item => {
+        const image = item.thumbnail || 'https://via.placeholder.com/800x450?text=Moroccansportshub';
         const n = {
           id: masterPool.length,
           title: item.title || 'Untitled',
-          desc: cleanDesc,
+          desc: item.description || '',
           img: image,
           link: item.link || '#',
           tag: tag.toUpperCase()
@@ -1977,7 +1820,7 @@
         `;
       });
 
-      $('#feed-' + tag).html(html);
+      $('#feed-' + tag).html(html || `<div class="empty-state">${tag} ${t('noNewsGeneric')}</div>`);
     }
 
     async function initNews() {
@@ -1985,11 +1828,11 @@
 
       try {
         await loadFeedSource('https://sport.le360.ma/rss.xml', 'morocco');
-      } catch (e) {
+      } catch {
         try {
           await loadFeedSource('https://www.hespress.com/sport/feed', 'morocco');
-        } catch (e2) {
-          $('#feed-morocco').html(`<div class="mini-card"><h3>${t('noNewsMorocco')}</h3></div>`);
+        } catch {
+          $('#feed-morocco').html(`<div class="empty-state">${t('noNewsMorocco')}</div>`);
         }
       }
 
@@ -2002,8 +1845,8 @@
       for (const [tag, url] of Object.entries(otherFeeds)) {
         try {
           await loadFeedSource(url, tag);
-        } catch (e) {
-          $('#feed-' + tag).html(`<div class="mini-card"><h3>${tag} ${t('noNewsGeneric')}</h3></div>`);
+        } catch {
+          $('#feed-' + tag).html(`<div class="empty-state">${tag} ${t('noNewsGeneric')}</div>`);
         }
       }
 
@@ -2012,7 +1855,12 @@
 
     function renderHome() {
       const pool = [...masterPool].sort(() => 0.5 - Math.random());
-      if (pool.length < 5) return;
+      if (pool.length < 5) {
+        $('#center-intel').html(`<div class="empty-state">News loading failed or no articles found.</div>`);
+        $('#wire-left').html('');
+        $('#wire-right').html('');
+        return;
+      }
 
       const imgSrc = pool[0].img && pool[0].img.trim() !== '' ? pool[0].img : 'https://via.placeholder.com/800x450?text=Moroccansportshub';
 
