@@ -5,11 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Moroccansportshub</title>
 
-  <link rel="manifest" href="manifest.json" />
+  <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#000000" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <link rel="icon" type="image/png" href="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
+
+  <!-- FAVICON / LOGO -->
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png/icon.png" />
+  <link rel="shortcut icon" href="/favicon.png/icon.png" />
+  <link rel="apple-touch-icon" href="/favicon.png/icon.png" />
+
+  <meta property="og:title" content="Moroccansportshub" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://moroccansportshub.com/" />
+  <meta property="og:image" content="https://moroccansportshub.com/favicon.png/icon.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Moroccansportshub",
+    "url":"https://moroccansportshub.com/",
+    "logo":"https://moroccansportshub.com/favicon.png/icon.png"
+  }
+  </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -107,6 +127,7 @@
       height: 26px;
       border-radius: 6px;
       border: 1px solid var(--cyan);
+      object-fit: cover;
     }
 
     nav ul {
@@ -138,9 +159,7 @@
       cursor: pointer;
     }
 
-    .mobile-menu-btn {
-      display: none;
-    }
+    .mobile-menu-btn { display: none; }
 
     .auth-btn, .solid-btn {
       border: 0;
@@ -673,7 +692,7 @@
 <body>
   <header>
     <div class="logo" onclick="switchPage('home')">
-      <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
+      <img src="/favicon.png/icon.png" alt="logo">
       <span id="brand-text">Moroccansportshub</span>
     </div>
 
@@ -720,7 +739,7 @@
   <div id="mobile-drawer" class="mobile-drawer">
     <div class="drawer-head">
       <div class="logo" onclick="switchPage('home'); toggleDrawer(false);">
-        <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
+        <img src="/favicon.png/icon.png" alt="logo">
         <span id="drawer-brand-text">Moroccansportshub</span>
       </div>
       <button class="icon-btn" onclick="toggleDrawer(false)">
@@ -928,29 +947,6 @@
   </div>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDl3HcQUr7Nd0oJOpsSmx77mTi7U4PyR0w",
-      authDomain: "moroccansportshub.firebaseapp.com",
-      projectId: "moroccansportshub",
-      storageBucket: "moroccansportshub.firebasestorage.app",
-      messagingSenderId: "1081971044275",
-      appId: "1:1081971044275:web:3f04c81f88ee26a9d365c6"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage();
-
-    let masterPool = [];
-    let authMode = 'login';
-    let game = new Chess();
-    let board = null;
-    let feedListener = null;
-    let notifListener = null;
-    let currentLang = localStorage.getItem('msh_lang') || 'en';
-    let currentTheme = localStorage.getItem('msh_theme') || 'dark';
-
     const uiText = {
       en: {
         brand: 'Moroccansportshub',
@@ -1169,6 +1165,16 @@
         posting: 'جارٍ النشر...'
       }
     };
+
+    let masterPool = [];
+    let authMode = 'login';
+    let game = new Chess();
+    let board = null;
+    let feedListener = null;
+    let notifListener = null;
+    let currentLang = localStorage.getItem('msh_lang') || 'en';
+    let currentTheme = localStorage.getItem('msh_theme') || 'dark';
+    let sharedPostHandled = false;
 
     function t(key) {
       return (uiText[currentLang] && uiText[currentLang][key]) || uiText.en[key] || key;
@@ -1755,19 +1761,20 @@
     }
 
     function openPostFromUrlIfAny() {
+      if (sharedPostHandled) return;
+
       const params = new URLSearchParams(window.location.search);
       const postId = params.get('post');
       if (!postId) return;
 
-      switchPage('feed');
+      const el = document.querySelector(`[data-post="${postId}"]`);
+      if (!el) return;
 
-      setTimeout(() => {
-        const el = document.querySelector(`[data-post="${postId}"]`);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          el.style.boxShadow = '0 0 0 2px rgba(0,242,254,.5), 0 18px 40px rgba(0,0,0,.28)';
-        }
-      }, 900);
+      sharedPostHandled = true;
+      requestAnimationFrame(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.style.boxShadow = '0 0 0 2px rgba(0,242,254,.5), 0 18px 40px rgba(0,0,0,.28)';
+      });
     }
 
     function renderMedia(mediaUrl, mediaType) {
