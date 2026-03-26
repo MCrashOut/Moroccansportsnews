@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MoroccanSportsHub</title>
+  <title>Moroccansportshub</title>
 
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#000000" />
@@ -20,6 +20,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+  <!-- OneSignal -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -80,6 +81,7 @@
       letter-spacing: -.5px;
       cursor: pointer;
       white-space: nowrap;
+      color: var(--cyan);
     }
     .logo img {
       width: 26px;
@@ -87,7 +89,6 @@
       border-radius: 6px;
       border: 1px solid var(--cyan);
     }
-    .logo span { color: var(--cyan); }
 
     nav ul {
       display: flex;
@@ -542,7 +543,7 @@
   <header>
     <div class="logo" onclick="switchPage('home')">
       <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
-      Moroccan<span>SportsHub</span>
+      Moroccansportshub
     </div>
 
     <nav>
@@ -1003,6 +1004,8 @@
       snap.forEach(doc => {
         const u = doc.data();
         const banned = !!u.banned;
+
+        if (doc.id === auth.currentUser.uid) return;
 
         wrap.append(`
           <div class="post-card">
