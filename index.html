@@ -20,7 +20,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-  <!-- OneSignal -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -133,16 +132,6 @@
       border: 1px solid var(--border);
       background: transparent;
       color: var(--text);
-      border-radius: 999px;
-      padding: 10px 16px;
-      font-size: .72rem;
-      font-weight: 700;
-    }
-
-    .danger-btn {
-      border: 0;
-      background: var(--red);
-      color: #fff;
       border-radius: 999px;
       padding: 10px 16px;
       font-size: .72rem;
@@ -530,7 +519,7 @@
       .logo { font-size: .98rem; }
       .logo img { width: 22px; height: 22px; }
       .header-right { gap: 10px; }
-      .auth-btn, .solid-btn, .ghost-btn, .danger-btn, .amber-btn, .green-btn { padding: 10px 14px; }
+      .auth-btn, .solid-btn, .ghost-btn, .amber-btn, .green-btn { padding: 10px 14px; }
       .feature h1 { font-size: 1.65rem; }
       .post-card, .mini-card, .profile-box, .board-box, .widget-area { padding: 16px; }
       .section-title { font-size: 1rem; }
@@ -640,7 +629,8 @@
       <div class="admin-grid">
         <div class="mini-card">
           <h3 style="margin-bottom:8px;">Admin Tools</h3>
-          <p style="color:var(--dim); line-height:1.6;">Ban or unban users from posting. You can also manage posts directly from the Feed page.</p>
+          <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Ban or unban users from posting. You can also manage posts directly from the Feed page.</p>
+          <button class="solid-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
         </div>
         <div id="admin-users-list"></div>
       </div>
@@ -986,6 +976,31 @@
       loadAdminPanel();
     }
 
+    async function backfillUsersFromPosts() {
+      if (!isAdmin()) return alert('Not allowed.');
+
+      const postsSnap = await db.collection('posts').get();
+      const batch = db.batch();
+      const seen = new Set();
+
+      postsSnap.forEach(doc => {
+        const p = doc.data();
+        if (!p.userId || seen.has(p.userId)) return;
+        seen.add(p.userId);
+
+        const userRef = db.collection('users').doc(p.userId);
+        batch.set(userRef, {
+          uid: p.userId,
+          name: p.username || 'Agent',
+          email: ''
+        }, { merge: true });
+      });
+
+      await batch.commit();
+      alert('Users backfilled from posts.');
+      loadAdminPanel();
+    }
+
     async function loadAdminPanel() {
       if (!isAdmin()) {
         alert('Not allowed.');
@@ -1169,36 +1184,63 @@
       }
     }
 
+    async function loadFeedSource(url, tag) {
+      const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url));
+      const data = await res.json();
+
+      if (!data.items || !data.items.length) {
+        throw new Error(`No items for ${tag}`);
+      }
+
+      let html = '';
+      data.items.forEach(item => {
+        const n = {
+          id: masterPool.length,
+          title: item.title || 'Untitled',
+          desc: (item.description || '').replace(/<[^>]*>?/gm, ''),
+          img: item.thumbnail || 'https://via.placeholder.com/800x450',
+          link: item.link || '#',
+          tag: tag.toUpperCase()
+        };
+        masterPool.push(n);
+
+        html += `
+          <div class="mini-card" onclick="openDetails(${n.id})">
+            <span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">
+              ${tag.toUpperCase()}
+            </span>
+            <h3>${n.title}</h3>
+          </div>
+        `;
+      });
+
+      $('#feed-' + tag).html(html);
+    }
+
     async function initNews() {
-      const feeds = {
-        morocco: 'https://sport.le360.ma/rss.xml',
+      masterPool = [];
+
+      try {
+        await loadFeedSource('https://sport.le360.ma/rss.xml', 'morocco');
+      } catch (e) {
+        try {
+          await loadFeedSource('https://www.hespress.com/sport/feed', 'morocco');
+        } catch (e2) {
+          $('#feed-morocco').html('<div class="mini-card"><h3>Moroccan news unavailable right now.</h3></div>');
+        }
+      }
+
+      const otherFeeds = {
         global: 'https://feeds.bbci.co.uk/sport/football/rss.xml',
         esports: 'https://www.talkesport.com/feed/',
         chess: 'https://www.chess.com/rss/news'
       };
 
-      for (const [tag, url] of Object.entries(feeds)) {
+      for (const [tag, url] of Object.entries(otherFeeds)) {
         try {
-          const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url));
-          const data = await res.json();
-          let html = '';
-
-          data.items.forEach(item => {
-            const n = {
-              id: masterPool.length,
-              title: item.title,
-              desc: (item.description || '').replace(/<[^>]*>?/gm, ''),
-              img: item.thumbnail || 'https://via.placeholder.com/800x450',
-              link: item.link,
-              tag: tag.toUpperCase()
-            };
-            masterPool.push(n);
-            html += `<div class="mini-card" onclick="openDetails(${n.id})"><span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${tag.toUpperCase()}</span><h3>${n.title}</h3></div>`;
-          });
-
-          $('#feed-' + tag).html(html);
+          await loadFeedSource(url, tag);
         } catch (e) {
-          console.log('Feed load error:', tag, e);
+          $('#feed-' + tag).html(`<div class="mini-card"><h3>${tag} news unavailable right now.</h3></div>`);
         }
       }
 
@@ -1304,14 +1346,15 @@
     }
 
     function loadMatchesWidget() {
-      $('#live-inject').html(`
-        <api-sports-widget
-          data-type="games"
-          data-sport="football"
-          data-key="77aa814e7955b3042a9ebf24fc1bee18"
-          data-theme="dark">
-        </api-sports-widget>
-      `);
+      const container = document.getElementById('live-inject');
+      container.innerHTML = '';
+
+      const widget = document.createElement('api-sports-widget');
+      widget.setAttribute('data-type', 'games');
+      widget.setAttribute('data-sport', 'football');
+      widget.setAttribute('data-key', '77aa814e7955b3042a9ebf24fc1bee18');
+      widget.setAttribute('data-theme', 'dark');
+      container.appendChild(widget);
 
       const oldScript = document.getElementById('api-sports-script');
       if (oldScript) oldScript.remove();
