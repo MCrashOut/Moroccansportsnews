@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#000000" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <link rel="icon" type="image/png" href="/favicon.png/icon.png" />
+  <link rel="icon" type="image/png" href="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -673,7 +673,7 @@
 <body>
   <header>
     <div class="logo" onclick="switchPage('home')">
-      <img src="/favicon.png/icon.png" alt="logo">
+      <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
       <span id="brand-text">Moroccansportshub</span>
     </div>
 
@@ -720,7 +720,7 @@
   <div id="mobile-drawer" class="mobile-drawer">
     <div class="drawer-head">
       <div class="logo" onclick="switchPage('home'); toggleDrawer(false);">
-        <img src="/favicon.png/icon.png" alt="logo">
+        <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
         <span id="drawer-brand-text">Moroccansportshub</span>
       </div>
       <button class="icon-btn" onclick="toggleDrawer(false)">
@@ -950,7 +950,6 @@
     let notifListener = null;
     let currentLang = localStorage.getItem('msh_lang') || 'en';
     let currentTheme = localStorage.getItem('msh_theme') || 'dark';
-    let sharedPostHandled = false;
 
     const uiText = {
       en: {
@@ -1756,22 +1755,18 @@
     }
 
     function openPostFromUrlIfAny() {
-      if (sharedPostHandled) return;
-
       const params = new URLSearchParams(window.location.search);
       const postId = params.get('post');
       if (!postId) return;
 
-      const el = document.querySelector(`[data-post="${postId}"]`);
-      if (!el) return;
-
-      sharedPostHandled = true;
+      switchPage('feed');
 
       setTimeout(() => {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        el.style.boxShadow = '0 0 0 2px rgba(0,242,254,.5), 0 18px 40px rgba(0,0,0,.28)';
-      }, 300);
-    }
+        const el = document.querySelector(`[data-post="${postId}"]`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.style.boxShadow = '0 0 0 2px rgba(0,242,254,.5), 0 18px 40px rgba(0,0,0,.28)';
+        }
       }, 900);
     }
 
@@ -2166,8 +2161,6 @@
       if (e.target === this) $(this).hide();
     });
 
-
-    window.addEventListener('popstate', () => { sharedPostHandled = false; });
     initAppPrefs();
   </script>
 </body>
