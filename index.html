@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#000000" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <link rel="icon" type="image/png" href="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
+  <link rel="icon" type="image/png" href="/favicon.png/icon.png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -133,11 +133,10 @@
     .icon-btn {
       border: 0;
       background: transparent;
-      color: var(--text);
+      color: var(--cyan);
       font-size: 1rem;
       cursor: pointer;
     }
-    .icon-btn:hover { color: var(--cyan); }
 
     .mobile-menu-btn {
       display: none;
@@ -669,34 +668,12 @@
     html[dir="rtl"] .profile-box {
       text-align: right;
     }
-
-    .drawer-label {
-      margin: 10px 2px 2px;
-      font-size: .68rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--dim);
-      font-weight: 800;
-    }
-
-    .filter-bar { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
-    .filter-chip { border:1px solid var(--border); background:transparent; color:var(--text); border-radius:999px; padding:10px 14px; font-weight:700; cursor:pointer; font-size:.8rem; }
-    .filter-chip.active, .filter-chip:hover { background:var(--cyan); color:#000; border-color:var(--cyan); }
-    .category-card { cursor:pointer; min-height:170px; display:flex; flex-direction:column; justify-content:space-between; }
-    .category-card h3 { font-size:1.15rem; margin-bottom:8px; }
-    .category-card p { color:var(--dim); line-height:1.6; font-size:.88rem; }
-    .subpage-top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
-    .color-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; text-align:left; margin-top:16px; }
-    .color-grid label { font-size:.75rem; color:var(--dim); font-weight:700; }
-    .color-grid input[type="color"] { width:100%; height:44px; border:none; background:transparent; padding:0; }
-    @media (max-width:640px){ .color-grid { grid-template-columns:1fr; } }
-
   </style>
 </head>
 <body>
   <header>
     <div class="logo" onclick="switchPage('home')">
-      <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
+      <img src="/favicon.png/icon.png" alt="logo">
       <span id="brand-text">Moroccansportshub</span>
     </div>
 
@@ -706,7 +683,8 @@
         <li><a id="nav-feed" onclick="switchPage('feed')">Feed</a></li>
         <li><a id="nav-morocco" onclick="switchPage('morocco')">Moroccan</a></li>
         <li><a id="nav-global" onclick="switchPage('global')">Global</a></li>
-                <li><a id="nav-chess" onclick="switchPage('chess')">Chess</a></li>
+        <li><a id="nav-esports" onclick="switchPage('esports')">Esports</a></li>
+        <li><a id="nav-chess" onclick="switchPage('chess')">Chess</a></li>
         <li><a id="nav-matches" onclick="switchPage('matches')">Matches</a></li>
         <li><a id="nav-admin" style="display:none;" onclick="switchPage('admin')">Admin</a></li>
       </ul>
@@ -731,7 +709,6 @@
           <option value="ar">AR</option>
         </select>
         <button class="ghost-btn" onclick="toggleTheme()" id="theme-btn">Light</button>
-        <button class="ghost-btn" onclick="openColorStudio()" id="desktop-color-btn">Colors</button>
       </div>
 
       <div id="auth-ui" class="desktop-mobile-hide">
@@ -743,7 +720,7 @@
   <div id="mobile-drawer" class="mobile-drawer">
     <div class="drawer-head">
       <div class="logo" onclick="switchPage('home'); toggleDrawer(false);">
-        <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
+        <img src="/favicon.png/icon.png" alt="logo">
         <span id="drawer-brand-text">Moroccansportshub</span>
       </div>
       <button class="icon-btn" onclick="toggleDrawer(false)">
@@ -785,14 +762,15 @@
         <i class="fa-solid fa-flag"></i>
         <div><strong id="d-morocco-title">Moroccan</strong><span id="d-morocco-desc">Moroccan sports news</span></div>
       </button>
-<button onclick="switchPage('global'); toggleDrawer(false);">
+
+      <button onclick="switchPage('global'); toggleDrawer(false);">
         <i class="fa-solid fa-earth-africa"></i>
         <div><strong id="d-global-title">Global</strong><span id="d-global-desc">International sports stories</span></div>
       </button>
 
-      <button onclick="openColorStudio(); toggleDrawer(false);">
-        <i class="fa-solid fa-palette"></i>
-        <div><strong id="d-colors-title">Colors</strong><span id="d-colors-desc">Customize website colors</span></div>
+      <button onclick="switchPage('esports'); toggleDrawer(false);">
+        <i class="fa-solid fa-gamepad"></i>
+        <div><strong id="d-esports-title">Esports</strong><span id="d-esports-desc">Gaming and esports updates</span></div>
       </button>
 
       <button onclick="switchPage('chess'); toggleDrawer(false);">
@@ -804,7 +782,13 @@
         <i class="fa-solid fa-futbol"></i>
         <div><strong id="d-matches-title">Matches</strong><span id="d-matches-desc">Live fixtures and scores</span></div>
       </button>
-<button id="drawer-admin-btn" style="display:none;" onclick="switchPage('admin'); toggleDrawer(false);">
+
+      <button onclick="switchPage('profile-check'); toggleDrawer(false);">
+        <i class="fa-solid fa-user-shield"></i>
+        <div><strong id="d-profile-title">Profile</strong><span id="d-profile-desc">Your account settings</span></div>
+      </button>
+
+      <button id="drawer-admin-btn" style="display:none;" onclick="switchPage('admin'); toggleDrawer(false);">
         <i class="fa-solid fa-shield"></i>
         <div><strong id="d-admin-title">Admin</strong><span id="d-admin-desc">Manage users and moderation</span></div>
       </button>
@@ -849,40 +833,17 @@
 
     <section id="morocco-page" class="page">
       <div class="section-title" id="morocco-page-title">Moroccan News</div>
-      <div class="news-grid">
-        <div class="mini-card category-card" onclick="switchPage('morocco-football')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-football">Football</h3><p id="morocco-card-football-desc">FRMF, Botola, national teams, and top Moroccan football coverage.</p></div><button class="ghost-btn" id="morocco-card-football-open">Open</button></div>
-        <div class="mini-card category-card" onclick="switchPage('morocco-basketball')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-basketball">Basketball</h3><p id="morocco-card-basketball-desc">FRMBB updates, league activity, and Moroccan basketball headlines.</p></div><button class="ghost-btn" id="morocco-card-basketball-open">Open</button></div>
-        <div class="mini-card category-card" onclick="switchPage('morocco-tennis')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-tennis">Tennis</h3><p id="morocco-card-tennis-desc">FRMT tournaments, national team updates, and Morocco tennis news.</p></div><button class="ghost-btn" id="morocco-card-tennis-open">Open</button></div>
-        <div class="mini-card category-card" onclick="switchPage('morocco-esports')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-esports">Esport</h3><p id="morocco-card-esports-desc">Moroccan esports and gaming stories in one dedicated page.</p></div><button class="ghost-btn" id="morocco-card-esports-open">Open</button></div>
-      </div>
-    </section>
-
-    <section id="morocco-football-page" class="page">
-      <div class="subpage-top"><div class="section-title">Moroccan Football</div><button class="ghost-btn" onclick="switchPage('morocco')">Back</button></div><div id="feed-morocco-football" class="news-grid"></div>
-    </section>
-
-    <section id="morocco-basketball-page" class="page">
-      <div class="subpage-top"><div class="section-title">Moroccan Basketball</div><button class="ghost-btn" onclick="switchPage('morocco')">Back</button></div><div id="feed-morocco-basketball" class="news-grid"></div>
-    </section>
-
-    <section id="morocco-tennis-page" class="page">
-      <div class="subpage-top"><div class="section-title">Moroccan Tennis</div><button class="ghost-btn" onclick="switchPage('morocco')">Back</button></div><div id="feed-morocco-tennis" class="news-grid"></div>
-    </section>
-
-    <section id="morocco-esports-page" class="page">
-      <div class="subpage-top"><div class="section-title">Moroccan Esport</div><button class="ghost-btn" onclick="switchPage('morocco')">Back</button></div><div id="feed-morocco-esports" class="news-grid"></div>
+      <div id="feed-morocco" class="news-grid"></div>
     </section>
 
     <section id="global-page" class="page">
       <div class="section-title" id="global-page-title">Global News</div>
-      <div class="filter-bar">
-        <button class="filter-chip active" id="gf-all" onclick="setGlobalFilter('all')">All</button>
-        <button class="filter-chip" id="gf-football" onclick="setGlobalFilter('football')">Football</button>
-        <button class="filter-chip" id="gf-basketball" onclick="setGlobalFilter('basketball')">Basketball</button>
-        <button class="filter-chip" id="gf-tennis" onclick="setGlobalFilter('tennis')">Tennis</button>
-        <button class="filter-chip" id="gf-esports" onclick="setGlobalFilter('esports')">Esport</button>
-      </div>
       <div id="feed-global" class="news-grid"></div>
+    </section>
+
+    <section id="esports-page" class="page">
+      <div class="section-title" id="esports-page-title">Esports News</div>
+      <div id="feed-esports" class="news-grid"></div>
     </section>
 
     <section id="chess-page" class="page">
@@ -934,26 +895,6 @@
       <input id="post-media" type="file" accept="image/*,video/*">
       <div class="file-note" id="post-file-note">You can upload one image or one video.</div>
       <button class="solid-btn" id="post-submit-btn" style="width:100%; margin-top:12px;" onclick="createPost()">Broadcast Post</button>
-    </div>
-  </div>
-
-  <div id="colors-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="$('#colors-modal').hide()">&times;</span>
-      <h2 style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
-      <p style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
-      <div class="color-grid">
-        <div><label>Background</label><input type="color" id="color-bg" value="#000000"></div>
-        <div><label>Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
-        <div><label>Card</label><input type="color" id="color-card" value="#111111"></div>
-        <div><label>Text</label><input type="color" id="color-text" value="#ffffff"></div>
-        <div><label>Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
-        <div><label>Danger</label><input type="color" id="color-red" value="#c1272d"></div>
-      </div>
-      <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center;">
-        <button class="solid-btn" onclick="saveCustomColors()">Save</button>
-        <button class="ghost-btn" onclick="resetCustomColors()">Reset</button>
-      </div>
     </div>
   </div>
 
@@ -1009,9 +950,8 @@
     let notifListener = null;
     let currentLang = localStorage.getItem('msh_lang') || 'en';
     let currentTheme = localStorage.getItem('msh_theme') || 'dark';
+    let translationCache = {};
     let sharedPostHandled = false;
-    let globalPool = [];
-    let globalCurrentFilter = 'all';
 
     const uiText = {
       en: {
@@ -1063,6 +1003,7 @@
         drawerAdminDesc: 'Manage users and moderation',
         share: 'Share',
         noAlerts: 'No current alerts',
+        newsUnavailable: 'news unavailable right now.',
         usersBackfilled: 'Users backfilled from posts.',
         usernameUpdated: 'Username updated.',
         enterUsername: 'Enter a username.',
@@ -1075,6 +1016,7 @@
         userUnbanned: 'User unbanned.',
         userBanned: 'User banned.',
         noUsers: 'No users found.',
+        syncUsersBtn: 'Sync Users From Posts',
         light: 'Light',
         dark: 'Dark',
         uploadError: 'Upload failed.',
@@ -1083,20 +1025,7 @@
         profilePlaceholder: 'Update Agent ID',
         signup: 'SIGN UP',
         login: 'LOGIN',
-        agentId: 'Agent ID',
-        posting: 'Posting...',
-        colorsTitle: 'Colors',
-        colorsDesc: 'Customize website colors',
-        openLabel: 'Open',
-        moroccoFootballTitle: 'Football',
-        moroccoFootballDesc: 'FRMF, Botola, national teams, and top Moroccan football coverage.',
-        moroccoBasketballTitle: 'Basketball',
-        moroccoBasketballDesc: 'FRMBB updates, league activity, and Moroccan basketball headlines.',
-        moroccoTennisTitle: 'Tennis',
-        moroccoTennisDesc: 'FRMT tournaments, national team updates, and Morocco tennis news.',
-        moroccoEsportTitle: 'Esport',
-        moroccoEsportDesc: 'Moroccan esports and gaming stories in one dedicated page.',
-        filterAll: 'All'
+        agentId: 'Agent ID'
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -1147,6 +1076,7 @@
         drawerAdminDesc: 'Gestion et modération',
         share: 'Partager',
         noAlerts: 'Aucune alerte',
+        newsUnavailable: 'actualités indisponibles pour le moment.',
         usersBackfilled: 'Utilisateurs synchronisés depuis les posts.',
         usernameUpdated: 'Nom mis à jour.',
         enterUsername: 'Entrez un nom.',
@@ -1159,6 +1089,7 @@
         userUnbanned: 'Utilisateur débanni.',
         userBanned: 'Utilisateur banni.',
         noUsers: 'Aucun utilisateur trouvé.',
+        syncUsersBtn: 'Synchroniser depuis les posts',
         light: 'Clair',
         dark: 'Sombre',
         uploadError: 'Échec du téléchargement.',
@@ -1167,20 +1098,7 @@
         profilePlaceholder: 'Mettre à jour l’identifiant',
         signup: 'INSCRIPTION',
         login: 'CONNEXION',
-        agentId: 'Identifiant',
-        posting: 'Publication...',
-        colorsTitle: 'Couleurs',
-        colorsDesc: 'Personnaliser les couleurs du site',
-        openLabel: 'Ouvrir',
-        moroccoFootballTitle: 'Football',
-        moroccoFootballDesc: 'FRMF, Botola, équipes nationales et meilleures infos du football marocain.',
-        moroccoBasketballTitle: 'Basket-ball',
-        moroccoBasketballDesc: 'Actualités FRMBB, activité des ligues et titres du basket marocain.',
-        moroccoTennisTitle: 'Tennis',
-        moroccoTennisDesc: 'Tournois FRMT, sélections nationales et actualités du tennis marocain.',
-        moroccoEsportTitle: 'Esport',
-        moroccoEsportDesc: 'Actualités marocaines de l’esport et du gaming.',
-        filterAll: 'Tout'
+        agentId: 'Identifiant'
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -1231,6 +1149,7 @@
         drawerAdminDesc: 'إدارة المستخدمين والمحتوى',
         share: 'مشاركة',
         noAlerts: 'لا توجد إشعارات',
+        newsUnavailable: 'الأخبار غير متوفرة حالياً.',
         usersBackfilled: 'تمت مزامنة المستخدمين من المنشورات.',
         usernameUpdated: 'تم تحديث الاسم.',
         enterUsername: 'أدخل اسماً.',
@@ -1243,6 +1162,7 @@
         userUnbanned: 'تم إلغاء الحظر.',
         userBanned: 'تم الحظر.',
         noUsers: 'لا يوجد مستخدمون.',
+        syncUsersBtn: 'مزامنة المستخدمين من المنشورات',
         light: 'فاتح',
         dark: 'داكن',
         uploadError: 'فشل رفع الملف.',
@@ -1251,20 +1171,7 @@
         profilePlaceholder: 'تحديث اسم الحساب',
         signup: 'تسجيل',
         login: 'دخول',
-        agentId: 'اسم الحساب',
-        posting: 'جارٍ النشر...',
-        colorsTitle: 'الألوان',
-        colorsDesc: 'تخصيص ألوان الموقع',
-        openLabel: 'فتح',
-        moroccoFootballTitle: 'كرة القدم',
-        moroccoFootballDesc: 'الجامعة، البطولة، المنتخبات الوطنية وأهم أخبار كرة القدم المغربية.',
-        moroccoBasketballTitle: 'كرة السلة',
-        moroccoBasketballDesc: 'تحديثات الجامعة، نشاط الدوري وأبرز عناوين كرة السلة المغربية.',
-        moroccoTennisTitle: 'التنس',
-        moroccoTennisDesc: 'بطولات الجامعة، تحديثات المنتخب وأخبار التنس المغربي.',
-        moroccoEsportTitle: 'الرياضات الإلكترونية',
-        moroccoEsportDesc: 'أخبار الرياضات الإلكترونية والألعاب في المغرب.',
-        filterAll: 'الكل'
+        agentId: 'اسم الحساب'
       }
     };
 
@@ -1281,6 +1188,27 @@
 
     function toggleTheme() {
       setTheme(currentTheme === 'light' ? 'dark' : 'light');
+    }
+
+    async function translateText(text, target = currentLang) {
+      if (!text || target === 'en') return text;
+      const key = `${target}::${text}`;
+      if (translationCache[key]) return translationCache[key];
+
+      try {
+        const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent('auto|' + target)}`);
+        const data = await res.json();
+        const translated = data?.responseData?.translatedText || text;
+        translationCache[key] = translated;
+        return translated;
+      } catch {
+        return text;
+      }
+    }
+
+    async function translateContentValue(text) {
+      if (currentLang === 'en') return text;
+      return await translateText(text, currentLang);
     }
 
     async function setLanguage(lang) {
@@ -1302,6 +1230,7 @@
       $('#nav-feed').text(t('feed'));
       $('#nav-morocco').text(t('morocco'));
       $('#nav-global').text(t('global'));
+      $('#nav-esports').text(t('esports'));
       $('#nav-chess').text(t('chess'));
       $('#nav-matches').text(t('matches'));
       $('#nav-admin').text(t('admin'));
@@ -1312,6 +1241,7 @@
       $('#composer-text').text(t('composer'));
       $('#morocco-page-title').text(t('moroccoPageTitle'));
       $('#global-page-title').text(t('globalPageTitle'));
+      $('#esports-page-title').text(t('esportsPageTitle'));
       $('#chess-page-title').text(t('chessPageTitle'));
       $('#matches-page-title').text(t('matchesPageTitle'));
       $('#profile-page-title').text(t('profilePageTitle'));
@@ -1342,35 +1272,17 @@
       $('#d-morocco-desc').text(t('drawerMoroccoDesc'));
       $('#d-global-title').text(t('global'));
       $('#d-global-desc').text(t('drawerGlobalDesc'));
-      $('#d-colors-title').text(t('colorsTitle') || 'Colors');
-      $('#d-colors-desc').text(t('colorsDesc') || 'Customize website colors');
+      $('#d-esports-title').text(t('esports'));
+      $('#d-esports-desc').text(t('drawerEsportsDesc'));
       $('#d-chess-title').text(t('chess'));
       $('#d-chess-desc').text(t('drawerChessDesc'));
       $('#d-matches-title').text(t('matches'));
       $('#d-matches-desc').text(t('drawerMatchesDesc'));
+      $('#d-profile-title').text(t('profilePageTitle'));
+      $('#d-profile-desc').text(t('drawerProfileDesc'));
       $('#d-admin-title').text(t('admin'));
       $('#d-admin-desc').text(t('drawerAdminDesc'));
       $('#theme-btn, #drawer-theme-btn').text(currentTheme === 'light' ? t('dark') : t('light'));
-      $('#desktop-color-btn').text(t('colorsTitle') || 'Colors');
-
-      $('#morocco-card-football').text(t('moroccoFootballTitle') || 'Football');
-      $('#morocco-card-football-desc').text(t('moroccoFootballDesc') || 'FRMF, Botola, national teams, and top Moroccan football coverage.');
-      $('#morocco-card-football-open').text(t('openLabel') || 'Open');
-      $('#morocco-card-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
-      $('#morocco-card-basketball-desc').text(t('moroccoBasketballDesc') || 'FRMBB updates, league activity, and Moroccan basketball headlines.');
-      $('#morocco-card-basketball-open').text(t('openLabel') || 'Open');
-      $('#morocco-card-tennis').text(t('moroccoTennisTitle') || 'Tennis');
-      $('#morocco-card-tennis-desc').text(t('moroccoTennisDesc') || 'FRMT tournaments, national team updates, and Morocco tennis news.');
-      $('#morocco-card-tennis-open').text(t('openLabel') || 'Open');
-      $('#morocco-card-esports').text(t('moroccoEsportTitle') || 'Esport');
-      $('#morocco-card-esports-desc').text(t('moroccoEsportDesc') || 'Moroccan esports and gaming stories in one dedicated page.');
-      $('#morocco-card-esports-open').text(t('openLabel') || 'Open');
-
-      $('#gf-all').text(t('filterAll') || 'All');
-      $('#gf-football').text(t('moroccoFootballTitle') || 'Football');
-      $('#gf-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
-      $('#gf-tennis').text(t('moroccoTennisTitle') || 'Tennis');
-      $('#gf-esports').text(t('moroccoEsportTitle') || 'Esport');
 
       if (auth.currentUser) {
         $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
@@ -1385,13 +1297,10 @@
 
     async function initAppPrefs() {
       setTheme(currentTheme);
-      const savedColors = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
-      if (Object.keys(savedColors).length) applyCustomColors(savedColors);
       await setLanguage(currentLang);
     }
 
     function toggleDrawer(force) {
-      if (window.innerWidth > 1024) return;
       const drawer = $('#mobile-drawer');
       const backdrop = $('#drawer-backdrop');
       const open = typeof force === 'boolean' ? force : !drawer.hasClass('open');
@@ -1404,27 +1313,6 @@
         backdrop.removeClass('show');
       }
     }
-
-    function maybeAutoCloseDrawerFromEventTarget(target) {
-      if (window.innerWidth > 1024) return;
-      if (!$('#mobile-drawer').hasClass('open')) return;
-      if (target && target.closest && target.closest('#mobile-drawer')) return;
-      toggleDrawer(false);
-    }
-
-    window.addEventListener('scroll', () => {
-      if ($('#mobile-drawer').hasClass('open')) {
-        toggleDrawer(false);
-      }
-    }, { passive: true });
-
-    document.addEventListener('wheel', (e) => {
-      maybeAutoCloseDrawerFromEventTarget(e.target);
-    }, { passive: true });
-
-    document.addEventListener('touchmove', (e) => {
-      maybeAutoCloseDrawerFromEventTarget(e.target);
-    }, { passive: true });
 
     function switchPage(p) {
       if (p === 'profile-check') {
@@ -1444,14 +1332,12 @@
       $('#' + p + '-page').addClass('active');
 
       $('nav a').removeClass('active');
-      if (p.startsWith('morocco-')) $('#nav-morocco').addClass('active');
-      else $('#nav-' + p).addClass('active');
+      $('#nav-' + p).addClass('active');
 
       if (p === 'feed') loadFeed();
       if (p === 'profile') loadProfile();
       if (p === 'matches') loadMatchesWidget();
       if (p === 'admin') loadAdminPanel();
-      if (p === 'global') renderGlobalFeed();
 
       toggleDrawer(false);
       window.scrollTo(0, 0);
@@ -1547,12 +1433,6 @@
 
       applyUiLanguage();
       initNews();
-
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('post')) {
-        switchPage('feed');
-        loadFeed();
-      }
     });
 
     function loadProfile() {
@@ -1603,7 +1483,7 @@
 
       notifListener = db.collection('notifications')
         .where('targetId', '==', auth.currentUser.uid)
-        .onSnapshot(snapshot => {
+        .onSnapshot(async snapshot => {
           const list = $('#notif-list').empty();
           let unread = 0;
           let items = [];
@@ -1617,9 +1497,10 @@
 
           for (const n of items.slice(0, 15)) {
             if (!n.read) unread++;
+            const msg = await translateContentValue(`${n.fromName} ${n.message}`);
             list.append(`
               <div class="notif-item ${n.read ? '' : 'unread'}" onclick="openNotif('${n.postId || ''}', '${n.id}')">
-                <b>${n.fromName}</b> ${n.message}
+                ${msg}
               </div>
             `);
           }
@@ -1685,8 +1566,7 @@
       const user = auth.currentUser;
       const safeName = `${Date.now()}_${file.name.replace(/[^\w.\-]/g, '_')}`;
       const ref = storage.ref().child(`feed_media/${user.uid}/${safeName}`);
-      const metadata = { contentType: file.type || 'application/octet-stream' };
-      await ref.put(file, metadata);
+      await ref.put(file);
       const url = await ref.getDownloadURL();
       return {
         url,
@@ -1694,7 +1574,7 @@
       };
     }
 
-    async async function createPost() {
+    async function createPost() {
       if (!auth.currentUser) return openAuth();
 
       const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
@@ -1706,19 +1586,8 @@
       }
 
       const content = $('#post-content').val().trim();
-      const fileInput = document.getElementById('post-media');
-      const file = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+      const file = document.getElementById('post-media').files[0];
       if (!content && !file) return;
-
-      if (file && file.size > 25 * 1024 * 1024) {
-        alert('File too large. Max 25MB.');
-        return;
-      }
-
-      const submitBtn = document.getElementById('post-submit-btn');
-      const originalBtnText = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.textContent = t('posting');
 
       const user = auth.currentUser;
       const username = user.displayName || 'Agent';
@@ -1726,58 +1595,54 @@
       let mediaUrl = '';
       let mediaType = '';
 
-      try {
-        if (file) {
+      if (file) {
+        try {
           const uploaded = await uploadPostMedia(file);
           mediaUrl = uploaded.url;
           mediaType = uploaded.type;
+        } catch (e) {
+          alert(t('uploadError'));
+          return;
         }
-
-        const postRef = await db.collection('posts').add({
-          userId: user.uid,
-          username,
-          content,
-          mediaUrl,
-          mediaType,
-          likes: 0,
-          hearts: 0,
-          fires: 0,
-          pinned: false,
-          score: 0,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        const users = await db.collection('users').get();
-        const batch = db.batch();
-
-        users.forEach(doc => {
-          const u = doc.data();
-          if (u.uid !== user.uid && !u.banned) {
-            const notifRef = db.collection('notifications').doc();
-            batch.set(notifRef, {
-              targetId: u.uid,
-              fromName: username,
-              message: 'posted new intelligence.',
-              postId: postRef.id,
-              read: false,
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-          }
-        });
-
-        await batch.commit();
-
-        $('#post-content').val('');
-        fileInput.value = '';
-        $('#post-modal').hide();
-        loadFeed();
-      } catch (e) {
-        console.error('createPost error', e);
-        alert(`${t('uploadError')} ${e.message || ''}`);
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalBtnText;
       }
+
+      const postRef = await db.collection('posts').add({
+        userId: user.uid,
+        username,
+        content,
+        mediaUrl,
+        mediaType,
+        likes: 0,
+        hearts: 0,
+        fires: 0,
+        pinned: false,
+        score: 0,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      const users = await db.collection('users').get();
+      const batch = db.batch();
+
+      users.forEach(doc => {
+        const u = doc.data();
+        if (u.uid !== user.uid && !u.banned) {
+          const notifRef = db.collection('notifications').doc();
+          batch.set(notifRef, {
+            targetId: u.uid,
+            fromName: username,
+            message: 'posted new intelligence.',
+            postId: postRef.id,
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+      });
+
+      await batch.commit();
+
+      $('#post-content').val('');
+      $('#post-media').val('');
+      $('#post-modal').hide();
     }
 
     async function banUser(userId, currentStatus) {
@@ -1848,7 +1713,7 @@
               </div>
               <div style="display:flex; gap:10px; flex-wrap:wrap;">
                 <button class="${banned ? 'green-btn' : 'amber-btn'}" onclick="banUser('${doc.id}', ${banned})">
-                  ${banned ? 'Unban' : 'Ban'}
+                  ${banned ? t('greenBtn') || 'Unban' : t('amberBtn') || 'Ban'}
                 </button>
               </div>
             </div>
@@ -1858,7 +1723,7 @@
     }
 
     function buildShareUrl(postId) {
-      return `${location.origin}${location.pathname}?post=${encodeURIComponent(postId)}#feed`;
+      return `${location.origin}${location.pathname}?post=${postId}`;
     }
 
     async function sharePost(postId) {
@@ -1879,18 +1744,18 @@
       }
     }
 
-    function openPostFromUrlIfAny() {
+    async function openPostFromUrlIfAny() {
       if (sharedPostHandled) return;
+
       const params = new URLSearchParams(window.location.search);
       const postId = params.get('post');
       if (!postId) return;
-      const el = document.querySelector(`[data-post="${postId}"]`);
-      if (!el) return;
-      sharedPostHandled = true;
+
+      switchPage('feed');
       setTimeout(() => {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        el.style.boxShadow = '0 0 0 2px rgba(0,242,254,.5), 0 18px 40px rgba(0,0,0,.28)';
-      }, 300);
+        const el = document.querySelector(`[data-post="${postId}"]`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 900);
     }
 
     function renderMedia(mediaUrl, mediaType) {
@@ -1920,6 +1785,7 @@
           const admin = isAdmin();
           const owner = auth.currentUser && auth.currentUser.uid === post.userId;
           let active = {};
+          let displayContent = await translateContentValue(post.content || '');
 
           if (auth.currentUser) {
             const r = await db.collection('reactions_feed').doc(`${post.id}_${auth.currentUser.uid}`).get();
@@ -1947,7 +1813,7 @@
                 </div>
               </div>
 
-              <div class="post-text">${post.content || ''}</div>
+              <div class="post-text">${displayContent || ''}</div>
               ${renderMedia(post.mediaUrl, post.mediaType)}
 
               <div class="post-actions">
@@ -2030,11 +1896,11 @@
       const overlay = $('#search-overlay');
 
       if (overlay.is(':visible')) {
+        overlay.hide();
         $('#active-search-input').val('');
         $('#search-results-area').hide();
         $('#standard-home-layout').show();
         $('#search-output-grid').empty();
-        overlay.hide();
       } else {
         overlay.css('display', 'flex');
         $('#active-search-input').focus();
@@ -2049,7 +1915,7 @@
         $('#standard-home-layout').hide();
         $('#search-output-grid').html(
           masterPool
-            .filter(n => (n.title || '').toLowerCase().includes(q))
+            .filter(n => n.title.toLowerCase().includes(q))
             .map(n => `<div class="mini-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`)
             .join('')
         );
@@ -2059,217 +1925,74 @@
       }
     }
 
-    function googleNewsRss(query, locale='en-US', ceid='US:en', gl='US') {
-      return `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=${locale}&gl=${gl}&ceid=${ceid}`;
-    }
-
-    async function fetchRssViaRss2Json(url) {
+    async function loadFeedSource(url, tag) {
       const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url));
-      if (!res.ok) throw new Error('rss2json failed');
       const data = await res.json();
-      if (!data.items || !data.items.length) throw new Error('No RSS items');
-      return data.items.map(item => ({
-        title: item.title || 'Untitled',
-        desc: (item.description || '').replace(/<[^>]*>?/gm, ''),
-        img: item.thumbnail || item.enclosure?.link || item.enclosure || '',
-        link: item.link || '#',
-        pubDate: item.pubDate || ''
-      }));
-    }
 
-    async function fetchRssViaXml(url) {
-      const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-      const res = await fetch(proxy);
-      if (!res.ok) throw new Error('XML fetch failed');
-      const txt = await res.text();
-      const xml = new DOMParser().parseFromString(txt, 'text/xml');
-      const items = [...xml.querySelectorAll('item')];
-      if (!items.length) throw new Error('No XML items');
-      return items.map(item => ({
-        title: item.querySelector('title')?.textContent?.trim() || 'Untitled',
-        desc: (item.querySelector('description')?.textContent || '').replace(/<[^>]*>?/gm, ''),
-        img: item.querySelector('enclosure')?.getAttribute('url') || item.querySelector('media\:content, content')?.getAttribute('url') || item.querySelector('media\:thumbnail, thumbnail')?.getAttribute('url') || '',
-        link: item.querySelector('link')?.textContent?.trim() || '#',
-        pubDate: item.querySelector('pubDate')?.textContent?.trim() || ''
-      }));
-    }
-
-    async function fetchRssItems(url) {
-      try { return await fetchRssViaRss2Json(url); }
-      catch (e) { return await fetchRssViaXml(url); }
-    }
-
-    async function fetchHtmlCards(url, mode) {
-      const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-      const res = await fetch(proxy);
-      if (!res.ok) throw new Error('HTML fetch failed');
-      const html = await res.text();
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      let links = [];
-
-      if (mode === 'frmf') {
-        links = [...doc.querySelectorAll('a')].filter(a => /\/fr\//.test(a.href || '') && (a.textContent || '').trim().length > 18);
-      } else if (mode === 'frmbb') {
-        links = [...doc.querySelectorAll('article a, .jeg_post_title a, h3 a, h2 a, .entry-title a')];
-      } else if (mode === 'frmt') {
-        links = [...doc.querySelectorAll('article a, .av-masonry-entry a, .slide-entry a, h3 a, h2 a, .entry-title a')];
+      if (!data.items || !data.items.length) {
+        throw new Error(`No items for ${tag}`);
       }
 
-      const items = [];
-      const seen = new Set();
-      for (const a of links) {
-        const title = (a.textContent || '').replace(/\s+/g, ' ').trim();
-        const link = a.href || '#';
-        if (!title || title.length < 18 || seen.has(title)) continue;
-        seen.add(title);
-        const img = a.querySelector('img')?.src || a.closest('article')?.querySelector('img')?.src || '';
-        items.push({ title, desc: '', img, link, pubDate: '' });
-        if (items.length >= 12) break;
-      }
-      if (!items.length) throw new Error('No HTML cards');
-      return items;
-    }
+      let html = '';
+      for (const item of data.items) {
+        const cleanDesc = (item.description || '').replace(/<[^>]*>?/gm, '');
+        const image = item.thumbnail || item.enclosure?.link || 'https://via.placeholder.com/800x450?text=Moroccansportshub';
 
-    function dedupeItems(items) {
-      const out = [];
-      const seen = new Set();
-      for (const item of items) {
-        const key = (item.link || item.title || '').toLowerCase();
-        if (!key || seen.has(key)) continue;
-        seen.add(key);
-        out.push(item);
-      }
-      return out;
-    }
+        const translatedTitle = await translateContentValue(item.title || 'Untitled');
+        const translatedDesc = await translateContentValue(cleanDesc);
 
-    function addNewsItems(items, opts = {}) {
-      const ids = [];
-      items.forEach(item => {
         const n = {
           id: masterPool.length,
-          title: item.title || 'Untitled',
-          desc: item.desc || '',
-          img: item.img || 'https://via.placeholder.com/800x450?text=Moroccansportshub',
+          title: translatedTitle,
+          desc: translatedDesc,
+          img: image,
           link: item.link || '#',
-          tag: opts.tag || '',
-          sport: opts.sport || '',
-          region: opts.region || ''
+          tag: tag.toUpperCase()
         };
+
         masterPool.push(n);
-        ids.push(n.id);
-      });
-      return ids;
-    }
 
-    function renderIdsGrid(selector, ids, emptyText) {
-      const html = ids.length ? ids.map(id => {
-        const n = masterPool[id];
-        return `<div class="mini-card" onclick="openDetails(${n.id})"><span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${n.tag || ''}</span><h3>${n.title}</h3></div>`;
-      }).join('') : `<div class="mini-card"><h3>${emptyText}</h3></div>`;
-      $(selector).html(html);
-    }
-
-    async async function collectNews(sources, opts = {}) {
-      const batches = await Promise.all(sources.map(async (src) => {
-        try {
-          if (src.kind === 'rss') return await fetchRssItems(src.url);
-          if (src.kind === 'html') return await fetchHtmlCards(src.url, src.mode);
-          return [];
-        } catch (e) {
-          return [];
-        }
-      }));
-      let all = batches.flat();
-      all = dedupeItems(all).slice(0, opts.limit || 16);
-      return addNewsItems(all, opts);
-    }
-
-    async function loadMoroccoPages() {
-      const footballIds = await collectNews([
-        { kind:'html', url:'https://frmf.ma/fr/category/news/', mode:'frmf' },
-        { kind:'rss', url:'https://sport.le360.ma/rss.xml' },
-        { kind:'rss', url: googleNewsRss('site:frmf.ma OR site:sport.le360.ma football maroc', 'fr', 'MA:fr', 'MA') }
-      ], { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:18 });
-
-      const basketballIds = await collectNews([
-        { kind:'html', url:'https://frmbb.ma/', mode:'frmbb' },
-        { kind:'html', url:'https://frmbb.ma/category/actualites-de-presse/', mode:'frmbb' },
-        { kind:'rss', url: googleNewsRss('site:frmbb.ma basketball maroc', 'fr', 'MA:fr', 'MA') }
-      ], { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:18 });
-
-      const tennisIds = await collectNews([
-        { kind:'html', url:'https://www.frmt.ma/actualites/', mode:'frmt' },
-        { kind:'html', url:'https://www.frmt.ma/communiques/', mode:'frmt' },
-        { kind:'rss', url: googleNewsRss('site:frmt.ma tennis maroc', 'fr', 'MA:fr', 'MA') }
-      ], { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:18 });
-
-      const esportIds = await collectNews([
-        { kind:'rss', url: googleNewsRss('esport maroc OR gaming maroc', 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url:'https://www.talkesport.com/feed/' }
-      ], { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:18 });
-
-      renderIdsGrid('#feed-morocco-football', footballIds, 'Moroccan football news unavailable right now.');
-      renderIdsGrid('#feed-morocco-basketball', basketballIds, 'Moroccan basketball news unavailable right now.');
-      renderIdsGrid('#feed-morocco-tennis', tennisIds, 'Moroccan tennis news unavailable right now.');
-      renderIdsGrid('#feed-morocco-esports', esportIds, 'Moroccan esport news unavailable right now.');
-    }
-
-    async function loadGlobalPages() {
-      globalPool = [];
-      const footballIds = await collectNews([
-        { kind:'rss', url:'https://feeds.bbci.co.uk/sport/football/rss.xml' },
-        { kind:'rss', url: googleNewsRss('football world', 'en-US', 'US:en', 'US') }
-      ], { tag:'GLOBAL FOOTBALL', sport:'football', region:'global', limit:18 });
-
-      const basketballIds = await collectNews([
-        { kind:'rss', url: googleNewsRss('basketball NBA FIBA', 'en-US', 'US:en', 'US') },
-        { kind:'rss', url: googleNewsRss('basketball EuroLeague', 'en-US', 'US:en', 'US') }
-      ], { tag:'GLOBAL BASKETBALL', sport:'basketball', region:'global', limit:18 });
-
-      const tennisIds = await collectNews([
-        { kind:'rss', url: googleNewsRss('tennis ATP WTA Grand Slam', 'en-US', 'US:en', 'US') }
-      ], { tag:'GLOBAL TENNIS', sport:'tennis', region:'global', limit:18 });
-
-      const esportsIds = await collectNews([
-        { kind:'rss', url:'https://www.talkesport.com/feed/' },
-        { kind:'rss', url: googleNewsRss('esports gaming', 'en-US', 'US:en', 'US') }
-      ], { tag:'GLOBAL ESPORT', sport:'esports', region:'global', limit:18 });
-
-      globalPool = [...footballIds, ...basketballIds, ...tennisIds, ...esportsIds];
-      renderGlobalFeed();
-    }
-
-    function setGlobalFilter(filter) {
-      globalCurrentFilter = filter;
-      $('.filter-chip').removeClass('active');
-      $('#gf-' + filter).addClass('active');
-      renderGlobalFeed();
-    }
-
-    function renderGlobalFeed() {
-      const ids = globalCurrentFilter === 'all' ? globalPool : globalPool.filter(id => masterPool[id]?.sport === globalCurrentFilter);
-      renderIdsGrid('#feed-global', ids, 'Global news unavailable right now.');
-    }
-
-    async function loadStaticFeeds() {
-      const chessIds = await collectNews([{ kind:'rss', url:'https://www.chess.com/rss/news' }], { tag:'CHESS', sport:'chess', region:'global', limit:18 });
-      renderIdsGrid('#feed-chess', chessIds, 'Chess news unavailable right now.');
-    }
-
-    async async function initNews() {
-      masterPool = [];
-      globalPool = [];
-      $('#center-intel').html('<div class="mini-card"><h3>Loading news...</h3></div>');
-      $('#wire-left').html('');
-      $('#wire-right').html('');
-      $('#feed-morocco-football, #feed-morocco-basketball, #feed-morocco-tennis, #feed-morocco-esports, #feed-global, #feed-chess').html('<div class="mini-card"><h3>Loading...</h3></div>');
-      await Promise.all([loadMoroccoPages(), loadGlobalPages(), loadStaticFeeds()]);
-      renderHome();
-      if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
-        $('#search-results-area').hide();
-        $('#standard-home-layout').show();
-        $('#search-output-grid').empty();
+        html += `
+          <div class="mini-card" onclick="openDetails(${n.id})">
+            <span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">
+              ${tag.toUpperCase()}
+            </span>
+            <h3>${n.title}</h3>
+          </div>
+        `;
       }
+
+      $('#feed-' + tag).html(html);
+    }
+
+    async function initNews() {
+      masterPool = [];
+
+      try {
+        await loadFeedSource('https://sport.le360.ma/rss.xml', 'morocco');
+      } catch (e) {
+        try {
+          await loadFeedSource('https://www.hespress.com/sport/feed', 'morocco');
+        } catch (e2) {
+          $('#feed-morocco').html(`<div class="mini-card"><h3>${t('noNewsMorocco')}</h3></div>`);
+        }
+      }
+
+      const otherFeeds = {
+        global: 'https://feeds.bbci.co.uk/sport/football/rss.xml',
+        esports: 'https://www.talkesport.com/feed/',
+        chess: 'https://www.chess.com/rss/news'
+      };
+
+      for (const [tag, url] of Object.entries(otherFeeds)) {
+        try {
+          await loadFeedSource(url, tag);
+        } catch (e) {
+          $('#feed-' + tag).html(`<div class="mini-card"><h3>${tag} ${t('noNewsGeneric')}</h3></div>`);
+        }
+      }
+
+      renderHome();
     }
 
     function renderHome() {
@@ -2277,16 +2000,37 @@
       if (pool.length < 5) return;
 
       const imgSrc = pool[0].img && pool[0].img.trim() !== '' ? pool[0].img : 'https://via.placeholder.com/800x450?text=Moroccansportshub';
+
       $('#center-intel').html(`
         <h1 onclick="openDetails(${pool[0].id})">${pool[0].title}</h1>
-        <img src="${imgSrc}" alt="${pool[0].title}" onclick="openDetails(${pool[0].id})" onerror="this.onerror=null;this.src='https://via.placeholder.com/800x450?text=Moroccansportshub';">
+        <img
+          src="${imgSrc}"
+          alt="${pool[0].title}"
+          onclick="openDetails(${pool[0].id})"
+          onerror="this.onerror=null;this.src='https://via.placeholder.com/800x450?text=Moroccansportshub';"
+        >
         <p style="color:var(--dim); line-height:1.6;">${(pool[0].desc || '').slice(0, 240)}...</p>
       `);
-      $('#wire-left').html(pool.slice(1, 10).map(n => `<div class="side-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join(''));
-      $('#wire-right').html(pool.slice(10, 16).map(n => `<div class="mini-card" onclick="openDetails(${n.id})"><span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
+
+      $('#wire-left').html(
+        pool.slice(1, 10).map(n => `
+          <div class="side-item" onclick="openDetails(${n.id})">
+            <h4>${n.title}</h4>
+          </div>
+        `).join('')
+      );
+
+      $('#wire-right').html(
+        pool.slice(10, 16).map(n => `
+          <div class="mini-card" onclick="openDetails(${n.id})">
+            <span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${n.tag}</span>
+            <h3>${n.title}</h3>
+          </div>
+        `).join('')
+      );
     }
 
-function openDetails(id) {
+    function openDetails(id) {
       const n = masterPool[id];
       if (!n) return;
       $('#m-title').text(n.title);
@@ -2375,52 +2119,7 @@ function openDetails(id) {
       $('#game-status').text('Your Turn.');
     }
 
-    function openColorStudio() {
-      loadCustomColorsIntoInputs();
-      $('#colors-modal').css('display', 'flex');
-    }
-
-    function hexToRgba(hex, alpha) {
-      const h = hex.replace('#','');
-      const norm = h.length===3 ? h.split('').map(c=>c+c).join('') : h;
-      const bigint = parseInt(norm, 16);
-      const r=(bigint>>16)&255, g=(bigint>>8)&255, b=bigint&255;
-      return `rgba(${r},${g},${b},${alpha})`;
-    }
-
-    function applyCustomColors(colors) {
-      const root = document.documentElement;
-      if (colors.bg) root.style.setProperty('--bg', colors.bg);
-      if (colors.bg2) root.style.setProperty('--bg2', colors.bg2);
-      if (colors.card) root.style.setProperty('--card', hexToRgba(colors.card, 0.08));
-      if (colors.text) root.style.setProperty('--text', colors.text);
-      if (colors.cyan) root.style.setProperty('--cyan', colors.cyan);
-      if (colors.red) root.style.setProperty('--red', colors.red);
-    }
-
-    function loadCustomColorsIntoInputs() {
-      const saved = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
-      $('#color-bg').val(saved.bg || '#000000');
-      $('#color-bg2').val(saved.bg2 || '#091015');
-      $('#color-card').val(saved.card || '#111111');
-      $('#color-text').val(saved.text || '#ffffff');
-      $('#color-cyan').val(saved.cyan || '#00f2fe');
-      $('#color-red').val(saved.red || '#c1272d');
-    }
-
-    function saveCustomColors() {
-      const colors = { bg: $('#color-bg').val(), bg2: $('#color-bg2').val(), card: $('#color-card').val(), text: $('#color-text').val(), cyan: $('#color-cyan').val(), red: $('#color-red').val() };
-      localStorage.setItem('msh_custom_colors', JSON.stringify(colors));
-      applyCustomColors(colors);
-      $('#colors-modal').hide();
-    }
-
-    function resetCustomColors() {
-      localStorage.removeItem('msh_custom_colors');
-      location.reload();
-    }
-
-function loadMatchesWidget() {
+    function loadMatchesWidget() {
       const container = document.getElementById('live-inject');
       container.innerHTML = `
         <api-sports-widget
@@ -2455,6 +2154,7 @@ function loadMatchesWidget() {
     });
 
     window.addEventListener('popstate', () => { sharedPostHandled = false; });
+
     initAppPrefs();
   </script>
 </body>
