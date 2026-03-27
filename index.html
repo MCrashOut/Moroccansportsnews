@@ -2759,31 +2759,46 @@ function openDetails(id) {
     }
 
 
-    const AI_BACKEND_URL = 'http://localhost:3000/api/ask';
+    const GEMINI_API_KEY = 'AIzaSyDSnLsmHVL_zEBKrRqLDIgyzKDDDqo8NE8';
+    const GEMINI_MODEL = 'gemini-2.0-flash';
+    async function getGeminiApiKey() {
+      if (typeof GEMINI_API_KEY !== 'undefined' && GEMINI_API_KEY) return GEMINI_API_KEY;
+      const existing = localStorage.getItem('msh_gemini_key');
+      if (existing) return existing;
+      return '';
+    }
 
-    async function askBackendAI(query) {
-      const siteContext = getWebsiteMatches(query).map(x =>
-        `${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`
-      );
+    async function askGeminiOutsideWebsite(query) {
+      const key = await getGeminiApiKey();
+      if (!key) {
+        return 'I found no direct website source for that question yet. Add a Gemini API key to enable external AI answers.';
+      }
 
-      const res = await fetch(AI_BACKEND_URL, {
+      const context = getWebsiteMatches(query)
+        .slice(0, 2)
+        .map(x => `Website item: ${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`)
+        .join('\n');
+
+      const prompt = `You are a sports assistant for Moroccansportshub. Answer the user's sports question clearly and briefly. If website context is relevant, mention it. User question: ${query}\n\nWebsite context:\n${context}`;
+
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-goog-api-key': key
         },
         body: JSON.stringify({
-          question: query,
-          siteContext
+          contents: [{ parts: [{ text: prompt }] }]
         })
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        throw new Error(data?.error || 'Backend AI request failed.');
+        const errText = await res.text();
+        throw new Error('External AI request failed: ' + errText);
       }
 
-      return data?.answer || 'No answer returned.';
+      const data = await res.json();
+      return data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('\n').trim() || 'No answer returned.';
     }
 
     async function sendAiMessage() {
@@ -2801,25 +2816,23 @@ function openDetails(id) {
 
       appendAiMessage('bot', 'Thinking...');
       try {
-        const answer = await askBackendAI(text);
+        const answer = await askGeminiOutsideWebsite(text);
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
         if (last && last.textContent === 'Thinking...') {
-          last.innerHTML = escapeHtml(answer).replace(/
-/g, '<br>');
+          last.innerHTML = escapeHtml(answer).replace(/\n/g, '<br>');
         } else {
           appendAiMessage('bot', answer);
         }
       } catch (err) {
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
-        const fallback = 'I could not reach the AI backend right now. Please try again.';
+        const fallback = 'I could not reach the external AI right now. Please try again.';
         if (last && last.textContent === 'Thinking...') {
           last.textContent = fallback;
         } else {
           appendAiMessage('bot', fallback);
         }
-        console.error(err);
       }
     }
 
