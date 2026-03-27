@@ -2221,7 +2221,7 @@
       $(selector).html(html);
     }
 
-    async async function collectNews(sources, opts = {}) {
+    async function collectNews(sources, opts = {}) {
       const batches = await Promise.all(sources.map(async (src) => {
         try {
           if (src.kind === 'rss') return await fetchRssItems(src.url);
@@ -2238,7 +2238,7 @@
       return addNewsItems(all, opts);
     }
 
-    async async function loadMoroccoPages() {
+    async function loadMoroccoPages() {
       const after30 = recentAfterDate(30);
       const after45 = recentAfterDate(45);
 
