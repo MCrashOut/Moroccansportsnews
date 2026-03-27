@@ -2078,6 +2078,32 @@
       return `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=${locale}&gl=${gl}&ceid=${ceid}`;
     }
 
+    function recentAfterDate(daysBack = 30) {
+      const d = new Date();
+      d.setDate(d.getDate() - daysBack);
+      return d.toISOString().slice(0, 10);
+    }
+
+    function parsePubDate(value) {
+      if (!value) return 0;
+      const ts = new Date(value).getTime();
+      return Number.isFinite(ts) ? ts : 0;
+    }
+
+    function sortItemsByNewest(items) {
+      return [...items].sort((a, b) => parsePubDate(b.pubDate) - parsePubDate(a.pubDate));
+    }
+
+    function filterItemsByAge(items, maxAgeDays = 45) {
+      const now = Date.now();
+      const maxAgeMs = maxAgeDays * 24 * 60 * 60 * 1000;
+      const filtered = items.filter(item => {
+        const ts = parsePubDate(item.pubDate);
+        return !ts || (now - ts) <= maxAgeMs;
+      });
+      return filtered.length ? filtered : items;
+    }
+
     async function fetchWithTimeout(url, options = {}, timeoutMs = 3200) {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), timeoutMs);
@@ -2178,7 +2204,8 @@
           link: item.link || '#',
           tag: opts.tag || '',
           sport: opts.sport || '',
-          region: opts.region || ''
+          region: opts.region || '',
+          pubDate: item.pubDate || ''
         };
         masterPool.push(n);
         ids.push(n.id);
@@ -2194,7 +2221,7 @@
       $(selector).html(html);
     }
 
-    async function collectNews(sources, opts = {}) {
+    async async function collectNews(sources, opts = {}) {
       const batches = await Promise.all(sources.map(async (src) => {
         try {
           if (src.kind === 'rss') return await fetchRssItems(src.url);
@@ -2205,36 +2232,41 @@
         }
       }));
       let all = batches.flat();
-      all = dedupeItems(all).slice(0, opts.limit || 16);
+      all = dedupeItems(all);
+      if (opts.maxAgeDays) all = filterItemsByAge(all, opts.maxAgeDays);
+      all = sortItemsByNewest(all).slice(0, opts.limit || 16);
       return addNewsItems(all, opts);
     }
 
-    async function loadMoroccoPages() {
+    async async function loadMoroccoPages() {
+      const after30 = recentAfterDate(30);
+      const after45 = recentAfterDate(45);
+
       const footballSources = [
-        { kind:'rss', url:'https://sport.le360.ma/rss.xml' },
-        { kind:'rss', url: googleNewsRss('site:frmf.ma OR site:sport.le360.ma OR site:hesport.com football maroc botola lions atlas', 'fr', 'MA:fr', 'MA') }
+        { kind:'rss', url: googleNewsRss(`site:frmf.ma OR site:sport.le360.ma OR site:hesport.com OR site:lematin.ma (botola OR "lions de l'atlas" OR "football maroc") after:${after30}`, 'fr', 'MA:fr', 'MA') },
+        { kind:'rss', url:'https://sport.le360.ma/rss.xml' }
       ];
 
       const basketballSources = [
-        { kind:'rss', url: googleNewsRss('site:sport.le360.ma OR site:hesport.com OR site:lematin.ma basket maroc OR basketball maroc', 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url: googleNewsRss('site:frmbb.ma OR site:snrtnews.com basket maroc', 'fr', 'MA:fr', 'MA') }
+        { kind:'rss', url: googleNewsRss(`site:frmbb.ma OR site:sport.le360.ma OR site:hesport.com OR site:lematin.ma ("basket maroc" OR "basketball maroc") after:${after45}`, 'fr', 'MA:fr', 'MA') },
+        { kind:'rss', url: googleNewsRss(`site:frmbb.ma OR site:snrtnews.com OR site:lematin.ma ("équipe du maroc basket" OR "championnat maroc basket") after:${after45}`, 'fr', 'MA:fr', 'MA') }
       ];
 
       const tennisSources = [
-        { kind:'rss', url: googleNewsRss('site:frmt.ma OR site:sport.le360.ma OR site:lematin.ma tennis maroc', 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url: googleNewsRss('site:frmt.ma padel maroc OR tennis maroc', 'fr', 'MA:fr', 'MA') }
+        { kind:'rss', url: googleNewsRss(`site:frmt.ma OR site:sport.le360.ma OR site:lematin.ma ("tennis maroc" OR "padel maroc") after:${after45}`, 'fr', 'MA:fr', 'MA') },
+        { kind:'rss', url: googleNewsRss(`site:frmt.ma OR site:snrtnews.com ("tournoi maroc tennis" OR "joueur maroc tennis") after:${after45}`, 'fr', 'MA:fr', 'MA') }
       ];
 
       const esportSources = [
-        { kind:'rss', url: googleNewsRss('esport maroc OR gaming maroc', 'fr', 'MA:fr', 'MA') },
+        { kind:'rss', url: googleNewsRss(`("esport maroc" OR "gaming maroc") after:${after30}`, 'fr', 'MA:fr', 'MA') },
         { kind:'rss', url:'https://www.talkesport.com/feed/' }
       ];
 
       const [footballIds, basketballIds, tennisIds, esportIds] = await Promise.all([
-        collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:18 }),
-        collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:18 }),
-        collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:18 }),
-        collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:18 })
+        collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:18, maxAgeDays: 30 }),
+        collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:18, maxAgeDays: 45 }),
+        collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:18, maxAgeDays: 45 }),
+        collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:18, maxAgeDays: 30 })
       ]);
 
       renderIdsGrid('#feed-morocco-football', footballIds, 'Moroccan football news unavailable right now.');
@@ -2311,8 +2343,8 @@
     }
 
     function renderHome() {
-      const pool = [...masterPool].sort(() => 0.5 - Math.random());
-      if (pool.length < 5) return;
+      const pool = [...masterPool].sort((a, b) => parsePubDate(b.pubDate) - parsePubDate(a.pubDate));
+      if (!pool.length) return;
 
       const imgSrc = pool[0].img && pool[0].img.trim() !== '' ? pool[0].img : 'https://via.placeholder.com/800x450?text=Moroccansportshub';
       $('#center-intel').html(`
@@ -2320,8 +2352,8 @@
         <img src="${imgSrc}" alt="${pool[0].title}" onclick="openDetails(${pool[0].id})" onerror="this.onerror=null;this.src='https://via.placeholder.com/800x450?text=Moroccansportshub';">
         <p style="color:var(--dim); line-height:1.6;">${(pool[0].desc || '').slice(0, 240)}...</p>
       `);
-      $('#wire-left').html(pool.slice(1, 10).map(n => `<div class="side-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join(''));
-      $('#wire-right').html(pool.slice(10, 16).map(n => `<div class="mini-card" onclick="openDetails(${n.id})"><span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
+      $('#wire-left').html(pool.slice(1, Math.min(10, pool.length)).map(n => `<div class="side-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join(''));
+      $('#wire-right').html(pool.slice(10, Math.min(16, pool.length)).map(n => `<div class="mini-card" onclick="openDetails(${n.id})"><span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
     }
 
 function openDetails(id) {
