@@ -731,6 +731,7 @@
           <option value="ar">AR</option>
         </select>
         <button class="ghost-btn" onclick="toggleTheme()" id="theme-btn">Light</button>
+        <button class="ghost-btn" onclick="openColorStudio()" id="desktop-color-btn">Colors</button>
       </div>
 
       <div id="auth-ui" class="desktop-mobile-hide">
@@ -784,26 +785,7 @@
         <i class="fa-solid fa-flag"></i>
         <div><strong id="d-morocco-title">Moroccan</strong><span id="d-morocco-desc">Moroccan sports news</span></div>
       </button>
-
-      <div class="drawer-label">Moroccan Sports</div>
-      <button onclick="switchPage('morocco-football'); toggleDrawer(false);">
-        <i class="fa-solid fa-futbol"></i>
-        <div><strong id="d-morocco-football-title">Morocco Football</strong><span id="d-morocco-football-desc">FRMF and top Morocco football news</span></div>
-      </button>
-      <button onclick="switchPage('morocco-basketball'); toggleDrawer(false);">
-        <i class="fa-solid fa-basketball"></i>
-        <div><strong id="d-morocco-basketball-title">Morocco Basketball</strong><span id="d-morocco-basketball-desc">FRMBB and Morocco basketball updates</span></div>
-      </button>
-      <button onclick="switchPage('morocco-tennis'); toggleDrawer(false);">
-        <i class="fa-solid fa-table-tennis-paddle-ball"></i>
-        <div><strong id="d-morocco-tennis-title">Morocco Tennis</strong><span id="d-morocco-tennis-desc">FRMT and tennis news</span></div>
-      </button>
-      <button onclick="switchPage('morocco-esports'); toggleDrawer(false);">
-        <i class="fa-solid fa-gamepad"></i>
-        <div><strong id="d-morocco-esports-title">Morocco Esport</strong><span id="d-morocco-esports-desc">Moroccan esports and gaming news</span></div>
-      </button>
-
-      <button onclick="switchPage('global'); toggleDrawer(false);">
+<button onclick="switchPage('global'); toggleDrawer(false);">
         <i class="fa-solid fa-earth-africa"></i>
         <div><strong id="d-global-title">Global</strong><span id="d-global-desc">International sports stories</span></div>
       </button>
@@ -822,13 +804,7 @@
         <i class="fa-solid fa-futbol"></i>
         <div><strong id="d-matches-title">Matches</strong><span id="d-matches-desc">Live fixtures and scores</span></div>
       </button>
-
-      <button onclick="switchPage('profile-check'); toggleDrawer(false);">
-        <i class="fa-solid fa-user-shield"></i>
-        <div><strong id="d-profile-title">Profile</strong><span id="d-profile-desc">Your account settings</span></div>
-      </button>
-
-      <button id="drawer-admin-btn" style="display:none;" onclick="switchPage('admin'); toggleDrawer(false);">
+<button id="drawer-admin-btn" style="display:none;" onclick="switchPage('admin'); toggleDrawer(false);">
         <i class="fa-solid fa-shield"></i>
         <div><strong id="d-admin-title">Admin</strong><span id="d-admin-desc">Manage users and moderation</span></div>
       </button>
@@ -874,10 +850,10 @@
     <section id="morocco-page" class="page">
       <div class="section-title" id="morocco-page-title">Moroccan News</div>
       <div class="news-grid">
-        <div class="mini-card category-card" onclick="switchPage('morocco-football')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-football">Football</h3><p>FRMF, Botola, national teams, and top Moroccan football coverage.</p></div><button class="ghost-btn">Open</button></div>
-        <div class="mini-card category-card" onclick="switchPage('morocco-basketball')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-basketball">Basketball</h3><p>FRMBB updates, league activity, and Moroccan basketball headlines.</p></div><button class="ghost-btn">Open</button></div>
-        <div class="mini-card category-card" onclick="switchPage('morocco-tennis')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-tennis">Tennis</h3><p>FRMT tournaments, national team updates, and Morocco tennis news.</p></div><button class="ghost-btn">Open</button></div>
-        <div class="mini-card category-card" onclick="switchPage('morocco-esports')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-esports">Esport</h3><p>Moroccan esports and gaming stories in one dedicated page.</p></div><button class="ghost-btn">Open</button></div>
+        <div class="mini-card category-card" onclick="switchPage('morocco-football')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-football">Football</h3><p id="morocco-card-football-desc">FRMF, Botola, national teams, and top Moroccan football coverage.</p></div><button class="ghost-btn" id="morocco-card-football-open">Open</button></div>
+        <div class="mini-card category-card" onclick="switchPage('morocco-basketball')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-basketball">Basketball</h3><p id="morocco-card-basketball-desc">FRMBB updates, league activity, and Moroccan basketball headlines.</p></div><button class="ghost-btn" id="morocco-card-basketball-open">Open</button></div>
+        <div class="mini-card category-card" onclick="switchPage('morocco-tennis')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-tennis">Tennis</h3><p id="morocco-card-tennis-desc">FRMT tournaments, national team updates, and Morocco tennis news.</p></div><button class="ghost-btn" id="morocco-card-tennis-open">Open</button></div>
+        <div class="mini-card category-card" onclick="switchPage('morocco-esports')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-esports">Esport</h3><p id="morocco-card-esports-desc">Moroccan esports and gaming stories in one dedicated page.</p></div><button class="ghost-btn" id="morocco-card-esports-open">Open</button></div>
       </div>
     </section>
 
@@ -1108,7 +1084,19 @@
         signup: 'SIGN UP',
         login: 'LOGIN',
         agentId: 'Agent ID',
-        posting: 'Posting...'
+        posting: 'Posting...',
+        colorsTitle: 'Colors',
+        colorsDesc: 'Customize website colors',
+        openLabel: 'Open',
+        moroccoFootballTitle: 'Football',
+        moroccoFootballDesc: 'FRMF, Botola, national teams, and top Moroccan football coverage.',
+        moroccoBasketballTitle: 'Basketball',
+        moroccoBasketballDesc: 'FRMBB updates, league activity, and Moroccan basketball headlines.',
+        moroccoTennisTitle: 'Tennis',
+        moroccoTennisDesc: 'FRMT tournaments, national team updates, and Morocco tennis news.',
+        moroccoEsportTitle: 'Esport',
+        moroccoEsportDesc: 'Moroccan esports and gaming stories in one dedicated page.',
+        filterAll: 'All'
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -1180,7 +1168,19 @@
         signup: 'INSCRIPTION',
         login: 'CONNEXION',
         agentId: 'Identifiant',
-        posting: 'Publication...'
+        posting: 'Publication...',
+        colorsTitle: 'Couleurs',
+        colorsDesc: 'Personnaliser les couleurs du site',
+        openLabel: 'Ouvrir',
+        moroccoFootballTitle: 'Football',
+        moroccoFootballDesc: 'FRMF, Botola, équipes nationales et meilleures infos du football marocain.',
+        moroccoBasketballTitle: 'Basket-ball',
+        moroccoBasketballDesc: 'Actualités FRMBB, activité des ligues et titres du basket marocain.',
+        moroccoTennisTitle: 'Tennis',
+        moroccoTennisDesc: 'Tournois FRMT, sélections nationales et actualités du tennis marocain.',
+        moroccoEsportTitle: 'Esport',
+        moroccoEsportDesc: 'Actualités marocaines de l’esport et du gaming.',
+        filterAll: 'Tout'
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -1252,7 +1252,19 @@
         signup: 'تسجيل',
         login: 'دخول',
         agentId: 'اسم الحساب',
-        posting: 'جارٍ النشر...'
+        posting: 'جارٍ النشر...',
+        colorsTitle: 'الألوان',
+        colorsDesc: 'تخصيص ألوان الموقع',
+        openLabel: 'فتح',
+        moroccoFootballTitle: 'كرة القدم',
+        moroccoFootballDesc: 'الجامعة، البطولة، المنتخبات الوطنية وأهم أخبار كرة القدم المغربية.',
+        moroccoBasketballTitle: 'كرة السلة',
+        moroccoBasketballDesc: 'تحديثات الجامعة، نشاط الدوري وأبرز عناوين كرة السلة المغربية.',
+        moroccoTennisTitle: 'التنس',
+        moroccoTennisDesc: 'بطولات الجامعة، تحديثات المنتخب وأخبار التنس المغربي.',
+        moroccoEsportTitle: 'الرياضات الإلكترونية',
+        moroccoEsportDesc: 'أخبار الرياضات الإلكترونية والألعاب في المغرب.',
+        filterAll: 'الكل'
       }
     };
 
@@ -1330,21 +1342,35 @@
       $('#d-morocco-desc').text(t('drawerMoroccoDesc'));
       $('#d-global-title').text(t('global'));
       $('#d-global-desc').text(t('drawerGlobalDesc'));
-      $('#d-morocco-football-title').text('Morocco Football');
-      $('#d-morocco-basketball-title').text('Morocco Basketball');
-      $('#d-morocco-tennis-title').text('Morocco Tennis');
-      $('#d-morocco-esports-title').text('Morocco Esport');
-      $('#d-colors-title').text('Colors');
-      $('#d-colors-desc').text('Customize website colors');
+      $('#d-colors-title').text(t('colorsTitle') || 'Colors');
+      $('#d-colors-desc').text(t('colorsDesc') || 'Customize website colors');
       $('#d-chess-title').text(t('chess'));
       $('#d-chess-desc').text(t('drawerChessDesc'));
       $('#d-matches-title').text(t('matches'));
       $('#d-matches-desc').text(t('drawerMatchesDesc'));
-      $('#d-profile-title').text(t('profilePageTitle'));
-      $('#d-profile-desc').text(t('drawerProfileDesc'));
       $('#d-admin-title').text(t('admin'));
       $('#d-admin-desc').text(t('drawerAdminDesc'));
       $('#theme-btn, #drawer-theme-btn').text(currentTheme === 'light' ? t('dark') : t('light'));
+      $('#desktop-color-btn').text(t('colorsTitle') || 'Colors');
+
+      $('#morocco-card-football').text(t('moroccoFootballTitle') || 'Football');
+      $('#morocco-card-football-desc').text(t('moroccoFootballDesc') || 'FRMF, Botola, national teams, and top Moroccan football coverage.');
+      $('#morocco-card-football-open').text(t('openLabel') || 'Open');
+      $('#morocco-card-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
+      $('#morocco-card-basketball-desc').text(t('moroccoBasketballDesc') || 'FRMBB updates, league activity, and Moroccan basketball headlines.');
+      $('#morocco-card-basketball-open').text(t('openLabel') || 'Open');
+      $('#morocco-card-tennis').text(t('moroccoTennisTitle') || 'Tennis');
+      $('#morocco-card-tennis-desc').text(t('moroccoTennisDesc') || 'FRMT tournaments, national team updates, and Morocco tennis news.');
+      $('#morocco-card-tennis-open').text(t('openLabel') || 'Open');
+      $('#morocco-card-esports').text(t('moroccoEsportTitle') || 'Esport');
+      $('#morocco-card-esports-desc').text(t('moroccoEsportDesc') || 'Moroccan esports and gaming stories in one dedicated page.');
+      $('#morocco-card-esports-open').text(t('openLabel') || 'Open');
+
+      $('#gf-all').text(t('filterAll') || 'All');
+      $('#gf-football').text(t('moroccoFootballTitle') || 'Football');
+      $('#gf-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
+      $('#gf-tennis').text(t('moroccoTennisTitle') || 'Tennis');
+      $('#gf-esports').text(t('moroccoEsportTitle') || 'Esport');
 
       if (auth.currentUser) {
         $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
@@ -1668,7 +1694,7 @@
       };
     }
 
-    async function createPost() {
+    async async function createPost() {
       if (!auth.currentUser) return openAuth();
 
       const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
@@ -1681,8 +1707,13 @@
 
       const content = $('#post-content').val().trim();
       const fileInput = document.getElementById('post-media');
-      const file = fileInput.files[0];
+      const file = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
       if (!content && !file) return;
+
+      if (file && file.size > 25 * 1024 * 1024) {
+        alert('File too large. Max 25MB.');
+        return;
+      }
 
       const submitBtn = document.getElementById('post-submit-btn');
       const originalBtnText = submitBtn.textContent;
@@ -1739,7 +1770,9 @@
         $('#post-content').val('');
         fileInput.value = '';
         $('#post-modal').hide();
+        loadFeed();
       } catch (e) {
+        console.error('createPost error', e);
         alert(`${t('uploadError')} ${e.message || ''}`);
       } finally {
         submitBtn.disabled = false;
@@ -1997,11 +2030,11 @@
       const overlay = $('#search-overlay');
 
       if (overlay.is(':visible')) {
-        overlay.hide();
         $('#active-search-input').val('');
         $('#search-results-area').hide();
         $('#standard-home-layout').show();
         $('#search-output-grid').empty();
+        overlay.hide();
       } else {
         overlay.css('display', 'flex');
         $('#active-search-input').focus();
@@ -2136,16 +2169,17 @@
       $(selector).html(html);
     }
 
-    async function collectNews(sources, opts = {}) {
-      let all = [];
-      for (const src of sources) {
+    async async function collectNews(sources, opts = {}) {
+      const batches = await Promise.all(sources.map(async (src) => {
         try {
-          let items = [];
-          if (src.kind === 'rss') items = await fetchRssItems(src.url);
-          if (src.kind === 'html') items = await fetchHtmlCards(src.url, src.mode);
-          all.push(...items);
-        } catch (e) {}
-      }
+          if (src.kind === 'rss') return await fetchRssItems(src.url);
+          if (src.kind === 'html') return await fetchHtmlCards(src.url, src.mode);
+          return [];
+        } catch (e) {
+          return [];
+        }
+      }));
+      let all = batches.flat();
       all = dedupeItems(all).slice(0, opts.limit || 16);
       return addNewsItems(all, opts);
     }
@@ -2222,11 +2256,20 @@
       renderIdsGrid('#feed-chess', chessIds, 'Chess news unavailable right now.');
     }
 
-    async function initNews() {
+    async async function initNews() {
       masterPool = [];
       globalPool = [];
+      $('#center-intel').html('<div class="mini-card"><h3>Loading news...</h3></div>');
+      $('#wire-left').html('');
+      $('#wire-right').html('');
+      $('#feed-morocco-football, #feed-morocco-basketball, #feed-morocco-tennis, #feed-morocco-esports, #feed-global, #feed-chess').html('<div class="mini-card"><h3>Loading...</h3></div>');
       await Promise.all([loadMoroccoPages(), loadGlobalPages(), loadStaticFeeds()]);
       renderHome();
+      if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
+        $('#search-results-area').hide();
+        $('#standard-home-layout').show();
+        $('#search-output-grid').empty();
+      }
     }
 
     function renderHome() {
