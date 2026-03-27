@@ -24,6 +24,31 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <button class="ai-fab" id="ai-fab" onclick="toggleAiAssistant()" aria-label="Open sports assistant">
+    <i class="fa-solid fa-cloud"></i>
+  </button>
+
+  <div class="ai-panel" id="ai-panel">
+    <div class="ai-header">
+      <span>Sports AI</span>
+      <button class="icon-btn" onclick="toggleAiAssistant(false)"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ai-messages" id="ai-messages">
+      <div class="ai-msg bot">Ask me any sports question. I’ll try to answer from the website news first.</div>
+    </div>
+    <div class="ai-quick">
+      <button onclick="askAiQuick('Latest Moroccan football news')">Morocco football</button>
+      <button onclick="askAiQuick('Latest global football news')">Global football</button>
+      <button onclick="askAiQuick('Latest tennis news')">Tennis</button>
+      <button onclick="askAiQuick('Latest matches news')">Matches</button>
+    </div>
+    <div class="ai-input-wrap">
+      <input id="ai-input" type="text" placeholder="Ask a sports question..." onkeydown="if(event.key==='Enter') sendAiMessage()">
+      <button class="solid-btn" onclick="sendAiMessage()">Send</button>
+    </div>
+  </div>
+
+
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
@@ -690,6 +715,112 @@
     .color-grid label { font-size:.75rem; color:var(--dim); font-weight:700; }
     .color-grid input[type="color"] { width:100%; height:44px; border:none; background:transparent; padding:0; }
     @media (max-width:640px){ .color-grid { grid-template-columns:1fr; } }
+
+    .ai-fab {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 4600;
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 88%, var(--card));
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 28px var(--shadow);
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+    }
+    .ai-panel {
+      position: fixed;
+      right: 18px;
+      bottom: 86px;
+      width: min(360px, calc(100vw - 28px));
+      max-height: 70vh;
+      z-index: 4601;
+      display: none;
+      flex-direction: column;
+      background: color-mix(in srgb, var(--bg) 92%, var(--card));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.45);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+    .ai-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--cyan);
+      font-weight: 800;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .ai-messages {
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 180px;
+      max-height: 42vh;
+    }
+    .ai-msg {
+      padding: 10px 12px;
+      border-radius: 14px;
+      line-height: 1.5;
+      font-size: .84rem;
+      white-space: pre-wrap;
+    }
+    .ai-msg.bot {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .ai-msg.user {
+      align-self: flex-end;
+      background: rgba(0,242,254,.14);
+      border: 1px solid rgba(0,242,254,.25);
+      color: var(--text);
+    }
+    .ai-quick {
+      padding: 0 14px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .ai-quick button {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: .72rem;
+      cursor: pointer;
+    }
+    .ai-input-wrap {
+      display: flex;
+      gap: 8px;
+      padding: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .ai-input-wrap input {
+      flex: 1;
+      background: var(--input-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      outline: none;
+    }
+    @media (max-width: 1024px) {
+      .ai-fab { bottom: 84px; }
+      .ai-panel { bottom: 152px; }
+    }
 
   </style>
 </head>
@@ -2510,12 +2641,16 @@ function openDetails(id) {
 
     function applyCustomColors(colors) {
       const root = document.documentElement;
-      if (colors.bg) root.style.setProperty('--bg', colors.bg);
-      if (colors.bg2) root.style.setProperty('--bg2', colors.bg2);
-      if (colors.card) root.style.setProperty('--card', hexToRgba(colors.card, 0.08));
-      if (colors.text) root.style.setProperty('--text', colors.text);
-      if (colors.cyan) root.style.setProperty('--cyan', colors.cyan);
-      if (colors.red) root.style.setProperty('--red', colors.red);
+      const body = document.body;
+      const targets = [root.style, body.style];
+      targets.forEach(style => {
+        if (colors.bg) style.setProperty('--bg', colors.bg);
+        if (colors.bg2) style.setProperty('--bg2', colors.bg2);
+        if (colors.card) style.setProperty('--card', hexToRgba(colors.card, 0.08));
+        if (colors.text) style.setProperty('--text', colors.text);
+        if (colors.cyan) style.setProperty('--cyan', colors.cyan);
+        if (colors.red) style.setProperty('--red', colors.red);
+      });
     }
 
     function loadCustomColorsIntoInputs() {
@@ -2539,6 +2674,99 @@ function openDetails(id) {
       localStorage.removeItem('msh_custom_colors');
       location.reload();
     }
+
+
+    function toggleAiAssistant(force) {
+      const panel = $('#ai-panel');
+      const shouldOpen = typeof force === 'boolean' ? force : !panel.is(':visible');
+      if (shouldOpen) {
+        panel.css('display', 'flex');
+        $('#ai-input').focus();
+      } else {
+        panel.hide();
+      }
+    }
+
+    function askAiQuick(text) {
+      $('#ai-input').val(text);
+      sendAiMessage();
+    }
+
+    function appendAiMessage(role, text) {
+      const safe = $('<div>').text(text).html().replace(/\n/g, '<br>');
+      $('#ai-messages').append(`<div class="ai-msg ${role}">${safe}</div>`);
+      const box = document.getElementById('ai-messages');
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function scoreNewsMatch(item, query) {
+      const q = query.toLowerCase();
+      const hay = `${item.title || ''} ${item.desc || ''} ${item.tag || ''} ${item.sport || ''} ${item.region || ''}`.toLowerCase();
+      let score = 0;
+      q.split(/\s+/).filter(Boolean).forEach(word => {
+        if (hay.includes(word)) score += word.length > 3 ? 2 : 1;
+      });
+      const map = {
+        morocco: ['morocco', 'moroccan', 'maroc', 'marocain', 'المغرب', 'المغربية'],
+        football: ['football', 'soccer', 'botola', 'foot', 'كرة', 'ballon'],
+        basketball: ['basketball', 'basket', 'nba', 'سلة'],
+        tennis: ['tennis', 'atp', 'wta', 'تنس'],
+        esports: ['esports', 'esport', 'gaming', 'e-sport', 'ألعاب', 'رياضات إلكترونية'],
+        chess: ['chess', 'fide', 'شطرنج'],
+        global: ['global', 'world', 'international', 'monde', 'عالمي'],
+        matches: ['match', 'matches', 'fixture', 'game', 'score', 'live', 'مباراة']
+      };
+      Object.entries(map).forEach(([key, words]) => {
+        if (words.some(w => q.includes(w)) && (item.sport === key || item.region === key || hay.includes(key))) score += 3;
+      });
+      if (item.pubDate) score += 1;
+      return score;
+    }
+
+    function buildAiAnswer(query) {
+      const pool = [...masterPool];
+      if (!pool.length) {
+        return "I don’t have website news loaded yet. Try again in a moment or browse a page first.";
+      }
+      const scored = pool
+        .map(item => ({ item, score: scoreNewsMatch(item, query) }))
+        .filter(x => x.score > 0)
+        .sort((a, b) => {
+          const ds = (new Date(b.item.pubDate || 0) - new Date(a.item.pubDate || 0));
+          return b.score - a.score || ds;
+        })
+        .slice(0, 3);
+
+      if (!scored.length) {
+        const q = query.toLowerCase();
+        if (q.includes('morocco') || q.includes('maroc') || q.includes('المغرب')) {
+          return "Try the Moroccan page for football, basketball, tennis, and Moroccan esports news.";
+        }
+        if (q.includes('match') || q.includes('score') || q.includes('fixture')) {
+          return "Open the Matches page for live games and scores.";
+        }
+        return "I couldn’t find a strong match in the website news yet. Try asking about Moroccan football, basketball, tennis, esports, global football, or chess.";
+      }
+
+      let answer = "Here’s what I found from the website news:\n\n";
+      scored.forEach((x, i) => {
+        answer += `${i + 1}. ${x.item.title}`;
+        if (x.item.tag) answer += ` (${x.item.tag})`;
+        answer += `\n${x.item.link || ''}\n\n`;
+      });
+      return answer.trim();
+    }
+
+    function sendAiMessage() {
+      const input = document.getElementById('ai-input');
+      const text = (input.value || '').trim();
+      if (!text) return;
+      appendAiMessage('user', text);
+      input.value = '';
+      const reply = buildAiAnswer(text);
+      setTimeout(() => appendAiMessage('bot', reply), 180);
+    }
+
 
 function loadMatchesWidget() {
       const container = document.getElementById('live-inject');
