@@ -34,7 +34,7 @@
       <button class="icon-btn" onclick="toggleAiAssistant(false)"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="ai-messages" id="ai-messages">
-      <div class="ai-msg bot">Ask me any sports question. I’ll try to answer from the website news first.</div>
+      <div class="ai-msg bot">Ask me any sports question. I’ll check the website first, then use external AI if needed.</div>
     </div>
     <div class="ai-quick">
       <button onclick="askAiQuick('Latest Moroccan football news')">Morocco football</button>
@@ -861,7 +861,6 @@
           <option value="fr">FR</option>
           <option value="ar">AR</option>
         </select>
-        <button class="ghost-btn" onclick="toggleTheme()" id="theme-btn">Light</button>
         <button class="ghost-btn" onclick="openColorStudio()" id="desktop-color-btn">Colors</button>
       </div>
 
@@ -897,8 +896,7 @@
           <option value="fr">Français</option>
           <option value="ar">العربية</option>
         </select>
-        <button class="ghost-btn" onclick="toggleTheme()" id="drawer-theme-btn">Light</button>
-      </div>
+              </div>
     </div>
 
     <div class="drawer-links">
@@ -2692,11 +2690,22 @@ function openDetails(id) {
       sendAiMessage();
     }
 
+
     function appendAiMessage(role, text) {
       const safe = $('<div>').text(text).html().replace(/\n/g, '<br>');
       $('#ai-messages').append(`<div class="ai-msg ${role}">${safe}</div>`);
       const box = document.getElementById('ai-messages');
       box.scrollTop = box.scrollHeight;
+    }
+
+    function appendAiHtml(html, role = 'bot') {
+      $('#ai-messages').append(`<div class="ai-msg ${role}">${html}</div>`);
+      const box = document.getElementById('ai-messages');
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function escapeHtml(str) {
+      return $('<div>').text(str || '').html();
     }
 
     function scoreNewsMatch(item, query) {
@@ -2723,48 +2732,108 @@ function openDetails(id) {
       return score;
     }
 
-    function buildAiAnswer(query) {
-      const pool = [...masterPool];
-      if (!pool.length) {
-        return "I don’t have website news loaded yet. Try again in a moment or browse a page first.";
-      }
-      const scored = pool
+    function getWebsiteMatches(query) {
+      return [...masterPool]
         .map(item => ({ item, score: scoreNewsMatch(item, query) }))
-        .filter(x => x.score > 0)
+        .filter(x => x.score > 0 && x.item.link)
         .sort((a, b) => {
           const ds = (new Date(b.item.pubDate || 0) - new Date(a.item.pubDate || 0));
           return b.score - a.score || ds;
         })
-        .slice(0, 3);
-
-      if (!scored.length) {
-        const q = query.toLowerCase();
-        if (q.includes('morocco') || q.includes('maroc') || q.includes('المغرب')) {
-          return "Try the Moroccan page for football, basketball, tennis, and Moroccan esports news.";
-        }
-        if (q.includes('match') || q.includes('score') || q.includes('fixture')) {
-          return "Open the Matches page for live games and scores.";
-        }
-        return "I couldn’t find a strong match in the website news yet. Try asking about Moroccan football, basketball, tennis, esports, global football, or chess.";
-      }
-
-      let answer = "Here’s what I found from the website news:\n\n";
-      scored.forEach((x, i) => {
-        answer += `${i + 1}. ${x.item.title}`;
-        if (x.item.tag) answer += ` (${x.item.tag})`;
-        answer += `\n${x.item.link || ''}\n\n`;
-      });
-      return answer.trim();
+        .slice(0, 4);
     }
 
-    function sendAiMessage() {
+    function buildWebsiteAnswerHtml(query) {
+      const matches = getWebsiteMatches(query);
+      if (!matches.length) return '';
+      let html = `<div style="margin-bottom:8px;"><strong>Found on the website:</strong></div>`;
+      matches.forEach((x, i) => {
+        html += `
+          <div style="margin:10px 0; padding:10px; border:1px solid var(--border); border-radius:12px;">
+            <div style="font-weight:700; margin-bottom:8px;">${i + 1}. ${escapeHtml(x.item.title)}</div>
+            <a href="${x.item.link}" target="_blank" class="solid-btn" style="display:inline-block; text-decoration:none;">Open source</a>
+          </div>
+        `;
+      });
+      return html;
+    }
+
+    async function getGeminiApiKey() {
+      if (GEMINI_API_KEY) return GEMINI_API_KEY;
+      const existing = localStorage.getItem('msh_gemini_key');
+      if (existing) return existing;
+      const key = prompt('Paste your Gemini API key to enable external AI answers:');
+      if (!key) return '';
+      localStorage.setItem('msh_gemini_key', key.trim());
+      return key.trim();
+    }
+
+    async function askGeminiOutsideWebsite(query) {
+      const key = await getGeminiApiKey();
+      if (!key) {
+        return 'I found no direct website source for that question yet. Add a Gemini API key to enable external AI answers.';
+      }
+
+      const context = getWebsiteMatches(query)
+        .slice(0, 2)
+        .map(x => `Website item: ${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`)
+        .join('\n');
+
+      const prompt = `You are a sports assistant for Moroccansportshub. Answer the user's sports question clearly and briefly. If website context is relevant, mention it. User question: ${query}\n\nWebsite context:\n${context}`;
+
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': key
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }]
+        })
+      });
+
+      if (!res.ok) {
+        throw new Error('External AI request failed');
+      }
+
+      const data = await res.json();
+      return data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('\n').trim() || 'No answer returned.';
+    }
+
+    async function sendAiMessage() {
       const input = document.getElementById('ai-input');
       const text = (input.value || '').trim();
       if (!text) return;
+
       appendAiMessage('user', text);
       input.value = '';
-      const reply = buildAiAnswer(text);
-      setTimeout(() => appendAiMessage('bot', reply), 180);
+
+      const websiteHtml = buildWebsiteAnswerHtml(text);
+      if (websiteHtml) {
+        appendAiHtml(websiteHtml, 'bot');
+        return;
+      }
+
+      appendAiMessage('bot', 'Thinking...');
+      try {
+        const answer = await askGeminiOutsideWebsite(text);
+        const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
+        const last = msgs[msgs.length - 1];
+        if (last && last.textContent === 'Thinking...') {
+          last.innerHTML = escapeHtml(answer).replace(/\n/g, '<br>');
+        } else {
+          appendAiMessage('bot', answer);
+        }
+      } catch (err) {
+        const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
+        const last = msgs[msgs.length - 1];
+        const fallback = 'I could not reach the external AI right now. Please try again.';
+        if (last && last.textContent === 'Thinking...') {
+          last.textContent = fallback;
+        } else {
+          appendAiMessage('bot', fallback);
+        }
+      }
     }
 
 
