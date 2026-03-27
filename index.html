@@ -2245,44 +2245,60 @@
 
     async function loadMoroccoPages() {
       const after21 = recentAfterDate(21);
-      const after30 = recentAfterDate(30);
+      const after45 = recentAfterDate(45);
 
       const footballSources = [
         { kind:'rss', url: googleNewsRss(`site:frmf.ma OR site:sport.le360.ma OR site:hesport.com OR site:lematin.ma (botola OR "lions de l'atlas" OR "football maroc") after:${after21}`, 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url: googleNewsRss(`site:frmf.ma OR site:hespress.com OR site:alarabiya.net OR site:snrtnews.com ("كرة القدم المغربية" OR "المنتخب المغربي" OR "البطولة الاحترافية") after:${after21}`, 'ar', 'MA:ar', 'MA') },
+        { kind:'rss', url: googleNewsRss(`site:frmf.ma OR site:hespress.com OR site:snrtnews.com ("كرة القدم المغربية" OR "المنتخب المغربي" OR "البطولة الاحترافية") after:${after21}`, 'ar', 'MA:ar', 'MA') },
         { kind:'rss', url:'https://sport.le360.ma/rss.xml' }
       ];
 
       const basketballSources = [
-        { kind:'rss', url: googleNewsRss(`site:frmbb.ma OR site:sport.le360.ma OR site:hesport.com OR site:lematin.ma ("basket maroc" OR "basketball maroc" OR "maroc basket") after:${after30}`, 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url: googleNewsRss(`site:frmbb.ma OR site:hespress.com OR site:snrtnews.com ("كرة السلة المغربية" OR "منتخب المغرب لكرة السلة" OR "البطولة المغربية لكرة السلة") after:${after30}`, 'ar', 'MA:ar', 'MA') },
-        { kind:'rss', url: googleNewsRss(`site:frmbb.ma OR site:lematin.ma OR site:snrtnews.com ("équipe du maroc basket" OR "championnat maroc basket") after:${after30}`, 'fr', 'MA:fr', 'MA') }
+        { kind:'rss', url: googleNewsRss(`("basketball maroc" OR "basket maroc" OR "maroc basket" OR "FRMBB") after:${after45}`, 'fr', 'MA:fr', 'MA') },
+        { kind:'rss', url: googleNewsRss(`("كرة السلة المغربية" OR "منتخب المغرب لكرة السلة" OR "البطولة المغربية لكرة السلة") after:${after45}`, 'ar', 'MA:ar', 'MA') },
+        { kind:'rss', url: googleNewsRss(`(site:hespress.com OR site:snrtnews.com OR site:lematin.ma OR site:sport.le360.ma) ("basket maroc" OR "كرة السلة المغربية") after:${after45}`, 'fr', 'MA:fr', 'MA') }
       ];
 
       const tennisSources = [
-        { kind:'rss', url: googleNewsRss(`site:frmt.ma OR site:sport.le360.ma OR site:lematin.ma ("tennis maroc" OR "padel maroc" OR "joueur maroc tennis") after:${after30}`, 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url: googleNewsRss(`site:frmt.ma OR site:hespress.com OR site:snrtnews.com ("التنس المغربي" OR "لاعب مغربي تنس" OR "بطولة المغرب للتنس") after:${after30}`, 'ar', 'MA:ar', 'MA') },
-        { kind:'rss', url: googleNewsRss(`site:frmt.ma OR site:snrtnews.com ("tournoi maroc tennis" OR "joueur maroc tennis") after:${after30}`, 'fr', 'MA:fr', 'MA') }
+        { kind:'rss', url: googleNewsRss(`("tennis maroc" OR "joueur maroc tennis" OR "FRMT" OR "tournoi maroc tennis" OR "padel maroc") after:${after45}`, 'fr', 'MA:fr', 'MA') },
+        { kind:'rss', url: googleNewsRss(`("التنس المغربي" OR "لاعب مغربي تنس" OR "بطولة المغرب للتنس" OR "مضرب المغرب") after:${after45}`, 'ar', 'MA:ar', 'MA') },
+        { kind:'rss', url: googleNewsRss(`(site:hespress.com OR site:snrtnews.com OR site:lematin.ma OR site:sport.le360.ma) ("tennis maroc" OR "التنس المغربي") after:${after45}`, 'fr', 'MA:fr', 'MA') }
       ];
 
       const esportSources = [
-        { kind:'rss', url: googleNewsRss(`("esport maroc" OR "gaming maroc") after:${after21}`, 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url:'https://www.talkesport.com/feed/' }
+        { kind:'rss', url: googleNewsRss(`("esport maroc" OR "e-sport maroc" OR "gaming maroc" OR "joueur maroc esport") after:${after45}`, 'fr', 'MA:fr', 'MA') },
+        { kind:'rss', url: googleNewsRss(`("الرياضات الإلكترونية في المغرب" OR "الألعاب الإلكترونية في المغرب" OR "لاعب مغربي إلكتروني") after:${after45}`, 'ar', 'MA:ar', 'MA') },
+        { kind:'rss', url: googleNewsRss(`(site:hespress.com OR site:snrtnews.com OR site:lematin.ma) ("esport maroc" OR "gaming maroc" OR "الرياضات الإلكترونية في المغرب") after:${after45}`, 'fr', 'MA:fr', 'MA') }
       ];
 
-      const [footballIds, basketballIds, tennisIds, esportIds] = await Promise.all([
-        collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:18, maxAgeDays: 21 }),
-        collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:18, maxAgeDays: 30 }),
-        collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:18, maxAgeDays: 30 }),
-        collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:18, maxAgeDays: 21 })
-      ]);
+      const tasks = [
+        {
+          selector: '#feed-morocco-football',
+          empty: 'Moroccan football news unavailable right now.',
+          promise: collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:24, maxAgeDays: 21 })
+        },
+        {
+          selector: '#feed-morocco-basketball',
+          empty: 'Moroccan basketball news unavailable right now.',
+          promise: collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:24, maxAgeDays: 45 })
+        },
+        {
+          selector: '#feed-morocco-tennis',
+          empty: 'Moroccan tennis news unavailable right now.',
+          promise: collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:24, maxAgeDays: 45 })
+        },
+        {
+          selector: '#feed-morocco-esports',
+          empty: 'Moroccan esport news unavailable right now.',
+          promise: collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:24, maxAgeDays: 45 })
+        }
+      ];
 
-      renderIdsGrid('#feed-morocco-football', footballIds, 'Moroccan football news unavailable right now.');
-      renderIdsGrid('#feed-morocco-basketball', basketballIds, 'Moroccan basketball news unavailable right now.');
-      renderIdsGrid('#feed-morocco-tennis', tennisIds, 'Moroccan tennis news unavailable right now.');
-      renderIdsGrid('#feed-morocco-esports', esportIds, 'Moroccan esport news unavailable right now.');
-
-      renderHome();
+      await Promise.all(tasks.map(async task => {
+        const ids = await task.promise;
+        renderIdsGrid(task.selector, ids, task.empty);
+        renderHome();
+      }));
     }
 
     async function loadGlobalPages() {
@@ -2351,11 +2367,12 @@
     }
 
     function renderHome(forceShuffle = false) {
-      const recentPool = filterItemsByAge(masterPool, 30);
+      const recentPool = filterItemsByAge(masterPool, 45);
       const newestPool = sortItemsByNewest(recentPool.length ? recentPool : masterPool);
       if (!newestPool.length) return;
 
-      const featuredWindow = newestPool.slice(0, Math.min(24, newestPool.length));
+      const featuredSource = newestPool.filter(n => n.img && !String(n.img).includes('via.placeholder.com'));
+      const featuredWindow = (featuredSource.length ? featuredSource : newestPool).slice(0, Math.min(24, (featuredSource.length ? featuredSource : newestPool).length));
       let featuredIndex = 0;
 
       if (forceShuffle || featuredWindow.length > 1) {
@@ -2366,10 +2383,10 @@
       const featured = featuredWindow[featuredIndex];
       const remaining = newestPool.filter(n => n.id !== featured.id);
 
-      const imgSrc = featured.img && featured.img.trim() !== '' ? featured.img : 'https://via.placeholder.com/800x450?text=Moroccansportshub';
+      const imgSrc = featured.img && featured.img.trim() !== '' ? featured.img : 'https://via.placeholder.com/1200x675?text=Moroccansportshub';
       $('#center-intel').html(`
         <h1 onclick="openDetails(${featured.id})">${featured.title}</h1>
-        <img src="${imgSrc}" alt="${featured.title}" onclick="openDetails(${featured.id})" onerror="this.onerror=null;this.src='https://via.placeholder.com/800x450?text=Moroccansportshub';">
+        <img src="${imgSrc}" alt="${featured.title}" onclick="openDetails(${featured.id})" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
         <p style="color:var(--dim); line-height:1.6;">${(featured.desc || '').slice(0, 240)}...</p>
       `);
       $('#wire-left').html(remaining.slice(0, Math.min(9, remaining.length)).map(n => `<div class="side-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join(''));
