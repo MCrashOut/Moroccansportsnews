@@ -1687,7 +1687,7 @@
     }
 
     async function uploadPostMedia(file) {
-      if (file.type.startsWith('image/') && file.size <= 700 * 1024) {
+      if (file.type.startsWith('image/') && file.size <= 500 * 1024) {
         const dataUrl = await new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result);
@@ -1704,10 +1704,14 @@
 
       await Promise.race([
         ref.put(file, metadata),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Upload timeout. Check Firebase Storage rules or try a smaller file.')), 15000))
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Upload timeout. Try a smaller file or check Firebase Storage rules.')), 8000))
       ]);
 
-      const url = await ref.getDownloadURL();
+      const url = await Promise.race([
+        ref.getDownloadURL(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Could not get uploaded file URL.')), 4000))
+      ]);
+
       return {
         url,
         type: file.type.startsWith('video/') ? 'video' : 'image'
@@ -2227,6 +2231,30 @@
     }
 
     async function collectNews(sources, opts = {}) {
+      const withTimeout = (promise, ms = 2500) =>
+        Promise.race([
+          promise,
+          new Promise(resolve => setTimeout(() => resolve([]), ms))
+        ]);
+
+      const batches = await Promise.allSettled(
+        sources.map(async (src) => {
+          try {
+            if (src.kind === 'rss') return await withTimeout(fetchRssItems(src.url), src.timeout || 2500);
+            if (src.kind === 'html') return await withTimeout(fetchHtmlCards(src.url, src.mode), src.timeout || 2500);
+            return [];
+          } catch (e) {
+            return [];
+          }
+        })
+      );
+
+      let all = batches.flatMap(result => result.status === 'fulfilled' ? (result.value || []) : []);
+      all = dedupeItems(all);
+      if (opts.maxAgeDays) all = filterItemsByAge(all, opts.maxAgeDays);
+      all = sortItemsByNewest(all).slice(0, opts.limit || 16);
+      return addNewsItems(all, opts);
+    }) {
       const batches = await Promise.all(sources.map(async (src) => {
         try {
           if (src.kind === 'rss') return await fetchRssItems(src.url);
