@@ -1682,11 +1682,26 @@
     }
 
     async function uploadPostMedia(file) {
+      if (file.type.startsWith('image/') && file.size <= 700 * 1024) {
+        const dataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error('Image read failed'));
+          reader.readAsDataURL(file);
+        });
+        return { url: dataUrl, type: 'image' };
+      }
+
       const user = auth.currentUser;
       const safeName = `${Date.now()}_${file.name.replace(/[^\w.\-]/g, '_')}`;
       const ref = storage.ref().child(`feed_media/${user.uid}/${safeName}`);
       const metadata = { contentType: file.type || 'application/octet-stream' };
-      await ref.put(file, metadata);
+
+      await Promise.race([
+        ref.put(file, metadata),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Upload timeout. Check Firebase Storage rules or try a smaller file.')), 15000))
+      ]);
+
       const url = await ref.getDownloadURL();
       return {
         url,
@@ -1710,8 +1725,8 @@
       const file = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
       if (!content && !file) return;
 
-      if (file && file.size > 25 * 1024 * 1024) {
-        alert('File too large. Max 25MB.');
+      if (file && file.size > 15 * 1024 * 1024) {
+        alert('File too large. Max 15MB.');
         return;
       }
 
@@ -2063,8 +2078,18 @@
       return `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=${locale}&gl=${gl}&ceid=${ceid}`;
     }
 
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 4500) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        return await fetch(url, { ...options, signal: controller.signal });
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
     async function fetchRssViaRss2Json(url) {
-      const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url));
+      const res = await fetchWithTimeout('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url), {}, 3500);
       if (!res.ok) throw new Error('rss2json failed');
       const data = await res.json();
       if (!data.items || !data.items.length) throw new Error('No RSS items');
@@ -2079,7 +2104,7 @@
 
     async function fetchRssViaXml(url) {
       const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-      const res = await fetch(proxy);
+      const res = await fetchWithTimeout(proxy, {}, 3500);
       if (!res.ok) throw new Error('XML fetch failed');
       const txt = await res.text();
       const xml = new DOMParser().parseFromString(txt, 'text/xml');
@@ -2101,7 +2126,7 @@
 
     async function fetchHtmlCards(url, mode) {
       const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-      const res = await fetch(proxy);
+      const res = await fetchWithTimeout(proxy, {}, 2500);
       if (!res.ok) throw new Error('HTML fetch failed');
       const html = await res.text();
       const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -2186,21 +2211,21 @@
 
     async function loadMoroccoPages() {
       const footballIds = await collectNews([
-        { kind:'html', url:'https://frmf.ma/fr/category/news/', mode:'frmf' },
         { kind:'rss', url:'https://sport.le360.ma/rss.xml' },
-        { kind:'rss', url: googleNewsRss('site:frmf.ma OR site:sport.le360.ma football maroc', 'fr', 'MA:fr', 'MA') }
+        { kind:'rss', url: googleNewsRss('site:frmf.ma OR site:sport.le360.ma football maroc', 'fr', 'MA:fr', 'MA') },
+        { kind:'html', url:'https://frmf.ma/fr/category/news/', mode:'frmf' }
       ], { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:18 });
 
       const basketballIds = await collectNews([
+        { kind:'rss', url: googleNewsRss('site:frmbb.ma basketball maroc', 'fr', 'MA:fr', 'MA') },
         { kind:'html', url:'https://frmbb.ma/', mode:'frmbb' },
-        { kind:'html', url:'https://frmbb.ma/category/actualites-de-presse/', mode:'frmbb' },
-        { kind:'rss', url: googleNewsRss('site:frmbb.ma basketball maroc', 'fr', 'MA:fr', 'MA') }
+        { kind:'html', url:'https://frmbb.ma/category/actualites-de-presse/', mode:'frmbb' }
       ], { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:18 });
 
       const tennisIds = await collectNews([
+        { kind:'rss', url: googleNewsRss('site:frmt.ma tennis maroc', 'fr', 'MA:fr', 'MA') },
         { kind:'html', url:'https://www.frmt.ma/actualites/', mode:'frmt' },
-        { kind:'html', url:'https://www.frmt.ma/communiques/', mode:'frmt' },
-        { kind:'rss', url: googleNewsRss('site:frmt.ma tennis maroc', 'fr', 'MA:fr', 'MA') }
+        { kind:'html', url:'https://www.frmt.ma/communiques/', mode:'frmt' }
       ], { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:18 });
 
       const esportIds = await collectNews([
@@ -2252,7 +2277,10 @@
     }
 
     async function loadStaticFeeds() {
-      const chessIds = await collectNews([{ kind:'rss', url:'https://www.chess.com/rss/news' }], { tag:'CHESS', sport:'chess', region:'global', limit:18 });
+      const chessIds = await collectNews([
+        { kind:'rss', url:'https://www.chess.com/rss/news' },
+        { kind:'rss', url: googleNewsRss('chess FIDE', 'en-US', 'US:en', 'US') }
+      ], { tag:'CHESS', sport:'chess', region:'global', limit:18 });
       renderIdsGrid('#feed-chess', chessIds, 'Chess news unavailable right now.');
     }
 
