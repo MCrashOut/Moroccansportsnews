@@ -1137,7 +1137,7 @@
     let feedListener = null;
     let notifListener = null;
     let currentLang = localStorage.getItem('msh_lang') || 'en';
-    let currentTheme = localStorage.getItem('msh_theme') || 'dark';
+    let currentTheme = 'dark';
     let sharedPostHandled = false;
     let homeRandomSeed = Date.now();
     let globalPool = [];
@@ -2758,8 +2758,11 @@ function openDetails(id) {
       return html;
     }
 
+
+    const GEMINI_API_KEY = 'AIzaSyDSnLsmHVL_zEBKrRqLDIgyzKDDDqo8NE8';
+    const GEMINI_MODEL = 'gemini-2.0-flash';
     async function getGeminiApiKey() {
-      if (GEMINI_API_KEY) return GEMINI_API_KEY;
+      if (typeof GEMINI_API_KEY !== 'undefined' && GEMINI_API_KEY) return GEMINI_API_KEY;
       const existing = localStorage.getItem('msh_gemini_key');
       if (existing) return existing;
       return '';
@@ -2790,7 +2793,8 @@ function openDetails(id) {
       });
 
       if (!res.ok) {
-        throw new Error('External AI request failed');
+        const errText = await res.text();
+        throw new Error('External AI request failed: ' + errText);
       }
 
       const data = await res.json();
