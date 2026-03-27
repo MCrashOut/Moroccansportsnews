@@ -2078,7 +2078,7 @@
       return `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=${locale}&gl=${gl}&ceid=${ceid}`;
     }
 
-    async function fetchWithTimeout(url, options = {}, timeoutMs = 4500) {
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 3200) {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), timeoutMs);
       try {
@@ -2089,7 +2089,7 @@
     }
 
     async function fetchRssViaRss2Json(url) {
-      const res = await fetchWithTimeout('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url), {}, 3500);
+      const res = await fetchWithTimeout('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url), {}, 2600);
       if (!res.ok) throw new Error('rss2json failed');
       const data = await res.json();
       if (!data.items || !data.items.length) throw new Error('No RSS items');
@@ -2104,7 +2104,7 @@
 
     async function fetchRssViaXml(url) {
       const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-      const res = await fetchWithTimeout(proxy, {}, 3500);
+      const res = await fetchWithTimeout(proxy, {}, 2400);
       if (!res.ok) throw new Error('XML fetch failed');
       const txt = await res.text();
       const xml = new DOMParser().parseFromString(txt, 'text/xml');
@@ -2126,7 +2126,7 @@
 
     async function fetchHtmlCards(url, mode) {
       const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-      const res = await fetchWithTimeout(proxy, {}, 2500);
+      const res = await fetchWithTimeout(proxy, {}, 1800);
       if (!res.ok) throw new Error('HTML fetch failed');
       const html = await res.text();
       const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -2210,33 +2210,39 @@
     }
 
     async function loadMoroccoPages() {
-      const footballIds = await collectNews([
+      const footballSources = [
         { kind:'rss', url:'https://sport.le360.ma/rss.xml' },
-        { kind:'rss', url: googleNewsRss('site:frmf.ma OR site:sport.le360.ma football maroc', 'fr', 'MA:fr', 'MA') },
-        { kind:'html', url:'https://frmf.ma/fr/category/news/', mode:'frmf' }
-      ], { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:18 });
+        { kind:'rss', url: googleNewsRss('site:frmf.ma OR site:sport.le360.ma OR site:hesport.com football maroc botola lions atlas', 'fr', 'MA:fr', 'MA') }
+      ];
 
-      const basketballIds = await collectNews([
-        { kind:'rss', url: googleNewsRss('site:frmbb.ma basketball maroc', 'fr', 'MA:fr', 'MA') },
-        { kind:'html', url:'https://frmbb.ma/', mode:'frmbb' },
-        { kind:'html', url:'https://frmbb.ma/category/actualites-de-presse/', mode:'frmbb' }
-      ], { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:18 });
+      const basketballSources = [
+        { kind:'rss', url: googleNewsRss('site:sport.le360.ma OR site:hesport.com OR site:lematin.ma basket maroc OR basketball maroc', 'fr', 'MA:fr', 'MA') },
+        { kind:'rss', url: googleNewsRss('site:frmbb.ma OR site:snrtnews.com basket maroc', 'fr', 'MA:fr', 'MA') }
+      ];
 
-      const tennisIds = await collectNews([
-        { kind:'rss', url: googleNewsRss('site:frmt.ma tennis maroc', 'fr', 'MA:fr', 'MA') },
-        { kind:'html', url:'https://www.frmt.ma/actualites/', mode:'frmt' },
-        { kind:'html', url:'https://www.frmt.ma/communiques/', mode:'frmt' }
-      ], { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:18 });
+      const tennisSources = [
+        { kind:'rss', url: googleNewsRss('site:frmt.ma OR site:sport.le360.ma OR site:lematin.ma tennis maroc', 'fr', 'MA:fr', 'MA') },
+        { kind:'rss', url: googleNewsRss('site:frmt.ma padel maroc OR tennis maroc', 'fr', 'MA:fr', 'MA') }
+      ];
 
-      const esportIds = await collectNews([
+      const esportSources = [
         { kind:'rss', url: googleNewsRss('esport maroc OR gaming maroc', 'fr', 'MA:fr', 'MA') },
         { kind:'rss', url:'https://www.talkesport.com/feed/' }
-      ], { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:18 });
+      ];
+
+      const [footballIds, basketballIds, tennisIds, esportIds] = await Promise.all([
+        collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:18 }),
+        collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:18 }),
+        collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:18 }),
+        collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:18 })
+      ]);
 
       renderIdsGrid('#feed-morocco-football', footballIds, 'Moroccan football news unavailable right now.');
       renderIdsGrid('#feed-morocco-basketball', basketballIds, 'Moroccan basketball news unavailable right now.');
       renderIdsGrid('#feed-morocco-tennis', tennisIds, 'Moroccan tennis news unavailable right now.');
       renderIdsGrid('#feed-morocco-esports', esportIds, 'Moroccan esport news unavailable right now.');
+
+      renderHome();
     }
 
     async function loadGlobalPages() {
@@ -2291,8 +2297,12 @@
       $('#wire-left').html('');
       $('#wire-right').html('');
       $('#feed-morocco-football, #feed-morocco-basketball, #feed-morocco-tennis, #feed-morocco-esports, #feed-global, #feed-chess').html('<div class="mini-card"><h3>Loading...</h3></div>');
-      await Promise.all([loadMoroccoPages(), loadGlobalPages(), loadStaticFeeds()]);
+
+      const jobs = [loadMoroccoPages(), loadGlobalPages(), loadStaticFeeds()];
+      jobs.forEach(job => Promise.resolve(job).then(() => renderHome()).catch(() => {}));
+      await Promise.allSettled(jobs);
       renderHome();
+
       if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
         $('#search-results-area').hide();
         $('#standard-home-layout').show();
