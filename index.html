@@ -2762,10 +2762,7 @@ function openDetails(id) {
       if (GEMINI_API_KEY) return GEMINI_API_KEY;
       const existing = localStorage.getItem('msh_gemini_key');
       if (existing) return existing;
-      const key = prompt('Paste your Gemini API key to enable external AI answers:');
-      if (!key) return '';
-      localStorage.setItem('msh_gemini_key', key.trim());
-      return key.trim();
+      return '';
     }
 
     async function askGeminiOutsideWebsite(query) {
@@ -2811,7 +2808,6 @@ function openDetails(id) {
       const websiteHtml = buildWebsiteAnswerHtml(text);
       if (websiteHtml) {
         appendAiHtml(websiteHtml, 'bot');
-        return;
       }
 
       appendAiMessage('bot', 'Thinking...');
