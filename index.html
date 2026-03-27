@@ -30,6 +30,19 @@
             --text-dim: #94a3b8;
         }
 
+
+        body.light {
+            --bg: #f5f8fb;
+            --grad: linear-gradient(180deg, #f5f8fb 0%, #e9f0f7 100%);
+            --cyan: #0ea5e9;
+            --blue-intel: #2563eb;
+            --red: #dc2626;
+            --glass: rgba(255, 255, 255, 0.82);
+            --border: rgba(15, 23, 42, 0.10);
+            --text: #0f172a;
+            --text-dim: #475569;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg); background-image: var(--grad); color: var(--text); overflow-x: hidden; min-height: 100vh; }
 
@@ -143,6 +156,7 @@
                 <li><a onclick="switchPage('global')" id="nav-global">Global</a></li>
                 <li><a onclick="switchPage('chess')" id="nav-chess">Chess</a></li>
                 <li><a onclick="switchPage('matches')" id="nav-matches">Matches</a></li>
+                <li><a onclick="switchPage('admin')" id="nav-admin" style="display:none;">Admin</a></li>
             </ul>
         </nav>
         <div class="header-right">
@@ -152,6 +166,7 @@
             </div>
             <i class="fa-solid fa-magnifying-glass search-trigger" onclick="toggleSearch()" style="color:var(--cyan); cursor:pointer; font-size:1.1rem;"></i>
             <i class="fa-solid fa-palette" onclick="openColorStudio()" style="color:var(--cyan); cursor:pointer; font-size:1.1rem;"></i>
+            <i class="fa-solid fa-circle-half-stroke" onclick="toggleTheme()" style="color:var(--cyan); cursor:pointer; font-size:1.1rem;"></i>
             <div id="auth-ui"><button class="auth-btn" onclick="openAuth()">Access Hub</button></div>
         </div>
     </header>
@@ -236,7 +251,22 @@
                 <h2 style="color:var(--cyan); margin-bottom:25px;">Agent Identity Sync</h2>
                 <input type="text" id="set-name" class="auth-input" placeholder="Update Agent ID">
                 <button class="auth-btn" style="width:100%; margin-top:15px; padding:15px;" onclick="updateProfileData()">Sync Database</button>
+                <button class="auth-btn" id="admin-profile-btn" style="display:none; width:100%; margin-top:10px; background:#fff; color:#000; padding:15px;" onclick="switchPage('admin')">Admin Panel</button>
+                <button class="auth-btn" style="width:100%; margin-top:10px; background:#fff; color:#000; padding:15px;" onclick="toggleTheme()">Light / Dark</button>
+                <button class="auth-btn" style="width:100%; margin-top:10px; background:#111827; color:#fff; padding:15px;" onclick="openColorStudio()">Color Studio</button>
                 <button class="auth-btn" style="width:100%; margin-top:10px; background:var(--red); color:#fff; padding:15px;" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div id="admin-page" class="view-page">
+            <div style="padding:10px 5%; max-width:900px; margin:auto;">
+                <h2 style="color:var(--cyan); margin-bottom:20px; text-transform:uppercase; font-size:1.2rem;">Admin Panel</h2>
+                <div class="right-card" style="margin-bottom:18px;">
+                    <h3 style="margin-bottom:10px;">Admin Tools</h3>
+                    <p style="color:var(--text-dim); line-height:1.6; margin-bottom:14px;">Ban or unban users from posting. You can also manage posts directly from the feed.</p>
+                    <button class="auth-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
+                </div>
+                <div id="admin-users-list"></div>
             </div>
         </div>
     </div>
@@ -269,6 +299,7 @@
         const auth = firebase.auth(), db = firebase.firestore();
 
         let masterPool = [], globalPool = [], authMode = 'login', game = new Chess(), board = null, feedListener = null, notifListener = null, currentGlobalFilter = 'all';
+        let sharedPostHandled = false, currentTheme = localStorage.getItem('msh_theme') || 'dark';
 
         // 🔐 AUTH LISTENER & AUTO-USER SYNC
         auth.onAuthStateChanged(async u => {
@@ -279,13 +310,25 @@
                     name: u.displayName || "Agent",
                     email: u.email
                 }, { merge: true });
+                if (u.email === "rabiimodz@gmail.com") {
+                    $('#nav-admin, #admin-profile-btn').show();
+                } else {
+                    $('#nav-admin, #admin-profile-btn').hide();
+                }
                 listenToNotifs();
+            } else {
+                $('#nav-admin, #admin-profile-btn').hide();
             }
+            applySavedTheme();
             initNews();
+
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('post')) switchPage('feed');
         });
 
         function switchPage(p) {
             if(p === 'profile-check') { if(!auth.currentUser) { openAuth(); return; } p = 'profile'; }
+            if(p === 'admin' && (!auth.currentUser || auth.currentUser.email !== "rabiimodz@gmail.com")) return;
             $('.view-page').removeClass('active');
             $('#'+p+'-page').addClass('active');
             $('nav a, .mobile-nav button').removeClass('active');
@@ -293,6 +336,7 @@
             if(p === 'feed') loadFeed();
             if(p === 'matches') loadMatchesWidget();
             if(p === 'global') renderGlobalNews();
+            if(p === 'admin') loadAdminPanel();
             window.scrollTo(0,0);
         }
 
@@ -404,26 +448,126 @@
             }
         }
 
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('msh_theme', currentTheme);
+            applySavedTheme();
+        }
+
+        function applySavedTheme() {
+            document.body.classList.toggle('light', currentTheme === 'light');
+        }
+
+        function buildShareUrl(postId) {
+            return `${location.origin}${location.pathname}?post=${encodeURIComponent(postId)}#feed`;
+        }
+
+        async function sharePost(postId) {
+            const url = buildShareUrl(postId);
+            if (navigator.share) {
+                try { await navigator.share({ title: 'MoroccanSportsHub', url }); } catch(e) {}
+            } else {
+                try { await navigator.clipboard.writeText(url); alert('Link copied.'); }
+                catch(e) { prompt('Copy this link:', url); }
+            }
+        }
+
+        function openPostFromUrlIfAny() {
+            if (sharedPostHandled) return;
+            const params = new URLSearchParams(window.location.search);
+            const postId = params.get('post');
+            if (!postId) return;
+
+            const el = document.querySelector(`[data-post="${postId}"]`);
+            if (!el) return;
+
+            sharedPostHandled = true;
+            setTimeout(() => {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.style.boxShadow = '0 0 0 2px rgba(0,242,254,.5), 0 18px 40px rgba(0,0,0,.28)';
+            }, 300);
+        }
+
+        async function backfillUsersFromPosts() {
+            if(!auth.currentUser || auth.currentUser.email !== "rabiimodz@gmail.com") return;
+            const postsSnap = await db.collection('posts').get();
+            const batch = db.batch();
+            const seen = new Set();
+            postsSnap.forEach(doc => {
+                const p = doc.data();
+                if (!p.userId || seen.has(p.userId)) return;
+                seen.add(p.userId);
+                batch.set(db.collection('users').doc(p.userId), {
+                    uid: p.userId,
+                    name: p.username || 'Agent',
+                    email: p.email || ''
+                }, { merge: true });
+            });
+            await batch.commit();
+            loadAdminPanel();
+        }
+
+        async function banUser(userId, currentStatus) {
+            if(!auth.currentUser || auth.currentUser.email !== "rabiimodz@gmail.com") return;
+            await db.collection('users').doc(userId).set({ banned: !currentStatus }, { merge: true });
+            loadAdminPanel();
+        }
+
+        async function loadAdminPanel() {
+            if(!auth.currentUser || auth.currentUser.email !== "rabiimodz@gmail.com") return;
+            const wrap = $('#admin-users-list').empty();
+            const snap = await db.collection('users').get();
+            if (snap.empty) {
+                wrap.html('<div class="right-card"><h3>No users found.</h3></div>');
+                return;
+            }
+            snap.forEach(doc => {
+                if (auth.currentUser && doc.id === auth.currentUser.uid) return;
+                const u = doc.data();
+                const banned = !!u.banned;
+                wrap.append(`
+                    <div class="right-card">
+                        <div style="display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap;">
+                            <div>
+                                <div style="font-weight:800; color:var(--cyan);">${u.name || 'Agent'}</div>
+                                <div style="color:var(--text-dim); font-size:0.8rem;">${u.email || ''}</div>
+                            </div>
+                            <button class="auth-btn" style="background:${banned ? '#10b981' : '#f59e0b'}; color:#000;" onclick="banUser('${doc.id}', ${banned})">${banned ? 'Unban' : 'Ban'}</button>
+                        </div>
+                    </div>
+                `);
+            });
+        }
+
         function loadFeed() {
             if(feedListener) feedListener();
-            feedListener = db.collection('posts').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+            feedListener = db.collection('posts').orderBy('createdAt', 'desc').onSnapshot(async snapshot => {
                 const container = $('#feed-container').empty();
                 let posts = []; snapshot.forEach(doc => posts.push({id: doc.id, ...doc.data()}));
                 posts.sort((a,b) => (b.pinned - a.pinned));
-                posts.forEach(post => {
+                if(posts.length === 0) container.html('<div class="right-card"><h3>No posts yet.</h3></div>');
+                for (const post of posts) {
                     const isAdmin = auth.currentUser && auth.currentUser.email === "rabiimodz@gmail.com";
+                    let bannedUser = false;
+                    try {
+                        const udoc = await db.collection('users').doc(post.userId).get();
+                        bannedUser = !!(udoc.exists && udoc.data().banned);
+                    } catch(e) {}
                     container.append(`
                         <div class="post-card ${post.pinned?'pinned':''}" data-post="${post.id}">
-                            ${isAdmin ? `<div class="admin-controls"><i class="fa-solid fa-thumbtack pin-icon ${post.pinned?'active':''}" onclick="togglePin('${post.id}', ${post.pinned})"></i><i class="fa-solid fa-trash delete-icon" onclick="deletePost('${post.id}')"></i></div>` : ''}
+                            ${isAdmin ? `<div class="admin-controls"><i class="fa-solid fa-thumbtack pin-icon ${post.pinned?'active':''}" onclick="togglePin('${post.id}', ${post.pinned})"></i><i class="fa-solid fa-user-slash ${bannedUser ? 'pin-icon active' : ''}" onclick="banUser('${post.userId}', ${bannedUser})"></i><i class="fa-solid fa-trash delete-icon" onclick="deletePost('${post.id}')"></i></div>` : ''}
                             <span class="post-user">@${post.username}</span><p>${post.content}</p>
                             <div class="post-actions">
                                 <button class="feed-react-btn" onclick="reactToFeedPost('${post.id}','like','${post.userId}')">👍 ${post.likes||0}</button>
                                 <button class="feed-react-btn" onclick="reactToFeedPost('${post.id}','heart','${post.userId}')">❤️ ${post.hearts||0}</button>
                                 <button class="feed-react-btn" onclick="reactToFeedPost('${post.id}','fire','${post.userId}')">🔥 ${post.fires||0}</button>
+                                <button class="feed-react-btn" onclick="sharePost('${post.id}')">🔗 Share</button>
                             </div>
                         </div>
                     `);
-                });
+                }
+                openPostFromUrlIfAny();
             });
         }
 
@@ -454,9 +598,49 @@
         }
 
         async function fetchFeed(url) {
-            const res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(url));
-            const data = await res.json();
-            return Array.isArray(data.items) ? data.items : [];
+            try {
+                const res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(url));
+                const data = await res.json();
+                if (Array.isArray(data.items) && data.items.length) return data.items;
+            } catch(e) {}
+            try {
+                const raw = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url));
+                const xmlText = await raw.text();
+                const xml = new DOMParser().parseFromString(xmlText, 'text/xml');
+                return [...xml.querySelectorAll('item')].map(item => ({
+                    title: item.querySelector('title')?.textContent || 'Untitled',
+                    description: item.querySelector('description')?.textContent || '',
+                    thumbnail: item.querySelector('enclosure')?.getAttribute('url') || '',
+                    link: item.querySelector('link')?.textContent || '#'
+                }));
+            } catch(e) {
+                return [];
+            }
+        }
+
+        async function fetchHtmlArticles(url, sameHost) {
+            try {
+                const raw = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url));
+                const html = await raw.text();
+                const doc = new DOMParser().parseFromString(html, 'text/html');
+                const anchors = [...doc.querySelectorAll('a[href]')];
+                const seen = new Set();
+                const out = [];
+                anchors.forEach(a => {
+                    const title = (a.textContent || '').trim().replace(/\s+/g, ' ');
+                    if (title.length < 20) return;
+                    const href = a.href || a.getAttribute('href') || '';
+                    if (!href) return;
+                    if (sameHost && !href.includes(sameHost)) return;
+                    const key = title.toLowerCase();
+                    if (seen.has(key)) return;
+                    seen.add(key);
+                    out.push({ title, description: '', thumbnail: '', link: href });
+                });
+                return out.slice(0, 12);
+            } catch(e) {
+                return [];
+            }
         }
 
         function normalizeNewsItem(item, tag, category) {
@@ -501,36 +685,57 @@
             globalPool = [];
             const moroccoFootball = [], moroccoBasketball = [], moroccoTennis = [], moroccoEsport = [], chessNews = [], homeMorocco = [];
 
-            const feeds = [
+            const rssFeeds = [
                 { pool: homeMorocco, url: 'https://sport.le360.ma/rss.xml', tag: 'morocco', category: 'football' },
-                { pool: homeMorocco, url: 'https://www.hespress.com/sport/feed', tag: 'morocco', category: 'football' },
-                { pool: moroccoFootball, url: 'https://news.google.com/rss/search?q=Morocco%20football%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen', tag: 'morocco', category: 'football' },
-                { pool: moroccoBasketball, url: 'https://news.google.com/rss/search?q=Morocco%20basketball%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen', tag: 'morocco', category: 'basketball' },
-                { pool: moroccoTennis, url: 'https://news.google.com/rss/search?q=Morocco%20tennis%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen', tag: 'morocco', category: 'tennis' },
-                { pool: moroccoEsport, url: 'https://news.google.com/rss/search?q=Morocco%20esports%20OR%20Morocco%20gaming%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen', tag: 'morocco', category: 'esports' },
+                { pool: moroccoFootball, url: 'https://sport.le360.ma/rss.xml', tag: 'morocco', category: 'football' },
+                { pool: moroccoFootball, url: 'https://news.google.com/rss/search?q=site%3Asport.le360.ma%20Morocco%20football&hl=en-US&gl=US&ceid=US%3Aen', tag: 'morocco', category: 'football' },
+                { pool: moroccoEsport, url: 'https://news.google.com/rss/search?q=Morocco%20esports%20OR%20Moroccan%20gaming&hl=en-US&gl=US&ceid=US%3Aen', tag: 'morocco', category: 'esports' },
+
                 { pool: globalPool, url: 'https://feeds.bbci.co.uk/sport/football/rss.xml', tag: 'global', category: 'football' },
-                { pool: globalPool, url: 'https://www.espn.com/espn/rss/nba/news', tag: 'global', category: 'basketball' },
-                { pool: globalPool, url: 'https://news.google.com/rss/search?q=tennis%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen', tag: 'global', category: 'tennis' },
+                { pool: globalPool, url: 'https://www.fiba.basketball/rss/news', tag: 'global', category: 'basketball' },
+                { pool: globalPool, url: 'https://www.atptour.com/en/media/rss-feed/xml-feed', tag: 'global', category: 'tennis' },
                 { pool: globalPool, url: 'https://www.talkesport.com/feed/', tag: 'global', category: 'esports' },
+
                 { pool: chessNews, url: 'https://www.chess.com/rss/news', tag: 'chess', category: 'chess' }
             ];
 
-            for (const f of feeds) {
+            for (const f of rssFeeds) {
                 try {
                     const items = await fetchFeed(f.url);
-                    items.slice(0, 12).forEach(item => pushUniqueNews(f.pool, item, f.tag, f.category));
+                    items.forEach(item => pushUniqueNews(f.pool, item, f.tag, f.category));
                 } catch(e) {}
             }
 
-            // make sure home has enough Moroccan and global mix
-            const homeItems = [...homeMorocco, ...globalPool.filter(n => n.category === 'football').slice(0,8), ...chessNews.slice(0,6)];
-            renderNewsGrid(moroccoFootball, 'feed-morocco-football', 'MOROCCO • FOOTBALL');
-            renderNewsGrid(moroccoBasketball, 'feed-morocco-basketball', 'MOROCCO • BASKETBALL');
-            renderNewsGrid(moroccoTennis, 'feed-morocco-tennis', 'MOROCCO • TENNIS');
-            renderNewsGrid(moroccoEsport, 'feed-morocco-esport', 'MOROCCO • ESPORT');
-            renderNewsGrid(chessNews, 'feed-chess', 'CHESS');
+            try {
+                const frmbbItems = await fetchHtmlArticles('https://frmbb.ma/category/actualites/', 'frmbb.ma');
+                frmbbItems.forEach(item => pushUniqueNews(moroccoBasketball, item, 'morocco', 'basketball'));
+            } catch(e) {}
+            try {
+                const frmtItems = await fetchHtmlArticles('https://www.frmt.ma/', 'frmt.ma');
+                frmtItems.forEach(item => pushUniqueNews(moroccoTennis, item, 'morocco', 'tennis'));
+            } catch(e) {}
+
+            const fallbackFeeds = [
+                { pool: moroccoBasketball, url: 'https://news.google.com/rss/search?q=Morocco%20basketball&hl=en-US&gl=US&ceid=US%3Aen', tag: 'morocco', category: 'basketball' },
+                { pool: moroccoTennis, url: 'https://news.google.com/rss/search?q=Morocco%20tennis&hl=en-US&gl=US&ceid=US%3Aen', tag: 'morocco', category: 'tennis' }
+            ];
+            for (const f of fallbackFeeds) {
+                if (f.pool.length >= 6) continue;
+                try {
+                    const items = await fetchFeed(f.url);
+                    items.forEach(item => pushUniqueNews(f.pool, item, f.tag, f.category));
+                } catch(e) {}
+            }
+
+            renderNewsGrid(moroccoFootball, 'feed-morocco-football', 'MOROCCO FOOTBALL');
+            renderNewsGrid(moroccoBasketball, 'feed-morocco-basketball', 'MOROCCO BASKETBALL');
+            renderNewsGrid(moroccoTennis, 'feed-morocco-tennis', 'MOROCCO TENNIS');
+            renderNewsGrid(moroccoEsport, 'feed-morocco-esport', 'MOROCCO ESPORT');
             renderGlobalNews();
-            renderHome(homeItems.length ? homeItems : masterPool);
+            renderNewsGrid(chessNews, 'feed-chess', 'CHESS');
+
+            const homeFeed = [...homeMorocco, ...moroccoFootball, ...moroccoBasketball, ...moroccoTennis, ...moroccoEsport].slice(0, 20);
+            renderHome(homeFeed.length ? homeFeed : masterPool);
         }
         function renderHome(sourcePool) {
             const p = [...(sourcePool || masterPool)].sort(() => 0.5 - Math.random()); if(p.length < 5) return;
@@ -552,6 +757,7 @@
         async function deletePost(id) { if(confirm("Terminate broadcast?")) await db.collection('posts').doc(id).delete(); }
         async function togglePin(id, status) { await db.collection('posts').doc(id).update({ pinned: !status }); }
         $(document).on('click', '.modal', function(e) { if(e.target === this) $(this).hide(); });
+        window.addEventListener('popstate', () => { sharedPostHandled = false; });
 
         const COLOR_KEYS = [
             ['--bg', 'Background'], ['--bg2', 'Background 2'], ['--glass', 'Cards'], ['--border', 'Borders'],
