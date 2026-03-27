@@ -2254,21 +2254,6 @@
       if (opts.maxAgeDays) all = filterItemsByAge(all, opts.maxAgeDays);
       all = sortItemsByNewest(all).slice(0, opts.limit || 16);
       return addNewsItems(all, opts);
-    }) {
-      const batches = await Promise.all(sources.map(async (src) => {
-        try {
-          if (src.kind === 'rss') return await fetchRssItems(src.url);
-          if (src.kind === 'html') return await fetchHtmlCards(src.url, src.mode);
-          return [];
-        } catch (e) {
-          return [];
-        }
-      }));
-      let all = batches.flat();
-      all = dedupeItems(all);
-      if (opts.maxAgeDays) all = filterItemsByAge(all, opts.maxAgeDays);
-      all = sortItemsByNewest(all).slice(0, opts.limit || 16);
-      return addNewsItems(all, opts);
     }
 
     async function loadMoroccoPages() {
