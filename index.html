@@ -34,7 +34,7 @@
       <button class="icon-btn" onclick="toggleAiAssistant(false)"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="ai-messages" id="ai-messages">
-      <div class="ai-msg bot">Ask me any sports question. I’ll check the website first, then use external AI if needed.</div>
+      <div class="ai-msg bot">Ask me any sports question. Use the quick filters to get website news sources.</div>
     </div>
     <div class="ai-quick">
       <button onclick="askAiQuick('Latest Moroccan football news')">Morocco football</button>
@@ -807,9 +807,11 @@
       gap: 8px;
       padding: 14px;
       border-top: 1px solid var(--border);
+      align-items: center;
     }
     .ai-input-wrap input {
-      flex: 1;
+      flex: 1 1 auto;
+      min-width: 0;
       background: var(--input-bg);
       color: var(--text);
       border: 1px solid var(--border);
@@ -817,9 +819,45 @@
       padding: 12px;
       outline: none;
     }
+    .ai-input-wrap .solid-btn {
+      flex: 0 0 auto;
+      min-width: 76px;
+      padding: 12px 14px;
+      white-space: nowrap;
+    }
     @media (max-width: 1024px) {
       .ai-fab { bottom: 84px; }
       .ai-panel { bottom: 152px; }
+    }
+    @media (max-width: 640px) {
+      .ai-panel {
+        left: 14px;
+        right: 14px;
+        width: auto;
+        max-width: none;
+        bottom: calc(104px + env(safe-area-inset-bottom, 0px));
+        max-height: min(74vh, 560px);
+      }
+      .ai-messages {
+        min-height: 140px;
+        max-height: 34vh;
+      }
+      .ai-quick {
+        padding: 0 12px 12px;
+      }
+      .ai-input-wrap {
+        padding: 12px;
+        gap: 10px;
+      }
+      .ai-input-wrap input {
+        padding: 12px 14px;
+        font-size: 16px;
+      }
+      .ai-input-wrap .solid-btn {
+        min-width: 72px;
+        padding: 12px 14px;
+        font-size: .7rem;
+      }
     }
 
   </style>
@@ -978,28 +1016,14 @@
 
     <section id="morocco-page" class="page">
       <div class="section-title" id="morocco-page-title">Moroccan News</div>
-      <div class="news-grid">
-        <div class="mini-card category-card" onclick="switchPage('morocco-football')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-football">Football</h3><p id="morocco-card-football-desc">FRMF, Botola, national teams, and top Moroccan football coverage.</p></div><button class="ghost-btn" id="morocco-card-football-open">Open</button></div>
-        <div class="mini-card category-card" onclick="switchPage('morocco-basketball')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-basketball">Basketball</h3><p id="morocco-card-basketball-desc">FRMBB updates, league activity, and Moroccan basketball headlines.</p></div><button class="ghost-btn" id="morocco-card-basketball-open">Open</button></div>
-        <div class="mini-card category-card" onclick="switchPage('morocco-tennis')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-tennis">Tennis</h3><p id="morocco-card-tennis-desc">FRMT tournaments, national team updates, and Morocco tennis news.</p></div><button class="ghost-btn" id="morocco-card-tennis-open">Open</button></div>
-        <div class="mini-card category-card" onclick="switchPage('morocco-esports')"><div><span class="intel-tag">MOROCCO</span><h3 id="morocco-card-esports">Esport</h3><p id="morocco-card-esports-desc">Moroccan esports and gaming stories in one dedicated page.</p></div><button class="ghost-btn" id="morocco-card-esports-open">Open</button></div>
+      <div class="filter-bar">
+        <button class="filter-chip active" id="mf-all" onclick="setMoroccoFilter('all')">All</button>
+        <button class="filter-chip" id="mf-football" onclick="setMoroccoFilter('football')">Football</button>
+        <button class="filter-chip" id="mf-basketball" onclick="setMoroccoFilter('basketball')">Basketball</button>
+        <button class="filter-chip" id="mf-tennis" onclick="setMoroccoFilter('tennis')">Tennis</button>
+        <button class="filter-chip" id="mf-esports" onclick="setMoroccoFilter('esports')">Esport</button>
       </div>
-    </section>
-
-    <section id="morocco-football-page" class="page">
-      <div class="subpage-top"><div class="section-title">Moroccan Football</div><button class="ghost-btn" onclick="switchPage('morocco')">Back</button></div><div id="feed-morocco-football" class="news-grid"></div>
-    </section>
-
-    <section id="morocco-basketball-page" class="page">
-      <div class="subpage-top"><div class="section-title">Moroccan Basketball</div><button class="ghost-btn" onclick="switchPage('morocco')">Back</button></div><div id="feed-morocco-basketball" class="news-grid"></div>
-    </section>
-
-    <section id="morocco-tennis-page" class="page">
-      <div class="subpage-top"><div class="section-title">Moroccan Tennis</div><button class="ghost-btn" onclick="switchPage('morocco')">Back</button></div><div id="feed-morocco-tennis" class="news-grid"></div>
-    </section>
-
-    <section id="morocco-esports-page" class="page">
-      <div class="subpage-top"><div class="section-title">Moroccan Esport</div><button class="ghost-btn" onclick="switchPage('morocco')">Back</button></div><div id="feed-morocco-esports" class="news-grid"></div>
+      <div id="feed-morocco" class="news-grid"></div>
     </section>
 
     <section id="global-page" class="page">
@@ -1142,6 +1166,8 @@
     let homeRandomSeed = Date.now();
     let globalPool = [];
     let globalCurrentFilter = 'all';
+    let moroccoPool = [];
+    let moroccoCurrentFilter = 'all';
 
     const uiText = {
       en: {
@@ -1482,25 +1508,17 @@
       $('#d-admin-desc').text(t('drawerAdminDesc'));
       $('#theme-btn, #drawer-theme-btn').text(currentTheme === 'light' ? t('dark') : t('light'));
       $('#desktop-color-btn').text(t('colorsTitle') || 'Colors');
-
-      $('#morocco-card-football').text(t('moroccoFootballTitle') || 'Football');
-      $('#morocco-card-football-desc').text(t('moroccoFootballDesc') || 'FRMF, Botola, national teams, and top Moroccan football coverage.');
-      $('#morocco-card-football-open').text(t('openLabel') || 'Open');
-      $('#morocco-card-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
-      $('#morocco-card-basketball-desc').text(t('moroccoBasketballDesc') || 'FRMBB updates, league activity, and Moroccan basketball headlines.');
-      $('#morocco-card-basketball-open').text(t('openLabel') || 'Open');
-      $('#morocco-card-tennis').text(t('moroccoTennisTitle') || 'Tennis');
-      $('#morocco-card-tennis-desc').text(t('moroccoTennisDesc') || 'FRMT tournaments, national team updates, and Morocco tennis news.');
-      $('#morocco-card-tennis-open').text(t('openLabel') || 'Open');
-      $('#morocco-card-esports').text(t('moroccoEsportTitle') || 'Esport');
-      $('#morocco-card-esports-desc').text(t('moroccoEsportDesc') || 'Moroccan esports and gaming stories in one dedicated page.');
-      $('#morocco-card-esports-open').text(t('openLabel') || 'Open');
-
       $('#gf-all').text(t('filterAll') || 'All');
       $('#gf-football').text(t('moroccoFootballTitle') || 'Football');
       $('#gf-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
       $('#gf-tennis').text(t('moroccoTennisTitle') || 'Tennis');
       $('#gf-esports').text(t('moroccoEsportTitle') || 'Esport');
+
+      $('#mf-all').text(t('filterAll') || 'All');
+      $('#mf-football').text(t('moroccoFootballTitle') || 'Football');
+      $('#mf-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
+      $('#mf-tennis').text(t('moroccoTennisTitle') || 'Tennis');
+      $('#mf-esports').text(t('moroccoEsportTitle') || 'Esport');
 
       if (auth.currentUser) {
         $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
@@ -1582,6 +1600,7 @@
       if (p === 'matches') loadMatchesWidget();
       if (p === 'admin') loadAdminPanel();
       if (p === 'global') renderGlobalFeed();
+      if (p === 'morocco') renderMoroccoFeed();
       if (p === 'home') {
         homeRandomSeed = Date.now();
         renderHome(true);
@@ -2413,34 +2432,16 @@
         { kind:'rss', url: googleNewsRss(`(site:hespress.com OR site:snrtnews.com OR site:lematin.ma) ("esport maroc" OR "gaming maroc" OR "الرياضات الإلكترونية في المغرب") after:${after45}`, 'fr', 'MA:fr', 'MA') }
       ];
 
-      const tasks = [
-        {
-          selector: '#feed-morocco-football',
-          empty: 'Moroccan football news unavailable right now.',
-          promise: collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:24, maxAgeDays: 21 })
-        },
-        {
-          selector: '#feed-morocco-basketball',
-          empty: 'Moroccan basketball news unavailable right now.',
-          promise: collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:24, maxAgeDays: 45 })
-        },
-        {
-          selector: '#feed-morocco-tennis',
-          empty: 'Moroccan tennis news unavailable right now.',
-          promise: collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:24, maxAgeDays: 45 })
-        },
-        {
-          selector: '#feed-morocco-esports',
-          empty: 'Moroccan esport news unavailable right now.',
-          promise: collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:24, maxAgeDays: 45 })
-        }
-      ];
+      const [footballIds, basketballIds, tennisIds, esportsIds] = await Promise.all([
+        collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:24, maxAgeDays: 21 }),
+        collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:24, maxAgeDays: 45 }),
+        collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:24, maxAgeDays: 45 }),
+        collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:24, maxAgeDays: 45 })
+      ]);
 
-      await Promise.all(tasks.map(async task => {
-        const ids = await task.promise;
-        renderIdsGrid(task.selector, ids, task.empty);
-        renderHome();
-      }));
+      moroccoPool = [...footballIds, ...basketballIds, ...tennisIds, ...esportsIds];
+      renderMoroccoFeed();
+      renderHome();
     }
 
     async function loadGlobalPages() {
@@ -2480,6 +2481,18 @@
       renderIdsGrid('#feed-global', ids, 'Global news unavailable right now.');
     }
 
+    function setMoroccoFilter(filter) {
+      moroccoCurrentFilter = filter;
+      $('#morocco-page .filter-chip').removeClass('active');
+      $('#mf-' + filter).addClass('active');
+      renderMoroccoFeed();
+    }
+
+    function renderMoroccoFeed() {
+      const ids = moroccoCurrentFilter === 'all' ? moroccoPool : moroccoPool.filter(id => masterPool[id]?.sport === moroccoCurrentFilter);
+      renderIdsGrid('#feed-morocco', ids, 'Moroccan news unavailable right now.');
+    }
+
     async function loadStaticFeeds() {
       const chessIds = await collectNews([
         { kind:'rss', url:'https://www.chess.com/rss/news' },
@@ -2491,10 +2504,11 @@
     async function initNews() {
       masterPool = [];
       globalPool = [];
+      moroccoPool = [];
       $('#center-intel').html('<div class="mini-card"><h3>Loading news...</h3></div>');
       $('#wire-left').html('');
       $('#wire-right').html('');
-      $('#feed-morocco-football, #feed-morocco-basketball, #feed-morocco-tennis, #feed-morocco-esports, #feed-global, #feed-chess').html('<div class="mini-card"><h3>Loading...</h3></div>');
+      $('#feed-morocco, #feed-global, #feed-chess').html('<div class="mini-card"><h3>Loading...</h3></div>');
 
       const jobs = [loadMoroccoPages(), loadGlobalPages(), loadStaticFeeds()];
       jobs.forEach(job => Promise.resolve(job).then(() => renderHome()).catch(() => {}));
@@ -2685,12 +2699,9 @@ function openDetails(id) {
       }
     }
 
-    let aiShowWebsiteMatchesNext = false;
-
     function askAiQuick(text) {
-      aiShowWebsiteMatchesNext = true;
       $('#ai-input').val(text);
-      sendAiMessage();
+      sendAiMessage(true);
     }
 
 
@@ -2764,10 +2775,10 @@ function openDetails(id) {
 
     const AI_BACKEND_URL = 'https://moroccansportshub-backend-production.up.railway.app/api/ask';
 
-    async function askBackendAI(query, includeWebsiteContext = false) {
-      const siteContext = includeWebsiteContext
-        ? getWebsiteMatches(query).map(x => `${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`)
-        : [];
+    async function askBackendAI(query) {
+      const siteContext = getWebsiteMatches(query).map(x =>
+        `${x.item?.title || ''} | ${x.item?.desc || ''} | ${x.item?.link || ''}`
+      );
 
       const res = await fetch(AI_BACKEND_URL, {
         method: 'POST',
@@ -2789,18 +2800,15 @@ function openDetails(id) {
       return data?.answer || 'No answer returned.';
     }
 
-    async function sendAiMessage() {
+    async function sendAiMessage(showWebsiteSources = false) {
       const input = document.getElementById('ai-input');
       const text = (input.value || '').trim();
       if (!text) return;
 
-      const showWebsiteMatches = aiShowWebsiteMatchesNext;
-      aiShowWebsiteMatchesNext = false;
-
       appendAiMessage('user', text);
       input.value = '';
 
-      if (showWebsiteMatches) {
+      if (showWebsiteSources) {
         const websiteHtml = buildWebsiteAnswerHtml(text);
         if (websiteHtml) {
           appendAiHtml(websiteHtml, 'bot');
@@ -2809,7 +2817,7 @@ function openDetails(id) {
 
       appendAiMessage('bot', 'Thinking...');
       try {
-        const answer = await askBackendAI(text, showWebsiteMatches);
+        const answer = await askBackendAI(text);
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
         if (last && last.textContent === 'Thinking...') {
