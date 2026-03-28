@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Moroccansportshub</title>
 
+  <meta name="description" content="Moroccansportshub - Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
+  <link rel="canonical" href="https://moroccansportshub.com/" />
+  <meta property="og:title" content="Moroccansportshub" />
+  <meta property="og:description" content="Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Moroccansportshub" />
+  <meta name="twitter:description" content="Latest Moroccan and global sports news and AI insights." />
+
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#000000" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -24,29 +33,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <button class="ai-fab" id="ai-fab" onclick="toggleAiAssistant()" aria-label="Open sports assistant">
-    <i class="fa-solid fa-cloud"></i>
-  </button>
-
-  <div class="ai-panel" id="ai-panel">
-    <div class="ai-header">
-      <span>Sports AI</span>
-      <button class="icon-btn" onclick="toggleAiAssistant(false)"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div class="ai-messages" id="ai-messages">
-      <div class="ai-msg bot">Ask me any sports question. Use the quick filters to get website news sources.</div>
-    </div>
-    <div class="ai-quick">
-      <button onclick="askAiQuick('Latest Moroccan football news')">Morocco football</button>
-      <button onclick="askAiQuick('Latest global football news')">Global football</button>
-      <button onclick="askAiQuick('Latest tennis news')">Tennis</button>
-      <button onclick="askAiQuick('Latest matches news')">Matches</button>
-    </div>
-    <div class="ai-input-wrap">
-      <input id="ai-input" type="text" placeholder="Ask a sports question..." onkeydown="if(event.key==='Enter') sendAiMessage()">
-      <button class="solid-btn" onclick="sendAiMessage()">Send</button>
-    </div>
-  </div>
+  
 
 
   <script>
@@ -807,11 +794,9 @@
       gap: 8px;
       padding: 14px;
       border-top: 1px solid var(--border);
-      align-items: center;
     }
     .ai-input-wrap input {
-      flex: 1 1 auto;
-      min-width: 0;
+      flex: 1;
       background: var(--input-bg);
       color: var(--text);
       border: 1px solid var(--border);
@@ -819,50 +804,38 @@
       padding: 12px;
       outline: none;
     }
-    .ai-input-wrap .solid-btn {
-      flex: 0 0 auto;
-      min-width: 76px;
-      padding: 12px 14px;
-      white-space: nowrap;
-    }
     @media (max-width: 1024px) {
       .ai-fab { bottom: 84px; }
       .ai-panel { bottom: 152px; }
-    }
-    @media (max-width: 640px) {
-      .ai-panel {
-        left: 14px;
-        right: 14px;
-        width: auto;
-        max-width: none;
-        bottom: calc(104px + env(safe-area-inset-bottom, 0px));
-        max-height: min(74vh, 560px);
-      }
-      .ai-messages {
-        min-height: 140px;
-        max-height: 34vh;
-      }
-      .ai-quick {
-        padding: 0 12px 12px;
-      }
-      .ai-input-wrap {
-        padding: 12px;
-        gap: 10px;
-      }
-      .ai-input-wrap input {
-        padding: 12px 14px;
-        font-size: 16px;
-      }
-      .ai-input-wrap .solid-btn {
-        min-width: 72px;
-        padding: 12px 14px;
-        font-size: .7rem;
-      }
     }
 
   </style>
 </head>
 <body>
+  <h1 style="display:none;">Moroccan Sports News and Global Sports Updates</h1>
+<button class="ai-fab" id="ai-fab" onclick="toggleAiAssistant()" aria-label="Open sports assistant">
+    <i class="fa-solid fa-cloud"></i>
+  </button>
+
+  <div class="ai-panel" id="ai-panel">
+    <div class="ai-header">
+      <span>Sports AI</span>
+      <button class="icon-btn" onclick="toggleAiAssistant(false)"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ai-messages" id="ai-messages">
+      <div class="ai-msg bot">Ask me any sports question. Quick buttons can also pull matching website news.</div>
+    </div>
+    <div class="ai-quick">
+      <button onclick="askAiQuick('Latest Moroccan football news')">Morocco football</button>
+      <button onclick="askAiQuick('Latest global football news')">Global football</button>
+      <button onclick="askAiQuick('Latest tennis news')">Tennis</button>
+      <button onclick="askAiQuick('Latest matches news')">Matches</button>
+    </div>
+    <div class="ai-input-wrap">
+      <input id="ai-input" type="text" placeholder="Ask a sports question..." onkeydown="if(event.key==='Enter') sendAiMessage()">
+      <button class="solid-btn" onclick="sendAiMessage()">Send</button>
+    </div>
+  </div>
   <header>
     <div class="logo" onclick="switchPage('home')">
       <img src="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" alt="logo">
@@ -1017,11 +990,11 @@
     <section id="morocco-page" class="page">
       <div class="section-title" id="morocco-page-title">Moroccan News</div>
       <div class="filter-bar">
-        <button class="filter-chip active" id="mf-all" onclick="setMoroccoFilter('all')">All</button>
-        <button class="filter-chip" id="mf-football" onclick="setMoroccoFilter('football')">Football</button>
-        <button class="filter-chip" id="mf-basketball" onclick="setMoroccoFilter('basketball')">Basketball</button>
-        <button class="filter-chip" id="mf-tennis" onclick="setMoroccoFilter('tennis')">Tennis</button>
-        <button class="filter-chip" id="mf-esports" onclick="setMoroccoFilter('esports')">Esport</button>
+        <button class="filter-chip morocco-filter active" id="mf-all" onclick="setMoroccoFilter('all')">All</button>
+        <button class="filter-chip morocco-filter" id="mf-football" onclick="setMoroccoFilter('football')">Football</button>
+        <button class="filter-chip morocco-filter" id="mf-basketball" onclick="setMoroccoFilter('basketball')">Basketball</button>
+        <button class="filter-chip morocco-filter" id="mf-tennis" onclick="setMoroccoFilter('tennis')">Tennis</button>
+        <button class="filter-chip morocco-filter" id="mf-esports" onclick="setMoroccoFilter('esports')">Esport</button>
       </div>
       <div id="feed-morocco" class="news-grid"></div>
     </section>
@@ -1166,7 +1139,6 @@
     let homeRandomSeed = Date.now();
     let globalPool = [];
     let globalCurrentFilter = 'all';
-    let moroccoPool = [];
     let moroccoCurrentFilter = 'all';
 
     const uiText = {
@@ -1508,17 +1480,31 @@
       $('#d-admin-desc').text(t('drawerAdminDesc'));
       $('#theme-btn, #drawer-theme-btn').text(currentTheme === 'light' ? t('dark') : t('light'));
       $('#desktop-color-btn').text(t('colorsTitle') || 'Colors');
-      $('#gf-all').text(t('filterAll') || 'All');
-      $('#gf-football').text(t('moroccoFootballTitle') || 'Football');
-      $('#gf-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
-      $('#gf-tennis').text(t('moroccoTennisTitle') || 'Tennis');
-      $('#gf-esports').text(t('moroccoEsportTitle') || 'Esport');
+
+      $('#morocco-card-football').text(t('moroccoFootballTitle') || 'Football');
+      $('#morocco-card-football-desc').text(t('moroccoFootballDesc') || 'FRMF, Botola, national teams, and top Moroccan football coverage.');
+      $('#morocco-card-football-open').text(t('openLabel') || 'Open');
+      $('#morocco-card-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
+      $('#morocco-card-basketball-desc').text(t('moroccoBasketballDesc') || 'FRMBB updates, league activity, and Moroccan basketball headlines.');
+      $('#morocco-card-basketball-open').text(t('openLabel') || 'Open');
+      $('#morocco-card-tennis').text(t('moroccoTennisTitle') || 'Tennis');
+      $('#morocco-card-tennis-desc').text(t('moroccoTennisDesc') || 'FRMT tournaments, national team updates, and Morocco tennis news.');
+      $('#morocco-card-tennis-open').text(t('openLabel') || 'Open');
+      $('#morocco-card-esports').text(t('moroccoEsportTitle') || 'Esport');
+      $('#morocco-card-esports-desc').text(t('moroccoEsportDesc') || 'Moroccan esports and gaming stories in one dedicated page.');
+      $('#morocco-card-esports-open').text(t('openLabel') || 'Open');
 
       $('#mf-all').text(t('filterAll') || 'All');
       $('#mf-football').text(t('moroccoFootballTitle') || 'Football');
       $('#mf-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
       $('#mf-tennis').text(t('moroccoTennisTitle') || 'Tennis');
       $('#mf-esports').text(t('moroccoEsportTitle') || 'Esport');
+
+      $('#gf-all').text(t('filterAll') || 'All');
+      $('#gf-football').text(t('moroccoFootballTitle') || 'Football');
+      $('#gf-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
+      $('#gf-tennis').text(t('moroccoTennisTitle') || 'Tennis');
+      $('#gf-esports').text(t('moroccoEsportTitle') || 'Esport');
 
       if (auth.currentUser) {
         $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
@@ -1600,7 +1586,6 @@
       if (p === 'matches') loadMatchesWidget();
       if (p === 'admin') loadAdminPanel();
       if (p === 'global') renderGlobalFeed();
-      if (p === 'morocco') renderMoroccoFeed();
       if (p === 'home') {
         homeRandomSeed = Date.now();
         renderHome(true);
@@ -2432,16 +2417,35 @@
         { kind:'rss', url: googleNewsRss(`(site:hespress.com OR site:snrtnews.com OR site:lematin.ma) ("esport maroc" OR "gaming maroc" OR "الرياضات الإلكترونية في المغرب") after:${after45}`, 'fr', 'MA:fr', 'MA') }
       ];
 
-      const [footballIds, basketballIds, tennisIds, esportsIds] = await Promise.all([
-        collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:24, maxAgeDays: 21 }),
-        collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:24, maxAgeDays: 45 }),
-        collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:24, maxAgeDays: 45 }),
-        collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:24, maxAgeDays: 45 })
-      ]);
+      const tasks = [
+        {
+          selector: '#feed-morocco-football',
+          empty: 'Moroccan football news unavailable right now.',
+          promise: collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:24, maxAgeDays: 21 })
+        },
+        {
+          selector: '#feed-morocco-basketball',
+          empty: 'Moroccan basketball news unavailable right now.',
+          promise: collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:24, maxAgeDays: 45 })
+        },
+        {
+          selector: '#feed-morocco-tennis',
+          empty: 'Moroccan tennis news unavailable right now.',
+          promise: collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:24, maxAgeDays: 45 })
+        },
+        {
+          selector: '#feed-morocco-esports',
+          empty: 'Moroccan esport news unavailable right now.',
+          promise: collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:24, maxAgeDays: 45 })
+        }
+      ];
 
-      moroccoPool = [...footballIds, ...basketballIds, ...tennisIds, ...esportsIds];
+      await Promise.all(tasks.map(async task => {
+        const ids = await task.promise;
+        renderIdsGrid(task.selector, ids, task.empty);
+        renderHome();
+      }));
       renderMoroccoFeed();
-      renderHome();
     }
 
     async function loadGlobalPages() {
@@ -2469,6 +2473,20 @@
       renderGlobalFeed();
     }
 
+    function setMoroccoFilter(filter) {
+      moroccoCurrentFilter = filter;
+      $('.morocco-filter').removeClass('active');
+      $('#mf-' + filter).addClass('active');
+      renderMoroccoFeed();
+    }
+
+    function renderMoroccoFeed() {
+      const ids = moroccoCurrentFilter === 'all'
+        ? masterPool.filter(n => n.region === 'morocco').map(n => n.id)
+        : masterPool.filter(n => n.region === 'morocco' && n.sport === moroccoCurrentFilter).map(n => n.id);
+      renderIdsGrid('#feed-morocco', ids, 'Moroccan news unavailable right now.');
+    }
+
     function setGlobalFilter(filter) {
       globalCurrentFilter = filter;
       $('.filter-chip').removeClass('active');
@@ -2479,18 +2497,6 @@
     function renderGlobalFeed() {
       const ids = globalCurrentFilter === 'all' ? globalPool : globalPool.filter(id => masterPool[id]?.sport === globalCurrentFilter);
       renderIdsGrid('#feed-global', ids, 'Global news unavailable right now.');
-    }
-
-    function setMoroccoFilter(filter) {
-      moroccoCurrentFilter = filter;
-      $('#morocco-page .filter-chip').removeClass('active');
-      $('#mf-' + filter).addClass('active');
-      renderMoroccoFeed();
-    }
-
-    function renderMoroccoFeed() {
-      const ids = moroccoCurrentFilter === 'all' ? moroccoPool : moroccoPool.filter(id => masterPool[id]?.sport === moroccoCurrentFilter);
-      renderIdsGrid('#feed-morocco', ids, 'Moroccan news unavailable right now.');
     }
 
     async function loadStaticFeeds() {
@@ -2504,7 +2510,6 @@
     async function initNews() {
       masterPool = [];
       globalPool = [];
-      moroccoPool = [];
       $('#center-intel').html('<div class="mini-card"><h3>Loading news...</h3></div>');
       $('#wire-left').html('');
       $('#wire-right').html('');
@@ -2777,7 +2782,7 @@ function openDetails(id) {
 
     async function askBackendAI(query) {
       const siteContext = getWebsiteMatches(query).map(x =>
-        `${x.item?.title || ''} | ${x.item?.desc || ''} | ${x.item?.link || ''}`
+        `${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`
       );
 
       const res = await fetch(AI_BACKEND_URL, {
@@ -2800,7 +2805,7 @@ function openDetails(id) {
       return data?.answer || 'No answer returned.';
     }
 
-    async function sendAiMessage(showWebsiteSources = false) {
+    async function sendAiMessage(showWebsiteCards = false) {
       const input = document.getElementById('ai-input');
       const text = (input.value || '').trim();
       if (!text) return;
@@ -2808,7 +2813,7 @@ function openDetails(id) {
       appendAiMessage('user', text);
       input.value = '';
 
-      if (showWebsiteSources) {
+      if (showWebsiteCards) {
         const websiteHtml = buildWebsiteAnswerHtml(text);
         if (websiteHtml) {
           appendAiHtml(websiteHtml, 'bot');
@@ -2837,7 +2842,6 @@ function openDetails(id) {
         console.error(err);
       }
     }
-
 
 function loadMatchesWidget() {
       const container = document.getElementById('live-inject');
