@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Moroccansportshub</title>
+  <!-- avatar-fix-v3: strict unsigned Cloudinary upload -->
 
   <meta name="description" content="Moroccansportshub - Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
   <link rel="canonical" href="https://moroccansportshub.com/" />
@@ -1809,25 +1810,26 @@
     }
 
 
-    async function uploadProfileAvatar(file, uid) {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_AVATAR_UPLOAD_PRESET);
-
+    async function uploadProfileAvatar(file) {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 20000);
 
       try {
-        const res = await fetch(CLOUDINARY_AVATAR_UPLOAD_URL, {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_AVATAR_UPLOAD_PRESET);
+
+        const res = await fetch(`${CLOUDINARY_AVATAR_UPLOAD_URL}?_=${Date.now()}`, {
           method: 'POST',
           body: formData,
-          signal: controller.signal
+          signal: controller.signal,
+          cache: 'no-store'
         });
 
         const data = await res.json().catch(() => ({}));
 
         if (!res.ok || !data.secure_url) {
-          throw new Error(data.error?.message || 'Avatar upload failed.');
+          throw new Error(data?.error?.message || 'Avatar upload failed.');
         }
 
         return data.secure_url;
@@ -1886,7 +1888,7 @@
           avatarUrl = currentUserData.avatarUrl || user.photoURL || '';
 
           if (file) {
-            avatarUrl = await uploadProfileAvatar(file, user.uid);
+            avatarUrl = await uploadProfileAvatar(file);
           }
 
           await user.updateProfile({
