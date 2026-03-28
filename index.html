@@ -2685,7 +2685,10 @@ function openDetails(id) {
       }
     }
 
+    let aiShowWebsiteMatchesNext = false;
+
     function askAiQuick(text) {
+      aiShowWebsiteMatchesNext = true;
       $('#ai-input').val(text);
       sendAiMessage();
     }
@@ -2761,10 +2764,10 @@ function openDetails(id) {
 
     const AI_BACKEND_URL = 'https://moroccansportshub-backend-production.up.railway.app/api/ask';
 
-    async function askBackendAI(query) {
-      const siteContext = getWebsiteMatches(query).map(x =>
-        `${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`
-      );
+    async function askBackendAI(query, includeWebsiteContext = false) {
+      const siteContext = includeWebsiteContext
+        ? getWebsiteMatches(query).map(x => `${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`)
+        : [];
 
       const res = await fetch(AI_BACKEND_URL, {
         method: 'POST',
@@ -2791,17 +2794,22 @@ function openDetails(id) {
       const text = (input.value || '').trim();
       if (!text) return;
 
+      const showWebsiteMatches = aiShowWebsiteMatchesNext;
+      aiShowWebsiteMatchesNext = false;
+
       appendAiMessage('user', text);
       input.value = '';
 
-      const websiteHtml = buildWebsiteAnswerHtml(text);
-      if (websiteHtml) {
-        appendAiHtml(websiteHtml, 'bot');
+      if (showWebsiteMatches) {
+        const websiteHtml = buildWebsiteAnswerHtml(text);
+        if (websiteHtml) {
+          appendAiHtml(websiteHtml, 'bot');
+        }
       }
 
       appendAiMessage('bot', 'Thinking...');
       try {
-        const answer = await askBackendAI(text);
+        const answer = await askBackendAI(text, showWebsiteMatches);
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
         if (last && last.textContent === 'Thinking...') {
