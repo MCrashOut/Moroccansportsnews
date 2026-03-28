@@ -1197,6 +1197,10 @@
     const db = firebase.firestore();
     const storage = firebase.storage();
 
+    const CLOUDINARY_CLOUD_NAME = 'dkb5uw43x';
+    const CLOUDINARY_AVATAR_UPLOAD_PRESET = 'moroccansportshub_avatars';
+    const CLOUDINARY_AVATAR_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+
     let masterPool = [];
     let authMode = 'login';
     let game = new Chess();
@@ -1806,11 +1810,39 @@
 
 
     async function uploadProfileAvatar(file, uid) {
-      const safeName = `avatar_${Date.now()}_${file.name.replace(/[^\w.\-]/g, '_')}`;
-      const ref = storage.ref().child(`avatars/${uid}/${safeName}`);
-      const metadata = { contentType: file.type || 'application/octet-stream' };
-      await ref.put(file, metadata);
-      return ref.getDownloadURL();
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', CLOUDINARY_AVATAR_UPLOAD_PRESET);
+      formData.append('folder', `avatars/${uid}`);
+      formData.append('public_id', `avatar_${uid}_${Date.now()}`);
+      formData.append('overwrite', 'true');
+      formData.append('invalidate', 'true');
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 20000);
+
+      try {
+        const res = await fetch(CLOUDINARY_AVATAR_UPLOAD_URL, {
+          method: 'POST',
+          body: formData,
+          signal: controller.signal
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok || !data.secure_url) {
+          throw new Error(data.error?.message || 'Avatar upload failed.');
+        }
+
+        return data.secure_url;
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          throw new Error('Avatar upload timed out. Please try again.');
+        }
+        throw err;
+      } finally {
+        clearTimeout(timeoutId);
+      }
     }
 
     function loadProfile() {
