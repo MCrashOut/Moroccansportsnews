@@ -450,6 +450,68 @@
       text-align: center;
     }
     .profile-email { color: var(--dim); margin: 8px 0 18px; }
+    .profile-avatar-wrap { display:flex; flex-direction:column; align-items:center; gap:12px; margin:8px 0 18px; }
+    .profile-avatar-preview {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 82%, var(--card));
+      box-shadow: 0 10px 24px var(--shadow);
+    }
+    .profile-avatar-fallback {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 800;
+      color: var(--cyan);
+      background: color-mix(in srgb, var(--bg) 82%, var(--card));
+      box-shadow: 0 10px 24px var(--shadow);
+      font-size: 1.25rem;
+    }
+    .profile-file-note {
+      color: var(--dim);
+      font-size: .75rem;
+      line-height: 1.5;
+      text-align: center;
+      margin-top: 2px;
+    }
+    .post-user-wrap {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 0;
+    }
+    .post-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 82%, var(--card));
+      flex-shrink: 0;
+    }
+    .post-avatar-fallback {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: var(--cyan);
+      font-weight: 800;
+      background: color-mix(in srgb, var(--bg) 82%, var(--card));
+      flex-shrink: 0;
+      font-size: .9rem;
+    }
+    .post-user-copy { min-width:0; }
+    .post-user-copy .post-user, .post-user-copy .post-time { overflow-wrap:anywhere; }
 
     .news-grid {
       display: grid;
@@ -797,6 +859,7 @@
     }
     .ai-input-wrap input {
       flex: 1;
+      min-width: 0;
       background: var(--input-bg);
       color: var(--text);
       border: 1px solid var(--border);
@@ -1032,6 +1095,13 @@
     <section id="profile-page" class="page">
       <div class="profile-box">
         <div class="section-title" id="profile-page-title" style="margin-bottom:8px;">Agent Identity Sync</div>
+        <div class="profile-avatar-wrap">
+          <img id="profile-avatar-preview" class="profile-avatar-preview" src="https://via.placeholder.com/160?text=MSH" alt="Profile picture" onerror="this.src='https://via.placeholder.com/160?text=MSH'">
+          <div id="profile-avatar-fallback" class="profile-avatar-fallback" style="display:none;">A</div>
+          <input id="profile-pic" class="auth-input" type="file" accept="image/*">
+          <div class="profile-avatar-note">Upload JPG, PNG, or WEBP up to 4MB.</div>
+          <div class="profile-file-note">Upload a square image for the best result. Max 4MB.</div>
+        </div>
         <p id="profile-email" class="profile-email"></p>
         <input id="set-name" class="auth-input" type="text" placeholder="Update Agent ID">
         <button class="solid-btn" id="profile-sync-btn" style="width:100%; margin-top:8px;" onclick="updateProfileData()">Sync Database</button>
@@ -1481,19 +1551,6 @@
       $('#theme-btn, #drawer-theme-btn').text(currentTheme === 'light' ? t('dark') : t('light'));
       $('#desktop-color-btn').text(t('colorsTitle') || 'Colors');
 
-      $('#morocco-card-football').text(t('moroccoFootballTitle') || 'Football');
-      $('#morocco-card-football-desc').text(t('moroccoFootballDesc') || 'FRMF, Botola, national teams, and top Moroccan football coverage.');
-      $('#morocco-card-football-open').text(t('openLabel') || 'Open');
-      $('#morocco-card-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
-      $('#morocco-card-basketball-desc').text(t('moroccoBasketballDesc') || 'FRMBB updates, league activity, and Moroccan basketball headlines.');
-      $('#morocco-card-basketball-open').text(t('openLabel') || 'Open');
-      $('#morocco-card-tennis').text(t('moroccoTennisTitle') || 'Tennis');
-      $('#morocco-card-tennis-desc').text(t('moroccoTennisDesc') || 'FRMT tournaments, national team updates, and Morocco tennis news.');
-      $('#morocco-card-tennis-open').text(t('openLabel') || 'Open');
-      $('#morocco-card-esports').text(t('moroccoEsportTitle') || 'Esport');
-      $('#morocco-card-esports-desc').text(t('moroccoEsportDesc') || 'Moroccan esports and gaming stories in one dedicated page.');
-      $('#morocco-card-esports-open').text(t('openLabel') || 'Open');
-
       $('#mf-all').text(t('filterAll') || 'All');
       $('#mf-football').text(t('moroccoFootballTitle') || 'Football');
       $('#mf-basketball').text(t('moroccoBasketballTitle') || 'Basketball');
@@ -1644,11 +1701,13 @@
         $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
         $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('agentHub')}</button>`);
         $('#set-name').val(user.displayName || '');
+        setProfileAvatarPreview(user.photoURL || '', user.displayName || 'Agent');
 
         await db.collection('users').doc(user.uid).set({
           uid: user.uid,
           name: user.displayName || 'Agent',
-          email: user.email || ''
+          email: user.email || '',
+          avatarUrl: user.photoURL || ''
         }, { merge: true });
 
         const userSnap = await db.collection('users').doc(user.uid).get();
@@ -1693,10 +1752,77 @@
       }
     });
 
+
+    function getInitials(name) {
+      return (name || 'Agent')
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(part => part[0]?.toUpperCase() || '')
+        .join('') || 'A';
+    }
+
+    function setProfileAvatarPreview(url, name = 'Agent') {
+      const img = document.getElementById('profile-avatar-preview');
+      const fallback = document.getElementById('profile-avatar-fallback');
+      if (!img || !fallback) return;
+      if (url) {
+        img.src = url;
+        img.style.display = 'block';
+        fallback.style.display = 'none';
+      } else {
+        img.style.display = 'none';
+        fallback.style.display = 'flex';
+        fallback.textContent = getInitials(name);
+      }
+    }
+
+    function renderPostAvatar(url, name) {
+      const initials = escapeHtml(getInitials(name));
+      if (url) {
+        return `<img class="post-avatar" src="${url}" alt="${escapeHtml(name || 'Agent')}" onerror="this.outerHTML='<div class=&quot;post-avatar-fallback&quot;>${initials}</div>'">`;
+      }
+      return `<div class="post-avatar-fallback">${initials}</div>`;
+    }
+
+    function handleProfilePicSelection(file) {
+      if (!file) {
+        return setProfileAvatarPreview(auth.currentUser?.photoURL || '', auth.currentUser?.displayName || 'Agent');
+      }
+      if (!file.type.startsWith('image/')) {
+        alert('Please choose an image file.');
+        document.getElementById('profile-pic').value = '';
+        return;
+      }
+      if (file.size > 4 * 1024 * 1024) {
+        alert('Profile picture too large. Max 4MB.');
+        document.getElementById('profile-pic').value = '';
+        return;
+      }
+      const tempUrl = URL.createObjectURL(file);
+      setProfileAvatarPreview(tempUrl, auth.currentUser?.displayName || 'Agent');
+      setTimeout(() => URL.revokeObjectURL(tempUrl), 30000);
+    }
+
+
+    async function uploadProfileAvatar(file, uid) {
+      const safeName = `avatar_${Date.now()}_${file.name.replace(/[^\w.\-]/g, '_')}`;
+      const ref = storage.ref().child(`avatars/${uid}/${safeName}`);
+      const metadata = { contentType: file.type || 'application/octet-stream' };
+      await ref.put(file, metadata);
+      return ref.getDownloadURL();
+    }
+
     function loadProfile() {
       if (!auth.currentUser) return;
       $('#set-name').val(auth.currentUser.displayName || '');
       $('#profile-email').text(auth.currentUser.email || '');
+      db.collection('users').doc(auth.currentUser.uid).get().then(doc => {
+        const data = doc.exists ? doc.data() : {};
+        setProfileAvatarPreview(data.avatarUrl || auth.currentUser.photoURL || '', auth.currentUser.displayName || 'Agent');
+      }).catch(() => {
+        setProfileAvatarPreview(auth.currentUser.photoURL || '', auth.currentUser.displayName || 'Agent');
+      });
     }
 
     async function updateProfileData() {
@@ -1706,23 +1832,61 @@
         const newName = $('#set-name').val().trim();
         if (!newName) return alert(t('enterUsername'));
 
+        const fileInput = document.getElementById('profile-pic');
+        const file = fileInput?.files?.[0] || null;
+        if (file) {
+          if (!file.type.startsWith('image/')) {
+            alert('Please choose an image file.');
+            return;
+          }
+          if (file.size > 4 * 1024 * 1024) {
+            alert('Profile picture too large. Max 4MB.');
+            return;
+          }
+        }
+
         const user = auth.currentUser;
-        await user.updateProfile({ displayName: newName });
+        const syncBtn = document.getElementById('profile-sync-btn');
+        const originalBtnText = syncBtn.textContent;
+        syncBtn.disabled = true;
+        syncBtn.textContent = 'Saving...';
 
-        await db.collection('users').doc(user.uid).set({
-          uid: user.uid,
-          name: newName,
-          email: user.email || ''
-        }, { merge: true });
+        let avatarUrl = '';
+        try {
+          const currentUserDoc = await db.collection('users').doc(user.uid).get();
+          const currentUserData = currentUserDoc.exists ? currentUserDoc.data() : {};
+          avatarUrl = currentUserData.avatarUrl || user.photoURL || '';
 
-        const postsSnap = await db.collection('posts').where('userId', '==', user.uid).get();
-        const batch = db.batch();
-        postsSnap.forEach(doc => batch.update(doc.ref, { username: newName }));
-        await batch.commit();
+          if (file) {
+            avatarUrl = await uploadProfileAvatar(file, user.uid);
+          }
 
-        alert(t('usernameUpdated'));
-        loadProfile();
-        loadFeed();
+          await user.updateProfile({
+            displayName: newName,
+            photoURL: avatarUrl || null
+          });
+
+          await db.collection('users').doc(user.uid).set({
+            uid: user.uid,
+            name: newName,
+            email: user.email || '',
+            avatarUrl: avatarUrl
+          }, { merge: true });
+
+          const postsSnap = await db.collection('posts').where('userId', '==', user.uid).get();
+          const batch = db.batch();
+          postsSnap.forEach(doc => batch.update(doc.ref, { username: newName, avatarUrl }));
+          await batch.commit();
+
+          if (fileInput) fileInput.value = '';
+          setProfileAvatarPreview(avatarUrl, newName);
+          alert(t('usernameUpdated'));
+          loadProfile();
+          loadFeed();
+        } finally {
+          syncBtn.disabled = false;
+          syncBtn.textContent = originalBtnText;
+        }
       } catch (e) {
         alert(e.message);
       }
@@ -1893,6 +2057,8 @@
         const postRef = await db.collection('posts').add({
           userId: user.uid,
           username,
+          avatarUrl: user.photoURL || userData.avatarUrl || '',
+          badge: userData.badge || '',
           content,
           mediaUrl,
           mediaType,
@@ -2098,9 +2264,12 @@
               ` : ''}
 
               <div class="post-meta">
-                <div>
-                  <div class="post-user">@${post.username} ${post.pinned ? '📌' : ''}</div>
-                  <div class="post-time">${post.createdAt?.toDate ? post.createdAt.toDate().toLocaleString() : ''}</div>
+                <div class="post-user-wrap">
+                  ${renderPostAvatar(post.avatarUrl, post.username)}
+                  <div class="post-user-copy">
+                    <div class="post-user">@${post.username}${post.badge ? ` · ${post.badge}` : ''} ${post.pinned ? '📌' : ''}</div>
+                    <div class="post-time">${post.createdAt?.toDate ? post.createdAt.toDate().toLocaleString() : ''}</div>
+                  </div>
                 </div>
               </div>
 
@@ -2489,7 +2658,7 @@
 
     function setGlobalFilter(filter) {
       globalCurrentFilter = filter;
-      $('.filter-chip').removeClass('active');
+      $('.filter-chip').not('.morocco-filter').removeClass('active');
       $('#gf-' + filter).addClass('active');
       renderGlobalFeed();
     }
@@ -2875,6 +3044,12 @@ function loadMatchesWidget() {
 
     $(document).on('click', '.modal', function(e) {
       if (e.target === this) $(this).hide();
+    });
+
+    document.addEventListener('change', function(e) {
+      if (e.target && e.target.id === 'profile-pic') {
+        handleProfilePicSelection(e.target.files?.[0] || null);
+      }
     });
 
     window.addEventListener('popstate', () => { sharedPostHandled = false; });
