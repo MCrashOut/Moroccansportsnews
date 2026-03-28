@@ -1813,10 +1813,6 @@
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', CLOUDINARY_AVATAR_UPLOAD_PRESET);
-      formData.append('folder', `avatars/${uid}`);
-      formData.append('public_id', `avatar_${uid}_${Date.now()}`);
-      formData.append('overwrite', 'true');
-      formData.append('invalidate', 'true');
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 20000);
