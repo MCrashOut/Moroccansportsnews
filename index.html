@@ -64,6 +64,7 @@
     }
 
     body.light {
+      color-scheme: light;
       --bg: #f5f8fb;
       --bg2: #e9f0f7;
       --card: rgba(255,255,255,.78);
@@ -84,6 +85,7 @@
       background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
       color: var(--text);
       overflow-x: hidden;
+      color-scheme: dark;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -1198,6 +1200,55 @@
       }
     }
 
+
+    .hero-media-wrap, .mini-thumb-wrap {
+      background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+    .mini-thumb-wrap {
+      margin: -6px -6px 14px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mini-thumb-wrap img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+    .img-fallback-note {
+      color: var(--dim);
+      font-size: .78rem;
+      text-align: center;
+      padding: 18px;
+      line-height: 1.5;
+    }
+    @media (max-width: 640px) {
+      .home-grid {
+        gap: 18px;
+      }
+      .side-item {
+        padding: 12px 0;
+      }
+      .mini-card {
+        padding: 16px;
+      }
+      .mini-thumb-wrap {
+        min-height: 160px;
+      }
+      .mini-thumb-wrap img {
+        height: 160px;
+      }
+      .feature img {
+        min-height: 220px;
+        max-height: 320px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1510,7 +1561,7 @@
         <div class="detail-top-meta" id="detail-meta"></div>
         <h2 id="m-title" style="color:var(--cyan); margin-bottom:2px;"></h2>
         <div id="detail-image-wrap" class="detail-image-wrap" style="display:none;">
-          <img id="m-image" src="" alt="story image" loading="lazy" referrerpolicy="no-referrer">
+          <img id="m-image" src="" alt="story image" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=buildFallbackImageUrl('Moroccansportshub');">
         </div>
         <p id="m-body" class="detail-summary"></p>
       </div>
@@ -1549,7 +1600,7 @@
     let feedListener = null;
     let notifListener = null;
     let currentLang = localStorage.getItem('msh_lang') || 'en';
-    let currentTheme = 'dark';
+    let currentTheme = localStorage.getItem('msh_theme') || 'dark';
     let sharedPostHandled = false;
     let homeRandomSeed = Date.now();
     let globalPool = [];
@@ -1941,6 +1992,11 @@
       currentTheme = theme;
       localStorage.setItem('msh_theme', theme);
       document.body.classList.toggle('light', theme === 'light');
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) {
+        const saved = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
+        themeMeta.setAttribute('content', saved.bg || (theme === 'light' ? '#f5f8fb' : '#000000'));
+      }
       $('#theme-btn, #drawer-theme-btn').text(theme === 'light' ? t('dark') : t('light'));
     }
 
@@ -2955,7 +3011,9 @@
     }
 
     function bestImage(url = '', label = 'Moroccansportshub') {
-      return upgradeImageUrl(url) || buildFallbackImageUrl(label);
+      const upgraded = upgradeImageUrl(url);
+      if (!upgraded || /^(data:|blob:)?$/i.test(upgraded)) return buildFallbackImageUrl(label);
+      return upgraded;
     }
 
     async function fetchRssViaRss2Json(url) {
@@ -3077,8 +3135,8 @@
         const tagLabel = localizeTagLabel(n.tag) || sportLabel;
         const image = bestImage(n.img, n.title || 'Moroccansportshub');
         return `<div class="mini-card" onclick="openDetails(${n.id})">
-          <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
-            <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
+          <div class="mini-thumb-wrap">
+            <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" onerror="${imageErrorAttr(JSON.stringify(n.title || 'Moroccansportshub'))}">
           </div>
           <span class="mini-card-tag">${tagLabel}</span>
           <h3>${n.title}</h3>
@@ -3286,8 +3344,31 @@
     }
 
     function buildFallbackImageUrl(label = 'Moroccansportshub') {
-      const title = encodeURIComponent(String(label || 'Moroccansportshub').slice(0, 42));
-      return `https://via.placeholder.com/1200x675/091015/00f2fe?text=${title}`;
+      const safe = String(label || 'Moroccansportshub').slice(0, 42)
+        .replace(/[&<>"]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim() || 'Moroccansportshub';
+      const bg = encodeURIComponent(currentTheme === 'light' ? '#e9f0f7' : '#091015');
+      const fg = encodeURIComponent(currentTheme === 'light' ? '#0ea5e9' : '#00f2fe');
+      const textColor = currentTheme === 'light' ? '#0f172a' : '#ffffff';
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="${bg}"/>
+              <stop offset="100%" stop-color="${fg}"/>
+            </linearGradient>
+          </defs>
+          <rect width="1200" height="675" fill="url(#g)"/>
+          <rect x="40" y="40" width="1120" height="595" rx="28" fill="rgba(0,0,0,0.18)" stroke="rgba(255,255,255,0.16)"/>
+          <text x="600" y="290" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-size="50" font-weight="800" fill="${textColor}">Moroccansportshub</text>
+          <text x="600" y="360" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-size="28" font-weight="600" fill="${textColor}">${safe}</text>
+        </svg>`;
+      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+    }
+
+    function imageErrorAttr(labelExpr = `'Moroccansportshub'`) {
+      return `this.onerror=null;this.src=buildFallbackImageUrl(${labelExpr});this.closest?.('.mini-thumb-wrap')?.classList.add('image-fallback-active');`;
     }
 
     function relativeTimeLabel(dateInput) {
@@ -3424,7 +3505,7 @@ function renderHome(forceShuffle = false) {
         </div>
         <h1 onclick="openDetails(${featured.id})">${featured.title}</h1>
         <div class="hero-media-wrap" onclick="openDetails(${featured.id})">
-          <img src="${imgSrc}" alt="${featured.title}" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
+          <img src="${imgSrc}" alt="${featured.title}" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=buildFallbackImageUrl('Moroccansportshub');">
           <div class="hero-floating-badges">
             <span class="breaking-badge"><i class="fa-solid fa-bolt"></i> ${homeLabel('breaking')}</span>
             <span class="trending-badge"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
@@ -3467,7 +3548,7 @@ function renderHome(forceShuffle = false) {
         return `
           <div class="mini-card" onclick="openDetails(${n.id})">
             <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
-              <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:170px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
+              <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:170px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl('Moroccansportshub');">
             </div>
             <span class="mini-card-tag"><i class="fa-solid ${badge.icon}"></i>${badge.text}</span>
             <h3>${n.title}</h3>
@@ -3602,17 +3683,15 @@ function openDetails(id) {
     }
 
     function applyCustomColors(colors) {
-      const root = document.documentElement;
-      const body = document.body;
-      const targets = [root.style, body.style];
-      targets.forEach(style => {
-        if (colors.bg) style.setProperty('--bg', colors.bg);
-        if (colors.bg2) style.setProperty('--bg2', colors.bg2);
-        if (colors.card) style.setProperty('--card', hexToRgba(colors.card, 0.08));
-        if (colors.text) style.setProperty('--text', colors.text);
-        if (colors.cyan) style.setProperty('--cyan', colors.cyan);
-        if (colors.red) style.setProperty('--red', colors.red);
-      });
+      const style = document.documentElement.style;
+      if (colors.bg) style.setProperty('--bg', colors.bg);
+      if (colors.bg2) style.setProperty('--bg2', colors.bg2);
+      if (colors.card) style.setProperty('--card', hexToRgba(colors.card, 0.08));
+      if (colors.text) style.setProperty('--text', colors.text);
+      if (colors.cyan) style.setProperty('--cyan', colors.cyan);
+      if (colors.red) style.setProperty('--red', colors.red);
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) themeMeta.setAttribute('content', colors.bg || (currentTheme === 'light' ? '#f5f8fb' : '#000000'));
     }
 
     function loadCustomColorsIntoInputs() {
