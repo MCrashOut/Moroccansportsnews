@@ -383,15 +383,12 @@
       min-height: 320px;
       max-height: 520px;
       object-fit: cover;
-      object-position: center;
-      image-rendering: auto;
       border-radius: 22px;
       border: 1px solid var(--border);
       margin-bottom: 16px;
       cursor: pointer;
       display: block;
       box-shadow: 0 18px 40px rgba(0,0,0,.24);
-      filter: saturate(1.03) contrast(1.02);
     }
     .feature-summary {
       color: var(--dim);
@@ -1151,12 +1148,9 @@
     }
     .detail-image-wrap img {
       width: 100%;
-      max-height: 420px;
+      max-height: 360px;
       object-fit: cover;
-      object-position: center;
-      image-rendering: auto;
       display: block;
-      filter: saturate(1.03) contrast(1.02);
     }
     .detail-summary {
       color: var(--text);
@@ -1207,21 +1201,21 @@
 
   <div class="ai-panel" id="ai-panel">
     <div class="ai-header">
-      <span id="ai-header-title">Sports AI</span>
+      <span>Sports AI</span>
       <button class="icon-btn" onclick="toggleAiAssistant(false)"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="ai-messages" id="ai-messages">
-      <div class="ai-msg bot" id="ai-welcome">Ask me any sports question. Quick buttons can also pull matching website news.</div>
+      <div class="ai-msg bot">Ask me any sports question. Quick buttons can also pull matching website news.</div>
     </div>
     <div class="ai-quick">
-      <button id="ai-quick-morocco" onclick="askAiQuick(getAiQuickPrompt('morocco'))">Morocco football</button>
-      <button id="ai-quick-global" onclick="askAiQuick(getAiQuickPrompt('global'))">Global football</button>
-      <button id="ai-quick-tennis" onclick="askAiQuick(getAiQuickPrompt('tennis'))">Tennis</button>
-      <button id="ai-quick-matches" onclick="askAiQuick(getAiQuickPrompt('matches'))">Matches</button>
+      <button onclick="askAiQuick('Latest Moroccan football news')">Morocco football</button>
+      <button onclick="askAiQuick('Latest global football news')">Global football</button>
+      <button onclick="askAiQuick('Latest tennis news')">Tennis</button>
+      <button onclick="askAiQuick('Latest matches news')">Matches</button>
     </div>
     <div class="ai-input-wrap">
       <input id="ai-input" type="text" placeholder="Ask a sports question..." onkeydown="if(event.key==='Enter') sendAiMessage()">
-      <button id="ai-send-btn" class="solid-btn" onclick="sendAiMessage()">Send</button>
+      <button class="solid-btn" onclick="sendAiMessage()">Send</button>
     </div>
   </div>
   <header>
@@ -1470,19 +1464,19 @@
   <div id="colors-modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="$('#colors-modal').hide()">&times;</span>
-      <h2 id="colors-modal-title" style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
-      <p id="colors-modal-desc" style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
+      <h2 style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
+      <p style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
       <div class="color-grid">
-        <div><label id="color-label-bg">Background</label><input type="color" id="color-bg" value="#000000"></div>
-        <div><label id="color-label-bg2">Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
-        <div><label id="color-label-card">Card</label><input type="color" id="color-card" value="#111111"></div>
-        <div><label id="color-label-text">Text</label><input type="color" id="color-text" value="#ffffff"></div>
-        <div><label id="color-label-cyan">Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
-        <div><label id="color-label-red">Danger</label><input type="color" id="color-red" value="#c1272d"></div>
+        <div><label>Background</label><input type="color" id="color-bg" value="#000000"></div>
+        <div><label>Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
+        <div><label>Card</label><input type="color" id="color-card" value="#111111"></div>
+        <div><label>Text</label><input type="color" id="color-text" value="#ffffff"></div>
+        <div><label>Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
+        <div><label>Danger</label><input type="color" id="color-red" value="#c1272d"></div>
       </div>
       <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center;">
-        <button id="colors-save-btn" class="solid-btn" onclick="saveCustomColors()">Save</button>
-        <button id="colors-reset-btn" class="ghost-btn" onclick="resetCustomColors()">Reset</button>
+        <button class="solid-btn" onclick="saveCustomColors()">Save</button>
+        <button class="ghost-btn" onclick="resetCustomColors()">Reset</button>
       </div>
     </div>
   </div>
@@ -1638,30 +1632,6 @@
         moroccoTennisDesc: 'FRMT tournaments, national team updates, and Morocco tennis news.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Moroccan esports and gaming stories in one dedicated page.',
-        aiTitle: 'Sports AI',
-        aiWelcome: 'Ask me any sports question. Quick buttons can also pull matching website news.',
-        aiInputPlaceholder: 'Ask a sports question...',
-        aiQuickMorocco: 'Morocco football',
-        aiQuickGlobal: 'Global football',
-        aiQuickTennis: 'Tennis',
-        aiQuickMatches: 'Matches',
-        aiPromptMorocco: 'Latest Moroccan football news',
-        aiPromptGlobal: 'Latest global football news',
-        aiPromptTennis: 'Latest tennis news',
-        aiPromptMatches: 'Latest matches news',
-        aiSend: 'Send',
-        aiThinking: 'Thinking...',
-        aiError: 'AI is currently unavailable. Try again.',
-        colorsModalTitle: 'Color Studio',
-        colorsModalDesc: 'Customize the website palette.',
-        colorLabelBg: 'Background',
-        colorLabelBg2: 'Gradient',
-        colorLabelCard: 'Card',
-        colorLabelText: 'Text',
-        colorLabelCyan: 'Accent',
-        colorLabelRed: 'Danger',
-        save: 'Save',
-        reset: 'Reset',
         filterAll: 'All'
       },
       fr: {
@@ -1746,30 +1716,6 @@
         moroccoTennisDesc: 'Tournois FRMT, sélections nationales et actualités du tennis marocain.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Actualités marocaines de l’esport et du gaming.',
-        aiTitle: 'IA Sport',
-        aiWelcome: 'Posez-moi n'importe quelle question sportive. Les boutons rapides peuvent aussi afficher les actualités du site.',
-        aiInputPlaceholder: 'Posez une question sportive...',
-        aiQuickMorocco: 'Football marocain',
-        aiQuickGlobal: 'Football mondial',
-        aiQuickTennis: 'Tennis',
-        aiQuickMatches: 'Matchs',
-        aiPromptMorocco: 'Dernières nouvelles du football marocain',
-        aiPromptGlobal: 'Dernières nouvelles du football mondial',
-        aiPromptTennis: 'Dernières nouvelles du tennis',
-        aiPromptMatches: 'Dernières nouvelles des matchs',
-        aiSend: 'Envoyer',
-        aiThinking: 'Réflexion...',
-        aiError: 'IA indisponible. Réessayez.',
-        colorsModalTitle: 'Studio Couleurs',
-        colorsModalDesc: 'Personnalisez la palette du site.',
-        colorLabelBg: 'Arrière-plan',
-        colorLabelBg2: 'Dégradé',
-        colorLabelCard: 'Carte',
-        colorLabelText: 'Texte',
-        colorLabelCyan: 'Accent',
-        colorLabelRed: 'Danger',
-        save: 'Enregistrer',
-        reset: 'Réinitialiser',
         filterAll: 'Tout'
       },
       ar: {
@@ -1854,67 +1800,12 @@
         moroccoTennisDesc: 'بطولات الجامعة، تحديثات المنتخب وأخبار التنس المغربي.',
         moroccoEsportTitle: 'الرياضات الإلكترونية',
         moroccoEsportDesc: 'أخبار الرياضات الإلكترونية والألعاب في المغرب.',
-        aiTitle: 'الذكاء الرياضي',
-        aiWelcome: 'اسألني أي سؤال رياضي. ويمكن للأزرار السريعة أيضاً عرض أخبار مطابقة من الموقع.',
-        aiInputPlaceholder: 'اسأل سؤالاً رياضياً...',
-        aiQuickMorocco: 'كرة القدم المغربية',
-        aiQuickGlobal: 'كرة القدم العالمية',
-        aiQuickTennis: 'التنس',
-        aiQuickMatches: 'المباريات',
-        aiPromptMorocco: 'آخر أخبار كرة القدم المغربية',
-        aiPromptGlobal: 'آخر أخبار كرة القدم العالمية',
-        aiPromptTennis: 'آخر أخبار التنس',
-        aiPromptMatches: 'آخر أخبار المباريات',
-        aiSend: 'إرسال',
-        aiThinking: 'جارٍ التفكير...',
-        aiError: 'الذكاء غير متاح حالياً. حاول مرة أخرى.',
-        colorsModalTitle: 'استوديو الألوان',
-        colorsModalDesc: 'تخصيص ألوان الموقع.',
-        colorLabelBg: 'الخلفية',
-        colorLabelBg2: 'التدرج',
-        colorLabelCard: 'البطاقة',
-        colorLabelText: 'النص',
-        colorLabelCyan: 'اللون الأساسي',
-        colorLabelRed: 'التحذير',
-        save: 'حفظ',
-        reset: 'إعادة ضبط',
         filterAll: 'الكل'
       }
     };
 
     function t(key) {
       return (uiText[currentLang] && uiText[currentLang][key]) || uiText.en[key] || key;
-    }
-
-    function localizeNewsTag(item, fallback = 'topStory') {
-      const raw = String(item?.tag || '').trim();
-      const region = item?.region === 'morocco' ? homeLabel('morocco') : item?.region === 'global' ? homeLabel('global') : '';
-      const sport = item?.sport ? (item.sport === 'chess' ? t('chess') : homeLabel(item.sport)) : '';
-      const normalized = raw.toLowerCase();
-
-      if (normalized.includes('breaking')) return homeLabel('breaking');
-      if (normalized.includes('trending')) return homeLabel('trending');
-      if (normalized.includes('latest')) return homeLabel('latest');
-      if (normalized.includes('chess')) return t('chess');
-
-      if (region && sport && /(football|basket|tennis|esport|chess|كرة|تنس|سلة)/i.test(normalized || `${region} ${sport}`)) {
-        return `${region} ${sport}`.trim();
-      }
-
-      if (region && sport && !raw) return `${region} ${sport}`.trim();
-      return raw || homeLabel(fallback);
-    }
-
-    function improveImageUrl(url = '') {
-      let u = String(url || '').trim();
-      if (!u) return '';
-      u = u.replace(/&amp;/g, '&');
-      u = u.replace(/-\d+x\d+(?=\.(jpg|jpeg|png|webp))/i, '');
-      u = u.replace(/([?&])(w|width|h|height|resize|fit|crop|quality|q)=([^&]+)/gi, '$1');
-      u = u.replace(/[?&]+$/, '').replace(/[?&]{2,}/g, '&').replace('?&', '?');
-      u = u.replace(/=w\d+-h\d+(-p-k-no-nu)?/i, '=s1600');
-      u = u.replace(/=w\d+/i, '=s1600');
-      return u;
     }
 
     function setTheme(theme) {
@@ -2038,11 +1929,6 @@
       }
 
       $('#active-search-input').attr('placeholder', `${t('search')}...`);
-      $('#ticker-label span').text(homeLabel('breaking'));
-      if ($('#home-page').hasClass('active')) renderHome();
-      if ($('#global-page').hasClass('active')) renderGlobalFeed();
-      if ($('#morocco-page').hasClass('active')) renderMoroccoFeed();
-      renderBreakingTicker();
     }
 
     async function initAppPrefs() {
@@ -2929,7 +2815,7 @@
       return data.items.map(item => ({
         title: item.title || 'Untitled',
         desc: (item.description || '').replace(/<[^>]*>?/gm, ''),
-        img: improveImageUrl(item.thumbnail || item.enclosure?.link || item.enclosure || ''),
+        img: item.thumbnail || item.enclosure?.link || item.enclosure || '',
         link: item.link || '#',
         pubDate: item.pubDate || ''
       }));
@@ -2946,7 +2832,7 @@
       return items.map(item => ({
         title: item.querySelector('title')?.textContent?.trim() || 'Untitled',
         desc: (item.querySelector('description')?.textContent || '').replace(/<[^>]*>?/gm, ''),
-        img: improveImageUrl(item.querySelector('enclosure')?.getAttribute('url') || item.querySelector('media\:content, content')?.getAttribute('url') || item.querySelector('media\:thumbnail, thumbnail')?.getAttribute('url') || ''),
+        img: item.querySelector('enclosure')?.getAttribute('url') || item.querySelector('media\:content, content')?.getAttribute('url') || item.querySelector('media\:thumbnail, thumbnail')?.getAttribute('url') || '',
         link: item.querySelector('link')?.textContent?.trim() || '#',
         pubDate: item.querySelector('pubDate')?.textContent?.trim() || ''
       }));
@@ -2980,7 +2866,7 @@
         const link = a.href || '#';
         if (!title || title.length < 18 || seen.has(title)) continue;
         seen.add(title);
-        const img = improveImageUrl(a.querySelector('img')?.src || a.closest('article')?.querySelector('img')?.src || '');
+        const img = a.querySelector('img')?.src || a.closest('article')?.querySelector('img')?.src || '';
         items.push({ title, desc: '', img, link, pubDate: '' });
         if (items.length >= 12) break;
       }
@@ -3007,7 +2893,7 @@
           id: masterPool.length,
           title: item.title || 'Untitled',
           desc: item.desc || '',
-          img: improveImageUrl(item.img) || 'https://via.placeholder.com/1200x675?text=Moroccansportshub',
+          img: item.img || 'https://via.placeholder.com/800x450?text=Moroccansportshub',
           link: item.link || '#',
           tag: opts.tag || '',
           sport: opts.sport || '',
@@ -3023,7 +2909,7 @@
     function renderIdsGrid(selector, ids, emptyText) {
       const html = ids.length ? ids.map(id => {
         const n = masterPool[id];
-        return `<div class="mini-card" onclick="openDetails(${n.id})"><span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${localizeNewsTag(n, 'topStory')}</span><h3>${n.title}</h3></div>`;
+        return `<div class="mini-card" onclick="openDetails(${n.id})"><span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${n.tag || ''}</span><h3>${n.title}</h3></div>`;
       }).join('') : `<div class="mini-card"><h3>${emptyText}</h3></div>`;
       $(selector).html(html);
     }
@@ -3149,7 +3035,7 @@
       const ids = moroccoCurrentFilter === 'all'
         ? masterPool.filter(n => n.region === 'morocco').map(n => n.id)
         : masterPool.filter(n => n.region === 'morocco' && n.sport === moroccoCurrentFilter).map(n => n.id);
-      renderIdsGrid('#feed-morocco', ids, t('noNewsMorocco')); 
+      renderIdsGrid('#feed-morocco', ids, 'Moroccan news unavailable right now.');
     }
 
     function setGlobalFilter(filter) {
@@ -3161,7 +3047,7 @@
 
     function renderGlobalFeed() {
       const ids = globalCurrentFilter === 'all' ? globalPool : globalPool.filter(id => masterPool[id]?.sport === globalCurrentFilter);
-      renderIdsGrid('#feed-global', ids, t('globalPageTitle') + ' ' + t('noNewsGeneric')); 
+      renderIdsGrid('#feed-global', ids, 'Global news unavailable right now.');
     }
 
     async function loadStaticFeeds() {
@@ -3169,7 +3055,7 @@
         { kind:'rss', url:'https://www.chess.com/rss/news' },
         { kind:'rss', url: googleNewsRss('chess FIDE', 'en-US', 'US:en', 'US') }
       ], { tag:'CHESS', sport:'chess', region:'global', limit:18 });
-      renderIdsGrid('#feed-chess', chessIds, t('chessPageTitle') + ' ' + t('noNewsGeneric')); 
+      renderIdsGrid('#feed-chess', chessIds, 'Chess news unavailable right now.');
     }
 
 
@@ -3322,52 +3208,36 @@ function renderHome(forceShuffle = false) {
 
       const featured = featuredWindow[featuredIndex];
       const remaining = newestPool.filter(n => n.id !== featured.id);
-      const imgSrc = improveImageUrl(featured.img) || 'https://via.placeholder.com/1200x675?text=Moroccansportshub';
+      const imgSrc = featured.img && featured.img.trim() !== '' ? featured.img : 'https://via.placeholder.com/1200x675?text=Moroccansportshub';
       const heroSummary = (featured.desc || '').trim();
       const heroCopy = heroSummary.length > 260 ? `${heroSummary.slice(0, 257).trim()}...` : heroSummary;
-      const heroTag = localizeNewsTag(featured, 'topStory');
-      const heroSport = featured.sport === 'chess' ? t('chess') : homeLabel(featured.sport || 'football');
-      const heroRegion = featured.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+      const heroTag = featured.tag || (featured.region === 'morocco' ? 'Morocco' : 'Top Story');
+      const heroSport = featured.sport || 'Football';
+      const heroRegion = featured.region || 'Global';
 
       $('#center-intel').html(`
         <div class="hero-kicker"><i class="fa-solid fa-bolt"></i><span>${heroTag}</span></div>
         <div class="hero-meta">
-          <span class="hero-pill"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
+          <span class="hero-pill"><i class="fa-solid fa-fire"></i> Trending</span>
           <span class="hero-pill"><i class="fa-solid fa-layer-group"></i> ${heroSport}</span>
           <span class="hero-pill"><i class="fa-solid fa-earth-africa"></i> ${heroRegion}</span>
         </div>
         <h1 onclick="openDetails(${featured.id})">${featured.title}</h1>
-        <div class="hero-media-wrap" onclick="openDetails(${featured.id})">
-          <img src="${imgSrc}" alt="${featured.title}" onclick="openDetails(${featured.id})" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
-          <div class="hero-floating-badges">
-            <span class="breaking-badge"><i class="fa-solid fa-bolt"></i> ${homeLabel('breaking')}</span>
-            <span class="trending-badge"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
-            <span class="ai-badge"><i class="fa-solid fa-brain"></i> ${homeLabel('aiPick')}</span>
-          </div>
-        </div>
-        <p class="feature-summary">${heroCopy || homeLabel('fallbackSummary')}</p>
+        <img src="${imgSrc}" alt="${featured.title}" onclick="openDetails(${featured.id})" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
+        <p class="feature-summary">${heroCopy || 'Latest sports intelligence curated for Moroccansportshub readers.'}</p>
         <div class="feature-cta-row">
-          <button class="solid-btn" onclick="openDetails(${featured.id})">${homeLabel('readStory')}</button>
+          <button class="solid-btn" onclick="openDetails(${featured.id})">Read Story</button>
           <div class="hero-meta">
-            <span class="hero-pill"><i class="fa-solid fa-clock"></i> ${homeLabel('updated')}</span>
-            <span class="hero-pill"><i class="fa-solid fa-brain"></i> ${homeLabel('aiPick')}</span>
+            <span class="hero-pill"><i class="fa-solid fa-clock"></i> Updated</span>
+            <span class="hero-pill"><i class="fa-solid fa-brain"></i> AI Pick</span>
           </div>
-        </div>
-        <div class="hero-bottom-strip">
-          <div class="hero-stat"><strong>${homeLabel('focus')}</strong><span>${heroSport}</span></div>
-          <div class="hero-stat"><strong>${homeLabel('region')}</strong><span>${heroRegion}</span></div>
-          <div class="hero-stat"><strong>${homeLabel('status')}</strong><span>${homeLabel('livePulse')}</span></div>
         </div>
       `);
 
       $('#wire-left').html(remaining.slice(0, Math.min(9, remaining.length)).map((n, i) => `
         <div class="side-item" onclick="openDetails(${n.id})">
-          <div class="side-item-top">
-            <span class="side-rank">${i + 1}</span>
-            <div class="mini-card-tag"><span>${i < 3 ? homeLabel('breaking') : localizeNewsTag(n, 'latest')}</span></div>
-          </div>
+          <div class="mini-card-tag"><span>${i < 3 ? 'Breaking' : (n.tag || 'Latest')}</span></div>
           <h4>${n.title}</h4>
-          <small>${n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global')} • ${n.sport === 'chess' ? t('chess') : homeLabel(n.sport || 'football')}</small>
         </div>
       `).join(''));
 
@@ -3376,13 +3246,9 @@ function renderHome(forceShuffle = false) {
         const copy = summary.length > 88 ? `${summary.slice(0, 85).trim()}...` : summary;
         return `
           <div class="mini-card" onclick="openDetails(${n.id})">
-            <span class="mini-card-tag">${localizeNewsTag(n, 'topStory')}</span>
+            <span class="mini-card-tag">${n.tag || 'Top Story'}</span>
             <h3>${n.title}</h3>
-            <p>${copy || homeLabel('fallbackCard')}</p>
-            <div class="mini-card-meta">
-              <span class="mini-chip"><i class="fa-solid fa-layer-group"></i>${n.sport === 'chess' ? t('chess') : homeLabel(n.sport || 'football')}</span>
-              <span class="mini-chip"><i class="fa-solid fa-clock"></i>${relativeTimeLabel(n.time || n.date || n.pubDate || Date.now())}</span>
-            </div>
+            <p>${copy || 'Tap to open the full story and reactions.'}</p>
           </div>
         `;
       }).join(''));
@@ -3392,10 +3258,10 @@ function openDetails(id) {
       const n = masterPool[id];
       if (!n) return;
 
-      const image = n.img && !String(n.img).includes('via.placeholder.com') ? improveImageUrl(n.img) : '';
+      const image = n.img && !String(n.img).includes('via.placeholder.com') ? n.img : '';
       const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
-      const sportLabel = n.sport === 'chess' ? t('chess') : homeLabel(n.sport || 'football');
-      const primaryBadge = localizeNewsTag(n, 'topStory');
+      const sportLabel = homeLabel(n.sport || 'football');
+      const primaryBadge = n.tag || homeLabel('topStory');
       const timeLabel = relativeTimeLabel(n.time || n.date || n.pubDate || Date.now());
 
       $('#m-title').text(n.title);
@@ -3659,8 +3525,7 @@ function openDetails(id) {
         },
         body: JSON.stringify({
           question: query,
-          siteContext,
-          lang: currentLang
+          siteContext
         })
       });
 
@@ -3688,7 +3553,7 @@ function openDetails(id) {
         }
       }
 
-      appendAiMessage('bot', t('aiThinking'));
+      appendAiMessage('bot', 'Thinking...');
       try {
         const answer = await askBackendAI(text);
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
