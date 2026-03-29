@@ -440,42 +440,12 @@
       line-height: 1.65;
       font-size: .84rem;
     }
-    .news-thumb {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: linear-gradient(135deg, rgba(0,242,254,.08), rgba(255,255,255,.03));
-      margin-bottom: 14px;
-      position: relative;
+    .mini-card img, .feature img, #detail-image-wrap img {
+      image-rendering: auto;
+      filter: saturate(1.04) contrast(1.03);
     }
-    .news-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .news-thumb-fallback {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 8px;
-      color: var(--cyan);
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      background: radial-gradient(circle at top right, rgba(0,242,254,.14), transparent 35%), linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-    }
-    .news-thumb-fallback small {
-      color: var(--dim);
-      font-size: .72rem;
-      font-weight: 700;
-      text-transform: none;
-      letter-spacing: normal;
+    html[dir="rtl"] .hero-meta, html[dir="rtl"] .detail-top-meta, html[dir="rtl"] .mini-card-meta, html[dir="rtl"] .hero-floating-badges {
+      justify-content: flex-start;
     }
     .mini-card-tag {
       display: inline-flex;
@@ -1669,29 +1639,7 @@
         moroccoTennisDesc: 'FRMT tournaments, national team updates, and Morocco tennis news.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Moroccan esports and gaming stories in one dedicated page.',
-        filterAll: 'All',
-        aiTitle: 'Sports AI',
-        aiWelcome: 'Ask me any sports question. Quick buttons can also pull matching website news.',
-        aiInputPlaceholder: 'Ask a sports question...',
-        aiQuickMorocco: 'Morocco football',
-        aiQuickGlobal: 'Global football',
-        aiQuickTennis: 'Tennis',
-        aiQuickMatches: 'Matches',
-        aiPromptMorocco: 'Latest Moroccan football news',
-        aiPromptGlobal: 'Latest global football news',
-        aiPromptTennis: 'Latest tennis news',
-        aiPromptMatches: 'Latest matches news',
-        aiSend: 'Send',
-        colorsModalTitle: 'Color Studio',
-        colorsModalDesc: 'Customize the website palette.',
-        colorLabelBg: 'Background',
-        colorLabelBg2: 'Gradient',
-        colorLabelCard: 'Card',
-        colorLabelText: 'Text',
-        colorLabelCyan: 'Accent',
-        colorLabelRed: 'Danger',
-        save: 'Save',
-        reset: 'Reset'
+        filterAll: 'All'
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -1775,29 +1723,7 @@
         moroccoTennisDesc: 'Tournois FRMT, sélections nationales et actualités du tennis marocain.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Actualités marocaines de l’esport et du gaming.',
-        filterAll: 'Tout',
-        aiTitle: 'IA Sport',
-        aiWelcome: 'Posez-moi n'importe quelle question sportive. Les boutons rapides peuvent aussi afficher les actualités du site.',
-        aiInputPlaceholder: 'Posez une question sportive...',
-        aiQuickMorocco: 'Football marocain',
-        aiQuickGlobal: 'Football mondial',
-        aiQuickTennis: 'Tennis',
-        aiQuickMatches: 'Matchs',
-        aiPromptMorocco: 'Dernières nouvelles du football marocain',
-        aiPromptGlobal: 'Dernières nouvelles du football mondial',
-        aiPromptTennis: 'Dernières nouvelles du tennis',
-        aiPromptMatches: 'Dernières nouvelles des matchs',
-        aiSend: 'Envoyer',
-        colorsModalTitle: 'Studio Couleurs',
-        colorsModalDesc: 'Personnalisez la palette du site.',
-        colorLabelBg: 'Arrière-plan',
-        colorLabelBg2: 'Dégradé',
-        colorLabelCard: 'Carte',
-        colorLabelText: 'Texte',
-        colorLabelCyan: 'Accent',
-        colorLabelRed: 'Danger',
-        save: 'Enregistrer',
-        reset: 'Réinitialiser'
+        filterAll: 'Tout'
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -1881,7 +1807,78 @@
         moroccoTennisDesc: 'بطولات الجامعة، تحديثات المنتخب وأخبار التنس المغربي.',
         moroccoEsportTitle: 'الرياضات الإلكترونية',
         moroccoEsportDesc: 'أخبار الرياضات الإلكترونية والألعاب في المغرب.',
-        filterAll: 'الكل',
+        filterAll: 'الكل'
+      }
+    };
+
+    const extraUiText = {
+      en: {
+        aiTitle: 'Sports AI',
+        aiWelcome: 'Ask me any sports question. Quick buttons can also pull matching website news.',
+        aiInputPlaceholder: 'Ask a sports question...',
+        aiQuickMorocco: 'Morocco football',
+        aiQuickGlobal: 'Global football',
+        aiQuickTennis: 'Tennis',
+        aiQuickMatches: 'Matches',
+        aiPromptMorocco: 'Latest Moroccan football news',
+        aiPromptGlobal: 'Latest global football news',
+        aiPromptTennis: 'Latest tennis news',
+        aiPromptMatches: 'Latest matches news',
+        aiSend: 'Send',
+        aiError: 'AI is currently unavailable. Try again.',
+        colorsModalTitle: 'Color Studio',
+        colorsModalDesc: 'Customize the website palette.',
+        colorLabelBg: 'Background',
+        colorLabelBg2: 'Gradient',
+        colorLabelCard: 'Card',
+        colorLabelText: 'Text',
+        colorLabelCyan: 'Accent',
+        colorLabelRed: 'Danger',
+        save: 'Save',
+        reset: 'Reset',
+        loadingNews: 'Loading news...',
+        loading: 'Loading...',
+        noNewsChess: 'Chess news unavailable right now.',
+        noNewsGlobal: 'Global news unavailable right now.',
+        noNewsFootball: 'Football news unavailable right now.',
+        noNewsBasketball: 'Basketball news unavailable right now.',
+        noNewsTennis: 'Tennis news unavailable right now.',
+        noNewsEsports: 'Esport news unavailable right now.'
+      },
+      fr: {
+        aiTitle: 'IA Sport',
+        aiWelcome: "Posez-moi n'importe quelle question sportive. Les boutons rapides peuvent aussi afficher les actualités du site.",
+        aiInputPlaceholder: 'Posez une question sportive...',
+        aiQuickMorocco: 'Football marocain',
+        aiQuickGlobal: 'Football mondial',
+        aiQuickTennis: 'Tennis',
+        aiQuickMatches: 'Matchs',
+        aiPromptMorocco: 'Dernières nouvelles du football marocain',
+        aiPromptGlobal: 'Dernières nouvelles du football mondial',
+        aiPromptTennis: 'Dernières nouvelles du tennis',
+        aiPromptMatches: 'Dernières nouvelles des matchs',
+        aiSend: 'Envoyer',
+        aiError: 'IA indisponible. Réessayez.',
+        colorsModalTitle: 'Studio Couleurs',
+        colorsModalDesc: 'Personnalisez la palette du site.',
+        colorLabelBg: 'Arrière-plan',
+        colorLabelBg2: 'Dégradé',
+        colorLabelCard: 'Carte',
+        colorLabelText: 'Texte',
+        colorLabelCyan: 'Accent',
+        colorLabelRed: 'Danger',
+        save: 'Enregistrer',
+        reset: 'Réinitialiser',
+        loadingNews: 'Chargement des actualités...',
+        loading: 'Chargement...',
+        noNewsChess: "Actualités d'échecs indisponibles pour le moment.",
+        noNewsGlobal: 'Actualités mondiales indisponibles pour le moment.',
+        noNewsFootball: 'Actualités football indisponibles pour le moment.',
+        noNewsBasketball: 'Actualités basket indisponibles pour le moment.',
+        noNewsTennis: 'Actualités tennis indisponibles pour le moment.',
+        noNewsEsports: 'Actualités esport indisponibles pour le moment.'
+      },
+      ar: {
         aiTitle: 'الذكاء الرياضي',
         aiWelcome: 'اسألني أي سؤال رياضي. ويمكن للأزرار السريعة أيضاً عرض أخبار مطابقة من الموقع.',
         aiInputPlaceholder: 'اسأل سؤالاً رياضياً...',
@@ -1894,21 +1891,44 @@
         aiPromptTennis: 'آخر أخبار التنس',
         aiPromptMatches: 'آخر أخبار المباريات',
         aiSend: 'إرسال',
+        aiError: 'الذكاء غير متاح حالياً. حاول مرة أخرى.',
         colorsModalTitle: 'استوديو الألوان',
         colorsModalDesc: 'تخصيص ألوان الموقع.',
         colorLabelBg: 'الخلفية',
         colorLabelBg2: 'التدرج',
         colorLabelCard: 'البطاقة',
         colorLabelText: 'النص',
-        colorLabelCyan: 'التمييز',
+        colorLabelCyan: 'اللون الأساسي',
         colorLabelRed: 'الخطر',
         save: 'حفظ',
-        reset: 'إعادة ضبط'
+        reset: 'إعادة الضبط',
+        loadingNews: 'جارٍ تحميل الأخبار...',
+        loading: 'جارٍ التحميل...',
+        noNewsChess: 'أخبار الشطرنج غير متوفرة حالياً.',
+        noNewsGlobal: 'أخبار العالم غير متوفرة حالياً.',
+        noNewsFootball: 'أخبار كرة القدم غير متوفرة حالياً.',
+        noNewsBasketball: 'أخبار كرة السلة غير متوفرة حالياً.',
+        noNewsTennis: 'أخبار التنس غير متوفرة حالياً.',
+        noNewsEsports: 'أخبار الرياضات الإلكترونية غير متوفرة حالياً.'
       }
     };
 
+    Object.keys(extraUiText).forEach(langKey => {
+      uiText[langKey] = Object.assign({}, extraUiText[langKey], uiText[langKey] || {});
+    });
+
     function t(key) {
       return (uiText[currentLang] && uiText[currentLang][key]) || uiText.en[key] || key;
+    }
+
+    function getAiQuickPrompt(kind) {
+      const map = {
+        morocco: 'aiPromptMorocco',
+        global: 'aiPromptGlobal',
+        tennis: 'aiPromptTennis',
+        matches: 'aiPromptMatches'
+      };
+      return t(map[kind] || 'aiPromptGlobal');
     }
 
     function setTheme(theme) {
@@ -2000,6 +2020,10 @@
       $('#ai-quick-tennis').text(t('aiQuickTennis'));
       $('#ai-quick-matches').text(t('aiQuickMatches'));
       $('#ai-send-btn').text(t('aiSend'));
+      $('#ai-quick-morocco').attr('onclick', "askAiQuick(getAiQuickPrompt('morocco'))");
+      $('#ai-quick-global').attr('onclick', "askAiQuick(getAiQuickPrompt('global'))");
+      $('#ai-quick-tennis').attr('onclick', "askAiQuick(getAiQuickPrompt('tennis'))");
+      $('#ai-quick-matches').attr('onclick', "askAiQuick(getAiQuickPrompt('matches'))");
       $('#colors-modal-title').text(t('colorsModalTitle'));
       $('#colors-modal-desc').text(t('colorsModalDesc'));
       $('#color-label-bg').text(t('colorLabelBg'));
@@ -2880,53 +2904,6 @@
       return d.toISOString().slice(0, 10);
     }
 
-
-    function getAiQuickPrompt(kind) {
-      if (kind === 'morocco') return t('aiPromptMorocco');
-      if (kind === 'global') return t('aiPromptGlobal');
-      if (kind === 'tennis') return t('aiPromptTennis');
-      if (kind === 'matches') return t('aiPromptMatches');
-      return '';
-    }
-
-    function localizeNewsTag(tag = '', sport = '', region = '') {
-      const normalizedTag = String(tag || '').trim().toLowerCase();
-      const regionKey = String(region || '').toLowerCase() === 'morocco' ? homeLabel('morocco') : homeLabel('global');
-      const sportKey = homeLabel(String(sport || 'football').toLowerCase());
-      if (normalizedTag.includes('morocco') || normalizedTag.includes('maroc')) return `${regionKey} ${sportKey}`;
-      if (normalizedTag.includes('global')) return `${regionKey} ${sportKey}`;
-      if (normalizedTag.includes('chess')) return t('chess');
-      if (normalizedTag.includes('esport')) return homeLabel('esports');
-      if (normalizedTag.includes('basket')) return `${regionKey} ${homeLabel('basketball')}`;
-      if (normalizedTag.includes('tennis')) return `${regionKey} ${homeLabel('tennis')}`;
-      return tag || `${regionKey} ${sportKey}`;
-    }
-
-    function upgradeImageUrl(url = '') {
-      let out = String(url || '').trim();
-      if (!out) return '';
-      out = out.replace(/&amp;/g, '&');
-      out = out.replace(/-\d{2,4}x\d{2,4}(?=\.(jpg|jpeg|png|webp))/i, '');
-      out = out.replace(/([?&])(w|width)=\d+/ig, '$11200');
-      out = out.replace(/([?&])(h|height)=\d+/ig, '$1675');
-      out = out.replace(/([?&])resize=\d+,\d+/ig, '$1resize=1200,675');
-      out = out.replace(/([?&])fit=crop/ig, '$1fit=crop');
-      return out;
-    }
-
-    function getDisplayImage(item) {
-      const upgraded = upgradeImageUrl(item?.img || '');
-      return upgraded || '';
-    }
-
-    function imageCardHtml(item, extraClass = '') {
-      const src = getDisplayImage(item);
-      if (!src) {
-        return `<div class="news-thumb ${extraClass}"><div class="news-thumb-fallback"><i class="fa-solid fa-image"></i><span>${t('brand')}</span><small>${localizeNewsTag(item.tag, item.sport, item.region)}</small></div></div>`;
-      }
-      return `<div class="news-thumb ${extraClass}"><img src="${src}" alt="${(item.title || '').replace(/"/g,'&quot;')}" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=&quot;news-thumb-fallback&quot;><i class=&quot;fa-solid fa-image&quot;></i><span>${t('brand')}</span><small>${localizeNewsTag(item.tag, item.sport, item.region)}</small></div>');"></div>`;
-    }
-
     function parsePubDate(value) {
       if (!value) return 0;
       const ts = new Date(value).getTime();
@@ -2957,6 +2934,24 @@
       }
     }
 
+    function upgradeImageUrl(url = '') {
+      let clean = String(url || '').trim();
+      if (!clean) return '';
+      clean = clean.replace(/&amp;/g, '&');
+      if (clean.startsWith('//')) clean = 'https:' + clean;
+      if (clean.includes('via.placeholder.com')) return clean;
+      clean = clean.replace(/([?&])(w|width|h|height|q|quality)=\d+/gi, '$1');
+      clean = clean.replace(/[?&]+$/,'');
+      clean = clean.replace(/\/\d{2,4}\//g, '/1024/');
+      clean = clean.replace(/-\d+x\d+(?=\.[a-z]{3,4}(?:$|\?))/i, '-1200x675');
+      clean = clean.replace(/(\.(jpg|jpeg|png|webp))(\?.*)?$/i, '$1');
+      return clean;
+    }
+
+    function bestImage(url = '') {
+      return upgradeImageUrl(url) || 'https://via.placeholder.com/1200x675?text=Moroccansportshub';
+    }
+
     async function fetchRssViaRss2Json(url) {
       const res = await fetchWithTimeout('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url), {}, 2600);
       if (!res.ok) throw new Error('rss2json failed');
@@ -2965,7 +2960,7 @@
       return data.items.map(item => ({
         title: item.title || 'Untitled',
         desc: (item.description || '').replace(/<[^>]*>?/gm, ''),
-        img: item.thumbnail || item.enclosure?.link || item.enclosure || '',
+        img: upgradeImageUrl(item.thumbnail || item.enclosure?.link || item.enclosure || ''),
         link: item.link || '#',
         pubDate: item.pubDate || ''
       }));
@@ -2982,7 +2977,7 @@
       return items.map(item => ({
         title: item.querySelector('title')?.textContent?.trim() || 'Untitled',
         desc: (item.querySelector('description')?.textContent || '').replace(/<[^>]*>?/gm, ''),
-        img: item.querySelector('enclosure')?.getAttribute('url') || item.querySelector('media\:content, content')?.getAttribute('url') || item.querySelector('media\:thumbnail, thumbnail')?.getAttribute('url') || '',
+        img: upgradeImageUrl(item.querySelector('enclosure')?.getAttribute('url') || item.querySelector('media\:content, content')?.getAttribute('url') || item.querySelector('media\:thumbnail, thumbnail')?.getAttribute('url') || ''),
         link: item.querySelector('link')?.textContent?.trim() || '#',
         pubDate: item.querySelector('pubDate')?.textContent?.trim() || ''
       }));
@@ -3016,7 +3011,7 @@
         const link = a.href || '#';
         if (!title || title.length < 18 || seen.has(title)) continue;
         seen.add(title);
-        const img = a.querySelector('img')?.src || a.closest('article')?.querySelector('img')?.src || '';
+        const img = upgradeImageUrl(a.querySelector('img')?.src || a.closest('article')?.querySelector('img')?.src || '');
         items.push({ title, desc: '', img, link, pubDate: '' });
         if (items.length >= 12) break;
       }
@@ -3043,7 +3038,7 @@
           id: masterPool.length,
           title: item.title || 'Untitled',
           desc: item.desc || '',
-          img: upgradeImageUrl(item.img || ''),
+          img: bestImage(item.img),
           link: item.link || '#',
           tag: opts.tag || '',
           sport: opts.sport || '',
@@ -3056,13 +3051,37 @@
       return ids;
     }
 
+    function localizedEmptyText(message = '') {
+      const m = String(message || '').toLowerCase();
+      if (m.includes('chess')) return t('noNewsChess');
+      if (m.includes('global')) return t('noNewsGlobal');
+      if (m.includes('football')) return t('noNewsFootball');
+      if (m.includes('basket')) return t('noNewsBasketball');
+      if (m.includes('tennis')) return t('noNewsTennis');
+      if (m.includes('esport')) return t('noNewsEsports');
+      if (m.includes('moroccan') || m.includes('maroc')) return t('noNewsMorocco');
+      return message || t('loading');
+    }
+
     function renderIdsGrid(selector, ids, emptyText) {
       const html = ids.length ? ids.map(id => {
         const n = masterPool[id];
-        const tagLabel = localizeNewsTag(n.tag, n.sport, n.region);
-        const copy = safeSnippet(n.desc || '', 96);
-        return `<div class="mini-card" onclick="openDetails(${n.id})">${imageCardHtml(n)}<span class="mini-card-tag">${tagLabel}</span><h3>${n.title}</h3><p>${copy || homeLabel('fallbackCard')}</p></div>`;
-      }).join('') : `<div class="mini-card"><h3>${emptyText}</h3></div>`;
+        const sportLabel = homeLabel(n.sport || 'football');
+        const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+        const tagLabel = n.tag ? String(n.tag).replace('MOROCCO', homeLabel('morocco')).replace('GLOBAL', homeLabel('global')).replace('FOOTBALL', homeLabel('football')).replace('BASKETBALL', homeLabel('basketball')).replace('TENNIS', homeLabel('tennis')).replace('ESPORT', homeLabel('esports')) : sportLabel;
+        const image = bestImage(n.img);
+        return `<div class="mini-card" onclick="openDetails(${n.id})">
+          <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
+            <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
+          </div>
+          <span class="mini-card-tag">${tagLabel}</span>
+          <h3>${n.title}</h3>
+          <div class="mini-card-meta">
+            <span class="mini-chip"><i class="fa-solid fa-layer-group"></i>${sportLabel}</span>
+            <span class="mini-chip"><i class="fa-solid fa-earth-africa"></i>${regionLabel}</span>
+          </div>
+        </div>`;
+      }).join('') : `<div class="mini-card"><h3>${localizedEmptyText(emptyText)}</h3></div>`;
       $(selector).html(html);
     }
 
@@ -3349,7 +3368,7 @@ function renderHome(forceShuffle = false) {
       const newestPool = sortItemsByNewest(recentPool.length ? recentPool : masterPool);
       if (!newestPool.length) return;
 
-      const featuredSource = newestPool.filter(n => getDisplayImage(n));
+      const featuredSource = newestPool.filter(n => n.img && !String(n.img).includes('via.placeholder.com'));
       const featuredWindow = (featuredSource.length ? featuredSource : newestPool).slice(0, Math.min(24, (featuredSource.length ? featuredSource : newestPool).length));
       let featuredIndex = 0;
 
@@ -3360,12 +3379,15 @@ function renderHome(forceShuffle = false) {
 
       const featured = featuredWindow[featuredIndex];
       const remaining = newestPool.filter(n => n.id !== featured.id);
-      const imgSrc = getDisplayImage(featured);
+      const imgSrc = bestImage(featured.img);
       const heroSummary = (featured.desc || '').trim();
       const heroCopy = heroSummary.length > 260 ? `${heroSummary.slice(0, 257).trim()}...` : heroSummary;
-      const heroTag = localizeNewsTag(featured.tag, featured.sport, featured.region);
+      const heroTag = featured.tag
+        ? String(featured.tag).replace('MOROCCO', homeLabel('morocco')).replace('GLOBAL', homeLabel('global')).replace('FOOTBALL', homeLabel('football')).replace('BASKETBALL', homeLabel('basketball')).replace('TENNIS', homeLabel('tennis')).replace('ESPORT', homeLabel('esports'))
+        : (featured.region === 'morocco' ? homeLabel('morocco') : homeLabel('topStory'));
       const heroSport = homeLabel(featured.sport || 'football');
       const heroRegion = featured.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+      const heroTime = relativeTimeLabel(featured.time || featured.date || featured.pubDate || Date.now());
 
       $('#center-intel').html(`
         <div class="hero-kicker"><i class="fa-solid fa-bolt"></i><span>${heroTag}</span></div>
@@ -3373,39 +3395,62 @@ function renderHome(forceShuffle = false) {
           <span class="hero-pill"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
           <span class="hero-pill"><i class="fa-solid fa-layer-group"></i> ${heroSport}</span>
           <span class="hero-pill"><i class="fa-solid fa-earth-africa"></i> ${heroRegion}</span>
+          <span class="hero-pill"><i class="fa-solid fa-clock"></i> ${heroTime}</span>
         </div>
         <h1 onclick="openDetails(${featured.id})">${featured.title}</h1>
-        <div class="hero-media-wrap" onclick="openDetails(${featured.id})">${imgSrc ? `<img src="${imgSrc}" alt="${featured.title.replace(/"/g,'&quot;')}" loading="eager" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentNode.innerHTML='<div class=&quot;news-thumb-fallback&quot; style=&quot;position:absolute;inset:0;border-radius:22px;&quot;><i class=&quot;fa-solid fa-image&quot;></i><span>${t('brand')}</span><small>${heroTag}</small></div>'">` : `<div class="news-thumb-fallback" style="position:absolute;inset:0;border-radius:22px;"><i class="fa-solid fa-image"></i><span>${t('brand')}</span><small>${heroTag}</small></div>`}<div class="hero-floating-badges"><span class="breaking-badge"><i class="fa-solid fa-bolt"></i> ${homeLabel('breaking')}</span><span class="trending-badge"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span><span class="ai-badge"><i class="fa-solid fa-brain"></i> ${homeLabel('aiPick')}</span></div></div>
+        <div class="hero-media-wrap" onclick="openDetails(${featured.id})">
+          <img src="${imgSrc}" alt="${featured.title}" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
+          <div class="hero-floating-badges">
+            <span class="breaking-badge"><i class="fa-solid fa-bolt"></i> ${homeLabel('breaking')}</span>
+            <span class="trending-badge"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
+            <span class="ai-badge"><i class="fa-solid fa-brain"></i> ${homeLabel('aiPick')}</span>
+          </div>
+        </div>
         <p class="feature-summary">${heroCopy || homeLabel('fallbackSummary')}</p>
         <div class="feature-cta-row">
           <button class="solid-btn" onclick="openDetails(${featured.id})">${homeLabel('readStory')}</button>
           <div class="hero-meta">
             <span class="hero-pill"><i class="fa-solid fa-clock"></i> ${homeLabel('updated')}</span>
-            <span class="hero-pill"><i class="fa-solid fa-brain"></i> ${homeLabel('aiPick')}</span>
+            <span class="hero-pill"><i class="fa-solid fa-chart-line"></i> ${homeLabel('livePulse')}</span>
           </div>
+        </div>
+        <div class="hero-bottom-strip">
+          <div class="hero-stat"><strong>${homeLabel('focus')}</strong><span>${heroSport}</span></div>
+          <div class="hero-stat"><strong>${homeLabel('region')}</strong><span>${heroRegion}</span></div>
+          <div class="hero-stat"><strong>${homeLabel('status')}</strong><span>${homeLabel('livePulse')}</span></div>
         </div>
       `);
 
       $('#wire-left').html(remaining.slice(0, Math.min(9, remaining.length)).map((n, i) => {
-        const sideLabel = i < 3 ? homeLabel('breaking') : localizeNewsTag(n.tag, n.sport, n.region);
+        const badge = getNewsBadge(n, i);
         return `
-          <div class="side-item" onclick="openDetails(${n.id})">
-            <div class="mini-card-tag"><span>${sideLabel}</span></div>
-            <h4>${n.title}</h4>
-            <small>${homeLabel(n.region === 'morocco' ? 'morocco' : 'global')} • ${homeLabel(n.sport || 'football')}</small>
+        <div class="side-item" onclick="openDetails(${n.id})">
+          <div class="side-item-top">
+            <span class="side-rank">${i + 1}</span>
+            <div class="mini-card-tag"><i class="fa-solid ${badge.icon}"></i><span>${badge.text}</span></div>
           </div>
-        `;
+          <h4>${n.title}</h4>
+          <small>${n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global')} • ${homeLabel(n.sport || 'football')}</small>
+        </div>`;
       }).join(''));
 
-      $('#wire-right').html(remaining.slice(9, Math.min(15, remaining.length)).map(n => {
+      $('#wire-right').html(remaining.slice(9, Math.min(15, remaining.length)).map((n, i) => {
+        const badge = getNewsBadge(n, i + 1);
         const summary = (n.desc || '').trim();
         const copy = summary.length > 88 ? `${summary.slice(0, 85).trim()}...` : summary;
+        const image = bestImage(n.img);
         return `
           <div class="mini-card" onclick="openDetails(${n.id})">
-            ${imageCardHtml(n)}
-            <span class="mini-card-tag">${localizeNewsTag(n.tag, n.sport, n.region)}</span>
+            <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
+              <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:170px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
+            </div>
+            <span class="mini-card-tag"><i class="fa-solid ${badge.icon}"></i>${badge.text}</span>
             <h3>${n.title}</h3>
             <p>${copy || homeLabel('fallbackCard')}</p>
+            <div class="mini-card-meta">
+              <span class="mini-chip"><i class="fa-solid fa-layer-group"></i>${homeLabel(n.sport || 'football')}</span>
+              <span class="mini-chip"><i class="fa-solid fa-clock"></i>${relativeTimeLabel(n.time || n.date || n.pubDate || Date.now())}</span>
+            </div>
           </div>
         `;
       }).join(''));
@@ -3415,10 +3460,10 @@ function openDetails(id) {
       const n = masterPool[id];
       if (!n) return;
 
-      const image = getDisplayImage(n);
+      const image = n.img && !String(n.img).includes('via.placeholder.com') ? bestImage(n.img) : '';
       const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
       const sportLabel = homeLabel(n.sport || 'football');
-      const primaryBadge = localizeNewsTag(n.tag, n.sport, n.region) || homeLabel('topStory');
+      const primaryBadge = n.tag || homeLabel('topStory');
       const timeLabel = relativeTimeLabel(n.time || n.date || n.pubDate || Date.now());
 
       $('#m-title').text(n.title);
