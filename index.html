@@ -882,21 +882,21 @@
 
   <div class="ai-panel" id="ai-panel">
     <div class="ai-header">
-      <span id="ai-header-title">Sports AI</span>
+      <span>Sports AI</span>
       <button class="icon-btn" onclick="toggleAiAssistant(false)"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="ai-messages" id="ai-messages">
-      <div class="ai-msg bot" id="ai-welcome">Ask me any sports question. Quick buttons can also pull matching website news.</div>
+      <div class="ai-msg bot">Ask me any sports question. Quick buttons can also pull matching website news.</div>
     </div>
     <div class="ai-quick">
-      <button id="ai-quick-morocco" onclick="askAiQuick(getAiQuickPrompt('morocco'))">Morocco football</button>
-      <button id="ai-quick-global" onclick="askAiQuick(getAiQuickPrompt('global'))">Global football</button>
-      <button id="ai-quick-tennis" onclick="askAiQuick(getAiQuickPrompt('tennis'))">Tennis</button>
-      <button id="ai-quick-matches" onclick="askAiQuick(getAiQuickPrompt('matches'))">Matches</button>
+      <button onclick="askAiQuick('Latest Moroccan football news')">Morocco football</button>
+      <button onclick="askAiQuick('Latest global football news')">Global football</button>
+      <button onclick="askAiQuick('Latest tennis news')">Tennis</button>
+      <button onclick="askAiQuick('Latest matches news')">Matches</button>
     </div>
     <div class="ai-input-wrap">
       <input id="ai-input" type="text" placeholder="Ask a sports question..." onkeydown="if(event.key==='Enter') sendAiMessage()">
-      <button id="ai-send-btn" class="solid-btn" onclick="sendAiMessage()">Send</button>
+      <button class="solid-btn" onclick="sendAiMessage()">Send</button>
     </div>
   </div>
   <header>
@@ -1136,19 +1136,19 @@
   <div id="colors-modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="$('#colors-modal').hide()">&times;</span>
-      <h2 id="colors-modal-title" style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
-      <p id="colors-modal-desc" style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
+      <h2 style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
+      <p style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
       <div class="color-grid">
-        <div><label id="color-label-bg">Background</label><input type="color" id="color-bg" value="#000000"></div>
-        <div><label id="color-label-bg2">Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
-        <div><label id="color-label-card">Card</label><input type="color" id="color-card" value="#111111"></div>
-        <div><label id="color-label-text">Text</label><input type="color" id="color-text" value="#ffffff"></div>
-        <div><label id="color-label-cyan">Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
-        <div><label id="color-label-red">Danger</label><input type="color" id="color-red" value="#c1272d"></div>
+        <div><label>Background</label><input type="color" id="color-bg" value="#000000"></div>
+        <div><label>Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
+        <div><label>Card</label><input type="color" id="color-card" value="#111111"></div>
+        <div><label>Text</label><input type="color" id="color-text" value="#ffffff"></div>
+        <div><label>Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
+        <div><label>Danger</label><input type="color" id="color-red" value="#c1272d"></div>
       </div>
       <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center;">
-        <button class="solid-btn" id="colors-save-btn" onclick="saveCustomColors()">Save</button>
-        <button class="ghost-btn" id="colors-reset-btn" onclick="resetCustomColors()">Reset</button>
+        <button class="solid-btn" onclick="saveCustomColors()">Save</button>
+        <button class="ghost-btn" onclick="resetCustomColors()">Reset</button>
       </div>
     </div>
   </div>
@@ -1299,31 +1299,7 @@
         moroccoTennisDesc: 'FRMT tournaments, national team updates, and Morocco tennis news.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Moroccan esports and gaming stories in one dedicated page.',
-        filterAll: 'All',
-        aiTitle: 'Sports AI',
-        aiWelcome: 'Ask me any sports question. Quick buttons can also pull matching website news.',
-        aiInputPlaceholder: 'Ask a sports question...',
-        aiQuickMorocco: 'Morocco football',
-        aiQuickGlobal: 'Global football',
-        aiQuickTennis: 'Tennis',
-        aiQuickMatches: 'Matches',
-        aiPromptMorocco: 'Latest Moroccan football news',
-        aiPromptGlobal: 'Latest global football news',
-        aiPromptTennis: 'Latest tennis news',
-        aiPromptMatches: 'Latest matches news',
-        aiSend: 'Send',
-        aiThinking: 'Thinking...',
-        aiError: 'AI is currently unavailable. Try again.',
-        colorsModalTitle: 'Color Studio',
-        colorsModalDesc: 'Customize the website palette.',
-        colorLabelBg: 'Background',
-        colorLabelBg2: 'Gradient',
-        colorLabelCard: 'Card',
-        colorLabelText: 'Text',
-        colorLabelCyan: 'Accent',
-        colorLabelRed: 'Danger',
-        save: 'Save',
-        reset: 'Reset'
+        filterAll: 'All'
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -1407,31 +1383,7 @@
         moroccoTennisDesc: 'Tournois FRMT, sélections nationales et actualités du tennis marocain.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Actualités marocaines de l’esport et du gaming.',
-        filterAll: 'Tout',
-        aiTitle: 'IA Sport',
-        aiWelcome: 'Posez-moi n'importe quelle question sportive. Les boutons rapides peuvent aussi afficher les actualités du site.',
-        aiInputPlaceholder: 'Posez une question sportive...',
-        aiQuickMorocco: 'Football marocain',
-        aiQuickGlobal: 'Football mondial',
-        aiQuickTennis: 'Tennis',
-        aiQuickMatches: 'Matchs',
-        aiPromptMorocco: 'Dernières nouvelles du football marocain',
-        aiPromptGlobal: 'Dernières nouvelles du football mondial',
-        aiPromptTennis: 'Dernières nouvelles du tennis',
-        aiPromptMatches: 'Dernières nouvelles des matchs',
-        aiSend: 'Envoyer',
-        aiThinking: 'Réflexion...',
-        aiError: 'IA indisponible. Réessayez.',
-        colorsModalTitle: 'Studio Couleurs',
-        colorsModalDesc: 'Personnalisez la palette du site.',
-        colorLabelBg: 'Arrière-plan',
-        colorLabelBg2: 'Dégradé',
-        colorLabelCard: 'Carte',
-        colorLabelText: 'Texte',
-        colorLabelCyan: 'Accent',
-        colorLabelRed: 'Danger',
-        save: 'Enregistrer',
-        reset: 'Réinitialiser'
+        filterAll: 'Tout'
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -1515,31 +1467,7 @@
         moroccoTennisDesc: 'بطولات الجامعة، تحديثات المنتخب وأخبار التنس المغربي.',
         moroccoEsportTitle: 'الرياضات الإلكترونية',
         moroccoEsportDesc: 'أخبار الرياضات الإلكترونية والألعاب في المغرب.',
-        filterAll: 'الكل',
-        aiTitle: 'الذكاء الرياضي',
-        aiWelcome: 'اسألني أي سؤال رياضي. ويمكن للأزرار السريعة أيضاً عرض أخبار مطابقة من الموقع.',
-        aiInputPlaceholder: 'اسأل سؤالاً رياضياً...',
-        aiQuickMorocco: 'كرة القدم المغربية',
-        aiQuickGlobal: 'كرة القدم العالمية',
-        aiQuickTennis: 'التنس',
-        aiQuickMatches: 'المباريات',
-        aiPromptMorocco: 'آخر أخبار كرة القدم المغربية',
-        aiPromptGlobal: 'آخر أخبار كرة القدم العالمية',
-        aiPromptTennis: 'آخر أخبار التنس',
-        aiPromptMatches: 'آخر أخبار المباريات',
-        aiSend: 'إرسال',
-        aiThinking: 'جارٍ التفكير...',
-        aiError: 'الذكاء غير متاح حالياً. حاول مرة أخرى.',
-        colorsModalTitle: 'استوديو الألوان',
-        colorsModalDesc: 'خصص لوحة ألوان الموقع.',
-        colorLabelBg: 'الخلفية',
-        colorLabelBg2: 'التدرج',
-        colorLabelCard: 'البطاقة',
-        colorLabelText: 'النص',
-        colorLabelCyan: 'التمييز',
-        colorLabelRed: 'الخطر',
-        save: 'حفظ',
-        reset: 'إعادة تعيين'
+        filterAll: 'الكل'
       }
     };
 
@@ -1569,16 +1497,6 @@
       await initNews();
       if ($('#feed-page').hasClass('active')) loadFeed();
       if ($('#admin-page').hasClass('active')) loadAdminPanel();
-    }
-
-    function getAiQuickPrompt(type) {
-      const map = {
-        morocco: t('aiPromptMorocco'),
-        global: t('aiPromptGlobal'),
-        tennis: t('aiPromptTennis'),
-        matches: t('aiPromptMatches')
-      };
-      return map[type] || '';
     }
 
     function applyUiLanguage() {
@@ -1658,24 +1576,6 @@
         $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
       }
 
-      $('#ai-header-title').text(t('aiTitle'));
-      $('#ai-welcome').text(t('aiWelcome'));
-      $('#ai-quick-morocco').text(t('aiQuickMorocco'));
-      $('#ai-quick-global').text(t('aiQuickGlobal'));
-      $('#ai-quick-tennis').text(t('aiQuickTennis'));
-      $('#ai-quick-matches').text(t('aiQuickMatches'));
-      $('#ai-input').attr('placeholder', t('aiInputPlaceholder'));
-      $('#ai-send-btn').text(t('aiSend'));
-      $('#colors-modal-title').text(t('colorsModalTitle'));
-      $('#colors-modal-desc').text(t('colorsModalDesc'));
-      $('#color-label-bg').text(t('colorLabelBg'));
-      $('#color-label-bg2').text(t('colorLabelBg2'));
-      $('#color-label-card').text(t('colorLabelCard'));
-      $('#color-label-text').text(t('colorLabelText'));
-      $('#color-label-cyan').text(t('colorLabelCyan'));
-      $('#color-label-red').text(t('colorLabelRed'));
-      $('#colors-save-btn').text(t('save'));
-      $('#colors-reset-btn').text(t('reset'));
       $('#active-search-input').attr('placeholder', `${t('search')}...`);
     }
 
@@ -3152,12 +3052,12 @@ function openDetails(id) {
         }
       }
 
-      appendAiMessage('bot', t('aiThinking'));
+      appendAiMessage('bot', 'Thinking...');
       try {
         const answer = await askBackendAI(text);
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
-        if (last && last.textContent === t('aiThinking')) {
+        if (last && last.textContent === 'Thinking...') {
           last.innerHTML = escapeHtml(answer).replace(/\n/g, '<br>');
         } else {
           appendAiMessage('bot', answer);
@@ -3165,8 +3065,8 @@ function openDetails(id) {
       } catch (err) {
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
-        const fallback = t('aiError');
-        if (last && last.textContent === t('aiThinking')) {
+        const fallback = 'I could not reach the AI backend right now. Please try again.';
+        if (last && last.textContent === 'Thinking...') {
           last.textContent = fallback;
         } else {
           appendAiMessage('bot', fallback);
