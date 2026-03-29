@@ -31,7 +31,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-  
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   
 
@@ -293,55 +294,170 @@
 
     .home-grid {
       display: grid;
-      grid-template-columns: 280px 1fr 320px;
-      gap: 30px;
+      grid-template-columns: 290px minmax(0, 1fr) 340px;
+      gap: 28px;
+      align-items: start;
     }
-    .side-col { border-right: 1px solid var(--border); padding-right: 20px; }
+    .side-col {
+      border-right: 1px solid var(--border);
+      padding-right: 20px;
+    }
     .side-item {
-      padding: 12px 0;
+      padding: 14px 0;
       border-bottom: 1px solid rgba(255,255,255,.06);
       cursor: pointer;
+      transition: transform .18s ease, color .18s ease, opacity .18s ease;
     }
-    .side-item h4 { font-size: .83rem; font-weight: 500; color: var(--dim); line-height: 1.45; }
+    .side-item h4 {
+      font-size: .86rem;
+      font-weight: 600;
+      color: var(--dim);
+      line-height: 1.55;
+    }
+    .side-item:hover {
+      transform: translateX(4px);
+    }
     .side-item:hover h4 { color: var(--cyan); }
 
+    .feature {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: 0 20px 48px var(--shadow);
+      overflow: hidden;
+    }
+    .feature::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(0,242,254,.12), transparent 35%);
+      pointer-events: none;
+    }
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,242,254,.22);
+      background: rgba(0,242,254,.10);
+      color: var(--cyan);
+      font-size: .72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 0 0 16px;
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      color: var(--dim);
+      font-size: .72rem;
+      font-weight: 700;
+    }
     .feature h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 2.25rem;
-      line-height: 1.08;
+      font-size: clamp(2rem, 3.4vw, 3rem);
+      line-height: 1.04;
       margin-bottom: 16px;
       cursor: pointer;
+      max-width: 14ch;
+      letter-spacing: -.03em;
     }
     .feature img {
       width: 100%;
-      min-height: 260px;
-      max-height: 460px;
+      min-height: 320px;
+      max-height: 520px;
       object-fit: cover;
-      border-radius: 16px;
+      border-radius: 22px;
       border: 1px solid var(--border);
       margin-bottom: 16px;
       cursor: pointer;
       display: block;
+      box-shadow: 0 18px 40px rgba(0,0,0,.24);
+    }
+    .feature-summary {
+      color: var(--dim);
+      line-height: 1.75;
+      font-size: .98rem;
+      max-width: 68ch;
+      margin-bottom: 16px;
+    }
+    .feature-cta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .feature-cta-row .solid-btn {
+      padding: 12px 18px;
+      font-size: .76rem;
+      box-shadow: 0 14px 30px rgba(0,242,254,.18);
     }
 
     .mini-card, .post-card, .profile-box, .board-box, .widget-area {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 12px 28px var(--shadow);
+      border-radius: 22px;
+      padding: 20px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 14px 32px var(--shadow);
     }
 
-    .mini-card { margin-bottom: 14px; cursor: pointer; }
-    .mini-card h3 { font-size: 1rem; line-height: 1.35; }
+    .mini-card {
+      margin-bottom: 14px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .mini-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,242,254,.26);
+      box-shadow: 0 20px 40px rgba(0,0,0,.28);
+    }
+    .mini-card h3 {
+      font-size: 1.02rem;
+      line-height: 1.42;
+      margin-bottom: 10px;
+      letter-spacing: -.01em;
+    }
+    .mini-card p {
+      color: var(--dim);
+      line-height: 1.65;
+      font-size: .84rem;
+    }
+    .mini-card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--cyan);
+      font-size: .7rem;
+      margin-bottom: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
 
     .section-title {
-      font-size: 1.15rem;
+      font-size: 1.08rem;
       margin-bottom: 18px;
       color: var(--cyan);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: .14em;
       font-weight: 800;
     }
 
@@ -724,8 +840,10 @@
       .logo img { width: 22px; height: 22px; }
       .header-right { gap: 10px; }
       .auth-btn, .solid-btn, .ghost-btn, .amber-btn, .green-btn { padding: 10px 14px; }
-      .feature h1 { font-size: 1.65rem; }
-      .post-card, .mini-card, .profile-box, .board-box, .widget-area { padding: 16px; }
+      .feature h1 { font-size: 1.85rem; }
+      .feature img { min-height: 230px; max-height: 360px; }
+      .feature-summary { font-size: .9rem; }
+      .post-card, .mini-card, .profile-box, .board-box, .widget-area, .feature { padding: 16px; }
       .section-title { font-size: 1rem; }
       .notif-panel { right: 14px; width: calc(100vw - 28px); }
       .page { padding: 78px 14px 100px; }
@@ -873,178 +991,203 @@
     }
 
 
-    /* ===== PREMIUM HOME UPGRADE ===== */
-    :root {
-      --gold: #f5b942;
-      --hero-overlay: linear-gradient(180deg, rgba(0,0,0,.06) 0%, rgba(0,0,0,.48) 100%);
+    /* ===== NEXT UPGRADE PACK ===== */
+    .breaking-ticker {
+      margin: 0 5%;
+      margin-top: 74px;
+      margin-bottom: -52px;
+      position: relative;
+      z-index: 2500;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(90deg, rgba(193,39,45,.18), rgba(0,242,254,.08));
+      box-shadow: 0 12px 28px var(--shadow);
+      overflow: hidden;
     }
-
-    body.light {
-      --gold: #c98a06;
-      --hero-overlay: linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(15,23,42,.18) 100%);
+    .breaking-ticker-inner {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      align-items: center;
+      min-height: 48px;
     }
-
-    .hero-media-wrap {
+    .ticker-label {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(193,39,45,.30);
+      color: #fff;
+      font-size: .74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .10em;
+      padding: 0 14px;
+      white-space: nowrap;
+    }
+    .ticker-track {
       position: relative;
       overflow: hidden;
-      border-radius: 24px;
+      min-width: 0;
+    }
+    .ticker-scroll {
+      display: inline-flex;
+      align-items: center;
+      gap: 30px;
+      white-space: nowrap;
+      padding-left: 22px;
+      animation: tickerMove 28s linear infinite;
+      will-change: transform;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-size: .84rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .ticker-item i {
+      color: var(--gold);
+    }
+    @keyframes tickerMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
-    .hero-media-wrap::after {
+    .skeleton-card,
+    .skeleton-line,
+    .skeleton-pill {
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,.06);
+    }
+    .skeleton-card::after,
+    .skeleton-line::after,
+    .skeleton-pill::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: var(--hero-overlay);
-      pointer-events: none;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      animation: shimmer 1.4s infinite;
+    }
+    @keyframes shimmer {
+      100% { transform: translateX(100%); }
+    }
+    .home-skeleton {
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr) 340px;
+      gap: 28px;
+      align-items: start;
+    }
+    .skeleton-stack { display: flex; flex-direction: column; gap: 14px; }
+    .skeleton-side {
+      height: 74px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+    }
+    .skeleton-feature {
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      padding: 18px;
+    }
+    .skeleton-image {
+      width: 100%;
+      height: 340px;
+      border-radius: 22px;
+      margin-bottom: 16px;
+    }
+    .skeleton-line {
+      height: 14px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    .skeleton-line.w-90 { width: 90%; }
+    .skeleton-line.w-70 { width: 70%; }
+    .skeleton-line.w-55 { width: 55%; }
+    .skeleton-pill {
+      width: 110px;
+      height: 32px;
+      border-radius: 999px;
+      margin-bottom: 14px;
     }
 
-    .hero-floating-badges {
-      position: absolute;
-      left: 18px;
-      bottom: 18px;
-      z-index: 2;
+    .detail-layout {
+      display: grid;
+      gap: 18px;
+      text-align: left;
+    }
+    .detail-top-meta {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
     }
-
-    .breaking-badge,
-    .trending-badge,
-    .ai-badge,
-    .gold-badge {
+    .detail-chip {
       display: inline-flex;
       align-items: center;
       gap: 7px;
       padding: 8px 12px;
       border-radius: 999px;
-      font-size: .68rem;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      backdrop-filter: blur(10px);
-      border: 1px solid transparent;
-    }
-
-    .breaking-badge {
-      background: rgba(193,39,45,.18);
-      color: #fff;
-      border-color: rgba(193,39,45,.35);
-    }
-
-    .trending-badge {
-      background: rgba(0,242,254,.14);
-      color: var(--cyan);
-      border-color: rgba(0,242,254,.26);
-    }
-
-    .ai-badge {
-      background: rgba(255,255,255,.08);
-      color: #fff;
-      border-color: rgba(255,255,255,.16);
-    }
-
-    .gold-badge {
-      background: rgba(245,185,66,.14);
-      color: var(--gold);
-      border-color: rgba(245,185,66,.24);
-    }
-
-    .feature h1:hover,
-    .mini-card h3:hover,
-    .side-item h4:hover {
-      text-decoration: underline;
-      text-decoration-color: rgba(0,242,254,.45);
-      text-underline-offset: 4px;
-    }
-
-    .feature-summary {
-      display: -webkit-box;
-      -webkit-line-clamp: 4;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .hero-bottom-strip {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .hero-stat {
       border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      padding: 12px 14px;
-    }
-
-    .hero-stat strong {
-      display: block;
-      font-size: .74rem;
-      color: var(--cyan);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 6px;
-    }
-
-    .hero-stat span {
-      color: var(--text);
-      font-weight: 700;
-      font-size: .88rem;
-    }
-
-    .mini-card-meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    .mini-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.05);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
       color: var(--dim);
-      font-size: .68rem;
-      font-weight: 700;
-    }
-
-    .side-rank {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      background: rgba(0,242,254,.12);
-      color: var(--cyan);
       font-size: .72rem;
       font-weight: 800;
-      margin-bottom: 10px;
-    }
-
-    .side-item-top {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .side-item small {
-      display: block;
-      margin-top: 8px;
-      color: var(--dim);
-      font-size: .7rem;
       text-transform: uppercase;
       letter-spacing: .08em;
     }
+    .detail-image-wrap {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 18px 38px rgba(0,0,0,.26);
+    }
+    .detail-image-wrap img {
+      width: 100%;
+      max-height: 360px;
+      object-fit: cover;
+      display: block;
+    }
+    .detail-summary {
+      color: var(--text);
+      line-height: 1.8;
+      font-size: .96rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
 
-    @media (max-width: 900px) {
-      .hero-bottom-strip {
+    @media (max-width: 1100px) {
+      .home-skeleton { grid-template-columns: 1fr; }
+      .breaking-ticker { margin-bottom: -40px; }
+    }
+    @media (max-width: 640px) {
+      .breaking-ticker {
+        margin: 66px 14px -34px;
+      }
+      .breaking-ticker-inner {
         grid-template-columns: 1fr;
+      }
+      .ticker-label {
+        justify-content: flex-start;
+        padding: 10px 14px 0;
+        background: transparent;
+      }
+      .ticker-track {
+        padding-bottom: 10px;
+      }
+      .ticker-scroll {
+        animation-duration: 20s;
+        padding-left: 14px;
+      }
+      .detail-summary {
+        font-size: .9rem;
+        padding: 14px;
       }
     }
 
@@ -1058,21 +1201,21 @@
 
   <div class="ai-panel" id="ai-panel">
     <div class="ai-header">
-      <span id="ai-header-title">Sports AI</span>
+      <span>Sports AI</span>
       <button class="icon-btn" onclick="toggleAiAssistant(false)"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="ai-messages" id="ai-messages">
-      <div class="ai-msg bot" id="ai-welcome">Ask me any sports question. Quick buttons can also pull matching website news.</div>
+      <div class="ai-msg bot">Ask me any sports question. Quick buttons can also pull matching website news.</div>
     </div>
     <div class="ai-quick">
-      <button id="ai-quick-morocco" onclick="askAiQuick(getAiQuickPrompt('morocco'))">Morocco football</button>
-      <button id="ai-quick-global" onclick="askAiQuick(getAiQuickPrompt('global'))">Global football</button>
-      <button id="ai-quick-tennis" onclick="askAiQuick(getAiQuickPrompt('tennis'))">Tennis</button>
-      <button id="ai-quick-matches" onclick="askAiQuick(getAiQuickPrompt('matches'))">Matches</button>
+      <button onclick="askAiQuick('Latest Moroccan football news')">Morocco football</button>
+      <button onclick="askAiQuick('Latest global football news')">Global football</button>
+      <button onclick="askAiQuick('Latest tennis news')">Tennis</button>
+      <button onclick="askAiQuick('Latest matches news')">Matches</button>
     </div>
     <div class="ai-input-wrap">
       <input id="ai-input" type="text" placeholder="Ask a sports question..." onkeydown="if(event.key==='Enter') sendAiMessage()">
-      <button id="ai-send-btn" class="solid-btn" onclick="sendAiMessage()">Send</button>
+      <button class="solid-btn" onclick="sendAiMessage()">Send</button>
     </div>
   </div>
   <header>
@@ -1205,6 +1348,15 @@
     <button class="icon-btn" onclick="toggleSearch()"><i class="fa-solid fa-xmark" style="color:var(--red)"></i></button>
   </div>
 
+  <div id="breaking-ticker" class="breaking-ticker" style="display:none;">
+    <div class="breaking-ticker-inner">
+      <div id="ticker-label" class="ticker-label"><i class="fa-solid fa-bolt"></i><span>Breaking</span></div>
+      <div class="ticker-track">
+        <div id="ticker-scroll" class="ticker-scroll"></div>
+      </div>
+    </div>
+  </div>
+
   <main>
     <section id="home-page" class="page active">
       <div id="search-results-area" style="display:none; margin-bottom:22px;"><div class="news-grid" id="search-output-grid"></div></div>
@@ -1312,19 +1464,19 @@
   <div id="colors-modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="$('#colors-modal').hide()">&times;</span>
-      <h2 id="colors-modal-title" style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
-      <p id="colors-modal-desc" style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
+      <h2 style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
+      <p style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
       <div class="color-grid">
-        <div><label id="color-label-bg">Background</label><input type="color" id="color-bg" value="#000000"></div>
-        <div><label id="color-label-bg2">Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
-        <div><label id="color-label-card">Card</label><input type="color" id="color-card" value="#111111"></div>
-        <div><label id="color-label-text">Text</label><input type="color" id="color-text" value="#ffffff"></div>
-        <div><label id="color-label-cyan">Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
-        <div><label id="color-label-red">Danger</label><input type="color" id="color-red" value="#c1272d"></div>
+        <div><label>Background</label><input type="color" id="color-bg" value="#000000"></div>
+        <div><label>Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
+        <div><label>Card</label><input type="color" id="color-card" value="#111111"></div>
+        <div><label>Text</label><input type="color" id="color-text" value="#ffffff"></div>
+        <div><label>Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
+        <div><label>Danger</label><input type="color" id="color-red" value="#c1272d"></div>
       </div>
       <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center;">
-        <button id="colors-save-btn" class="solid-btn" onclick="saveCustomColors()">Save</button>
-        <button id="colors-reset-btn" class="ghost-btn" onclick="resetCustomColors()">Reset</button>
+        <button class="solid-btn" onclick="saveCustomColors()">Save</button>
+        <button class="ghost-btn" onclick="resetCustomColors()">Reset</button>
       </div>
     </div>
   </div>
@@ -1347,8 +1499,14 @@
   <div id="news-modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="$('#news-modal').hide()">&times;</span>
-      <h2 id="m-title" style="color:var(--cyan); margin-bottom:15px;"></h2>
-      <p id="m-body" style="color:var(--dim); line-height:1.6; text-align:left;"></p>
+      <div class="detail-layout">
+        <div class="detail-top-meta" id="detail-meta"></div>
+        <h2 id="m-title" style="color:var(--cyan); margin-bottom:2px;"></h2>
+        <div id="detail-image-wrap" class="detail-image-wrap" style="display:none;">
+          <img id="m-image" src="" alt="story image" loading="lazy" referrerpolicy="no-referrer">
+        </div>
+        <p id="m-body" class="detail-summary"></p>
+      </div>
       <div class="reaction-bar">
         <button class="react-btn" onclick="submitReact('like')">👍 <span id="c-like" class="react-count">0</span></button>
         <button class="react-btn" onclick="submitReact('heart')">❤️ <span id="c-heart" class="react-count">0</span></button>
@@ -1363,6 +1521,7 @@
       apiKey: "AIzaSyDl3HcQUr7Nd0oJOpsSmx77mTi7U4PyR0w",
       authDomain: "moroccansportshub.firebaseapp.com",
       projectId: "moroccansportshub",
+      storageBucket: "moroccansportshub.firebasestorage.app",
       messagingSenderId: "1081971044275",
       appId: "1:1081971044275:web:3f04c81f88ee26a9d365c6"
     };
@@ -1370,12 +1529,11 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+    const storage = firebase.storage();
 
     const CLOUDINARY_CLOUD_NAME = 'dkb5uw43x';
     const CLOUDINARY_AVATAR_UPLOAD_PRESET = 'moroccansportshub_avatars';
     const CLOUDINARY_AVATAR_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
-    const CLOUDINARY_POST_UPLOAD_PRESET = 'moroccansportshub_avatars';
-    const CLOUDINARY_POST_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
     let masterPool = [];
     let authMode = 'login';
@@ -1390,7 +1548,6 @@
     let globalPool = [];
     let globalCurrentFilter = 'all';
     let moroccoCurrentFilter = 'all';
-    let currentUserProfile = null;
 
     const uiText = {
       en: {
@@ -1475,31 +1632,7 @@
         moroccoTennisDesc: 'FRMT tournaments, national team updates, and Morocco tennis news.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Moroccan esports and gaming stories in one dedicated page.',
-        filterAll: 'All',
-        aiTitle: 'Sports AI',
-        aiWelcome: 'Ask me any sports question. Quick buttons can also pull matching website news.',
-        aiInputPlaceholder: 'Ask a sports question...',
-        aiQuickMorocco: 'Morocco football',
-        aiQuickGlobal: 'Global football',
-        aiQuickTennis: 'Tennis',
-        aiQuickMatches: 'Matches',
-        aiPromptMorocco: 'Latest Moroccan football news',
-        aiPromptGlobal: 'Latest global football news',
-        aiPromptTennis: 'Latest tennis news',
-        aiPromptMatches: 'Latest matches news',
-        aiSend: 'Send',
-        aiThinking: 'Thinking...',
-        aiError: 'AI is currently unavailable. Try again.',
-        colorsModalTitle: 'Color Studio',
-        colorsModalDesc: 'Customize the website palette.',
-        colorLabelBg: 'Background',
-        colorLabelBg2: 'Gradient',
-        colorLabelCard: 'Card',
-        colorLabelText: 'Text',
-        colorLabelCyan: 'Accent',
-        colorLabelRed: 'Danger',
-        save: 'Save',
-        reset: 'Reset'
+        filterAll: 'All'
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -1583,31 +1716,7 @@
         moroccoTennisDesc: 'Tournois FRMT, sélections nationales et actualités du tennis marocain.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Actualités marocaines de l’esport et du gaming.',
-        filterAll: 'Tout',
-        aiTitle: 'IA Sport',
-        aiWelcome: 'Posez-moi n\'importe quelle question sportive. Les boutons rapides peuvent aussi afficher les actualités du site.',
-        aiInputPlaceholder: 'Posez une question sportive...',
-        aiQuickMorocco: 'Football marocain',
-        aiQuickGlobal: 'Football mondial',
-        aiQuickTennis: 'Tennis',
-        aiQuickMatches: 'Matchs',
-        aiPromptMorocco: 'Dernières nouvelles du football marocain',
-        aiPromptGlobal: 'Dernières nouvelles du football mondial',
-        aiPromptTennis: 'Dernières nouvelles du tennis',
-        aiPromptMatches: 'Dernières nouvelles des matchs',
-        aiSend: 'Envoyer',
-        aiThinking: 'Réflexion...',
-        aiError: 'IA indisponible. Réessayez.',
-        colorsModalTitle: 'Studio Couleurs',
-        colorsModalDesc: 'Personnalisez la palette du site.',
-        colorLabelBg: 'Arrière-plan',
-        colorLabelBg2: 'Dégradé',
-        colorLabelCard: 'Carte',
-        colorLabelText: 'Texte',
-        colorLabelCyan: 'Accent',
-        colorLabelRed: 'Danger',
-        save: 'Enregistrer',
-        reset: 'Réinitialiser'
+        filterAll: 'Tout'
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -1691,31 +1800,7 @@
         moroccoTennisDesc: 'بطولات الجامعة، تحديثات المنتخب وأخبار التنس المغربي.',
         moroccoEsportTitle: 'الرياضات الإلكترونية',
         moroccoEsportDesc: 'أخبار الرياضات الإلكترونية والألعاب في المغرب.',
-        filterAll: 'الكل',
-        aiTitle: 'الذكاء الرياضي',
-        aiWelcome: 'اسألني أي سؤال رياضي. ويمكن للأزرار السريعة أيضاً عرض أخبار مطابقة من الموقع.',
-        aiInputPlaceholder: 'اسأل سؤالاً رياضياً...',
-        aiQuickMorocco: 'كرة القدم المغربية',
-        aiQuickGlobal: 'كرة القدم العالمية',
-        aiQuickTennis: 'التنس',
-        aiQuickMatches: 'المباريات',
-        aiPromptMorocco: 'آخر أخبار كرة القدم المغربية',
-        aiPromptGlobal: 'آخر أخبار كرة القدم العالمية',
-        aiPromptTennis: 'آخر أخبار التنس',
-        aiPromptMatches: 'آخر أخبار المباريات',
-        aiSend: 'إرسال',
-        aiThinking: 'جارٍ التفكير...',
-        aiError: 'الذكاء غير متاح حالياً. حاول مرة أخرى.',
-        colorsModalTitle: 'استوديو الألوان',
-        colorsModalDesc: 'خصص لوحة ألوان الموقع.',
-        colorLabelBg: 'الخلفية',
-        colorLabelBg2: 'التدرج',
-        colorLabelCard: 'البطاقة',
-        colorLabelText: 'النص',
-        colorLabelCyan: 'التمييز',
-        colorLabelRed: 'الخطر',
-        save: 'حفظ',
-        reset: 'إعادة تعيين'
+        filterAll: 'الكل'
       }
     };
 
@@ -1743,18 +1828,9 @@
       $('#drawer-lang-select').val(lang);
       applyUiLanguage();
       await initNews();
+      renderBreakingTicker();
       if ($('#feed-page').hasClass('active')) loadFeed();
       if ($('#admin-page').hasClass('active')) loadAdminPanel();
-    }
-
-    function getAiQuickPrompt(type) {
-      const map = {
-        morocco: t('aiPromptMorocco'),
-        global: t('aiPromptGlobal'),
-        tennis: t('aiPromptTennis'),
-        matches: t('aiPromptMatches')
-      };
-      return map[type] || '';
     }
 
     function applyUiLanguage() {
@@ -1860,7 +1936,6 @@
       const savedColors = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
       if (Object.keys(savedColors).length) applyCustomColors(savedColors);
       await setLanguage(currentLang);
-      syncPostMediaAccess(currentUserProfile);
     }
 
     function toggleDrawer(force) {
@@ -1973,20 +2048,7 @@
     }
 
     function isAdmin() {
-      return !!(auth.currentUser && (currentUserProfile?.isAdmin || auth.currentUser.email === 'rabiimodz@gmail.com'));
-    }
-
-    function syncPostMediaAccess(userData = null) {
-      const fileInput = document.getElementById('post-media');
-      const fileNote = document.getElementById('post-file-note');
-      if (!fileInput || !fileNote) return;
-      const canUploadMedia = !!(auth.currentUser && (userData?.isAdmin || auth.currentUser.email === 'rabiimodz@gmail.com'));
-      fileInput.style.display = canUploadMedia ? 'block' : 'none';
-      fileInput.disabled = !canUploadMedia;
-      if (!canUploadMedia) fileInput.value = '';
-      fileNote.textContent = canUploadMedia
-        ? t('postFileNote')
-        : 'Text-only posting for community users. Images and videos are reserved for admin and AI.';
+      return auth.currentUser && auth.currentUser.email === 'rabiimodz@gmail.com';
     }
 
     auth.onAuthStateChanged(async user => {
@@ -2007,7 +2069,6 @@
 
         const userSnap = await db.collection('users').doc(user.uid).get();
         const userData = userSnap.exists ? userSnap.data() : {};
-        currentUserProfile = userData;
 
         if (userData.banned) {
           alert(t('accountBanned'));
@@ -2021,7 +2082,6 @@
           $('#nav-admin, #drawer-admin-btn').hide();
         }
 
-        syncPostMediaAccess(userData);
         listenToNotifs();
       } else {
         $('#auth-ui').html(`<button class="auth-btn" onclick="openAuth()">${t('accessHub')}</button>`);
@@ -2037,8 +2097,6 @@
 
         $('#notif-list').empty();
         $('#notif-count').hide();
-        currentUserProfile = null;
-        syncPostMediaAccess(null);
       }
 
       applyUiLanguage();
@@ -2308,41 +2366,35 @@
     }
 
     async function uploadPostMedia(file) {
-      if (!file) return { url: '', type: '' };
-
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 25000);
-
-      try {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', CLOUDINARY_POST_UPLOAD_PRESET);
-
-        const res = await fetch(`${CLOUDINARY_POST_UPLOAD_URL}?_=${Date.now()}`, {
-          method: 'POST',
-          body: formData,
-          signal: controller.signal,
-          cache: 'no-store'
+      if (file.type.startsWith('image/') && file.size <= 500 * 1024) {
+        const dataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error('Image read failed'));
+          reader.readAsDataURL(file);
         });
-
-        const data = await res.json().catch(() => ({}));
-
-        if (!res.ok || !data.secure_url) {
-          throw new Error(data?.error?.message || 'Media upload failed.');
-        }
-
-        return {
-          url: data.secure_url,
-          type: file.type.startsWith('video/') ? 'video' : 'image'
-        };
-      } catch (err) {
-        if (err.name === 'AbortError') {
-          throw new Error('Media upload timed out. Please try again.');
-        }
-        throw err;
-      } finally {
-        clearTimeout(timeoutId);
+        return { url: dataUrl, type: 'image' };
       }
+
+      const user = auth.currentUser;
+      const safeName = `${Date.now()}_${file.name.replace(/[^\w.\-]/g, '_')}`;
+      const ref = storage.ref().child(`feed_media/${user.uid}/${safeName}`);
+      const metadata = { contentType: file.type || 'application/octet-stream' };
+
+      await Promise.race([
+        ref.put(file, metadata),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Upload timeout. Try a smaller file or check Firebase Storage rules.')), 8000))
+      ]);
+
+      const url = await Promise.race([
+        ref.getDownloadURL(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Could not get uploaded file URL.')), 4000))
+      ]);
+
+      return {
+        url,
+        type: file.type.startsWith('video/') ? 'video' : 'image'
+      };
     }
 
     async function createPost() {
@@ -2350,7 +2402,6 @@
 
       const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
       const userData = userDoc.exists ? userDoc.data() : {};
-      currentUserProfile = userData;
 
       if (userData.banned) {
         alert(t('postingBanned'));
@@ -2364,13 +2415,6 @@
 
       if (file && file.size > 15 * 1024 * 1024) {
         alert('File too large. Max 15MB.');
-        return;
-      }
-
-      const isAdminUser = !!(userData.isAdmin || auth.currentUser?.email === 'rabiimodz@gmail.com');
-      if (!isAdminUser && file) {
-        alert('Only admin can post images or videos.');
-        if (fileInput) fileInput.value = '';
         return;
       }
 
@@ -3014,45 +3058,66 @@
       renderIdsGrid('#feed-chess', chessIds, 'Chess news unavailable right now.');
     }
 
-    async function initNews() {
-      masterPool = [];
-      globalPool = [];
-      $('#center-intel').html('<div class="mini-card"><h3>Loading news...</h3></div>');
-      $('#wire-left').html('');
-      $('#wire-right').html('');
-      $('#feed-morocco, #feed-global, #feed-chess').html('<div class="mini-card"><h3>Loading...</h3></div>');
 
-      const jobs = [loadMoroccoPages(), loadGlobalPages(), loadStaticFeeds()];
-      jobs.forEach(job => Promise.resolve(job).then(() => renderHome()).catch(() => {}));
-      await Promise.allSettled(jobs);
-      renderHome();
-
-      if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
-        $('#search-results-area').hide();
-        $('#standard-home-layout').show();
-        $('#search-output-grid').empty();
-      }
+    function homeLabel(key) {
+      const labels = {
+        topStory: { en: 'Top Story', fr: 'À la une', ar: 'الخبر الأبرز' },
+        morocco: { en: 'Morocco', fr: 'Maroc', ar: 'المغرب' },
+        global: { en: 'Global', fr: 'Monde', ar: 'العالم' },
+        football: { en: 'Football', fr: 'Football', ar: 'كرة القدم' },
+        basketball: { en: 'Basketball', fr: 'Basket-ball', ar: 'كرة السلة' },
+        tennis: { en: 'Tennis', fr: 'Tennis', ar: 'التنس' },
+        esports: { en: 'Esport', fr: 'Esport', ar: 'الرياضات الإلكترونية' },
+        trending: { en: 'Trending', fr: 'Tendance', ar: 'الأكثر تداولاً' },
+        updated: { en: 'Updated', fr: 'Mis à jour', ar: 'محدّث' },
+        aiPick: { en: 'AI Pick', fr: 'Choix IA', ar: 'اختيار الذكاء الاصطناعي' },
+        breaking: { en: 'Breaking', fr: 'Urgent', ar: 'عاجل' },
+        latest: { en: 'Latest', fr: 'Dernier', ar: 'الأحدث' },
+        livePulse: { en: 'Live Pulse', fr: 'Pulse Live', ar: 'نبض مباشر' },
+        focus: { en: 'Focus', fr: 'Focus', ar: 'التركيز' },
+        region: { en: 'Region', fr: 'Région', ar: 'المنطقة' },
+        status: { en: 'Status', fr: 'Statut', ar: 'الحالة' },
+        readStory: { en: 'Read Story', fr: 'Lire', ar: 'قراءة الخبر' },
+        fallbackSummary: {
+          en: 'Latest sports intelligence curated for Moroccansportshub readers.',
+          fr: 'Les dernières infos sportives sélectionnées pour les lecteurs de Moroccansportshub.',
+          ar: 'آخر الأخبار الرياضية المختارة لزوار Moroccansportshub.'
+        },
+        fallbackCard: {
+          en: 'Tap to open the full story and reactions.',
+          fr: 'Touchez pour ouvrir l’info complète et les réactions.',
+          ar: 'اضغط لفتح الخبر الكامل والتفاعلات.'
+        }
+      };
+      return labels[key]?.[currentLang] || labels[key]?.en || key;
     }
-
-
 
     function relativeTimeLabel(dateInput) {
       const date = dateInput instanceof Date ? dateInput : new Date(dateInput || Date.now());
       const diffMs = Date.now() - date.getTime();
       const mins = Math.max(1, Math.floor(diffMs / 60000));
-
-      if (mins < 60) return `${mins} min ago`;
+      if (mins < 60) {
+        if (currentLang === 'fr') return `il y a ${mins} min`;
+        if (currentLang === 'ar') return `منذ ${mins} دقيقة`;
+        return `${mins} min ago`;
+      }
       const hrs = Math.floor(mins / 60);
-      if (hrs < 24) return `${hrs}h ago`;
+      if (hrs < 24) {
+        if (currentLang === 'fr') return `il y a ${hrs} h`;
+        if (currentLang === 'ar') return `منذ ${hrs} س`;
+        return `${hrs}h ago`;
+      }
       const days = Math.floor(hrs / 24);
+      if (currentLang === 'fr') return `il y a ${days} j`;
+      if (currentLang === 'ar') return `منذ ${days} يوم`;
       return `${days}d ago`;
     }
 
     function getNewsBadge(item, index = 0) {
-      if (index === 0) return { text: 'Breaking', cls: 'breaking-badge', icon: 'fa-bolt' };
-      if ((item.score || 0) > 4) return { text: 'Trending', cls: 'trending-badge', icon: 'fa-fire' };
-      if (String(item.tag || '').toLowerCase().includes('ai')) return { text: 'AI Pick', cls: 'ai-badge', icon: 'fa-brain' };
-      return { text: item.tag || 'Top Story', cls: 'gold-badge', icon: 'fa-star' };
+      if (index === 0) return { text: homeLabel('breaking'), cls: 'breaking-badge', icon: 'fa-bolt' };
+      if ((item.score || 0) > 4) return { text: homeLabel('trending'), cls: 'trending-badge', icon: 'fa-fire' };
+      if (String(item.tag || '').toLowerCase().includes('ai')) return { text: homeLabel('aiPick'), cls: 'ai-badge', icon: 'fa-brain' };
+      return { text: item.tag || homeLabel('topStory'), cls: 'gold-badge', icon: 'fa-star' };
     }
 
     function safeSnippet(text = '', max = 120) {
@@ -3061,18 +3126,81 @@
       return clean.length > max ? `${clean.slice(0, max - 3).trim()}...` : clean;
     }
 
-    function renderHome(forceShuffle = false) {
+    function buildHomeSkeleton() {
+      return `
+        <div class="home-skeleton">
+          <div class="skeleton-stack">
+            ${Array.from({ length: 5 }).map(() => `<div class="skeleton-card skeleton-side"></div>`).join('')}
+          </div>
+          <div class="skeleton-card skeleton-feature">
+            <div class="skeleton-pill"></div>
+            <div class="skeleton-image skeleton-card"></div>
+            <div class="skeleton-line w-90"></div>
+            <div class="skeleton-line w-70"></div>
+            <div class="skeleton-line w-55"></div>
+          </div>
+          <div class="skeleton-stack">
+            ${Array.from({ length: 3 }).map(() => `
+              <div class="skeleton-card" style="height:148px; border-radius:22px; border:1px solid var(--border);"></div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderBreakingTicker() {
+      const recent = sortItemsByNewest(filterItemsByAge(masterPool, 24).length ? filterItemsByAge(masterPool, 24) : masterPool).slice(0, 8);
+      if (!recent.length) {
+        $('#breaking-ticker').hide();
+        return;
+      }
+      $('#ticker-label span').text(homeLabel('breaking'));
+      const items = recent.map(item => `
+        <span class="ticker-item" onclick="openDetails(${item.id})">
+          <i class="fa-solid fa-circle-dot"></i>
+          <span>${item.title}</span>
+        </span>
+      `).join('');
+      $('#ticker-scroll').html(items + items);
+      $('#breaking-ticker').show();
+    }
+
+
+async function initNews() {
+  masterPool = [];
+  globalPool = [];
+  $('#center-intel').html(buildHomeSkeleton());
+  $('#wire-left').html('');
+  $('#wire-right').html('');
+  $('#feed-morocco, #feed-global, #feed-chess').html('<div class="mini-card"><div class="skeleton-line w-70"></div><div class="skeleton-line w-90"></div><div class="skeleton-line w-55"></div></div>');
+  $('#breaking-ticker').hide();
+
+  const jobs = [loadMoroccoPages(), loadGlobalPages(), loadStaticFeeds()];
+  jobs.forEach(job => Promise.resolve(job).then(() => {
+    renderHome();
+    renderBreakingTicker();
+  }).catch(() => {}));
+
+  await Promise.allSettled(jobs);
+  renderHome();
+  renderBreakingTicker();
+
+  if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
+    $('#search-results-area').hide();
+    $('#standard-home-layout').show();
+    $('#search-output-grid').empty();
+  }
+}
+
+function renderHome(forceShuffle = false) {
       const recentPool = filterItemsByAge(masterPool, 45);
       const newestPool = sortItemsByNewest(recentPool.length ? recentPool : masterPool);
       if (!newestPool.length) return;
 
       const featuredSource = newestPool.filter(n => n.img && !String(n.img).includes('via.placeholder.com'));
-      const featuredWindow = (featuredSource.length ? featuredSource : newestPool).slice(
-        0,
-        Math.min(24, (featuredSource.length ? featuredSource : newestPool).length)
-      );
-
+      const featuredWindow = (featuredSource.length ? featuredSource : newestPool).slice(0, Math.min(24, (featuredSource.length ? featuredSource : newestPool).length));
       let featuredIndex = 0;
+
       if (forceShuffle || featuredWindow.length > 1) {
         const seed = homeRandomSeed || Date.now();
         featuredIndex = Math.abs(seed) % featuredWindow.length;
@@ -3080,119 +3208,81 @@
 
       const featured = featuredWindow[featuredIndex];
       const remaining = newestPool.filter(n => n.id !== featured.id);
-
-      const imgSrc = featured.img && featured.img.trim() !== ''
-        ? featured.img
-        : 'https://via.placeholder.com/1200x675?text=Moroccansportshub';
-
+      const imgSrc = featured.img && featured.img.trim() !== '' ? featured.img : 'https://via.placeholder.com/1200x675?text=Moroccansportshub';
       const heroSummary = (featured.desc || '').trim();
       const heroCopy = heroSummary.length > 260 ? `${heroSummary.slice(0, 257).trim()}...` : heroSummary;
       const heroTag = featured.tag || (featured.region === 'morocco' ? 'Morocco' : 'Top Story');
       const heroSport = featured.sport || 'Football';
       const heroRegion = featured.region || 'Global';
-      const heroTime = relativeTimeLabel(featured.time || featured.date || featured.pubDate || Date.now());
 
       $('#center-intel').html(`
         <div class="hero-kicker"><i class="fa-solid fa-bolt"></i><span>${heroTag}</span></div>
-
         <div class="hero-meta">
           <span class="hero-pill"><i class="fa-solid fa-fire"></i> Trending</span>
           <span class="hero-pill"><i class="fa-solid fa-layer-group"></i> ${heroSport}</span>
           <span class="hero-pill"><i class="fa-solid fa-earth-africa"></i> ${heroRegion}</span>
-          <span class="hero-pill"><i class="fa-solid fa-clock"></i> ${heroTime}</span>
         </div>
-
         <h1 onclick="openDetails(${featured.id})">${featured.title}</h1>
-
-        <div class="hero-media-wrap" onclick="openDetails(${featured.id})">
-          <img
-            src="${imgSrc}"
-            alt="${featured.title}"
-            loading="eager"
-            referrerpolicy="no-referrer"
-            onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';"
-          >
-          <div class="hero-floating-badges">
-            <span class="breaking-badge"><i class="fa-solid fa-bolt"></i> Breaking</span>
-            <span class="trending-badge"><i class="fa-solid fa-fire"></i> Trending</span>
-            <span class="ai-badge"><i class="fa-solid fa-brain"></i> AI Pick</span>
-          </div>
-        </div>
-
+        <img src="${imgSrc}" alt="${featured.title}" onclick="openDetails(${featured.id})" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
         <p class="feature-summary">${heroCopy || 'Latest sports intelligence curated for Moroccansportshub readers.'}</p>
-
         <div class="feature-cta-row">
           <button class="solid-btn" onclick="openDetails(${featured.id})">Read Story</button>
           <div class="hero-meta">
-            <span class="hero-pill"><i class="fa-solid fa-share-nodes"></i> Shareable</span>
-            <span class="hero-pill"><i class="fa-solid fa-chart-line"></i> Fast Moving</span>
-          </div>
-        </div>
-
-        <div class="hero-bottom-strip">
-          <div class="hero-stat">
-            <strong>Focus</strong>
-            <span>${heroSport}</span>
-          </div>
-          <div class="hero-stat">
-            <strong>Region</strong>
-            <span>${heroRegion}</span>
-          </div>
-          <div class="hero-stat">
-            <strong>Status</strong>
-            <span>Live Pulse</span>
+            <span class="hero-pill"><i class="fa-solid fa-clock"></i> Updated</span>
+            <span class="hero-pill"><i class="fa-solid fa-brain"></i> AI Pick</span>
           </div>
         </div>
       `);
 
-      $('#wire-left').html(
-        remaining.slice(0, Math.min(9, remaining.length)).map((n, i) => {
-          const badge = getNewsBadge(n, i);
-          return `
-            <div class="side-item" onclick="openDetails(${n.id})">
-              <div class="side-item-top">
-                <span class="side-rank">${i + 1}</span>
-                <div class="mini-card-tag">
-                  <i class="fa-solid ${badge.icon}"></i>
-                  <span>${badge.text}</span>
-                </div>
-              </div>
-              <h4>${n.title}</h4>
-              <small>${n.region || 'Global'} • ${n.sport || 'Football'}</small>
-            </div>
-          `;
-        }).join('')
-      );
+      $('#wire-left').html(remaining.slice(0, Math.min(9, remaining.length)).map((n, i) => `
+        <div class="side-item" onclick="openDetails(${n.id})">
+          <div class="mini-card-tag"><span>${i < 3 ? 'Breaking' : (n.tag || 'Latest')}</span></div>
+          <h4>${n.title}</h4>
+        </div>
+      `).join(''));
 
-      $('#wire-right').html(
-        remaining.slice(9, Math.min(15, remaining.length)).map((n, i) => {
-          const badge = getNewsBadge(n, i + 1);
-          const copy = safeSnippet(n.desc || '', 96);
-
-          return `
-            <div class="mini-card" onclick="openDetails(${n.id})">
-              <span class="mini-card-tag">
-                <i class="fa-solid ${badge.icon}"></i>
-                ${badge.text}
-              </span>
-              <h3>${n.title}</h3>
-              <p>${copy || 'Tap to open the full story and reactions.'}</p>
-              <div class="mini-card-meta">
-                <span class="mini-chip"><i class="fa-solid fa-layer-group"></i>${n.sport || 'Football'}</span>
-                <span class="mini-chip"><i class="fa-solid fa-clock"></i>${relativeTimeLabel(n.time || n.date || n.pubDate || Date.now())}</span>
-              </div>
-            </div>
-          `;
-        }).join('')
-      );
+      $('#wire-right').html(remaining.slice(9, Math.min(15, remaining.length)).map(n => {
+        const summary = (n.desc || '').trim();
+        const copy = summary.length > 88 ? `${summary.slice(0, 85).trim()}...` : summary;
+        return `
+          <div class="mini-card" onclick="openDetails(${n.id})">
+            <span class="mini-card-tag">${n.tag || 'Top Story'}</span>
+            <h3>${n.title}</h3>
+            <p>${copy || 'Tap to open the full story and reactions.'}</p>
+          </div>
+        `;
+      }).join(''));
     }
 
 function openDetails(id) {
       const n = masterPool[id];
       if (!n) return;
+
+      const image = n.img && !String(n.img).includes('via.placeholder.com') ? n.img : '';
+      const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+      const sportLabel = homeLabel(n.sport || 'football');
+      const primaryBadge = n.tag || homeLabel('topStory');
+      const timeLabel = relativeTimeLabel(n.time || n.date || n.pubDate || Date.now());
+
       $('#m-title').text(n.title);
-      $('#m-body').text(n.desc || '');
-      $('#m-link').attr('href', n.link || '#');
+      $('#m-body').text(n.desc || homeLabel('fallbackSummary'));
+      $('#m-link').attr('href', n.link || '#').text(t('readFull'));
+
+      if (image) {
+        $('#m-image').attr('src', image).attr('alt', n.title);
+        $('#detail-image-wrap').show();
+      } else {
+        $('#m-image').attr('src', '');
+        $('#detail-image-wrap').hide();
+      }
+
+      $('#detail-meta').html(`
+        <span class="detail-chip"><i class="fa-solid fa-bolt"></i>${primaryBadge}</span>
+        <span class="detail-chip"><i class="fa-solid fa-layer-group"></i>${sportLabel}</span>
+        <span class="detail-chip"><i class="fa-solid fa-earth-africa"></i>${regionLabel}</span>
+        <span class="detail-chip"><i class="fa-solid fa-clock"></i>${timeLabel}</span>
+      `);
+
       syncReacts(n.title);
       $('#news-modal').css('display', 'flex');
     }
@@ -3337,6 +3427,16 @@ function openDetails(id) {
       }
     }
 
+    function getAiQuickPrompt(kind) {
+      const map = {
+        morocco: t('aiPromptMorocco'),
+        global: t('aiPromptGlobal'),
+        tennis: t('aiPromptTennis'),
+        matches: t('aiPromptMatches')
+      };
+      return map[kind] || t('aiPromptGlobal');
+    }
+
     function askAiQuick(text) {
       $('#ai-input').val(text);
       sendAiMessage(true);
@@ -3398,12 +3498,12 @@ function openDetails(id) {
     function buildWebsiteAnswerHtml(query) {
       const matches = getWebsiteMatches(query);
       if (!matches.length) return '';
-      let html = `<div style="margin-bottom:8px;"><strong>Found on the website:</strong></div>`;
+      let html = `<div style="margin-bottom:8px;"><strong>${currentLang === 'fr' ? 'Trouvé sur le site :' : currentLang === 'ar' ? 'موجود على الموقع:' : 'Found on the website:'}</strong></div>`;
       matches.forEach((x, i) => {
         html += `
           <div style="margin:10px 0; padding:10px; border:1px solid var(--border); border-radius:12px;">
             <div style="font-weight:700; margin-bottom:8px;">${i + 1}. ${escapeHtml(x.item.title)}</div>
-            <a href="${x.item.link}" target="_blank" class="solid-btn" style="display:inline-block; text-decoration:none;">Open source</a>
+            <a href="${x.item.link}" target="_blank" class="solid-btn" style="display:inline-block; text-decoration:none;">${currentLang === 'fr' ? 'Ouvrir la source' : currentLang === 'ar' ? 'فتح المصدر' : 'Open source'}</a>
           </div>
         `;
       });
@@ -3425,8 +3525,7 @@ function openDetails(id) {
         },
         body: JSON.stringify({
           question: query,
-          siteContext,
-          lang: currentLang || localStorage.getItem('msh_lang') || 'en'
+          siteContext
         })
       });
 
@@ -3454,12 +3553,12 @@ function openDetails(id) {
         }
       }
 
-      appendAiMessage('bot', t('aiThinking'));
+      appendAiMessage('bot', 'Thinking...');
       try {
         const answer = await askBackendAI(text);
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
-        if (last && last.textContent === t('aiThinking')) {
+        if (last && last.textContent === 'Thinking...') {
           last.innerHTML = escapeHtml(answer).replace(/\n/g, '<br>');
         } else {
           appendAiMessage('bot', answer);
@@ -3467,8 +3566,8 @@ function openDetails(id) {
       } catch (err) {
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
-        const fallback = t('aiError');
-        if (last && last.textContent === t('aiThinking')) {
+        const fallback = 'I could not reach the AI backend right now. Please try again.';
+        if (last && last.textContent === 'Thinking...') {
           last.textContent = fallback;
         } else {
           appendAiMessage('bot', fallback);
