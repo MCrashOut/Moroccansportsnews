@@ -1563,7 +1563,7 @@
     let feedListener = null;
     let notifListener = null;
     let currentLang = localStorage.getItem('msh_lang') || 'en';
-    let currentTheme = localStorage.getItem('msh_theme') || 'dark';
+    let currentTheme = 'dark';
     let sharedPostHandled = false;
     let homeRandomSeed = Date.now();
     let globalPool = [];
@@ -2085,9 +2085,12 @@
 
     async function initAppPrefs() {
       document.body.style.overflow = '';
-      setTheme(currentTheme);
+      currentTheme = 'dark';
+      localStorage.setItem('msh_theme', 'dark');
+      setTheme('dark');
       const savedColors = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
-      if (Object.keys(savedColors).length) applyCustomColors(savedColors);
+      const colorsEnabled = localStorage.getItem('msh_custom_colors_enabled') === '1';
+      if (colorsEnabled && Object.keys(savedColors).length) applyCustomColors(savedColors);
       await setLanguage(currentLang);
     }
 
@@ -3668,12 +3671,15 @@ function openDetails(id) {
     function saveCustomColors() {
       const colors = { bg: $('#color-bg').val(), bg2: $('#color-bg2').val(), card: $('#color-card').val(), text: $('#color-text').val(), cyan: $('#color-cyan').val(), red: $('#color-red').val() };
       localStorage.setItem('msh_custom_colors', JSON.stringify(colors));
+      localStorage.setItem('msh_custom_colors_enabled', '1');
       applyCustomColors(colors);
       $('#colors-modal').hide();
+      document.body.style.overflow = '';
     }
 
     function resetCustomColors() {
       localStorage.removeItem('msh_custom_colors');
+      localStorage.removeItem('msh_custom_colors_enabled');
       location.reload();
     }
 
