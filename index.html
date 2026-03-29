@@ -1639,7 +1639,9 @@
         moroccoTennisDesc: 'FRMT tournaments, national team updates, and Morocco tennis news.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Moroccan esports and gaming stories in one dedicated page.',
-        filterAll: 'All'
+        filterAll: 'All',
+        aiThinking: 'Thinking...',
+        aiError: 'I could not reach the AI backend right now. Please try again.'
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -1723,7 +1725,9 @@
         moroccoTennisDesc: 'Tournois FRMT, sélections nationales et actualités du tennis marocain.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Actualités marocaines de l’esport et du gaming.',
-        filterAll: 'Tout'
+        filterAll: 'Tout',
+        aiThinking: 'Réflexion...',
+        aiError: 'Je ne peux pas joindre l’IA pour le moment. Réessayez.'
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -1807,7 +1811,9 @@
         moroccoTennisDesc: 'بطولات الجامعة، تحديثات المنتخب وأخبار التنس المغربي.',
         moroccoEsportTitle: 'الرياضات الإلكترونية',
         moroccoEsportDesc: 'أخبار الرياضات الإلكترونية والألعاب في المغرب.',
-        filterAll: 'الكل'
+        filterAll: 'الكل',
+        aiThinking: 'جارٍ التفكير...',
+        aiError: 'تعذر الوصول إلى الذكاء الاصطناعي حالياً. حاول مرة أخرى.'
       }
     };
 
@@ -2948,8 +2954,8 @@
       return clean;
     }
 
-    function bestImage(url = '') {
-      return upgradeImageUrl(url) || 'https://via.placeholder.com/1200x675?text=Moroccansportshub';
+    function bestImage(url = '', label = 'Moroccansportshub') {
+      return upgradeImageUrl(url) || buildFallbackImageUrl(label);
     }
 
     async function fetchRssViaRss2Json(url) {
@@ -3038,7 +3044,7 @@
           id: masterPool.length,
           title: item.title || 'Untitled',
           desc: item.desc || '',
-          img: bestImage(item.img),
+          img: bestImage(item.img, item.title || 'Moroccansportshub'),
           link: item.link || '#',
           tag: opts.tag || '',
           sport: opts.sport || '',
@@ -3068,8 +3074,8 @@
         const n = masterPool[id];
         const sportLabel = homeLabel(n.sport || 'football');
         const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
-        const tagLabel = n.tag ? String(n.tag).replace('MOROCCO', homeLabel('morocco')).replace('GLOBAL', homeLabel('global')).replace('FOOTBALL', homeLabel('football')).replace('BASKETBALL', homeLabel('basketball')).replace('TENNIS', homeLabel('tennis')).replace('ESPORT', homeLabel('esports')) : sportLabel;
-        const image = bestImage(n.img);
+        const tagLabel = localizeTagLabel(n.tag) || sportLabel;
+        const image = bestImage(n.img, n.title || 'Moroccansportshub');
         return `<div class="mini-card" onclick="openDetails(${n.id})">
           <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
             <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
@@ -3263,6 +3269,27 @@
       return labels[key]?.[currentLang] || labels[key]?.en || key;
     }
 
+    function localizeTagLabel(tag = '') {
+      const raw = String(tag || '').trim();
+      if (!raw) return '';
+      const upper = raw.toUpperCase();
+      if (upper === 'CHESS') return t('chess');
+      return raw
+        .replace(/MOROCCO/gi, homeLabel('morocco'))
+        .replace(/GLOBAL/gi, homeLabel('global'))
+        .replace(/FOOTBALL/gi, homeLabel('football'))
+        .replace(/BASKETBALL/gi, homeLabel('basketball'))
+        .replace(/TENNIS/gi, homeLabel('tennis'))
+        .replace(/ESPORTS?/gi, homeLabel('esports'))
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function buildFallbackImageUrl(label = 'Moroccansportshub') {
+      const title = encodeURIComponent(String(label || 'Moroccansportshub').slice(0, 42));
+      return `https://via.placeholder.com/1200x675/091015/00f2fe?text=${title}`;
+    }
+
     function relativeTimeLabel(dateInput) {
       const date = dateInput instanceof Date ? dateInput : new Date(dateInput || Date.now());
       const diffMs = Date.now() - date.getTime();
@@ -3288,7 +3315,7 @@
       if (index === 0) return { text: homeLabel('breaking'), cls: 'breaking-badge', icon: 'fa-bolt' };
       if ((item.score || 0) > 4) return { text: homeLabel('trending'), cls: 'trending-badge', icon: 'fa-fire' };
       if (String(item.tag || '').toLowerCase().includes('ai')) return { text: homeLabel('aiPick'), cls: 'ai-badge', icon: 'fa-brain' };
-      return { text: item.tag || homeLabel('topStory'), cls: 'gold-badge', icon: 'fa-star' };
+      return { text: localizeTagLabel(item.tag) || homeLabel('topStory'), cls: 'gold-badge', icon: 'fa-star' };
     }
 
     function safeSnippet(text = '', max = 120) {
@@ -3379,12 +3406,10 @@ function renderHome(forceShuffle = false) {
 
       const featured = featuredWindow[featuredIndex];
       const remaining = newestPool.filter(n => n.id !== featured.id);
-      const imgSrc = bestImage(featured.img);
+      const imgSrc = bestImage(featured.img, featured.title || 'Moroccansportshub');
       const heroSummary = (featured.desc || '').trim();
       const heroCopy = heroSummary.length > 260 ? `${heroSummary.slice(0, 257).trim()}...` : heroSummary;
-      const heroTag = featured.tag
-        ? String(featured.tag).replace('MOROCCO', homeLabel('morocco')).replace('GLOBAL', homeLabel('global')).replace('FOOTBALL', homeLabel('football')).replace('BASKETBALL', homeLabel('basketball')).replace('TENNIS', homeLabel('tennis')).replace('ESPORT', homeLabel('esports'))
-        : (featured.region === 'morocco' ? homeLabel('morocco') : homeLabel('topStory'));
+      const heroTag = localizeTagLabel(featured.tag) || (featured.region === 'morocco' ? homeLabel('morocco') : homeLabel('topStory'));
       const heroSport = homeLabel(featured.sport || 'football');
       const heroRegion = featured.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
       const heroTime = relativeTimeLabel(featured.time || featured.date || featured.pubDate || Date.now());
@@ -3438,7 +3463,7 @@ function renderHome(forceShuffle = false) {
         const badge = getNewsBadge(n, i + 1);
         const summary = (n.desc || '').trim();
         const copy = summary.length > 88 ? `${summary.slice(0, 85).trim()}...` : summary;
-        const image = bestImage(n.img);
+        const image = bestImage(n.img, n.title || 'Moroccansportshub');
         return `
           <div class="mini-card" onclick="openDetails(${n.id})">
             <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
@@ -3460,23 +3485,18 @@ function openDetails(id) {
       const n = masterPool[id];
       if (!n) return;
 
-      const image = n.img && !String(n.img).includes('via.placeholder.com') ? bestImage(n.img) : '';
+      const image = bestImage(n.img, n.title || 'Moroccansportshub');
       const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
       const sportLabel = homeLabel(n.sport || 'football');
-      const primaryBadge = n.tag || homeLabel('topStory');
+      const primaryBadge = localizeTagLabel(n.tag) || homeLabel('topStory');
       const timeLabel = relativeTimeLabel(n.time || n.date || n.pubDate || Date.now());
 
       $('#m-title').text(n.title);
       $('#m-body').text(n.desc || homeLabel('fallbackSummary'));
       $('#m-link').attr('href', n.link || '#').text(t('readFull'));
 
-      if (image) {
-        $('#m-image').attr('src', image).attr('alt', n.title);
-        $('#detail-image-wrap').show();
-      } else {
-        $('#m-image').attr('src', '');
-        $('#detail-image-wrap').hide();
-      }
+      $('#m-image').attr('src', image).attr('alt', n.title);
+      $('#detail-image-wrap').show();
 
       $('#detail-meta').html(`
         <span class="detail-chip"><i class="fa-solid fa-bolt"></i>${primaryBadge}</span>
@@ -3755,12 +3775,12 @@ function openDetails(id) {
         }
       }
 
-      appendAiMessage('bot', 'Thinking...');
+      appendAiMessage('bot', t('aiThinking'));
       try {
         const answer = await askBackendAI(text);
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
-        if (last && last.textContent === 'Thinking...') {
+        if (last && last.textContent === t('aiThinking')) {
           last.innerHTML = escapeHtml(answer).replace(/\n/g, '<br>');
         } else {
           appendAiMessage('bot', answer);
@@ -3768,8 +3788,8 @@ function openDetails(id) {
       } catch (err) {
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
-        const fallback = 'I could not reach the AI backend right now. Please try again.';
-        if (last && last.textContent === 'Thinking...') {
+        const fallback = t('aiError');
+        if (last && last.textContent === t('aiThinking')) {
           last.textContent = fallback;
         } else {
           appendAiMessage('bot', fallback);
