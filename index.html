@@ -3023,7 +3023,8 @@ function openDetails(id) {
         },
         body: JSON.stringify({
           question: query,
-          siteContext
+          siteContext,
+          lang: currentLang || localStorage.getItem('msh_lang') || 'en'
         })
       });
 
