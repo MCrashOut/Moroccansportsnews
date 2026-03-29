@@ -440,6 +440,13 @@
       line-height: 1.65;
       font-size: .84rem;
     }
+    .mini-card img, .feature img, #detail-image-wrap img {
+      image-rendering: auto;
+      filter: saturate(1.04) contrast(1.03);
+    }
+    html[dir="rtl"] .hero-meta, html[dir="rtl"] .detail-top-meta, html[dir="rtl"] .mini-card-meta, html[dir="rtl"] .hero-floating-badges {
+      justify-content: flex-start;
+    }
     .mini-card-tag {
       display: inline-flex;
       align-items: center;
@@ -1201,21 +1208,21 @@
 
   <div class="ai-panel" id="ai-panel">
     <div class="ai-header">
-      <span>Sports AI</span>
+      <span id="ai-header-title">Sports AI</span>
       <button class="icon-btn" onclick="toggleAiAssistant(false)"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="ai-messages" id="ai-messages">
-      <div class="ai-msg bot">Ask me any sports question. Quick buttons can also pull matching website news.</div>
+      <div class="ai-msg bot" id="ai-welcome">Ask me any sports question. Quick buttons can also pull matching website news.</div>
     </div>
     <div class="ai-quick">
-      <button onclick="askAiQuick('Latest Moroccan football news')">Morocco football</button>
-      <button onclick="askAiQuick('Latest global football news')">Global football</button>
-      <button onclick="askAiQuick('Latest tennis news')">Tennis</button>
-      <button onclick="askAiQuick('Latest matches news')">Matches</button>
+      <button id="ai-quick-morocco" onclick="askAiQuick(getAiQuickPrompt('morocco'))">Morocco football</button>
+      <button id="ai-quick-global" onclick="askAiQuick(getAiQuickPrompt('global'))">Global football</button>
+      <button id="ai-quick-tennis" onclick="askAiQuick(getAiQuickPrompt('tennis'))">Tennis</button>
+      <button id="ai-quick-matches" onclick="askAiQuick(getAiQuickPrompt('matches'))">Matches</button>
     </div>
     <div class="ai-input-wrap">
       <input id="ai-input" type="text" placeholder="Ask a sports question..." onkeydown="if(event.key==='Enter') sendAiMessage()">
-      <button class="solid-btn" onclick="sendAiMessage()">Send</button>
+      <button id="ai-send-btn" class="solid-btn" onclick="sendAiMessage()">Send</button>
     </div>
   </div>
   <header>
@@ -1464,19 +1471,19 @@
   <div id="colors-modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="$('#colors-modal').hide()">&times;</span>
-      <h2 style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
-      <p style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
+      <h2 id="colors-modal-title" style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
+      <p id="colors-modal-desc" style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
       <div class="color-grid">
-        <div><label>Background</label><input type="color" id="color-bg" value="#000000"></div>
-        <div><label>Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
-        <div><label>Card</label><input type="color" id="color-card" value="#111111"></div>
-        <div><label>Text</label><input type="color" id="color-text" value="#ffffff"></div>
-        <div><label>Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
-        <div><label>Danger</label><input type="color" id="color-red" value="#c1272d"></div>
+        <div><label id="color-label-bg">Background</label><input type="color" id="color-bg" value="#000000"></div>
+        <div><label id="color-label-bg2">Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
+        <div><label id="color-label-card">Card</label><input type="color" id="color-card" value="#111111"></div>
+        <div><label id="color-label-text">Text</label><input type="color" id="color-text" value="#ffffff"></div>
+        <div><label id="color-label-cyan">Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
+        <div><label id="color-label-red">Danger</label><input type="color" id="color-red" value="#c1272d"></div>
       </div>
       <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center;">
-        <button class="solid-btn" onclick="saveCustomColors()">Save</button>
-        <button class="ghost-btn" onclick="resetCustomColors()">Reset</button>
+        <button id="colors-save-btn" class="solid-btn" onclick="saveCustomColors()">Save</button>
+        <button id="colors-reset-btn" class="ghost-btn" onclick="resetCustomColors()">Reset</button>
       </div>
     </div>
   </div>
@@ -1804,8 +1811,124 @@
       }
     };
 
+    const extraUiText = {
+      en: {
+        aiTitle: 'Sports AI',
+        aiWelcome: 'Ask me any sports question. Quick buttons can also pull matching website news.',
+        aiInputPlaceholder: 'Ask a sports question...',
+        aiQuickMorocco: 'Morocco football',
+        aiQuickGlobal: 'Global football',
+        aiQuickTennis: 'Tennis',
+        aiQuickMatches: 'Matches',
+        aiPromptMorocco: 'Latest Moroccan football news',
+        aiPromptGlobal: 'Latest global football news',
+        aiPromptTennis: 'Latest tennis news',
+        aiPromptMatches: 'Latest matches news',
+        aiSend: 'Send',
+        aiError: 'AI is currently unavailable. Try again.',
+        colorsModalTitle: 'Color Studio',
+        colorsModalDesc: 'Customize the website palette.',
+        colorLabelBg: 'Background',
+        colorLabelBg2: 'Gradient',
+        colorLabelCard: 'Card',
+        colorLabelText: 'Text',
+        colorLabelCyan: 'Accent',
+        colorLabelRed: 'Danger',
+        save: 'Save',
+        reset: 'Reset',
+        loadingNews: 'Loading news...',
+        loading: 'Loading...',
+        noNewsChess: 'Chess news unavailable right now.',
+        noNewsGlobal: 'Global news unavailable right now.',
+        noNewsFootball: 'Football news unavailable right now.',
+        noNewsBasketball: 'Basketball news unavailable right now.',
+        noNewsTennis: 'Tennis news unavailable right now.',
+        noNewsEsports: 'Esport news unavailable right now.'
+      },
+      fr: {
+        aiTitle: 'IA Sport',
+        aiWelcome: "Posez-moi n'importe quelle question sportive. Les boutons rapides peuvent aussi afficher les actualités du site.",
+        aiInputPlaceholder: 'Posez une question sportive...',
+        aiQuickMorocco: 'Football marocain',
+        aiQuickGlobal: 'Football mondial',
+        aiQuickTennis: 'Tennis',
+        aiQuickMatches: 'Matchs',
+        aiPromptMorocco: 'Dernières nouvelles du football marocain',
+        aiPromptGlobal: 'Dernières nouvelles du football mondial',
+        aiPromptTennis: 'Dernières nouvelles du tennis',
+        aiPromptMatches: 'Dernières nouvelles des matchs',
+        aiSend: 'Envoyer',
+        aiError: 'IA indisponible. Réessayez.',
+        colorsModalTitle: 'Studio Couleurs',
+        colorsModalDesc: 'Personnalisez la palette du site.',
+        colorLabelBg: 'Arrière-plan',
+        colorLabelBg2: 'Dégradé',
+        colorLabelCard: 'Carte',
+        colorLabelText: 'Texte',
+        colorLabelCyan: 'Accent',
+        colorLabelRed: 'Danger',
+        save: 'Enregistrer',
+        reset: 'Réinitialiser',
+        loadingNews: 'Chargement des actualités...',
+        loading: 'Chargement...',
+        noNewsChess: "Actualités d'échecs indisponibles pour le moment.",
+        noNewsGlobal: 'Actualités mondiales indisponibles pour le moment.',
+        noNewsFootball: 'Actualités football indisponibles pour le moment.',
+        noNewsBasketball: 'Actualités basket indisponibles pour le moment.',
+        noNewsTennis: 'Actualités tennis indisponibles pour le moment.',
+        noNewsEsports: 'Actualités esport indisponibles pour le moment.'
+      },
+      ar: {
+        aiTitle: 'الذكاء الرياضي',
+        aiWelcome: 'اسألني أي سؤال رياضي. ويمكن للأزرار السريعة أيضاً عرض أخبار مطابقة من الموقع.',
+        aiInputPlaceholder: 'اسأل سؤالاً رياضياً...',
+        aiQuickMorocco: 'كرة القدم المغربية',
+        aiQuickGlobal: 'كرة القدم العالمية',
+        aiQuickTennis: 'التنس',
+        aiQuickMatches: 'المباريات',
+        aiPromptMorocco: 'آخر أخبار كرة القدم المغربية',
+        aiPromptGlobal: 'آخر أخبار كرة القدم العالمية',
+        aiPromptTennis: 'آخر أخبار التنس',
+        aiPromptMatches: 'آخر أخبار المباريات',
+        aiSend: 'إرسال',
+        aiError: 'الذكاء غير متاح حالياً. حاول مرة أخرى.',
+        colorsModalTitle: 'استوديو الألوان',
+        colorsModalDesc: 'تخصيص ألوان الموقع.',
+        colorLabelBg: 'الخلفية',
+        colorLabelBg2: 'التدرج',
+        colorLabelCard: 'البطاقة',
+        colorLabelText: 'النص',
+        colorLabelCyan: 'اللون الأساسي',
+        colorLabelRed: 'الخطر',
+        save: 'حفظ',
+        reset: 'إعادة الضبط',
+        loadingNews: 'جارٍ تحميل الأخبار...',
+        loading: 'جارٍ التحميل...',
+        noNewsChess: 'أخبار الشطرنج غير متوفرة حالياً.',
+        noNewsGlobal: 'أخبار العالم غير متوفرة حالياً.',
+        noNewsFootball: 'أخبار كرة القدم غير متوفرة حالياً.',
+        noNewsBasketball: 'أخبار كرة السلة غير متوفرة حالياً.',
+        noNewsTennis: 'أخبار التنس غير متوفرة حالياً.',
+        noNewsEsports: 'أخبار الرياضات الإلكترونية غير متوفرة حالياً.'
+      }
+    };
+
+    Object.keys(extraUiText).forEach(langKey => {
+      uiText[langKey] = Object.assign({}, extraUiText[langKey], uiText[langKey] || {});
+    });
+
     function t(key) {
       return (uiText[currentLang] && uiText[currentLang][key]) || uiText.en[key] || key;
+    }
+
+    function getAiQuickPrompt(kind) {
+      const map = {
+        morocco: 'aiPromptMorocco',
+        global: 'aiPromptGlobal',
+        tennis: 'aiPromptTennis',
+        matches: 'aiPromptMatches'
+      };
+      return t(map[kind] || 'aiPromptGlobal');
     }
 
     function setTheme(theme) {
@@ -1897,6 +2020,10 @@
       $('#ai-quick-tennis').text(t('aiQuickTennis'));
       $('#ai-quick-matches').text(t('aiQuickMatches'));
       $('#ai-send-btn').text(t('aiSend'));
+      $('#ai-quick-morocco').attr('onclick', "askAiQuick(getAiQuickPrompt('morocco'))");
+      $('#ai-quick-global').attr('onclick', "askAiQuick(getAiQuickPrompt('global'))");
+      $('#ai-quick-tennis').attr('onclick', "askAiQuick(getAiQuickPrompt('tennis'))");
+      $('#ai-quick-matches').attr('onclick', "askAiQuick(getAiQuickPrompt('matches'))");
       $('#colors-modal-title').text(t('colorsModalTitle'));
       $('#colors-modal-desc').text(t('colorsModalDesc'));
       $('#color-label-bg').text(t('colorLabelBg'));
@@ -2807,6 +2934,24 @@
       }
     }
 
+    function upgradeImageUrl(url = '') {
+      let clean = String(url || '').trim();
+      if (!clean) return '';
+      clean = clean.replace(/&amp;/g, '&');
+      if (clean.startsWith('//')) clean = 'https:' + clean;
+      if (clean.includes('via.placeholder.com')) return clean;
+      clean = clean.replace(/([?&])(w|width|h|height|q|quality)=\d+/gi, '$1');
+      clean = clean.replace(/[?&]+$/,'');
+      clean = clean.replace(/\/\d{2,4}\//g, '/1024/');
+      clean = clean.replace(/-\d+x\d+(?=\.[a-z]{3,4}(?:$|\?))/i, '-1200x675');
+      clean = clean.replace(/(\.(jpg|jpeg|png|webp))(\?.*)?$/i, '$1');
+      return clean;
+    }
+
+    function bestImage(url = '') {
+      return upgradeImageUrl(url) || 'https://via.placeholder.com/1200x675?text=Moroccansportshub';
+    }
+
     async function fetchRssViaRss2Json(url) {
       const res = await fetchWithTimeout('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url), {}, 2600);
       if (!res.ok) throw new Error('rss2json failed');
@@ -2815,7 +2960,7 @@
       return data.items.map(item => ({
         title: item.title || 'Untitled',
         desc: (item.description || '').replace(/<[^>]*>?/gm, ''),
-        img: item.thumbnail || item.enclosure?.link || item.enclosure || '',
+        img: upgradeImageUrl(item.thumbnail || item.enclosure?.link || item.enclosure || ''),
         link: item.link || '#',
         pubDate: item.pubDate || ''
       }));
@@ -2832,7 +2977,7 @@
       return items.map(item => ({
         title: item.querySelector('title')?.textContent?.trim() || 'Untitled',
         desc: (item.querySelector('description')?.textContent || '').replace(/<[^>]*>?/gm, ''),
-        img: item.querySelector('enclosure')?.getAttribute('url') || item.querySelector('media\:content, content')?.getAttribute('url') || item.querySelector('media\:thumbnail, thumbnail')?.getAttribute('url') || '',
+        img: upgradeImageUrl(item.querySelector('enclosure')?.getAttribute('url') || item.querySelector('media\:content, content')?.getAttribute('url') || item.querySelector('media\:thumbnail, thumbnail')?.getAttribute('url') || ''),
         link: item.querySelector('link')?.textContent?.trim() || '#',
         pubDate: item.querySelector('pubDate')?.textContent?.trim() || ''
       }));
@@ -2866,7 +3011,7 @@
         const link = a.href || '#';
         if (!title || title.length < 18 || seen.has(title)) continue;
         seen.add(title);
-        const img = a.querySelector('img')?.src || a.closest('article')?.querySelector('img')?.src || '';
+        const img = upgradeImageUrl(a.querySelector('img')?.src || a.closest('article')?.querySelector('img')?.src || '');
         items.push({ title, desc: '', img, link, pubDate: '' });
         if (items.length >= 12) break;
       }
@@ -2893,7 +3038,7 @@
           id: masterPool.length,
           title: item.title || 'Untitled',
           desc: item.desc || '',
-          img: item.img || 'https://via.placeholder.com/800x450?text=Moroccansportshub',
+          img: bestImage(item.img),
           link: item.link || '#',
           tag: opts.tag || '',
           sport: opts.sport || '',
@@ -2906,11 +3051,37 @@
       return ids;
     }
 
+    function localizedEmptyText(message = '') {
+      const m = String(message || '').toLowerCase();
+      if (m.includes('chess')) return t('noNewsChess');
+      if (m.includes('global')) return t('noNewsGlobal');
+      if (m.includes('football')) return t('noNewsFootball');
+      if (m.includes('basket')) return t('noNewsBasketball');
+      if (m.includes('tennis')) return t('noNewsTennis');
+      if (m.includes('esport')) return t('noNewsEsports');
+      if (m.includes('moroccan') || m.includes('maroc')) return t('noNewsMorocco');
+      return message || t('loading');
+    }
+
     function renderIdsGrid(selector, ids, emptyText) {
       const html = ids.length ? ids.map(id => {
         const n = masterPool[id];
-        return `<div class="mini-card" onclick="openDetails(${n.id})"><span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${n.tag || ''}</span><h3>${n.title}</h3></div>`;
-      }).join('') : `<div class="mini-card"><h3>${emptyText}</h3></div>`;
+        const sportLabel = homeLabel(n.sport || 'football');
+        const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+        const tagLabel = n.tag ? String(n.tag).replace('MOROCCO', homeLabel('morocco')).replace('GLOBAL', homeLabel('global')).replace('FOOTBALL', homeLabel('football')).replace('BASKETBALL', homeLabel('basketball')).replace('TENNIS', homeLabel('tennis')).replace('ESPORT', homeLabel('esports')) : sportLabel;
+        const image = bestImage(n.img);
+        return `<div class="mini-card" onclick="openDetails(${n.id})">
+          <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
+            <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
+          </div>
+          <span class="mini-card-tag">${tagLabel}</span>
+          <h3>${n.title}</h3>
+          <div class="mini-card-meta">
+            <span class="mini-chip"><i class="fa-solid fa-layer-group"></i>${sportLabel}</span>
+            <span class="mini-chip"><i class="fa-solid fa-earth-africa"></i>${regionLabel}</span>
+          </div>
+        </div>`;
+      }).join('') : `<div class="mini-card"><h3>${localizedEmptyText(emptyText)}</h3></div>`;
       $(selector).html(html);
     }
 
@@ -3208,47 +3379,78 @@ function renderHome(forceShuffle = false) {
 
       const featured = featuredWindow[featuredIndex];
       const remaining = newestPool.filter(n => n.id !== featured.id);
-      const imgSrc = featured.img && featured.img.trim() !== '' ? featured.img : 'https://via.placeholder.com/1200x675?text=Moroccansportshub';
+      const imgSrc = bestImage(featured.img);
       const heroSummary = (featured.desc || '').trim();
       const heroCopy = heroSummary.length > 260 ? `${heroSummary.slice(0, 257).trim()}...` : heroSummary;
-      const heroTag = featured.tag || (featured.region === 'morocco' ? 'Morocco' : 'Top Story');
-      const heroSport = featured.sport || 'Football';
-      const heroRegion = featured.region || 'Global';
+      const heroTag = featured.tag
+        ? String(featured.tag).replace('MOROCCO', homeLabel('morocco')).replace('GLOBAL', homeLabel('global')).replace('FOOTBALL', homeLabel('football')).replace('BASKETBALL', homeLabel('basketball')).replace('TENNIS', homeLabel('tennis')).replace('ESPORT', homeLabel('esports'))
+        : (featured.region === 'morocco' ? homeLabel('morocco') : homeLabel('topStory'));
+      const heroSport = homeLabel(featured.sport || 'football');
+      const heroRegion = featured.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+      const heroTime = relativeTimeLabel(featured.time || featured.date || featured.pubDate || Date.now());
 
       $('#center-intel').html(`
         <div class="hero-kicker"><i class="fa-solid fa-bolt"></i><span>${heroTag}</span></div>
         <div class="hero-meta">
-          <span class="hero-pill"><i class="fa-solid fa-fire"></i> Trending</span>
+          <span class="hero-pill"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
           <span class="hero-pill"><i class="fa-solid fa-layer-group"></i> ${heroSport}</span>
           <span class="hero-pill"><i class="fa-solid fa-earth-africa"></i> ${heroRegion}</span>
+          <span class="hero-pill"><i class="fa-solid fa-clock"></i> ${heroTime}</span>
         </div>
         <h1 onclick="openDetails(${featured.id})">${featured.title}</h1>
-        <img src="${imgSrc}" alt="${featured.title}" onclick="openDetails(${featured.id})" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
-        <p class="feature-summary">${heroCopy || 'Latest sports intelligence curated for Moroccansportshub readers.'}</p>
-        <div class="feature-cta-row">
-          <button class="solid-btn" onclick="openDetails(${featured.id})">Read Story</button>
-          <div class="hero-meta">
-            <span class="hero-pill"><i class="fa-solid fa-clock"></i> Updated</span>
-            <span class="hero-pill"><i class="fa-solid fa-brain"></i> AI Pick</span>
+        <div class="hero-media-wrap" onclick="openDetails(${featured.id})">
+          <img src="${imgSrc}" alt="${featured.title}" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
+          <div class="hero-floating-badges">
+            <span class="breaking-badge"><i class="fa-solid fa-bolt"></i> ${homeLabel('breaking')}</span>
+            <span class="trending-badge"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
+            <span class="ai-badge"><i class="fa-solid fa-brain"></i> ${homeLabel('aiPick')}</span>
           </div>
+        </div>
+        <p class="feature-summary">${heroCopy || homeLabel('fallbackSummary')}</p>
+        <div class="feature-cta-row">
+          <button class="solid-btn" onclick="openDetails(${featured.id})">${homeLabel('readStory')}</button>
+          <div class="hero-meta">
+            <span class="hero-pill"><i class="fa-solid fa-clock"></i> ${homeLabel('updated')}</span>
+            <span class="hero-pill"><i class="fa-solid fa-chart-line"></i> ${homeLabel('livePulse')}</span>
+          </div>
+        </div>
+        <div class="hero-bottom-strip">
+          <div class="hero-stat"><strong>${homeLabel('focus')}</strong><span>${heroSport}</span></div>
+          <div class="hero-stat"><strong>${homeLabel('region')}</strong><span>${heroRegion}</span></div>
+          <div class="hero-stat"><strong>${homeLabel('status')}</strong><span>${homeLabel('livePulse')}</span></div>
         </div>
       `);
 
-      $('#wire-left').html(remaining.slice(0, Math.min(9, remaining.length)).map((n, i) => `
+      $('#wire-left').html(remaining.slice(0, Math.min(9, remaining.length)).map((n, i) => {
+        const badge = getNewsBadge(n, i);
+        return `
         <div class="side-item" onclick="openDetails(${n.id})">
-          <div class="mini-card-tag"><span>${i < 3 ? 'Breaking' : (n.tag || 'Latest')}</span></div>
+          <div class="side-item-top">
+            <span class="side-rank">${i + 1}</span>
+            <div class="mini-card-tag"><i class="fa-solid ${badge.icon}"></i><span>${badge.text}</span></div>
+          </div>
           <h4>${n.title}</h4>
-        </div>
-      `).join(''));
+          <small>${n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global')} • ${homeLabel(n.sport || 'football')}</small>
+        </div>`;
+      }).join(''));
 
-      $('#wire-right').html(remaining.slice(9, Math.min(15, remaining.length)).map(n => {
+      $('#wire-right').html(remaining.slice(9, Math.min(15, remaining.length)).map((n, i) => {
+        const badge = getNewsBadge(n, i + 1);
         const summary = (n.desc || '').trim();
         const copy = summary.length > 88 ? `${summary.slice(0, 85).trim()}...` : summary;
+        const image = bestImage(n.img);
         return `
           <div class="mini-card" onclick="openDetails(${n.id})">
-            <span class="mini-card-tag">${n.tag || 'Top Story'}</span>
+            <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
+              <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:170px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
+            </div>
+            <span class="mini-card-tag"><i class="fa-solid ${badge.icon}"></i>${badge.text}</span>
             <h3>${n.title}</h3>
-            <p>${copy || 'Tap to open the full story and reactions.'}</p>
+            <p>${copy || homeLabel('fallbackCard')}</p>
+            <div class="mini-card-meta">
+              <span class="mini-chip"><i class="fa-solid fa-layer-group"></i>${homeLabel(n.sport || 'football')}</span>
+              <span class="mini-chip"><i class="fa-solid fa-clock"></i>${relativeTimeLabel(n.time || n.date || n.pubDate || Date.now())}</span>
+            </div>
           </div>
         `;
       }).join(''));
@@ -3258,7 +3460,7 @@ function openDetails(id) {
       const n = masterPool[id];
       if (!n) return;
 
-      const image = n.img && !String(n.img).includes('via.placeholder.com') ? n.img : '';
+      const image = n.img && !String(n.img).includes('via.placeholder.com') ? bestImage(n.img) : '';
       const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
       const sportLabel = homeLabel(n.sport || 'football');
       const primaryBadge = n.tag || homeLabel('topStory');
