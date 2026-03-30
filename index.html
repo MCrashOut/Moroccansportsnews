@@ -2300,7 +2300,16 @@
         homeWhy4Desc: 'Jump straight into news, matches, chess, or the feed.',
         articleBack: 'Back',
         articleWhyLabel: 'Why it matters',
-        articleContextLabel: 'Quick context'
+        articleContextLabel: 'Quick context',
+        footerBrand: 'MoroccanSportsHub',
+        footerCopy: 'MoroccanSportsHub is a modern sports platform delivering real-time Moroccan football news, global sports coverage, AI-powered insights, and a community-driven feed.',
+        footerContactTitle: 'Contact',
+        footerContactCopy: 'Reach out for feedback, corrections, partnerships, or page support.',
+        footerMoreTitle: 'More',
+        footerAbout: 'About',
+        footerPrivacy: 'Privacy Policy',
+        footerTerms: 'Terms & Conditions',
+      
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -2411,7 +2420,16 @@
         homeWhy4Desc: 'Accédez directement aux news, matchs, échecs ou au fil.',
         articleBack: 'Retour',
         articleWhyLabel: 'Pourquoi c’est important',
-        articleContextLabel: 'Contexte rapide'
+        articleContextLabel: 'Contexte rapide',
+        footerBrand: 'MoroccanSportsHub',
+        footerCopy: 'MoroccanSportsHub est une plateforme sportive moderne qui propose en temps réel des actualités sur le football marocain, le sport mondial, des insights IA et un fil communautaire.',
+        footerContactTitle: 'Contact',
+        footerContactCopy: 'Contactez-nous pour vos retours, corrections, partenariats ou besoins de support.',
+        footerMoreTitle: 'Plus',
+        footerAbout: 'À propos',
+        footerPrivacy: 'Politique de confidentialité',
+        footerTerms: 'Conditions générales',
+      
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -2826,12 +2844,13 @@
       $('#gf-esports').text(t('moroccoEsportTitle') || 'Esport');
 
       if (auth.currentUser) {
-        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
-        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('agentHub')}</button>`);
+        $('#auth-ui').html(`<button class="auth-btn" id="auth-main-btn" onclick="switchPage('profile-check')">${t('profileNav')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" id="drawer-auth-main-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('profileNav')}</button>`);
       } else {
         $('#auth-main-btn, #drawer-auth-main-btn').text(t('accessHub'));
-        $('#auth-ui').html(`<button class="auth-btn" onclick="openAuth()">${t('accessHub')}</button>`);
-        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
+        $('#auth-main-btn, #drawer-auth-main-btn').text(t('accessHub'));
+        $('#auth-ui').html(`<button class="auth-btn" id="auth-main-btn" onclick="openAuth()">${t('accessHub')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" id="drawer-auth-main-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
       }
 
       $('#active-search-input').attr('placeholder', `${t('search')}...`);
@@ -2991,8 +3010,9 @@
 
       if (user) {
         $('#auth-main-btn, #drawer-auth-main-btn').text(t('profileNav'));
-        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
-        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('agentHub')}</button>`);
+        $('#auth-main-btn, #drawer-auth-main-btn').text(t('profileNav'));
+        $('#auth-ui').html(`<button class="auth-btn" id="auth-main-btn" onclick="switchPage('profile-check')">${t('profileNav')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" id="drawer-auth-main-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('profileNav')}</button>`);
         $('#set-name').val(user.displayName || '');
         setProfileAvatarPreview(user.photoURL || '', user.displayName || 'Agent');
 
@@ -3020,8 +3040,8 @@
 
         listenToNotifs();
       } else {
-        $('#auth-ui').html(`<button class="auth-btn" onclick="openAuth()">${t('accessHub')}</button>`);
-        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
+        $('#auth-ui').html(`<button class="auth-btn" id="auth-main-btn" onclick="openAuth()">${t('accessHub')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" id="drawer-auth-main-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
         $('#set-name').val('');
         $('#profile-email').text('');
         $('#nav-admin, #drawer-admin-btn').hide();
