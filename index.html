@@ -1240,59 +1240,18 @@
       gap: 18px;
       align-items: start;
     }
-    .footer-brand {
-      color: var(--cyan);
-      font-weight: 800;
-      margin-bottom: 8px;
-      letter-spacing: -.02em;
-    }
-    .footer-copy {
-      color: var(--dim);
-      line-height: 1.7;
-      font-size: .88rem;
-    }
-    .footer-title {
-      color: var(--text);
-      font-size: .82rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 10px;
-    }
-    .footer-links, .footer-contact {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .footer-links a, .footer-contact a, .footer-contact span {
-      color: var(--dim);
-      font-size: .86rem;
-      line-height: 1.5;
-    }
-    .footer-links a:hover, .footer-contact a:hover {
-      color: var(--cyan);
-    }
-    .footer-social {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
+    .footer-brand { color: var(--cyan); font-weight: 800; margin-bottom: 8px; letter-spacing: -.02em; }
+    .footer-copy { color: var(--dim); line-height: 1.7; font-size: .88rem; }
+    .footer-title { color: var(--text); font-size: .82rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+    .footer-links, .footer-contact { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a, .footer-contact a, .footer-contact span { color: var(--dim); font-size: .86rem; line-height: 1.5; }
+    .footer-links a:hover, .footer-contact a:hover { color: var(--cyan); }
+    .footer-social { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
     .footer-social a {
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text);
-      background: rgba(255,255,255,.03);
+      width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--border);
+      display: inline-flex; align-items: center; justify-content: center; color: var(--text); background: rgba(255,255,255,.03);
     }
-    .footer-social a:hover {
-      color: var(--cyan);
-      border-color: rgba(0,242,254,.35);
-    }
+    .footer-social a:hover { color: var(--cyan); border-color: rgba(0,242,254,.35); }
 
   </style>
 <script type="application/ld+json">
@@ -1566,16 +1525,10 @@
     <div class="footer-grid">
       <div>
         <div class="footer-brand">MoroccanSportsHub</div>
-        <div class="footer-copy">
-          MoroccanSportsHub is a modern sports platform delivering real-time Moroccan football news, global sports coverage, AI-powered insights, and a community-driven feed.
-        </div>
+        <div class="footer-copy">MoroccanSportsHub is a modern sports platform delivering real-time Moroccan football news, global sports coverage, AI-powered insights, and a community-driven feed.</div>
         <div class="footer-social">
-          <a href="https://x.com/MarocSportsHub" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter">
-            <i class="fa-brands fa-x-twitter"></i>
-          </a>
-          <a href="https://www.facebook.com/profile.php?id=61574503853445" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
+          <a href="https://x.com/MarocSportsHub" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61574503853445" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
         </div>
       </div>
       <div>
@@ -1586,14 +1539,10 @@
         </div>
       </div>
       <div>
-        <div class="footer-title">Website</div>
+        <div class="footer-title">More</div>
         <div class="footer-links">
-          <a href="#">About</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms & Conditions</a>
-          <a href="https://moroccansportshub.com/" target="_blank" rel="noopener noreferrer">Home</a>
-          <a href="https://moroccansportshub.com/#feed" target="_blank" rel="noopener noreferrer">Feed</a>
-          <a href="https://moroccansportshub.com/#matches" target="_blank" rel="noopener noreferrer">Matches</a>
+          <span class="footer-copy">About: Independent coverage focused on Moroccan football, major global sports stories, and fan conversation.</span>
+          <span>Privacy Policy and Terms pages can be added next as dedicated pages.</span>
         </div>
       </div>
     </div>
@@ -2915,9 +2864,7 @@
       if (feedListener) feedListener();
 
       feedListener = db.collection('posts').onSnapshot(async snapshot => {
-        const container = $('#feed-container');
-        const previousHeight = container.outerHeight();
-        if (previousHeight) container.css('min-height', `${previousHeight}px`);
+        const container = $('#feed-container').empty();
         let posts = [];
         snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
 
@@ -2960,7 +2907,7 @@
           const postUserData = userDoc.exists ? userDoc.data() : {};
           const bannedUser = !!postUserData.banned;
 
-          feedHtml += `
+          container.append(`
             <div class="post-card ${post.pinned ? 'pinned' : ''}" data-post="${post.id}">
               ${(admin || owner) ? `
                 <div class="admin-controls">
@@ -2991,19 +2938,6 @@
               </div>
             </div>
           `);
-        }
-
-        container.html(feedHtml);
-        container.css('min-height', '');
-
-        if (feedAnchorPostId) {
-          const anchorEl = document.querySelector(`[data-post="${feedAnchorPostId}"]`);
-          if (anchorEl && Number.isFinite(feedAnchorTop)) {
-            const nextTop = anchorEl.getBoundingClientRect().top;
-            window.scrollBy(0, nextTop - feedAnchorTop);
-          }
-          feedAnchorPostId = null;
-          feedAnchorTop = null;
         }
 
         openPostFromUrlIfAny();
