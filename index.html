@@ -1492,6 +1492,11 @@
           <span id="composer-text">Broadcast intelligence...</span>
           <i class="fa-solid fa-paper-plane" style="color:var(--cyan)"></i>
         </div>
+        <div class="feed-tabs">
+          <button id="feed-tab-latest" class="feed-tab active" onclick="setFeedView('latest')">Latest</button>
+          <button id="feed-tab-top" class="feed-tab" onclick="setFeedView('top')">Top</button>
+          <button id="feed-tab-pinned" class="feed-tab" onclick="setFeedView('pinned')">Pinned</button>
+        </div>
         <div id="feed-container"></div>
       </div>
     </section>
@@ -1708,6 +1713,7 @@
     let feedPreserveOrder = true;
     let feedAnchorPostId = null;
     let feedAnchorTop = null;
+    let feedViewMode = 'latest';
 
     const uiText = {
       en: {
@@ -1722,6 +1728,7 @@
         admin: 'Admin',
         search: 'Search',
         accessHub: 'Access Hub',
+        profileNav: 'Profile',
         agentHub: 'Agent Hub',
         notifTitle: 'INTELLIGENCE ALERTS',
         notifClear: 'Clear All',
@@ -1817,6 +1824,7 @@
         admin: 'Admin',
         search: 'Recherche',
         accessHub: 'Accéder',
+        profileNav: 'Profil',
         agentHub: 'Espace Agent',
         notifTitle: 'ALERTES',
         notifClear: 'Tout effacer',
@@ -1912,6 +1920,7 @@
         admin: 'الإدارة',
         search: 'بحث',
         accessHub: 'الدخول',
+        profileNav: 'الملف الشخصي',
         agentHub: 'حسابي',
         notifTitle: 'الإشعارات',
         notifClear: 'مسح الكل',
@@ -2219,6 +2228,11 @@
       $('#footer-about-link').text(t('footerAbout'));
       $('#footer-privacy-link').text(t('footerPrivacy'));
       $('#footer-terms-link').text(t('footerTerms'));
+      $('#feed-tab-latest').text(t('feedLatest'));
+      $('#feed-tab-top').text(t('feedTop'));
+      $('#feed-tab-pinned').text(t('feedPinned'));
+      const authLabel = auth.currentUser ? t('profileNav') : t('accessHub');
+      $('#auth-ui .auth-btn, #drawer-auth-ui .auth-btn').text(authLabel);
       $('#ai-quick-morocco').attr('onclick', "askAiQuick(getAiQuickPrompt('morocco'))");
       $('#ai-quick-global').attr('onclick', "askAiQuick(getAiQuickPrompt('global'))");
       $('#ai-quick-tennis').attr('onclick', "askAiQuick(getAiQuickPrompt('tennis'))");
@@ -2247,8 +2261,8 @@
       $('#gf-esports').text(t('moroccoEsportTitle') || 'Esport');
 
       if (auth.currentUser) {
-        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
-        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('agentHub')}</button>`);
+        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('profileNav')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('profileNav')}</button>`);
       } else {
         $('#auth-ui').html(`<button class="auth-btn" onclick="openAuth()">${t('accessHub')}</button>`);
         $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
@@ -2320,6 +2334,14 @@
       maybeAutoCloseDrawerFromEventTarget(e.target);
     }, { passive: true });
 
+    function setFeedView(mode) {
+      feedViewMode = mode;
+      $('.feed-tab').removeClass('active');
+      $(`#feed-tab-${mode}`).addClass('active');
+      feedPreserveOrder = false;
+      if ($('#feed-page').hasClass('active')) loadFeed();
+    }
+
     function switchPage(p) {
       if (p === 'profile-check') {
         if (!auth.currentUser) {
@@ -2341,7 +2363,7 @@
       if (p.startsWith('morocco-')) $('#nav-morocco').addClass('active');
       else $('#nav-' + p).addClass('active');
 
-      if (p === 'feed') loadFeed();
+      if (p === 'feed') { feedPreserveOrder = false; loadFeed(); }
       if (p === 'profile') loadProfile();
       if (p === 'matches') loadMatchesWidget();
       if (p === 'admin') loadAdminPanel();
@@ -2401,8 +2423,8 @@
       masterPool = [];
 
       if (user) {
-        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
-        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('agentHub')}</button>`);
+        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('profileNav')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('profileNav')}</button>`);
         $('#set-name').val(user.displayName || '');
         setProfileAvatarPreview(user.photoURL || '', user.displayName || 'Agent');
 
@@ -2973,7 +2995,22 @@
           return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
         };
 
-        if (!feedPreserveOrder || !feedStableOrder.length) {
+        const latestSort = (a, b) => {
+          if ((b.pinned ? 1 : 0) !== (a.pinned ? 1 : 0)) {
+            return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
+          }
+          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+        };
+
+        if (feedViewMode === 'pinned') {
+          posts = posts.filter(post => post.pinned).sort(rankingSort);
+          feedStableOrder = posts.map(post => post.id);
+          feedPreserveOrder = true;
+        } else if (feedViewMode === 'latest') {
+          posts.sort(latestSort);
+          feedStableOrder = posts.map(post => post.id);
+          feedPreserveOrder = true;
+        } else if (!feedPreserveOrder || !feedStableOrder.length) {
           posts.sort(rankingSort);
           feedStableOrder = posts.map(post => post.id);
           feedPreserveOrder = true;
@@ -3052,66 +3089,6 @@
 
         openPostFromUrlIfAny();
       });
-    }
-
-    async function reactToFeedPost(postId, type, targetId) {
-      if (!auth.currentUser) return openAuth();
-
-      const anchorEl = document.querySelector(`[data-post="${postId}"]`);
-      feedAnchorPostId = postId;
-      feedAnchorTop = anchorEl ? anchorEl.getBoundingClientRect().top : null;
-      const uid = auth.currentUser.uid;
-      const rid = `${postId}_${uid}`;
-      const rref = db.collection('reactions_feed').doc(rid);
-      const pref = db.collection('posts').doc(postId);
-      const scoreMap = { like: 1, heart: 2, fire: 2 };
-      let added = false;
-
-      await db.runTransaction(async t => {
-        const rd = await t.get(rref);
-        const pd = await t.get(pref);
-        if (!pd.exists) return;
-
-        const d = pd.data();
-        let updates = {};
-
-        if (rd.exists) {
-          const old = rd.data().type;
-          if (old === type) {
-            updates[old + 's'] = Math.max((d[old + 's'] || 1) - 1, 0);
-            updates.score = Math.max((d.score || 0) - (scoreMap[old] || 0), 0);
-            t.delete(rref);
-          } else {
-            updates[old + 's'] = Math.max((d[old + 's'] || 1) - 1, 0);
-            updates[type + 's'] = (d[type + 's'] || 0) + 1;
-            updates.score = (d.score || 0) - (scoreMap[old] || 0) + (scoreMap[type] || 0);
-            t.update(rref, { type });
-          }
-        } else {
-          updates[type + 's'] = (d[type + 's'] || 0) + 1;
-          updates.score = (d.score || 0) + (scoreMap[type] || 0);
-          t.set(rref, { type, userId: uid, postId });
-          added = true;
-        }
-
-        t.update(pref, updates);
-      });
-
-      requestAnimationFrame(() => {
-        window.scrollTo(0, scrollY);
-      });
-
-      if (added && targetId !== uid) {
-        await db.collection('notifications').add({
-          targetId,
-          fromName: auth.currentUser.displayName || 'Agent',
-          message: 'reacted to your intelligence.',
-          postId,
-          read: false,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-      }
-
     }
 
     async function deletePost(id) {
