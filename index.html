@@ -5038,10 +5038,27 @@ function openDetails(id) {
         $('#article-source-btn').hide();
       }
 
-      resetArticleEngagementUi();
-      loadArticleReactions();
-      loadArticleComments();
       switchPage('article');
+
+      try {
+        resetArticleEngagementUi();
+      } catch (err) {
+        console.error('Article engagement UI reset failed', err);
+      }
+
+      setTimeout(() => {
+        try {
+          loadArticleReactions();
+        } catch (err) {
+          console.error('Article reactions failed', err);
+        }
+
+        try {
+          loadArticleComments();
+        } catch (err) {
+          console.error('Article comments failed', err);
+        }
+      }, 0);
     }
 
     async function syncReacts(title) {
