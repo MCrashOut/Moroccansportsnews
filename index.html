@@ -895,6 +895,13 @@
     .color-grid input[type="color"] { width:100%; height:44px; border:none; background:transparent; padding:0; }
     @media (max-width:640px){ .color-grid { grid-template-columns:1fr; } }
 
+    @media (max-width: 767px) {
+      #desktop-color-btn,
+      .drawer-color-btn {
+        display: none !important;
+      }
+    }
+
     .ai-fab {
       position: fixed;
       right: 18px;
@@ -1333,7 +1340,7 @@
         <div><strong id="d-global-title">Global</strong><span id="d-global-desc">International sports stories</span></div>
       </button>
 
-      <button onclick="openColorStudio(); toggleDrawer(false);">
+      <button class="drawer-color-btn" onclick="openColorStudio(); toggleDrawer(false);">
         <i class="fa-solid fa-palette"></i>
         <div><strong id="d-colors-title">Colors</strong><span id="d-colors-desc">Customize website colors</span></div>
       </button>
@@ -1484,7 +1491,7 @@
 
   <div id="colors-modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="$('#colors-modal').hide(); document.body.style.overflow='';">&times;</span>
+      <span class="close" onclick="closeModal('colors-modal')">&times;</span>
       <h2 id="colors-modal-title" style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
       <p id="colors-modal-desc" style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
       <div class="color-grid">
@@ -2084,13 +2091,27 @@
     }
 
     async function initAppPrefs() {
+      const isMobile = window.innerWidth < 768;
       document.body.style.overflow = '';
-      currentTheme = 'dark';
-      localStorage.setItem('msh_theme', 'dark');
-      setTheme('dark');
-      const savedColors = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
-      const colorsEnabled = localStorage.getItem('msh_custom_colors_enabled') === '1';
-      if (colorsEnabled && Object.keys(savedColors).length) applyCustomColors(savedColors);
+      document.body.style.position = '';
+      document.body.style.width = '';
+
+      currentTheme = isMobile ? 'dark' : (localStorage.getItem('msh_theme') === 'light' ? 'light' : 'dark');
+      setTheme(currentTheme);
+
+      if (isMobile) {
+        localStorage.removeItem('msh_custom_colors');
+        document.documentElement.style.removeProperty('--bg');
+        document.documentElement.style.removeProperty('--bg2');
+        document.documentElement.style.removeProperty('--card');
+        document.documentElement.style.removeProperty('--text');
+        document.documentElement.style.removeProperty('--cyan');
+        document.documentElement.style.removeProperty('--red');
+      } else {
+        const savedColors = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
+        if (Object.keys(savedColors).length) applyCustomColors(savedColors);
+      }
+
       await setLanguage(currentLang);
     }
 
@@ -2103,9 +2124,11 @@
       if (open) {
         drawer.addClass('open');
         backdrop.addClass('show');
+        document.body.style.overflow = 'hidden';
       } else {
         drawer.removeClass('open');
         backdrop.removeClass('show');
+        document.body.style.overflow = '';
       }
     }
 
@@ -2831,6 +2854,7 @@
     async function reactToFeedPost(postId, type, targetId) {
       if (!auth.currentUser) return openAuth();
 
+      const scrollY = window.scrollY;
       const uid = auth.currentUser.uid;
       const rid = `${postId}_${uid}`;
       const rref = db.collection('reactions_feed').doc(rid);
@@ -2866,6 +2890,10 @@
         }
 
         t.update(pref, updates);
+      });
+
+      requestAnimationFrame(() => {
+        window.scrollTo(0, scrollY);
       });
 
       if (added && targetId !== uid) {
@@ -3618,6 +3646,15 @@ function openDetails(id) {
       }
     }
 
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+
     function makeAiMove() {
       const moves = game.moves();
       if (!moves.length) return;
@@ -3627,15 +3664,18 @@ function openDetails(id) {
     }
 
     function openColorStudio() {
+      if (window.innerWidth < 768) return;
       loadCustomColorsIntoInputs();
-      window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+      window.scrollTo({ top: 0, behavior: ('scrollBehavior' in document.documentElement.style) ? 'smooth' : 'auto' });
       document.body.style.overflow = 'hidden';
-      const modal = $('#colors-modal');
-      modal.css('display', 'flex');
-      setTimeout(() => {
-        const el = modal.find('.modal-content').get(0);
-        if (el) el.scrollTop = 0;
-      }, 0);
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      const modal = document.getElementById('colors-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+        const content = modal.querySelector('.modal-content');
+        if (content) content.scrollTop = 0;
+      }
     }
 
     function hexToRgba(hex, alpha) {
@@ -3669,18 +3709,29 @@ function openDetails(id) {
     }
 
     function saveCustomColors() {
+      if (window.innerWidth < 768) return;
       const colors = { bg: $('#color-bg').val(), bg2: $('#color-bg2').val(), card: $('#color-card').val(), text: $('#color-text').val(), cyan: $('#color-cyan').val(), red: $('#color-red').val() };
       localStorage.setItem('msh_custom_colors', JSON.stringify(colors));
-      localStorage.setItem('msh_custom_colors_enabled', '1');
       applyCustomColors(colors);
-      $('#colors-modal').hide();
-      document.body.style.overflow = '';
+      closeModal('colors-modal');
     }
 
     function resetCustomColors() {
       localStorage.removeItem('msh_custom_colors');
-      localStorage.removeItem('msh_custom_colors_enabled');
-      location.reload();
+      const root = document.documentElement.style;
+      root.setProperty('--bg', '#000000');
+      root.setProperty('--bg2', '#091015');
+      root.setProperty('--card', 'rgba(255,255,255,.05)');
+      root.setProperty('--text', '#ffffff');
+      root.setProperty('--cyan', '#00f2fe');
+      root.setProperty('--red', '#c1272d');
+      document.getElementById('color-bg').value = '#000000';
+      document.getElementById('color-bg2').value = '#091015';
+      document.getElementById('color-card').value = '#111111';
+      document.getElementById('color-text').value = '#ffffff';
+      document.getElementById('color-cyan').value = '#00f2fe';
+      document.getElementById('color-red').value = '#c1272d';
+      closeModal('colors-modal');
     }
 
 
