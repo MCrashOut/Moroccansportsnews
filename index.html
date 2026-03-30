@@ -1253,6 +1253,218 @@
     }
     .footer-social a:hover { color: var(--cyan); border-color: rgba(0,242,254,.35); }
 
+  
+    .home-bottom-section {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .home-bottom-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 14px 32px var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+    .home-bottom-card h3 {
+      color: var(--cyan);
+      font-size: 1rem;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .home-quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .home-quick-btn {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .home-quick-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.05);
+    }
+    .home-quick-btn strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: .92rem;
+    }
+    .home-quick-btn span {
+      display: block;
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.55;
+    }
+    .home-mini-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .home-mini-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      color: var(--dim);
+      font-size: .84rem;
+    }
+    .home-mini-row strong {
+      color: var(--text);
+      font-size: .9rem;
+    }
+    .feed-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 16px;
+    }
+    .feed-tab {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .feed-tab.active,
+    .feed-tab:hover {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+    }
+
+  
+    @media (max-width: 900px) {
+      .home-bottom-section {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .home-quick-grid {
+        grid-template-columns: 1fr;
+      }
+      .home-bottom-card {
+        padding: 16px;
+      }
+    }
+
+  
+    .article-shell {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .article-back-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.08;
+      letter-spacing: -.03em;
+      margin: 10px 0 14px;
+      color: var(--text);
+    }
+    .article-lead {
+      color: var(--dim);
+      line-height: 1.8;
+      font-size: 1rem;
+      margin-bottom: 18px;
+    }
+    .article-hero {
+      border-radius: 26px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 18px 40px rgba(0,0,0,.24);
+      margin-bottom: 20px;
+    }
+    .article-hero img {
+      width: 100%;
+      max-height: 520px;
+      object-fit: cover;
+      display: block;
+    }
+    .article-body-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 14px 32px var(--shadow);
+      margin-bottom: 18px;
+    }
+    .article-body-copy {
+      color: var(--text);
+      line-height: 1.9;
+      font-size: 1rem;
+      white-space: pre-wrap;
+    }
+    .article-side-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .article-info-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 14px 32px var(--shadow);
+    }
+    .article-info-box h3 {
+      color: var(--cyan);
+      font-size: .94rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .article-info-box p {
+      color: var(--dim);
+      line-height: 1.75;
+      font-size: .9rem;
+    }
+
+  
+    @media (max-width: 900px) {
+      .article-side-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .article-body-card,
+      .article-info-box {
+        padding: 16px;
+      }
+      .article-title {
+        font-size: 2rem;
+      }
+      .article-lead,
+      .article-body-copy {
+        font-size: .95rem;
+      }
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -1308,6 +1520,103 @@
         order: 2;
       }
     }
+  
+    .home-bottom-section {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .home-bottom-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 14px 32px var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+    .home-bottom-card h3 {
+      color: var(--cyan);
+      font-size: 1rem;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .home-quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .home-quick-btn {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .home-quick-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.05);
+    }
+    .home-quick-btn strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: .92rem;
+    }
+    .home-quick-btn span {
+      display: block;
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.55;
+    }
+    .home-mini-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .home-mini-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      color: var(--dim);
+      font-size: .84rem;
+    }
+    .home-mini-row strong {
+      color: var(--text);
+      font-size: .9rem;
+    }
+    .feed-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 16px;
+    }
+    .feed-tab {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .feed-tab.active,
+    .feed-tab:hover {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+    }
+
   </style>
 
 </head>
@@ -1483,6 +1792,69 @@
         <div id="center-intel" class="feature"></div>
         <div id="wire-right"></div>
       </div>
+
+      <div class="home-bottom-section">
+        <div class="home-bottom-card">
+          <h3>Explore the Hub</h3>
+          <div class="home-quick-grid">
+            <button class="home-quick-btn" onclick="switchPage('morocco')">
+              <strong>Moroccan News</strong>
+              <span>Botola, national teams, Moroccan stars, and daily local coverage.</span>
+            </button>
+            <button class="home-quick-btn" onclick="switchPage('global')">
+              <strong>Global Stories</strong>
+              <span>Big football stories, world headlines, and major sports updates.</span>
+            </button>
+            <button class="home-quick-btn" onclick="switchPage('feed')">
+              <strong>Community Feed</strong>
+              <span>Check the latest fan posts, reactions, and pinned discussions.</span>
+            </button>
+            <button class="home-quick-btn" onclick="switchPage('matches')">
+              <strong>Matches</strong>
+              <span>Quick access to live fixtures, scores, and football widgets.</span>
+            </button>
+          </div>
+        </div>
+        <div class="home-bottom-card">
+          <h3>Why MoroccanSportsHub</h3>
+          <div class="home-mini-list">
+            <div class="home-mini-row"><strong>Fast Coverage</strong><span>Moroccan + global sports in one homepage.</span></div>
+            <div class="home-mini-row"><strong>Community Layer</strong><span>Fans can react, post, and help surface top stories.</span></div>
+            <div class="home-mini-row"><strong>AI Support</strong><span>Ask the assistant for quick sports answers anytime.</span></div>
+            <div class="home-mini-row" style="border-bottom:none;"><strong>Clean Navigation</strong><span>Jump straight into news, matches, chess, or the feed.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <section id="article-page" class="page">
+      <div class="article-shell">
+        <div class="article-back-row">
+          <button class="ghost-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
+        </div>
+        <div class="detail-top-meta" id="article-meta"></div>
+        <h1 id="article-title" class="article-title"></h1>
+        <p id="article-lead" class="article-lead"></p>
+        <div id="article-hero" class="article-hero" style="display:none;">
+          <img id="article-image" src="" alt="article image" loading="lazy" referrerpolicy="no-referrer">
+        </div>
+        <div class="article-body-card">
+          <div id="article-body" class="article-body-copy"></div>
+        </div>
+        <div class="article-side-grid">
+          <div class="article-info-box">
+            <h3>Why it matters</h3>
+            <p id="article-why"></p>
+          </div>
+          <div class="article-info-box">
+            <h3>Quick context</h3>
+            <p id="article-context"></p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section id="feed-page" class="page">
@@ -1491,6 +1863,11 @@
         <div class="composer" onclick="$('#post-modal').css('display','flex')">
           <span id="composer-text">Broadcast intelligence...</span>
           <i class="fa-solid fa-paper-plane" style="color:var(--cyan)"></i>
+        </div>
+        <div class="feed-tabs">
+          <button id="feed-tab-latest" class="feed-tab active" onclick="setFeedView('latest')">Latest</button>
+          <button id="feed-tab-top" class="feed-tab" onclick="setFeedView('top')">Top</button>
+          <button id="feed-tab-pinned" class="feed-tab" onclick="setFeedView('pinned')">Pinned</button>
         </div>
         <div id="feed-container"></div>
       </div>
@@ -1708,6 +2085,9 @@
     let feedPreserveOrder = true;
     let feedAnchorPostId = null;
     let feedAnchorTop = null;
+    let feedViewMode = 'latest';
+    let lastRegularPage = 'home';
+    let currentArticleLink = '';
 
     const uiText = {
       en: {
@@ -2299,6 +2679,7 @@
         return;
       }
 
+      if (p !== 'article') lastRegularPage = p;
       $('.page').removeClass('active');
       $('#' + p + '-page').addClass('active');
 
@@ -2917,7 +3298,16 @@
       return `<div class="post-media"><img src="${mediaUrl}" alt="media" onerror="this.style.display='none'"></div>`;
     }
 
-    async function loadFeed() {
+    
+    function setFeedView(mode) {
+      feedViewMode = mode;
+      $('.feed-tab').removeClass('active');
+      $(`#feed-tab-${mode}`).addClass('active');
+      feedPreserveOrder = false;
+      if ($('#feed-page').hasClass('active')) { feedPreserveOrder = false; loadFeed(); }
+    }
+
+async function loadFeed() {
       if (feedListener) feedListener();
 
       feedListener = db.collection('posts').onSnapshot(async snapshot => {
@@ -2938,7 +3328,22 @@
           return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
         };
 
-        if (!feedPreserveOrder || !feedStableOrder.length) {
+        const latestSort = (a, b) => {
+          if ((b.pinned ? 1 : 0) !== (a.pinned ? 1 : 0)) {
+            return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
+          }
+          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+        };
+
+        if (feedViewMode === 'pinned') {
+          posts = posts.filter(post => post.pinned).sort(rankingSort);
+          feedStableOrder = posts.map(post => post.id);
+          feedPreserveOrder = true;
+        } else if (feedViewMode === 'latest') {
+          posts.sort(latestSort);
+          feedStableOrder = posts.map(post => post.id);
+          feedPreserveOrder = true;
+        } else if (!feedPreserveOrder || !feedStableOrder.length) {
           posts.sort(rankingSort);
           feedStableOrder = posts.map(post => post.id);
           feedPreserveOrder = true;
@@ -3720,6 +4125,26 @@ function renderHome(forceShuffle = false) {
       }).join(''));
     }
 
+
+function closeArticlePage() {
+      switchPage(lastRegularPage || 'home');
+    }
+
+    function openCurrentArticleSource() {
+      if (currentArticleLink) {
+        window.open(currentArticleLink, '_blank', 'noopener');
+      }
+    }
+
+    function buildArticleExtraCopy(n) {
+      const sportLabel = homeLabel(n.sport || 'football');
+      const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+      return {
+        why: `${n.title} is part of the current ${sportLabel.toLowerCase()} conversation in ${regionLabel.toLowerCase()}. This page gives readers a cleaner view of the story, the source, and the key context without opening a popup.`,
+        context: `Category: ${sportLabel}. Region: ${regionLabel}. Source access is available through the button above, while this page keeps the headline, image, and summary easier to read and share.`
+      };
+    }
+
 function openDetails(id) {
       const n = masterPool[id];
       if (!n) return;
@@ -3729,23 +4154,36 @@ function openDetails(id) {
       const sportLabel = homeLabel(n.sport || 'football');
       const primaryBadge = localizeTagLabel(n.tag) || homeLabel('topStory');
       const timeLabel = relativeTimeLabel(n.time || n.date || n.pubDate || Date.now());
+      const extra = buildArticleExtraCopy(n);
 
-      $('#m-title').text(n.title);
-      $('#m-body').text(n.desc || homeLabel('fallbackSummary'));
-      $('#m-link').attr('href', n.link || '#').text(t('readFull'));
+      currentArticleLink = n.link || '';
+      $('#article-title').text(n.title || '');
+      $('#article-lead').text(n.desc || homeLabel('fallbackSummary'));
+      $('#article-body').text(n.desc || homeLabel('fallbackSummary'));
+      $('#article-why').text(extra.why);
+      $('#article-context').text(extra.context);
 
-      $('#m-image').attr('src', image).attr('alt', n.title);
-      $('#detail-image-wrap').show();
-
-      $('#detail-meta').html(`
+      $('#article-meta').html(`
         <span class="detail-chip"><i class="fa-solid fa-bolt"></i>${primaryBadge}</span>
         <span class="detail-chip"><i class="fa-solid fa-layer-group"></i>${sportLabel}</span>
         <span class="detail-chip"><i class="fa-solid fa-earth-africa"></i>${regionLabel}</span>
         <span class="detail-chip"><i class="fa-solid fa-clock"></i>${timeLabel}</span>
       `);
 
-      syncReacts(n.title);
-      $('#news-modal').css('display', 'flex');
+      if (image) {
+        $('#article-image').attr('src', image).attr('alt', n.title || 'story image');
+        $('#article-hero').show();
+      } else {
+        $('#article-hero').hide();
+      }
+
+      if (currentArticleLink) {
+        $('#article-source-btn').show().text(t('readFull'));
+      } else {
+        $('#article-source-btn').hide();
+      }
+
+      switchPage('article');
     }
 
     async function syncReacts(title) {
