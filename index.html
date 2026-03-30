@@ -1513,6 +1513,141 @@
       }
     }
 
+    .article-engagement-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .article-engagement-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 14px 32px var(--shadow);
+    }
+    .article-reaction-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .article-react-btn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 18px;
+      padding: 14px 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .article-react-btn:hover,
+    .article-react-btn.active {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.06);
+    }
+    .article-react-btn strong {
+      display: block;
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+    .article-react-btn span {
+      display: block;
+      color: var(--dim);
+      font-size: .82rem;
+      line-height: 1.55;
+    }
+    .article-comment-compose {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .article-comment-compose textarea {
+      width: 100%;
+      min-height: 110px;
+      margin: 0;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      padding: 14px;
+      outline: none;
+      resize: vertical;
+    }
+    .article-comment-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .article-comment-note {
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.6;
+    }
+    .article-comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .article-comment-item {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .article-comment-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .article-comment-author {
+      color: var(--text);
+      font-size: .9rem;
+      font-weight: 800;
+    }
+    .article-comment-time {
+      color: var(--dim);
+      font-size: .76rem;
+    }
+    .article-comment-text {
+      color: var(--text);
+      font-size: .9rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .article-comment-empty {
+      color: var(--dim);
+      font-size: .88rem;
+      line-height: 1.7;
+      margin-top: 14px;
+    }
+    @media (max-width: 900px) {
+      .article-engagement-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .article-reaction-grid {
+        grid-template-columns: 1fr;
+      }
+      .article-engagement-card {
+        padding: 16px;
+      }
+      .article-comment-actions .solid-btn {
+        width: 100%;
+      }
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -1853,203 +1988,6 @@
         width: 100%;
       }
     }
-
-    .article-enhanced-top {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 18px;
-      margin: 0 0 20px;
-      align-items: stretch;
-    }
-    .article-spotlight-card,
-    .article-actions-card,
-    .article-pulse-grid,
-    .article-related-card,
-    .article-next-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      box-shadow: 0 14px 32px var(--shadow);
-      backdrop-filter: blur(14px);
-    }
-    .article-spotlight-card {
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at top right, rgba(0,242,254,.12), transparent 36%),
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-    }
-    .article-spotlight-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(0,242,254,.10);
-      border: 1px solid rgba(0,242,254,.18);
-      color: var(--cyan);
-      font-size: .72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 12px;
-    }
-    .article-spotlight-copy {
-      color: var(--dim);
-      line-height: 1.8;
-      font-size: .95rem;
-    }
-    .article-actions-card {
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .article-actions-title,
-    .article-section-title {
-      color: var(--cyan);
-      font-size: .82rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-    .article-actions-grid,
-    .article-pulse-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .article-action-btn,
-    .article-pulse-item,
-    .article-tag {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      border-radius: 18px;
-    }
-    .article-action-btn {
-      padding: 14px;
-      text-align: left;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .article-action-btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0,242,254,.26);
-      background: rgba(0,242,254,.05);
-    }
-    .article-action-btn strong,
-    .article-related-item strong,
-    .article-next-card strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: .92rem;
-      color: var(--text);
-      line-height: 1.45;
-    }
-    .article-action-btn span,
-    .article-related-item span,
-    .article-next-card span {
-      display: block;
-      color: var(--dim);
-      line-height: 1.6;
-      font-size: .82rem;
-    }
-    .article-pulse-wrap {
-      margin: 20px 0 18px;
-    }
-    .article-pulse-item {
-      padding: 16px;
-    }
-    .article-pulse-item strong {
-      display: block;
-      font-size: 1.15rem;
-      color: var(--text);
-      margin-bottom: 6px;
-      letter-spacing: -.02em;
-    }
-    .article-pulse-item span {
-      color: var(--dim);
-      font-size: .8rem;
-      line-height: 1.5;
-    }
-    .article-tags-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 0 0 18px;
-    }
-    .article-tag {
-      padding: 9px 12px;
-      border-radius: 999px;
-      font-size: .76rem;
-      font-weight: 700;
-      color: var(--dim);
-    }
-    .article-bottom-grid {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-    .article-related-card,
-    .article-next-card {
-      padding: 18px;
-    }
-    .article-related-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .article-related-item,
-    .article-next-card button {
-      width: 100%;
-      text-align: left;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      border-radius: 18px;
-      padding: 14px;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .article-related-item:hover,
-    .article-next-card button:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0,242,254,.26);
-      background: rgba(0,242,254,.05);
-    }
-    .article-empty-note {
-      color: var(--dim);
-      line-height: 1.7;
-      font-size: .88rem;
-      margin-top: 10px;
-    }
-    @media (max-width: 900px) {
-      .article-enhanced-top,
-      .article-bottom-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    @media (max-width: 640px) {
-      .article-actions-grid,
-      .article-pulse-grid {
-        grid-template-columns: 1fr;
-      }
-      .article-spotlight-card,
-      .article-actions-card,
-      .article-related-card,
-      .article-next-card {
-        padding: 16px;
-        border-radius: 22px;
-      }
-      .article-pulse-item {
-        padding: 14px;
-      }
-    }
-
   </style>
 
 </head>
@@ -2301,54 +2239,15 @@
           <button class="ghost-btn" id="article-back-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
           <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
         </div>
-
-        <div class="article-enhanced-top">
-          <div class="article-spotlight-card">
-            <div class="article-spotlight-kicker"><i class="fa-solid fa-newspaper"></i><span>Matchday Brief</span></div>
-            <p class="article-spotlight-copy" id="article-spotlight-copy">A cleaner article experience with context, quick actions, and follow-up stories.</p>
-          </div>
-          <div class="article-actions-card">
-            <div class="article-actions-title">Story tools</div>
-            <div class="article-actions-grid">
-              <button class="article-action-btn" onclick="shareCurrentArticle()">
-                <strong>Share story</strong>
-                <span>Send this article to fans or friends.</span>
-              </button>
-              <button class="article-action-btn" onclick="copyCurrentArticleLink()">
-                <strong>Copy source link</strong>
-                <span>Grab the original article URL quickly.</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
         <div class="detail-top-meta" id="article-meta"></div>
         <h1 id="article-title" class="article-title"></h1>
         <p id="article-lead" class="article-lead"></p>
-
-        <div class="article-pulse-wrap">
-          <div class="article-pulse-grid">
-            <div class="article-pulse-item">
-              <strong id="article-read-time">1 min</strong>
-              <span>Estimated reading time</span>
-            </div>
-            <div class="article-pulse-item">
-              <strong id="article-source-name">MoroccanSportsHub</strong>
-              <span>Source and origin</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="article-tags-row" id="article-tags"></div>
-
         <div id="article-hero" class="article-hero" style="display:none;">
           <img id="article-image" src="" alt="article image" loading="lazy" referrerpolicy="no-referrer">
         </div>
-
         <div class="article-body-card">
           <div id="article-body" class="article-body-copy"></div>
         </div>
-
         <div class="article-side-grid">
           <div class="article-info-box">
             <h3 id="article-why-label">Why it matters</h3>
@@ -2360,17 +2259,36 @@
           </div>
         </div>
 
-        <div class="article-bottom-grid">
-          <div class="article-related-card">
-            <div class="article-section-title">Related stories</div>
-            <div class="article-related-list" id="article-related-list"></div>
-            <p class="article-empty-note" id="article-related-empty" style="display:none;">More related stories will appear here as the news feed updates.</p>
-          </div>
-          <div class="article-next-card">
-            <div class="article-section-title">Next story</div>
-            <div id="article-next-wrap">
-              <p class="article-empty-note">Open any article to see a smart next read suggestion.</p>
+        <div class="article-engagement-grid">
+          <div class="article-engagement-card">
+            <h3 class="article-section-title">Fan reactions</h3>
+            <div class="article-reaction-grid">
+              <button class="article-react-btn" id="article-react-like" onclick="reactToArticle('like')">
+                <strong>👍 <span id="article-react-like-count">0</span></strong>
+                <span>Like this story</span>
+              </button>
+              <button class="article-react-btn" id="article-react-fire" onclick="reactToArticle('fire')">
+                <strong>🔥 <span id="article-react-fire-count">0</span></strong>
+                <span>Big moment</span>
+              </button>
+              <button class="article-react-btn" id="article-react-clap" onclick="reactToArticle('clap')">
+                <strong>👏 <span id="article-react-clap-count">0</span></strong>
+                <span>Strong performance</span>
+              </button>
             </div>
+          </div>
+
+          <div class="article-engagement-card">
+            <h3 class="article-section-title">Comments</h3>
+            <div class="article-comment-compose">
+              <textarea id="article-comment-input" placeholder="Share your reaction to this story..."></textarea>
+              <div class="article-comment-actions">
+                <span class="article-comment-note">Join the conversation around this article.</span>
+                <button class="solid-btn" onclick="postArticleComment()">Post Comment</button>
+              </div>
+            </div>
+            <div class="article-comments-list" id="article-comments-list"></div>
+            <p class="article-comment-empty" id="article-comments-empty">No comments yet. Be the first fan to react.</p>
           </div>
         </div>
       </div>
@@ -2607,7 +2525,6 @@
     let feedViewMode = 'latest';
     let lastRegularPage = 'home';
     let currentArticleLink = '';
-    let currentArticleId = null;
 
     const uiText = {
       en: {
@@ -4833,124 +4750,7 @@ function renderHome(forceShuffle = false) {
     }
 
 
-
-function estimateArticleReadTime(textValue) {
-      const words = String(textValue || '').trim().split(/\s+/).filter(Boolean).length;
-      return Math.max(1, Math.ceil(words / 180));
-    }
-
-    function getArticleSourceName(link) {
-      if (!link) return 'MoroccanSportsHub';
-      try {
-        const host = new URL(link).hostname.replace(/^www\./, '');
-        return host.split('.').slice(0, -1).join('.') || host;
-      } catch (e) {
-        return 'Original source';
-      }
-    }
-
-    function buildArticleTags(n) {
-      const tags = [];
-      const primaryBadge = localizeTagLabel(n.tag) || homeLabel('topStory');
-      const sportLabel = homeLabel(n.sport || 'football');
-      const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
-      [primaryBadge, sportLabel, regionLabel].forEach(tag => {
-        if (tag && !tags.includes(tag)) tags.push(tag);
-      });
-
-      const title = String(n.title || '').toLowerCase();
-      if (title.includes('transfer') || title.includes('deal')) tags.push('Transfer Watch');
-      if (title.includes('injury') || title.includes('absence')) tags.push('Squad Update');
-      if (title.includes('coach') || title.includes('manager')) tags.push('Coaching News');
-
-      return tags.slice(0, 5);
-    }
-
-    function renderArticleTags(n) {
-      const tags = buildArticleTags(n);
-      $('#article-tags').html(tags.map(tag => `<span class="article-tag">${tag}</span>`).join(''));
-    }
-
-    function getRelatedArticles(currentId) {
-      const current = masterPool[currentId];
-      if (!current) return [];
-      return masterPool.filter(item => (
-        item &&
-        item.id !== currentId &&
-        (
-          item.region === current.region ||
-          item.sport === current.sport ||
-          item.tag === current.tag
-        )
-      )).slice(0, 3);
-    }
-
-    function renderRelatedArticles(currentId) {
-      const related = getRelatedArticles(currentId);
-      if (!related.length) {
-        $('#article-related-list').empty();
-        $('#article-related-empty').show();
-        $('#article-next-wrap').html('<p class="article-empty-note">No next story suggestion yet. More stories will appear as new content loads.</p>');
-        return;
-      }
-
-      $('#article-related-empty').hide();
-      $('#article-related-list').html(related.map(item => `
-        <button class="article-related-item" onclick="openDetails(${item.id})">
-          <strong>${escapeHtml(item.title || 'Untitled')}</strong>
-          <span>${escapeHtml(item.desc || homeLabel('fallbackSummary'))}</span>
-        </button>
-      `).join(''));
-
-      const next = related[0];
-      $('#article-next-wrap').html(`
-        <button onclick="openDetails(${next.id})">
-          <strong>${escapeHtml(next.title || 'Untitled')}</strong>
-          <span>${escapeHtml(next.desc || homeLabel('fallbackSummary'))}</span>
-        </button>
-      `);
-    }
-
-    async function copyCurrentArticleLink() {
-      if (!currentArticleLink) {
-        alert('No source link available for this story yet.');
-        return;
-      }
-
-      try {
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(currentArticleLink);
-        } else {
-          const temp = document.createElement('textarea');
-          temp.value = currentArticleLink;
-          document.body.appendChild(temp);
-          temp.select();
-          document.execCommand('copy');
-          temp.remove();
-        }
-        alert('Source link copied.');
-      } catch (e) {
-        alert('Could not copy the source link.');
-      }
-    }
-
-    async function shareCurrentArticle() {
-      const title = $('#article-title').text().trim() || 'MoroccanSportsHub story';
-      const textValue = $('#article-lead').text().trim() || 'Check this sports story.';
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title,
-            text: textValue,
-            url: currentArticleLink || window.location.href
-          });
-          return;
-        } catch (e) {}
-      }
-      copyCurrentArticleLink();
-    }
-
-    function closeArticlePage() {
+function closeArticlePage() {
       switchPage(lastRegularPage || 'home');
     }
 
@@ -4984,30 +4784,154 @@ function estimateArticleReadTime(textValue) {
       };
     }
 
+
+    function articleDocKeyFromId(id) {
+      return `article_${String(id)}`;
+    }
+
+    function estimateArticleCommentTime(value) {
+      return relativeTimeLabel(value || Date.now());
+    }
+
+    function resetArticleEngagementUi() {
+      $('#article-react-like-count').text('0');
+      $('#article-react-fire-count').text('0');
+      $('#article-react-clap-count').text('0');
+      $('.article-react-btn').removeClass('active');
+      $('#article-comments-list').empty();
+      $('#article-comments-empty').show();
+      $('#article-comment-input').val('');
+    }
+
+    function loadArticleReactions() {
+      if (!currentArticleId) return;
+      if (articleReactionsUnsub) {
+        articleReactionsUnsub();
+        articleReactionsUnsub = null;
+      }
+
+      const ref = db.collection('articleReactions').doc(articleDocKeyFromId(currentArticleId));
+      articleReactionsUnsub = ref.onSnapshot(doc => {
+        const data = doc.exists ? (doc.data() || {}) : {};
+        const voters = data.voters || {};
+        const uid = auth.currentUser?.uid;
+
+        $('#article-react-like-count').text(data.like || 0);
+        $('#article-react-fire-count').text(data.fire || 0);
+        $('#article-react-clap-count').text(data.clap || 0);
+
+        $('.article-react-btn').removeClass('active');
+        if (uid && voters[uid]) {
+          if (voters[uid].like) $('#article-react-like').addClass('active');
+          if (voters[uid].fire) $('#article-react-fire').addClass('active');
+          if (voters[uid].clap) $('#article-react-clap').addClass('active');
+        }
+      }, err => console.error('Article reactions error', err));
+    }
+
+    async function reactToArticle(type) {
+      if (!auth.currentUser) return openAuth();
+      if (!currentArticleId) return;
+
+      const ref = db.collection('articleReactions').doc(articleDocKeyFromId(currentArticleId));
+      await db.runTransaction(async tr => {
+        const snap = await tr.get(ref);
+        const data = snap.exists ? (snap.data() || {}) : { like: 0, fire: 0, clap: 0, voters: {} };
+        data.voters = data.voters || {};
+        if (!data.voters[auth.currentUser.uid]) {
+          data.voters[auth.currentUser.uid] = { like: false, fire: false, clap: false };
+        }
+
+        const active = !!data.voters[auth.currentUser.uid][type];
+        if (active) {
+          data[type] = Math.max((data[type] || 1) - 1, 0);
+          data.voters[auth.currentUser.uid][type] = false;
+        } else {
+          data[type] = (data[type] || 0) + 1;
+          data.voters[auth.currentUser.uid][type] = true;
+        }
+
+        tr.set(ref, data);
+      });
+    }
+
+    function renderArticleComments(snapshot) {
+      const items = [];
+      snapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
+      items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+      if (!items.length) {
+        $('#article-comments-list').empty();
+        $('#article-comments-empty').show();
+        return;
+      }
+
+      $('#article-comments-empty').hide();
+      $('#article-comments-list').html(items.map(item => `
+        <div class="article-comment-item">
+          <div class="article-comment-head">
+            <span class="article-comment-author">${escapeHtml(item.authorName || 'Fan')}</span>
+            <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(item.createdAt))}</span>
+          </div>
+          <div class="article-comment-text">${escapeHtml(item.text || '')}</div>
+        </div>
+      `).join(''));
+    }
+
+    function loadArticleComments() {
+      if (!currentArticleId) return;
+      if (articleCommentsUnsub) {
+        articleCommentsUnsub();
+        articleCommentsUnsub = null;
+      }
+
+      articleCommentsUnsub = db.collection('articleComments')
+        .where('articleId', '==', currentArticleId)
+        .onSnapshot(renderArticleComments, err => console.error('Article comments error', err));
+    }
+
+    async function postArticleComment() {
+      if (!auth.currentUser) return openAuth();
+      if (!currentArticleId) return;
+
+      const input = document.getElementById('article-comment-input');
+      const textValue = (input?.value || '').trim();
+      if (!textValue) return;
+
+      const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+      const userData = userDoc.exists ? (userDoc.data() || {}) : {};
+      const authorName = userData.name || auth.currentUser.displayName || 'Fan';
+
+      await db.collection('articleComments').add({
+        articleId: currentArticleId,
+        articleKey: articleDocKeyFromId(currentArticleId),
+        text: textValue,
+        createdAt: Date.now(),
+        authorId: auth.currentUser.uid,
+        authorName
+      });
+
+      input.value = '';
+    }
+
 function openDetails(id) {
       const n = masterPool[id];
       if (!n) return;
 
+      currentArticleId = id;
       const image = bestImage(n.img, n.title || 'Moroccansportshub');
       const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
       const sportLabel = homeLabel(n.sport || 'football');
       const primaryBadge = localizeTagLabel(n.tag) || homeLabel('topStory');
       const timeLabel = relativeTimeLabel(n.time || n.date || n.pubDate || Date.now());
-      const summary = n.desc || homeLabel('fallbackSummary');
       const extra = buildArticleExtraCopy(n);
-      const readTime = estimateArticleReadTime(`${n.title || ''} ${summary}`);
-      const sourceName = getArticleSourceName(n.link || '');
 
-      currentArticleId = id;
       currentArticleLink = n.link || '';
       $('#article-title').text(n.title || '');
-      $('#article-lead').text(summary);
-      $('#article-body').text(summary);
+      $('#article-lead').text(n.desc || homeLabel('fallbackSummary'));
+      $('#article-body').text(n.desc || homeLabel('fallbackSummary'));
       $('#article-why').text(extra.why);
       $('#article-context').text(extra.context);
-      $('#article-read-time').text(`${readTime} min`);
-      $('#article-source-name').text(sourceName);
-      $('#article-spotlight-copy').text(`${summary} ${extra.why}`.trim());
 
       $('#article-meta').html(`
         <span class="detail-chip"><i class="fa-solid fa-bolt"></i>${primaryBadge}</span>
@@ -5015,9 +4939,6 @@ function openDetails(id) {
         <span class="detail-chip"><i class="fa-solid fa-earth-africa"></i>${regionLabel}</span>
         <span class="detail-chip"><i class="fa-solid fa-clock"></i>${timeLabel}</span>
       `);
-
-      renderArticleTags(n);
-      renderRelatedArticles(id);
 
       if (image) {
         $('#article-image').attr('src', image).attr('alt', n.title || 'story image');
@@ -5032,6 +4953,9 @@ function openDetails(id) {
         $('#article-source-btn').hide();
       }
 
+      resetArticleEngagementUi();
+      loadArticleReactions();
+      loadArticleComments();
       switchPage('article');
     }
 
