@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Moroccansportshub</title>
+  <title>MoroccanSportsHub | Latest Moroccan Football & Global Sports News</title>
   <!-- avatar-fix-v3: strict unsigned Cloudinary upload -->
 
-  <meta name="description" content="Moroccansportshub - Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
+  <meta name="description" content="MoroccanSportsHub brings the latest Moroccan football news, global sports updates, match stories, and AI-powered sports insights." />
   <link rel="canonical" href="https://moroccansportshub.com/" />
-  <meta property="og:title" content="Moroccansportshub" />
+  <meta property="og:title" content="MoroccanSportsHub | Latest Moroccan Football & Global Sports News" />
   <meta property="og:description" content="Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Moroccansportshub" />
-  <meta name="twitter:description" content="Latest Moroccan and global sports news and AI insights." />
+  <meta name="twitter:title" content="MoroccanSportsHub | Latest Moroccan Football & Global Sports News" />
+  <meta name="twitter:description" content="Latest Moroccan football news, global sports updates, and AI-powered insights." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="keywords" content="MoroccanSportsHub, Moroccan sports news, Morocco football, Botola, Moroccan football news, global sports news" />
+  <meta property="og:site_name" content="MoroccanSportsHub" />
+  <meta property="og:url" content="https://moroccansportshub.com/" />
 
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#000000" />
@@ -1055,7 +1059,7 @@
       gap: 30px;
       white-space: nowrap;
       padding-left: 22px;
-      animation: tickerMove 28s linear infinite;
+      animation: tickerMove 42s linear infinite;
       will-change: transform;
     }
     .ticker-item {
@@ -1220,9 +1224,18 @@
     }
 
   </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "MoroccanSportsHub",
+  "url": "https://moroccansportshub.com/",
+  "description": "Latest Moroccan football news, global sports updates, and AI-powered sports insights."
+}
+</script>
 </head>
 <body>
-  <h1 style="display:none;">Moroccan Sports News and Global Sports Updates</h1>
+  <h1 style="display:none;">MoroccanSportsHub - Moroccan football news and global sports updates</h1>
 <button class="ai-fab" id="ai-fab" onclick="toggleAiAssistant()" aria-label="Open sports assistant">
     <i class="fa-solid fa-cloud"></i>
   </button>
@@ -1576,6 +1589,8 @@
     let globalPool = [];
     let globalCurrentFilter = 'all';
     let moroccoCurrentFilter = 'all';
+    let feedStableOrder = [];
+    let feedPreserveOrder = true;
 
     const uiText = {
       en: {
@@ -1984,7 +1999,7 @@
       applyUiLanguage();
       await initNews();
       renderBreakingTicker();
-      if ($('#feed-page').hasClass('active')) loadFeed();
+      if ($('#feed-page').hasClass('active')) { feedPreserveOrder = false; loadFeed(); }
       if ($('#admin-page').hasClass('active')) loadAdminPanel();
     }
 
@@ -2793,12 +2808,30 @@
         let posts = [];
         snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
 
-        posts.sort((a, b) => {
+        const rankingSort = (a, b) => {
           if ((b.pinned ? 1 : 0) !== (a.pinned ? 1 : 0)) {
             return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
           }
-          return (b.score || 0) - (a.score || 0);
-        });
+          if ((b.score || 0) !== (a.score || 0)) {
+            return (b.score || 0) - (a.score || 0);
+          }
+          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+        };
+
+        if (!feedPreserveOrder || !feedStableOrder.length) {
+          posts.sort(rankingSort);
+          feedStableOrder = posts.map(post => post.id);
+          feedPreserveOrder = true;
+        } else {
+          const byId = new Map(posts.map(post => [post.id, post]));
+          const existing = feedStableOrder.filter(id => byId.has(id));
+          const newcomers = posts
+            .filter(post => !existing.includes(post.id))
+            .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
+            .map(post => post.id);
+          feedStableOrder = [...existing, ...newcomers];
+          posts = feedStableOrder.map(id => byId.get(id)).filter(Boolean);
+        }
 
         for (const post of posts) {
           const admin = isAdmin();
@@ -2906,15 +2939,21 @@
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       }
+
+      requestAnimationFrame(() => {
+        window.scrollTo(0, scrollY);
+      });
     }
 
     async function deletePost(id) {
       if (!confirm(t('deletePost'))) return;
+      feedPreserveOrder = false;
       await db.collection('posts').doc(id).delete();
     }
 
     async function togglePin(id, status) {
       if (!isAdmin()) return;
+      feedPreserveOrder = false;
       await db.collection('posts').doc(id).update({ pinned: !status });
     }
 
