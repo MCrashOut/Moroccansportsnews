@@ -1853,6 +1853,203 @@
         width: 100%;
       }
     }
+
+    .article-enhanced-top {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      margin: 0 0 20px;
+      align-items: stretch;
+    }
+    .article-spotlight-card,
+    .article-actions-card,
+    .article-pulse-grid,
+    .article-related-card,
+    .article-next-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 14px 32px var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+    .article-spotlight-card {
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(0,242,254,.12), transparent 36%),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    }
+    .article-spotlight-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(0,242,254,.10);
+      border: 1px solid rgba(0,242,254,.18);
+      color: var(--cyan);
+      font-size: .72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 12px;
+    }
+    .article-spotlight-copy {
+      color: var(--dim);
+      line-height: 1.8;
+      font-size: .95rem;
+    }
+    .article-actions-card {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .article-actions-title,
+    .article-section-title {
+      color: var(--cyan);
+      font-size: .82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .article-actions-grid,
+    .article-pulse-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .article-action-btn,
+    .article-pulse-item,
+    .article-tag {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 18px;
+    }
+    .article-action-btn {
+      padding: 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .article-action-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.26);
+      background: rgba(0,242,254,.05);
+    }
+    .article-action-btn strong,
+    .article-related-item strong,
+    .article-next-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: .92rem;
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .article-action-btn span,
+    .article-related-item span,
+    .article-next-card span {
+      display: block;
+      color: var(--dim);
+      line-height: 1.6;
+      font-size: .82rem;
+    }
+    .article-pulse-wrap {
+      margin: 20px 0 18px;
+    }
+    .article-pulse-item {
+      padding: 16px;
+    }
+    .article-pulse-item strong {
+      display: block;
+      font-size: 1.15rem;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -.02em;
+    }
+    .article-pulse-item span {
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.5;
+    }
+    .article-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 18px;
+    }
+    .article-tag {
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: .76rem;
+      font-weight: 700;
+      color: var(--dim);
+    }
+    .article-bottom-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .article-related-card,
+    .article-next-card {
+      padding: 18px;
+    }
+    .article-related-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .article-related-item,
+    .article-next-card button {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 18px;
+      padding: 14px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .article-related-item:hover,
+    .article-next-card button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.26);
+      background: rgba(0,242,254,.05);
+    }
+    .article-empty-note {
+      color: var(--dim);
+      line-height: 1.7;
+      font-size: .88rem;
+      margin-top: 10px;
+    }
+    @media (max-width: 900px) {
+      .article-enhanced-top,
+      .article-bottom-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .article-actions-grid,
+      .article-pulse-grid {
+        grid-template-columns: 1fr;
+      }
+      .article-spotlight-card,
+      .article-actions-card,
+      .article-related-card,
+      .article-next-card {
+        padding: 16px;
+        border-radius: 22px;
+      }
+      .article-pulse-item {
+        padding: 14px;
+      }
+    }
+
   </style>
 
 </head>
@@ -2104,15 +2301,54 @@
           <button class="ghost-btn" id="article-back-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
           <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
         </div>
+
+        <div class="article-enhanced-top">
+          <div class="article-spotlight-card">
+            <div class="article-spotlight-kicker"><i class="fa-solid fa-newspaper"></i><span>Matchday Brief</span></div>
+            <p class="article-spotlight-copy" id="article-spotlight-copy">A cleaner article experience with context, quick actions, and follow-up stories.</p>
+          </div>
+          <div class="article-actions-card">
+            <div class="article-actions-title">Story tools</div>
+            <div class="article-actions-grid">
+              <button class="article-action-btn" onclick="shareCurrentArticle()">
+                <strong>Share story</strong>
+                <span>Send this article to fans or friends.</span>
+              </button>
+              <button class="article-action-btn" onclick="copyCurrentArticleLink()">
+                <strong>Copy source link</strong>
+                <span>Grab the original article URL quickly.</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="detail-top-meta" id="article-meta"></div>
         <h1 id="article-title" class="article-title"></h1>
         <p id="article-lead" class="article-lead"></p>
+
+        <div class="article-pulse-wrap">
+          <div class="article-pulse-grid">
+            <div class="article-pulse-item">
+              <strong id="article-read-time">1 min</strong>
+              <span>Estimated reading time</span>
+            </div>
+            <div class="article-pulse-item">
+              <strong id="article-source-name">MoroccanSportsHub</strong>
+              <span>Source and origin</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="article-tags-row" id="article-tags"></div>
+
         <div id="article-hero" class="article-hero" style="display:none;">
           <img id="article-image" src="" alt="article image" loading="lazy" referrerpolicy="no-referrer">
         </div>
+
         <div class="article-body-card">
           <div id="article-body" class="article-body-copy"></div>
         </div>
+
         <div class="article-side-grid">
           <div class="article-info-box">
             <h3 id="article-why-label">Why it matters</h3>
@@ -2121,6 +2357,20 @@
           <div class="article-info-box">
             <h3 id="article-context-label">Quick context</h3>
             <p id="article-context"></p>
+          </div>
+        </div>
+
+        <div class="article-bottom-grid">
+          <div class="article-related-card">
+            <div class="article-section-title">Related stories</div>
+            <div class="article-related-list" id="article-related-list"></div>
+            <p class="article-empty-note" id="article-related-empty" style="display:none;">More related stories will appear here as the news feed updates.</p>
+          </div>
+          <div class="article-next-card">
+            <div class="article-section-title">Next story</div>
+            <div id="article-next-wrap">
+              <p class="article-empty-note">Open any article to see a smart next read suggestion.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -2357,6 +2607,7 @@
     let feedViewMode = 'latest';
     let lastRegularPage = 'home';
     let currentArticleLink = '';
+    let currentArticleId = null;
 
     const uiText = {
       en: {
@@ -4582,7 +4833,124 @@ function renderHome(forceShuffle = false) {
     }
 
 
-function closeArticlePage() {
+
+function estimateArticleReadTime(textValue) {
+      const words = String(textValue || '').trim().split(/\s+/).filter(Boolean).length;
+      return Math.max(1, Math.ceil(words / 180));
+    }
+
+    function getArticleSourceName(link) {
+      if (!link) return 'MoroccanSportsHub';
+      try {
+        const host = new URL(link).hostname.replace(/^www\./, '');
+        return host.split('.').slice(0, -1).join('.') || host;
+      } catch (e) {
+        return 'Original source';
+      }
+    }
+
+    function buildArticleTags(n) {
+      const tags = [];
+      const primaryBadge = localizeTagLabel(n.tag) || homeLabel('topStory');
+      const sportLabel = homeLabel(n.sport || 'football');
+      const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+      [primaryBadge, sportLabel, regionLabel].forEach(tag => {
+        if (tag && !tags.includes(tag)) tags.push(tag);
+      });
+
+      const title = String(n.title || '').toLowerCase();
+      if (title.includes('transfer') || title.includes('deal')) tags.push('Transfer Watch');
+      if (title.includes('injury') || title.includes('absence')) tags.push('Squad Update');
+      if (title.includes('coach') || title.includes('manager')) tags.push('Coaching News');
+
+      return tags.slice(0, 5);
+    }
+
+    function renderArticleTags(n) {
+      const tags = buildArticleTags(n);
+      $('#article-tags').html(tags.map(tag => `<span class="article-tag">${tag}</span>`).join(''));
+    }
+
+    function getRelatedArticles(currentId) {
+      const current = masterPool[currentId];
+      if (!current) return [];
+      return masterPool.filter(item => (
+        item &&
+        item.id !== currentId &&
+        (
+          item.region === current.region ||
+          item.sport === current.sport ||
+          item.tag === current.tag
+        )
+      )).slice(0, 3);
+    }
+
+    function renderRelatedArticles(currentId) {
+      const related = getRelatedArticles(currentId);
+      if (!related.length) {
+        $('#article-related-list').empty();
+        $('#article-related-empty').show();
+        $('#article-next-wrap').html('<p class="article-empty-note">No next story suggestion yet. More stories will appear as new content loads.</p>');
+        return;
+      }
+
+      $('#article-related-empty').hide();
+      $('#article-related-list').html(related.map(item => `
+        <button class="article-related-item" onclick="openDetails(${item.id})">
+          <strong>${escapeHtml(item.title || 'Untitled')}</strong>
+          <span>${escapeHtml(item.desc || homeLabel('fallbackSummary'))}</span>
+        </button>
+      `).join(''));
+
+      const next = related[0];
+      $('#article-next-wrap').html(`
+        <button onclick="openDetails(${next.id})">
+          <strong>${escapeHtml(next.title || 'Untitled')}</strong>
+          <span>${escapeHtml(next.desc || homeLabel('fallbackSummary'))}</span>
+        </button>
+      `);
+    }
+
+    async function copyCurrentArticleLink() {
+      if (!currentArticleLink) {
+        alert('No source link available for this story yet.');
+        return;
+      }
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(currentArticleLink);
+        } else {
+          const temp = document.createElement('textarea');
+          temp.value = currentArticleLink;
+          document.body.appendChild(temp);
+          temp.select();
+          document.execCommand('copy');
+          temp.remove();
+        }
+        alert('Source link copied.');
+      } catch (e) {
+        alert('Could not copy the source link.');
+      }
+    }
+
+    async function shareCurrentArticle() {
+      const title = $('#article-title').text().trim() || 'MoroccanSportsHub story';
+      const textValue = $('#article-lead').text().trim() || 'Check this sports story.';
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title,
+            text: textValue,
+            url: currentArticleLink || window.location.href
+          });
+          return;
+        } catch (e) {}
+      }
+      copyCurrentArticleLink();
+    }
+
+    function closeArticlePage() {
       switchPage(lastRegularPage || 'home');
     }
 
@@ -4625,14 +4993,21 @@ function openDetails(id) {
       const sportLabel = homeLabel(n.sport || 'football');
       const primaryBadge = localizeTagLabel(n.tag) || homeLabel('topStory');
       const timeLabel = relativeTimeLabel(n.time || n.date || n.pubDate || Date.now());
+      const summary = n.desc || homeLabel('fallbackSummary');
       const extra = buildArticleExtraCopy(n);
+      const readTime = estimateArticleReadTime(`${n.title || ''} ${summary}`);
+      const sourceName = getArticleSourceName(n.link || '');
 
+      currentArticleId = id;
       currentArticleLink = n.link || '';
       $('#article-title').text(n.title || '');
-      $('#article-lead').text(n.desc || homeLabel('fallbackSummary'));
-      $('#article-body').text(n.desc || homeLabel('fallbackSummary'));
+      $('#article-lead').text(summary);
+      $('#article-body').text(summary);
       $('#article-why').text(extra.why);
       $('#article-context').text(extra.context);
+      $('#article-read-time').text(`${readTime} min`);
+      $('#article-source-name').text(sourceName);
+      $('#article-spotlight-copy').text(`${summary} ${extra.why}`.trim());
 
       $('#article-meta').html(`
         <span class="detail-chip"><i class="fa-solid fa-bolt"></i>${primaryBadge}</span>
@@ -4640,6 +5015,9 @@ function openDetails(id) {
         <span class="detail-chip"><i class="fa-solid fa-earth-africa"></i>${regionLabel}</span>
         <span class="detail-chip"><i class="fa-solid fa-clock"></i>${timeLabel}</span>
       `);
+
+      renderArticleTags(n);
+      renderRelatedArticles(id);
 
       if (image) {
         $('#article-image').attr('src', image).attr('alt', n.title || 'story image');
