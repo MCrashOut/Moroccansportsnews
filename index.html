@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Moroccansportshub</title>
+  <title>MoroccanSportsHub | Latest Moroccan Football & Global Sports News</title>
   <!-- avatar-fix-v3: strict unsigned Cloudinary upload -->
 
-  <meta name="description" content="Moroccansportshub - Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
+  <meta name="description" content="MoroccanSportsHub brings the latest Moroccan football news, global sports updates, match stories, and AI-powered sports insights." />
   <link rel="canonical" href="https://moroccansportshub.com/" />
-  <meta property="og:title" content="Moroccansportshub" />
+  <meta property="og:title" content="MoroccanSportsHub | Latest Moroccan Football & Global Sports News" />
   <meta property="og:description" content="Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Moroccansportshub" />
-  <meta name="twitter:description" content="Latest Moroccan and global sports news and AI insights." />
+  <meta name="twitter:title" content="MoroccanSportsHub | Latest Moroccan Football & Global Sports News" />
+  <meta name="twitter:description" content="Latest Moroccan football news, global sports updates, and AI-powered insights." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="keywords" content="MoroccanSportsHub, Moroccan sports news, Morocco football, Botola, Moroccan football news, global sports news" />
+  <meta property="og:site_name" content="MoroccanSportsHub" />
+  <meta property="og:url" content="https://moroccansportshub.com/" />
 
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#000000" />
@@ -294,55 +298,177 @@
 
     .home-grid {
       display: grid;
-      grid-template-columns: 280px 1fr 320px;
-      gap: 30px;
+      grid-template-columns: 290px minmax(0, 1fr) 340px;
+      gap: 28px;
+      align-items: start;
     }
-    .side-col { border-right: 1px solid var(--border); padding-right: 20px; }
+    .side-col {
+      border-right: 1px solid var(--border);
+      padding-right: 20px;
+    }
     .side-item {
-      padding: 12px 0;
+      padding: 14px 0;
       border-bottom: 1px solid rgba(255,255,255,.06);
       cursor: pointer;
+      transition: transform .18s ease, color .18s ease, opacity .18s ease;
     }
-    .side-item h4 { font-size: .83rem; font-weight: 500; color: var(--dim); line-height: 1.45; }
+    .side-item h4 {
+      font-size: .86rem;
+      font-weight: 600;
+      color: var(--dim);
+      line-height: 1.55;
+    }
+    .side-item:hover {
+      transform: translateX(4px);
+    }
     .side-item:hover h4 { color: var(--cyan); }
 
+    .feature {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: 0 20px 48px var(--shadow);
+      overflow: hidden;
+    }
+    .feature::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(0,242,254,.12), transparent 35%);
+      pointer-events: none;
+    }
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,242,254,.22);
+      background: rgba(0,242,254,.10);
+      color: var(--cyan);
+      font-size: .72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 0 0 16px;
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      color: var(--dim);
+      font-size: .72rem;
+      font-weight: 700;
+    }
     .feature h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 2.25rem;
-      line-height: 1.08;
+      font-size: clamp(2rem, 3.4vw, 3rem);
+      line-height: 1.04;
       margin-bottom: 16px;
       cursor: pointer;
+      max-width: 14ch;
+      letter-spacing: -.03em;
     }
     .feature img {
       width: 100%;
-      min-height: 260px;
-      max-height: 460px;
+      min-height: 320px;
+      max-height: 520px;
       object-fit: cover;
-      border-radius: 16px;
+      border-radius: 22px;
       border: 1px solid var(--border);
       margin-bottom: 16px;
       cursor: pointer;
       display: block;
+      box-shadow: 0 18px 40px rgba(0,0,0,.24);
+    }
+    .feature-summary {
+      color: var(--dim);
+      line-height: 1.75;
+      font-size: .98rem;
+      max-width: 68ch;
+      margin-bottom: 16px;
+    }
+    .feature-cta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .feature-cta-row .solid-btn {
+      padding: 12px 18px;
+      font-size: .76rem;
+      box-shadow: 0 14px 30px rgba(0,242,254,.18);
     }
 
     .mini-card, .post-card, .profile-box, .board-box, .widget-area {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 12px 28px var(--shadow);
+      border-radius: 22px;
+      padding: 20px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 14px 32px var(--shadow);
     }
 
-    .mini-card { margin-bottom: 14px; cursor: pointer; }
-    .mini-card h3 { font-size: 1rem; line-height: 1.35; }
+    .mini-card {
+      margin-bottom: 14px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .mini-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,242,254,.26);
+      box-shadow: 0 20px 40px rgba(0,0,0,.28);
+    }
+    .mini-card h3 {
+      font-size: 1.02rem;
+      line-height: 1.42;
+      margin-bottom: 10px;
+      letter-spacing: -.01em;
+    }
+    .mini-card p {
+      color: var(--dim);
+      line-height: 1.65;
+      font-size: .84rem;
+    }
+    .mini-card img, .feature img, #detail-image-wrap img {
+      image-rendering: auto;
+      filter: saturate(1.04) contrast(1.03);
+    }
+    html[dir="rtl"] .hero-meta, html[dir="rtl"] .detail-top-meta, html[dir="rtl"] .mini-card-meta, html[dir="rtl"] .hero-floating-badges {
+      justify-content: flex-start;
+    }
+    .mini-card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--cyan);
+      font-size: .7rem;
+      margin-bottom: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
 
     .section-title {
-      font-size: 1.15rem;
+      font-size: 1.08rem;
       margin-bottom: 18px;
       color: var(--cyan);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: .14em;
       font-weight: 800;
     }
 
@@ -580,19 +706,24 @@
       inset: 0;
       z-index: 5000;
       background: rgba(0,0,0,.95);
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: 16px;
+      padding: max(18px, env(safe-area-inset-top, 0px) + 18px) 16px 24px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .modal-content {
       position: relative;
       width: min(560px, 92vw);
+      margin: auto;
       background: color-mix(in srgb, var(--bg) 92%, var(--card));
       border: 1px solid var(--border);
       border-radius: 28px;
       padding: 28px;
       text-align: center;
       color: var(--text);
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
     }
     .close {
       position: absolute;
@@ -725,8 +856,10 @@
       .logo img { width: 22px; height: 22px; }
       .header-right { gap: 10px; }
       .auth-btn, .solid-btn, .ghost-btn, .amber-btn, .green-btn { padding: 10px 14px; }
-      .feature h1 { font-size: 1.65rem; }
-      .post-card, .mini-card, .profile-box, .board-box, .widget-area { padding: 16px; }
+      .feature h1 { font-size: 1.85rem; }
+      .feature img { min-height: 230px; max-height: 360px; }
+      .feature-summary { font-size: .9rem; }
+      .post-card, .mini-card, .profile-box, .board-box, .widget-area, .feature { padding: 16px; }
       .section-title { font-size: 1rem; }
       .notif-panel { right: 14px; width: calc(100vw - 28px); }
       .page { padding: 78px 14px 100px; }
@@ -765,6 +898,13 @@
     .color-grid label { font-size:.75rem; color:var(--dim); font-weight:700; }
     .color-grid input[type="color"] { width:100%; height:44px; border:none; background:transparent; padding:0; }
     @media (max-width:640px){ .color-grid { grid-template-columns:1fr; } }
+
+    @media (max-width: 767px) {
+      #desktop-color-btn,
+      .drawer-color-btn {
+        display: none !important;
+      }
+    }
 
     .ai-fab {
       position: fixed;
@@ -873,40 +1013,249 @@
       .ai-panel { bottom: 152px; }
     }
 
-  
-    .hero-followup {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    .hero-followup-card {
+
+    /* ===== NEXT UPGRADE PACK ===== */
+    .breaking-ticker {
+      margin: 0 5%;
+      margin-top: 74px;
+      margin-bottom: -52px;
+      position: relative;
+      z-index: 2500;
       border: 1px solid var(--border);
-      border-radius: 20px;
-      background: rgba(255,255,255,.03);
-      padding: 14px;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease;
+      border-radius: 18px;
+      background: linear-gradient(90deg, rgba(193,39,45,.18), rgba(0,242,254,.08));
+      box-shadow: 0 12px 28px var(--shadow);
+      overflow: hidden;
     }
-    .hero-followup-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0,242,254,.28);
+    .breaking-ticker-inner {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      align-items: center;
+      min-height: 48px;
     }
-    .hero-followup-card strong {
-      display: block;
+    .ticker-label {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(193,39,45,.30);
+      color: #fff;
+      font-size: .74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .10em;
+      padding: 0 14px;
+      white-space: nowrap;
+    }
+    .ticker-track {
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .ticker-scroll {
+      display: inline-flex;
+      align-items: center;
+      gap: 30px;
+      white-space: nowrap;
+      padding-left: 22px;
+      animation: tickerMove 42s linear infinite;
+      will-change: transform;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       color: var(--text);
-      line-height: 1.45;
-      margin-bottom: 8px;
-      font-size: .92rem;
+      font-size: .84rem;
+      font-weight: 700;
+      cursor: pointer;
     }
-    .hero-followup-card span {
-      display: block;
+    .ticker-item i {
+      color: var(--gold);
+    }
+    @keyframes tickerMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .skeleton-card,
+    .skeleton-line,
+    .skeleton-pill {
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,.06);
+    }
+    .skeleton-card::after,
+    .skeleton-line::after,
+    .skeleton-pill::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      animation: shimmer 1.4s infinite;
+    }
+    @keyframes shimmer {
+      100% { transform: translateX(100%); }
+    }
+    .home-skeleton {
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr) 340px;
+      gap: 28px;
+      align-items: start;
+    }
+    .skeleton-stack { display: flex; flex-direction: column; gap: 14px; }
+    .skeleton-side {
+      height: 74px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+    }
+    .skeleton-feature {
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      padding: 18px;
+    }
+    .skeleton-image {
+      width: 100%;
+      height: 340px;
+      border-radius: 22px;
+      margin-bottom: 16px;
+    }
+    .skeleton-line {
+      height: 14px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    .skeleton-line.w-90 { width: 90%; }
+    .skeleton-line.w-70 { width: 70%; }
+    .skeleton-line.w-55 { width: 55%; }
+    .skeleton-pill {
+      width: 110px;
+      height: 32px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    .detail-layout {
+      display: grid;
+      gap: 18px;
+      text-align: left;
+    }
+    .detail-top-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .detail-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
       color: var(--dim);
-      font-size: .78rem;
-      line-height: 1.55;
+      font-size: .72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
     }
+    .detail-image-wrap {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 18px 38px rgba(0,0,0,.26);
+    }
+    .detail-image-wrap img {
+      width: 100%;
+      max-height: 360px;
+      object-fit: cover;
+      display: block;
+    }
+    .detail-summary {
+      color: var(--text);
+      line-height: 1.8;
+      font-size: .96rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    @media (max-width: 1100px) {
+      .home-skeleton { grid-template-columns: 1fr; }
+      .breaking-ticker { margin-bottom: -40px; }
+    }
+    @media (max-width: 640px) {
+      .site-footer { margin: 22px 14px 18px; padding: 18px 16px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .breaking-ticker {
+        margin: 66px 14px -34px;
+      }
+      .breaking-ticker-inner {
+        grid-template-columns: 1fr;
+      }
+      .ticker-label {
+        justify-content: flex-start;
+        padding: 10px 14px 0;
+        background: transparent;
+      }
+      .ticker-track {
+        padding-bottom: 10px;
+      }
+      .ticker-scroll {
+        animation-duration: 34s;
+        padding-left: 14px;
+      }
+      .detail-summary {
+        font-size: .9rem;
+        padding: 14px;
+      }
+      .modal {
+        padding-top: max(12px, env(safe-area-inset-top, 0px) + 12px);
+      }
+      .modal-content {
+        width: min(560px, calc(100vw - 20px));
+        max-height: calc(100vh - 24px);
+        border-radius: 22px;
+        padding: 18px;
+      }
+    }
+
+  
+    .site-footer {
+      margin: 28px 5% 24px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--card);
+      box-shadow: 0 14px 32px var(--shadow);
+      padding: 22px 20px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr .9fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .footer-brand { color: var(--cyan); font-weight: 800; margin-bottom: 8px; letter-spacing: -.02em; }
+    .footer-copy { color: var(--dim); line-height: 1.7; font-size: .88rem; }
+    .footer-title { color: var(--text); font-size: .82rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+    .footer-links, .footer-contact { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a, .footer-contact a, .footer-contact span { color: var(--dim); font-size: .86rem; line-height: 1.5; }
+    .footer-links a:hover, .footer-contact a:hover { color: var(--cyan); }
+    .footer-social { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .footer-social a {
+      width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--border);
+      display: inline-flex; align-items: center; justify-content: center; color: var(--text); background: rgba(255,255,255,.03);
+    }
+    .footer-social a:hover { color: var(--cyan); border-color: rgba(0,242,254,.35); }
+
+  
     .home-bottom-section {
-      margin-top: 24px;
+      margin-top: 28px;
       display: grid;
       grid-template-columns: 1.1fr .9fr;
       gap: 20px;
@@ -978,72 +1327,322 @@
       color: var(--text);
       font-size: .9rem;
     }
+    .feed-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 16px;
+    }
+    .feed-tab {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .feed-tab.active,
+    .feed-tab:hover {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+    }
+
+  
     @media (max-width: 900px) {
       .home-bottom-section {
         grid-template-columns: 1fr;
       }
     }
     @media (max-width: 640px) {
-      .hero-followup {
+      .home-quick-grid {
         grid-template-columns: 1fr;
-      }
-      .home-bottom-section {
-        grid-template-columns: 1fr !important;
-        gap: 16px;
       }
       .home-bottom-card {
         padding: 16px;
       }
-      .home-quick-grid {
-        grid-template-columns: 1fr !important;
-        gap: 10px;
+    }
+
+  
+    .article-shell {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .article-back-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.08;
+      letter-spacing: -.03em;
+      margin: 10px 0 14px;
+      color: var(--text);
+    }
+    .article-lead {
+      color: var(--dim);
+      line-height: 1.8;
+      font-size: 1rem;
+      margin-bottom: 18px;
+    }
+    .article-hero {
+      border-radius: 26px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 18px 40px rgba(0,0,0,.24);
+      margin-bottom: 20px;
+    }
+    .article-hero img {
+      width: 100%;
+      max-height: 520px;
+      object-fit: cover;
+      display: block;
+    }
+    .article-body-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 14px 32px var(--shadow);
+      margin-bottom: 18px;
+    }
+    .article-body-copy {
+      color: var(--text);
+      line-height: 1.9;
+      font-size: 1rem;
+      white-space: pre-wrap;
+    }
+    .article-side-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .article-info-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 14px 32px var(--shadow);
+    }
+    .article-info-box h3 {
+      color: var(--cyan);
+      font-size: .94rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .article-info-box p {
+      color: var(--dim);
+      line-height: 1.75;
+      font-size: .9rem;
+    }
+
+  
+    @media (max-width: 900px) {
+      .article-side-grid {
+        grid-template-columns: 1fr;
       }
-      .home-quick-btn {
-        padding: 14px;
+    }
+    @media (max-width: 640px) {
+      .article-body-card,
+      .article-info-box {
+        padding: 16px;
       }
-      .home-quick-btn strong {
-        font-size: 1rem;
+      .article-title {
+        font-size: 2rem;
       }
-      .home-quick-btn span {
-        font-size: .9rem;
-        line-height: 1.6;
-      }
-      .home-mini-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-      }
-      .home-mini-row strong,
-      .home-mini-row span {
-        width: 100%;
+      .article-lead,
+      .article-body-copy {
+        font-size: .95rem;
       }
     }
 
   </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "MoroccanSportsHub",
+  "url": "https://moroccansportshub.com/",
+  "description": "Latest Moroccan football news, global sports updates, and AI-powered sports insights."
+}
+</script>
+
+  <style id="mobile-footer-fix">
+    @media (max-width: 640px) {
+      .site-footer {
+        margin: 22px 14px 18px !important;
+        padding: 18px 16px !important;
+        overflow: hidden;
+      }
+      .footer-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+      }
+      .footer-copy,
+      .footer-links a,
+      .footer-contact a,
+      .footer-contact span,
+      .footer-links span {
+        overflow-wrap: anywhere;
+      }
+      .footer-social {
+        justify-content: flex-start;
+      }
+      .footer-title,
+      .footer-brand {
+        margin-bottom: 8px;
+      }
+      .footer-links,
+      .footer-contact {
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-right {
+        display: flex;
+        align-items: center;
+      }
+      .header-right .notif-wrap {
+        order: 1;
+      }
+      .header-right .mobile-menu-btn {
+        order: 2;
+      }
+    }
+  
+    .home-bottom-section {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .home-bottom-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 14px 32px var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+    .home-bottom-card h3 {
+      color: var(--cyan);
+      font-size: 1rem;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .home-quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .home-quick-btn {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .home-quick-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.05);
+    }
+    .home-quick-btn strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: .92rem;
+    }
+    .home-quick-btn span {
+      display: block;
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.55;
+    }
+    .home-mini-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .home-mini-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      color: var(--dim);
+      font-size: .84rem;
+    }
+    .home-mini-row strong {
+      color: var(--text);
+      font-size: .9rem;
+    }
+    .feed-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 16px;
+    }
+    .feed-tab {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .feed-tab.active,
+    .feed-tab:hover {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+    }
+
+  </style>
+
 </head>
 <body>
-  <h1 style="display:none;">Moroccan Sports News and Global Sports Updates</h1>
+  <h1 style="display:none;">MoroccanSportsHub - Moroccan football news and global sports updates</h1>
 <button class="ai-fab" id="ai-fab" onclick="toggleAiAssistant()" aria-label="Open sports assistant">
     <i class="fa-solid fa-cloud"></i>
   </button>
 
   <div class="ai-panel" id="ai-panel">
     <div class="ai-header">
-      <span>Sports AI</span>
+      <span id="ai-header-title">Sports AI</span>
       <button class="icon-btn" onclick="toggleAiAssistant(false)"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="ai-messages" id="ai-messages">
-      <div class="ai-msg bot">Ask me any sports question. Quick buttons can also pull matching website news.</div>
+      <div class="ai-msg bot" id="ai-welcome">Ask me any sports question. Quick buttons can also pull matching website news.</div>
     </div>
     <div class="ai-quick">
-      <button onclick="askAiQuick('Latest Moroccan football news')">Morocco football</button>
-      <button onclick="askAiQuick('Latest global football news')">Global football</button>
-      <button onclick="askAiQuick('Latest tennis news')">Tennis</button>
-      <button onclick="askAiQuick('Latest matches news')">Matches</button>
+      <button id="ai-quick-morocco" onclick="askAiQuick(getAiQuickPrompt('morocco'))">Morocco football</button>
+      <button id="ai-quick-global" onclick="askAiQuick(getAiQuickPrompt('global'))">Global football</button>
+      <button id="ai-quick-tennis" onclick="askAiQuick(getAiQuickPrompt('tennis'))">Tennis</button>
+      <button id="ai-quick-matches" onclick="askAiQuick(getAiQuickPrompt('matches'))">Matches</button>
     </div>
     <div class="ai-input-wrap">
       <input id="ai-input" type="text" placeholder="Ask a sports question..." onkeydown="if(event.key==='Enter') sendAiMessage()">
-      <button class="solid-btn" onclick="sendAiMessage()">Send</button>
+      <button id="ai-send-btn" class="solid-btn" onclick="sendAiMessage()">Send</button>
     </div>
   </div>
   <header>
@@ -1140,7 +1739,7 @@
         <div><strong id="d-global-title">Global</strong><span id="d-global-desc">International sports stories</span></div>
       </button>
 
-      <button onclick="openColorStudio(); toggleDrawer(false);">
+      <button class="drawer-color-btn" onclick="openColorStudio(); toggleDrawer(false);">
         <i class="fa-solid fa-palette"></i>
         <div><strong id="d-colors-title">Colors</strong><span id="d-colors-desc">Customize website colors</span></div>
       </button>
@@ -1176,6 +1775,15 @@
     <button class="icon-btn" onclick="toggleSearch()"><i class="fa-solid fa-xmark" style="color:var(--red)"></i></button>
   </div>
 
+  <div id="breaking-ticker" class="breaking-ticker" style="display:none;">
+    <div class="breaking-ticker-inner">
+      <div id="ticker-label" class="ticker-label"><i class="fa-solid fa-bolt"></i><span>Breaking</span></div>
+      <div class="ticker-track">
+        <div id="ticker-scroll" class="ticker-scroll"></div>
+      </div>
+    </div>
+  </div>
+
   <main>
     <section id="home-page" class="page active">
       <div id="search-results-area" style="display:none; margin-bottom:22px;"><div class="news-grid" id="search-output-grid"></div></div>
@@ -1187,33 +1795,63 @@
 
       <div class="home-bottom-section">
         <div class="home-bottom-card">
-          <h3 id="home-explore-title">Explore the Hub</h3>
+          <h3>Explore the Hub</h3>
           <div class="home-quick-grid">
             <button class="home-quick-btn" onclick="switchPage('morocco')">
-              <strong id="home-quick-morocco-title">Moroccan News</strong>
-              <span id="home-quick-morocco-desc">Botola, national teams, Moroccan stars, and daily local coverage.</span>
+              <strong>Moroccan News</strong>
+              <span>Botola, national teams, Moroccan stars, and daily local coverage.</span>
             </button>
             <button class="home-quick-btn" onclick="switchPage('global')">
-              <strong id="home-quick-global-title">Global Stories</strong>
-              <span id="home-quick-global-desc">Big football stories, world headlines, and major sports updates.</span>
+              <strong>Global Stories</strong>
+              <span>Big football stories, world headlines, and major sports updates.</span>
             </button>
             <button class="home-quick-btn" onclick="switchPage('feed')">
-              <strong id="home-quick-feed-title">Community Feed</strong>
-              <span id="home-quick-feed-desc">Check the latest fan posts, reactions, and pinned discussions.</span>
+              <strong>Community Feed</strong>
+              <span>Check the latest fan posts, reactions, and pinned discussions.</span>
             </button>
             <button class="home-quick-btn" onclick="switchPage('matches')">
-              <strong id="home-quick-matches-title">Matches</strong>
-              <span id="home-quick-matches-desc">Quick access to live fixtures, scores, and football widgets.</span>
+              <strong>Matches</strong>
+              <span>Quick access to live fixtures, scores, and football widgets.</span>
             </button>
           </div>
         </div>
         <div class="home-bottom-card">
-          <h3 id="home-why-title">Why MoroccanSportsHub</h3>
+          <h3>Why MoroccanSportsHub</h3>
           <div class="home-mini-list">
-            <div class="home-mini-row"><strong id="home-why-1-title">Fast Coverage</strong><span id="home-why-1-desc">Moroccan + global sports in one homepage.</span></div>
-            <div class="home-mini-row"><strong id="home-why-2-title">Community Layer</strong><span id="home-why-2-desc">Fans can react, post, and help surface top stories.</span></div>
-            <div class="home-mini-row"><strong id="home-why-3-title">AI Support</strong><span id="home-why-3-desc">Ask the assistant for quick sports answers anytime.</span></div>
-            <div class="home-mini-row" style="border-bottom:none;"><strong id="home-why-4-title">Clean Navigation</strong><span id="home-why-4-desc">Jump straight into news, matches, chess, or the feed.</span></div>
+            <div class="home-mini-row"><strong>Fast Coverage</strong><span>Moroccan + global sports in one homepage.</span></div>
+            <div class="home-mini-row"><strong>Community Layer</strong><span>Fans can react, post, and help surface top stories.</span></div>
+            <div class="home-mini-row"><strong>AI Support</strong><span>Ask the assistant for quick sports answers anytime.</span></div>
+            <div class="home-mini-row" style="border-bottom:none;"><strong>Clean Navigation</strong><span>Jump straight into news, matches, chess, or the feed.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <section id="article-page" class="page">
+      <div class="article-shell">
+        <div class="article-back-row">
+          <button class="ghost-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
+        </div>
+        <div class="detail-top-meta" id="article-meta"></div>
+        <h1 id="article-title" class="article-title"></h1>
+        <p id="article-lead" class="article-lead"></p>
+        <div id="article-hero" class="article-hero" style="display:none;">
+          <img id="article-image" src="" alt="article image" loading="lazy" referrerpolicy="no-referrer">
+        </div>
+        <div class="article-body-card">
+          <div id="article-body" class="article-body-copy"></div>
+        </div>
+        <div class="article-side-grid">
+          <div class="article-info-box">
+            <h3>Why it matters</h3>
+            <p id="article-why"></p>
+          </div>
+          <div class="article-info-box">
+            <h3>Quick context</h3>
+            <p id="article-context"></p>
           </div>
         </div>
       </div>
@@ -1225,6 +1863,11 @@
         <div class="composer" onclick="$('#post-modal').css('display','flex')">
           <span id="composer-text">Broadcast intelligence...</span>
           <i class="fa-solid fa-paper-plane" style="color:var(--cyan)"></i>
+        </div>
+        <div class="feed-tabs">
+          <button id="feed-tab-latest" class="feed-tab active" onclick="setFeedView('latest')">Latest</button>
+          <button id="feed-tab-top" class="feed-tab" onclick="setFeedView('top')">Top</button>
+          <button id="feed-tab-pinned" class="feed-tab" onclick="setFeedView('pinned')">Pinned</button>
         </div>
         <div id="feed-container"></div>
       </div>
@@ -1302,9 +1945,47 @@
     </section>
   </main>
 
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">MoroccanSportsHub</div>
+        <div class="footer-copy">MoroccanSportsHub is a modern sports platform delivering real-time Moroccan football news, global sports coverage, AI-powered insights, and a community-driven feed.</div>
+        <div class="footer-social">
+          <a href="https://x.com/MarocSportsHub" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61574503853445" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-title">Contact</div>
+        <div class="footer-contact">
+          <a href="mailto:moroccansportshub.news@gmail.com">moroccansportshub.news@gmail.com</a>
+          <span>Reach out for feedback, corrections, partnerships, or page support.</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-title">More</div>
+        <div class="footer-links">
+          <a href="#" onclick="openLegalModal('about'); return false;">About</a>
+          <a href="#" onclick="openLegalModal('privacy'); return false;">Privacy Policy</a>
+          <a href="#" onclick="openLegalModal('terms'); return false;">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <div id="legal-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('legal-modal')">&times;</span>
+      <h2 id="legal-title" style="color:var(--cyan); margin-bottom:14px;">About</h2>
+      <div id="legal-body" class="detail-summary" style="text-align:left;"></div>
+    </div>
+  </div>
+
   <div id="post-modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="$('#post-modal').hide()">&times;</span>
+      <span class="close" onclick="$('#post-modal').hide(); document.body.style.overflow='';">&times;</span>
       <h2 id="post-modal-title" style="color:var(--cyan); margin-bottom:14px;">Broadcast News</h2>
       <textarea id="post-content" rows="6" placeholder="Share sports news..."></textarea>
       <input id="post-media" type="file" accept="image/*,video/*">
@@ -1315,27 +1996,27 @@
 
   <div id="colors-modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="$('#colors-modal').hide()">&times;</span>
-      <h2 style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
-      <p style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
+      <span class="close" onclick="closeModal('colors-modal')">&times;</span>
+      <h2 id="colors-modal-title" style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
+      <p id="colors-modal-desc" style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
       <div class="color-grid">
-        <div><label>Background</label><input type="color" id="color-bg" value="#000000"></div>
-        <div><label>Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
-        <div><label>Card</label><input type="color" id="color-card" value="#111111"></div>
-        <div><label>Text</label><input type="color" id="color-text" value="#ffffff"></div>
-        <div><label>Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
-        <div><label>Danger</label><input type="color" id="color-red" value="#c1272d"></div>
+        <div><label id="color-label-bg">Background</label><input type="color" id="color-bg" value="#000000"></div>
+        <div><label id="color-label-bg2">Gradient</label><input type="color" id="color-bg2" value="#091015"></div>
+        <div><label id="color-label-card">Card</label><input type="color" id="color-card" value="#111111"></div>
+        <div><label id="color-label-text">Text</label><input type="color" id="color-text" value="#ffffff"></div>
+        <div><label id="color-label-cyan">Accent</label><input type="color" id="color-cyan" value="#00f2fe"></div>
+        <div><label id="color-label-red">Danger</label><input type="color" id="color-red" value="#c1272d"></div>
       </div>
       <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center;">
-        <button class="solid-btn" onclick="saveCustomColors()">Save</button>
-        <button class="ghost-btn" onclick="resetCustomColors()">Reset</button>
+        <button id="colors-save-btn" class="solid-btn" onclick="saveCustomColors()">Save</button>
+        <button id="colors-reset-btn" class="ghost-btn" onclick="resetCustomColors()">Reset</button>
       </div>
     </div>
   </div>
 
   <div id="auth-modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="$('#auth-modal').hide()">&times;</span>
+      <span class="close" onclick="$('#auth-modal').hide(); document.body.style.overflow='';">&times;</span>
       <div class="auth-tabs-row">
         <div id="tab-login" class="auth-tab active" onclick="setAuthMode('login')">LOGIN</div>
         <div id="tab-signup" class="auth-tab" onclick="setAuthMode('signup')">SIGN UP</div>
@@ -1350,9 +2031,15 @@
 
   <div id="news-modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="$('#news-modal').hide()">&times;</span>
-      <h2 id="m-title" style="color:var(--cyan); margin-bottom:15px;"></h2>
-      <p id="m-body" style="color:var(--dim); line-height:1.6; text-align:left;"></p>
+      <span class="close" onclick="$('#news-modal').hide(); document.body.style.overflow='';">&times;</span>
+      <div class="detail-layout">
+        <div class="detail-top-meta" id="detail-meta"></div>
+        <h2 id="m-title" style="color:var(--cyan); margin-bottom:2px;"></h2>
+        <div id="detail-image-wrap" class="detail-image-wrap" style="display:none;">
+          <img id="m-image" src="" alt="story image" loading="lazy" referrerpolicy="no-referrer">
+        </div>
+        <p id="m-body" class="detail-summary"></p>
+      </div>
       <div class="reaction-bar">
         <button class="react-btn" onclick="submitReact('like')">👍 <span id="c-like" class="react-count">0</span></button>
         <button class="react-btn" onclick="submitReact('heart')">❤️ <span id="c-heart" class="react-count">0</span></button>
@@ -1394,6 +2081,13 @@
     let globalPool = [];
     let globalCurrentFilter = 'all';
     let moroccoCurrentFilter = 'all';
+    let feedStableOrder = [];
+    let feedPreserveOrder = true;
+    let feedAnchorPostId = null;
+    let feedAnchorTop = null;
+    let feedViewMode = 'latest';
+    let lastRegularPage = 'home';
+    let currentArticleLink = '';
 
     const uiText = {
       en: {
@@ -1478,7 +2172,9 @@
         moroccoTennisDesc: 'FRMT tournaments, national team updates, and Morocco tennis news.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Moroccan esports and gaming stories in one dedicated page.',
-        filterAll: 'All'
+        filterAll: 'All',
+        aiThinking: 'Thinking...',
+        aiError: 'I could not reach the AI backend right now. Please try again.'
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -1562,7 +2258,9 @@
         moroccoTennisDesc: 'Tournois FRMT, sélections nationales et actualités du tennis marocain.',
         moroccoEsportTitle: 'Esport',
         moroccoEsportDesc: 'Actualités marocaines de l’esport et du gaming.',
-        filterAll: 'Tout'
+        filterAll: 'Tout',
+        aiThinking: 'Réflexion...',
+        aiError: 'Je ne peux pas joindre l’IA pour le moment. Réessayez.'
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -1646,18 +2344,141 @@
         moroccoTennisDesc: 'بطولات الجامعة، تحديثات المنتخب وأخبار التنس المغربي.',
         moroccoEsportTitle: 'الرياضات الإلكترونية',
         moroccoEsportDesc: 'أخبار الرياضات الإلكترونية والألعاب في المغرب.',
-        filterAll: 'الكل'
+        filterAll: 'الكل',
+        aiThinking: 'جارٍ التفكير...',
+        aiError: 'تعذر الوصول إلى الذكاء الاصطناعي حالياً. حاول مرة أخرى.'
       }
     };
 
+    const extraUiText = {
+      en: {
+        aiTitle: 'Sports AI',
+        aiWelcome: 'Ask me any sports question. Quick buttons can also pull matching website news.',
+        aiInputPlaceholder: 'Ask a sports question...',
+        aiQuickMorocco: 'Morocco football',
+        aiQuickGlobal: 'Global football',
+        aiQuickTennis: 'Tennis',
+        aiQuickMatches: 'Matches',
+        aiPromptMorocco: 'Latest Moroccan football news',
+        aiPromptGlobal: 'Latest global football news',
+        aiPromptTennis: 'Latest tennis news',
+        aiPromptMatches: 'Latest matches news',
+        aiSend: 'Send',
+        aiError: 'AI is currently unavailable. Try again.',
+        colorsModalTitle: 'Color Studio',
+        colorsModalDesc: 'Customize the website palette.',
+        colorLabelBg: 'Background',
+        colorLabelBg2: 'Gradient',
+        colorLabelCard: 'Card',
+        colorLabelText: 'Text',
+        colorLabelCyan: 'Accent',
+        colorLabelRed: 'Danger',
+        save: 'Save',
+        reset: 'Reset',
+        loadingNews: 'Loading news...',
+        loading: 'Loading...',
+        noNewsChess: 'Chess news unavailable right now.',
+        noNewsGlobal: 'Global news unavailable right now.',
+        noNewsFootball: 'Football news unavailable right now.',
+        noNewsBasketball: 'Basketball news unavailable right now.',
+        noNewsTennis: 'Tennis news unavailable right now.',
+        noNewsEsports: 'Esport news unavailable right now.'
+      },
+      fr: {
+        aiTitle: 'IA Sport',
+        aiWelcome: "Posez-moi n'importe quelle question sportive. Les boutons rapides peuvent aussi afficher les actualités du site.",
+        aiInputPlaceholder: 'Posez une question sportive...',
+        aiQuickMorocco: 'Football marocain',
+        aiQuickGlobal: 'Football mondial',
+        aiQuickTennis: 'Tennis',
+        aiQuickMatches: 'Matchs',
+        aiPromptMorocco: 'Dernières nouvelles du football marocain',
+        aiPromptGlobal: 'Dernières nouvelles du football mondial',
+        aiPromptTennis: 'Dernières nouvelles du tennis',
+        aiPromptMatches: 'Dernières nouvelles des matchs',
+        aiSend: 'Envoyer',
+        aiError: 'IA indisponible. Réessayez.',
+        colorsModalTitle: 'Studio Couleurs',
+        colorsModalDesc: 'Personnalisez la palette du site.',
+        colorLabelBg: 'Arrière-plan',
+        colorLabelBg2: 'Dégradé',
+        colorLabelCard: 'Carte',
+        colorLabelText: 'Texte',
+        colorLabelCyan: 'Accent',
+        colorLabelRed: 'Danger',
+        save: 'Enregistrer',
+        reset: 'Réinitialiser',
+        loadingNews: 'Chargement des actualités...',
+        loading: 'Chargement...',
+        noNewsChess: "Actualités d'échecs indisponibles pour le moment.",
+        noNewsGlobal: 'Actualités mondiales indisponibles pour le moment.',
+        noNewsFootball: 'Actualités football indisponibles pour le moment.',
+        noNewsBasketball: 'Actualités basket indisponibles pour le moment.',
+        noNewsTennis: 'Actualités tennis indisponibles pour le moment.',
+        noNewsEsports: 'Actualités esport indisponibles pour le moment.'
+      },
+      ar: {
+        aiTitle: 'الذكاء الرياضي',
+        aiWelcome: 'اسألني أي سؤال رياضي. ويمكن للأزرار السريعة أيضاً عرض أخبار مطابقة من الموقع.',
+        aiInputPlaceholder: 'اسأل سؤالاً رياضياً...',
+        aiQuickMorocco: 'كرة القدم المغربية',
+        aiQuickGlobal: 'كرة القدم العالمية',
+        aiQuickTennis: 'التنس',
+        aiQuickMatches: 'المباريات',
+        aiPromptMorocco: 'آخر أخبار كرة القدم المغربية',
+        aiPromptGlobal: 'آخر أخبار كرة القدم العالمية',
+        aiPromptTennis: 'آخر أخبار التنس',
+        aiPromptMatches: 'آخر أخبار المباريات',
+        aiSend: 'إرسال',
+        aiError: 'الذكاء غير متاح حالياً. حاول مرة أخرى.',
+        colorsModalTitle: 'استوديو الألوان',
+        colorsModalDesc: 'تخصيص ألوان الموقع.',
+        colorLabelBg: 'الخلفية',
+        colorLabelBg2: 'التدرج',
+        colorLabelCard: 'البطاقة',
+        colorLabelText: 'النص',
+        colorLabelCyan: 'اللون الأساسي',
+        colorLabelRed: 'الخطر',
+        save: 'حفظ',
+        reset: 'إعادة الضبط',
+        loadingNews: 'جارٍ تحميل الأخبار...',
+        loading: 'جارٍ التحميل...',
+        noNewsChess: 'أخبار الشطرنج غير متوفرة حالياً.',
+        noNewsGlobal: 'أخبار العالم غير متوفرة حالياً.',
+        noNewsFootball: 'أخبار كرة القدم غير متوفرة حالياً.',
+        noNewsBasketball: 'أخبار كرة السلة غير متوفرة حالياً.',
+        noNewsTennis: 'أخبار التنس غير متوفرة حالياً.',
+        noNewsEsports: 'أخبار الرياضات الإلكترونية غير متوفرة حالياً.'
+      }
+    };
+
+    Object.keys(extraUiText).forEach(langKey => {
+      uiText[langKey] = Object.assign({}, extraUiText[langKey], uiText[langKey] || {});
+    });
+
     function t(key) {
       return (uiText[currentLang] && uiText[currentLang][key]) || uiText.en[key] || key;
+    }
+
+    function getAiQuickPrompt(kind) {
+      const map = {
+        morocco: 'aiPromptMorocco',
+        global: 'aiPromptGlobal',
+        tennis: 'aiPromptTennis',
+        matches: 'aiPromptMatches'
+      };
+      return t(map[kind] || 'aiPromptGlobal');
     }
 
     function setTheme(theme) {
       currentTheme = theme;
       localStorage.setItem('msh_theme', theme);
       document.body.classList.toggle('light', theme === 'light');
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      const savedColors = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
+      if (!Object.keys(savedColors).length && themeMeta) {
+        themeMeta.setAttribute('content', theme === 'light' ? '#f5f8fb' : '#000000');
+      }
       $('#theme-btn, #drawer-theme-btn').text(theme === 'light' ? t('dark') : t('light'));
     }
 
@@ -1674,7 +2495,8 @@
       $('#drawer-lang-select').val(lang);
       applyUiLanguage();
       await initNews();
-      if ($('#feed-page').hasClass('active')) loadFeed();
+      renderBreakingTicker();
+      if ($('#feed-page').hasClass('active')) { feedPreserveOrder = false; loadFeed(); }
       if ($('#admin-page').hasClass('active')) loadAdminPanel();
     }
 
@@ -1734,6 +2556,28 @@
       $('#d-admin-desc').text(t('drawerAdminDesc'));
       $('#theme-btn, #drawer-theme-btn').text(currentTheme === 'light' ? t('dark') : t('light'));
       $('#desktop-color-btn').text(t('colorsTitle') || 'Colors');
+      $('#ai-header-title').text(t('aiTitle'));
+      $('#ai-welcome').text(t('aiWelcome'));
+      $('#ai-input').attr('placeholder', t('aiInputPlaceholder'));
+      $('#ai-quick-morocco').text(t('aiQuickMorocco'));
+      $('#ai-quick-global').text(t('aiQuickGlobal'));
+      $('#ai-quick-tennis').text(t('aiQuickTennis'));
+      $('#ai-quick-matches').text(t('aiQuickMatches'));
+      $('#ai-send-btn').text(t('aiSend'));
+      $('#ai-quick-morocco').attr('onclick', "askAiQuick(getAiQuickPrompt('morocco'))");
+      $('#ai-quick-global').attr('onclick', "askAiQuick(getAiQuickPrompt('global'))");
+      $('#ai-quick-tennis').attr('onclick', "askAiQuick(getAiQuickPrompt('tennis'))");
+      $('#ai-quick-matches').attr('onclick', "askAiQuick(getAiQuickPrompt('matches'))");
+      $('#colors-modal-title').text(t('colorsModalTitle'));
+      $('#colors-modal-desc').text(t('colorsModalDesc'));
+      $('#color-label-bg').text(t('colorLabelBg'));
+      $('#color-label-bg2').text(t('colorLabelBg2'));
+      $('#color-label-card').text(t('colorLabelCard'));
+      $('#color-label-text').text(t('colorLabelText'));
+      $('#color-label-cyan').text(t('colorLabelCyan'));
+      $('#color-label-red').text(t('colorLabelRed'));
+      $('#colors-save-btn').text(t('save'));
+      $('#colors-reset-btn').text(t('reset'));
 
       $('#mf-all').text(t('filterAll') || 'All');
       $('#mf-football').text(t('moroccoFootballTitle') || 'Football');
@@ -1759,9 +2603,27 @@
     }
 
     async function initAppPrefs() {
+      const isMobile = window.innerWidth < 768;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+
+      currentTheme = isMobile ? 'dark' : (localStorage.getItem('msh_theme') === 'light' ? 'light' : 'dark');
       setTheme(currentTheme);
-      const savedColors = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
-      if (Object.keys(savedColors).length) applyCustomColors(savedColors);
+
+      if (isMobile) {
+        localStorage.removeItem('msh_custom_colors');
+        document.documentElement.style.removeProperty('--bg');
+        document.documentElement.style.removeProperty('--bg2');
+        document.documentElement.style.removeProperty('--card');
+        document.documentElement.style.removeProperty('--text');
+        document.documentElement.style.removeProperty('--cyan');
+        document.documentElement.style.removeProperty('--red');
+      } else {
+        const savedColors = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
+        if (Object.keys(savedColors).length) applyCustomColors(savedColors);
+      }
+
       await setLanguage(currentLang);
     }
 
@@ -1774,9 +2636,11 @@
       if (open) {
         drawer.addClass('open');
         backdrop.addClass('show');
+        document.body.style.overflow = 'hidden';
       } else {
         drawer.removeClass('open');
         backdrop.removeClass('show');
+        document.body.style.overflow = '';
       }
     }
 
@@ -1815,6 +2679,7 @@
         return;
       }
 
+      if (p !== 'article') lastRegularPage = p;
       $('.page').removeClass('active');
       $('#' + p + '-page').addClass('active');
 
@@ -2433,20 +3298,67 @@
       return `<div class="post-media"><img src="${mediaUrl}" alt="media" onerror="this.style.display='none'"></div>`;
     }
 
-    async function loadFeed() {
+    
+    function setFeedView(mode) {
+      feedViewMode = mode;
+      $('.feed-tab').removeClass('active');
+      $(`#feed-tab-${mode}`).addClass('active');
+      feedPreserveOrder = false;
+      if ($('#feed-page').hasClass('active')) { feedPreserveOrder = false; loadFeed(); }
+    }
+
+async function loadFeed() {
       if (feedListener) feedListener();
 
       feedListener = db.collection('posts').onSnapshot(async snapshot => {
-        const container = $('#feed-container').empty();
+        const container = $('#feed-container');
+        const previousHeight = container.outerHeight();
+        if (previousHeight) container.css('min-height', `${previousHeight}px`);
+
         let posts = [];
         snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
 
-        posts.sort((a, b) => {
+        const rankingSort = (a, b) => {
           if ((b.pinned ? 1 : 0) !== (a.pinned ? 1 : 0)) {
             return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
           }
-          return (b.score || 0) - (a.score || 0);
-        });
+          if ((b.score || 0) !== (a.score || 0)) {
+            return (b.score || 0) - (a.score || 0);
+          }
+          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+        };
+
+        const latestSort = (a, b) => {
+          if ((b.pinned ? 1 : 0) !== (a.pinned ? 1 : 0)) {
+            return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
+          }
+          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+        };
+
+        if (feedViewMode === 'pinned') {
+          posts = posts.filter(post => post.pinned).sort(rankingSort);
+          feedStableOrder = posts.map(post => post.id);
+          feedPreserveOrder = true;
+        } else if (feedViewMode === 'latest') {
+          posts.sort(latestSort);
+          feedStableOrder = posts.map(post => post.id);
+          feedPreserveOrder = true;
+        } else if (!feedPreserveOrder || !feedStableOrder.length) {
+          posts.sort(rankingSort);
+          feedStableOrder = posts.map(post => post.id);
+          feedPreserveOrder = true;
+        } else {
+          const byId = new Map(posts.map(post => [post.id, post]));
+          const existing = feedStableOrder.filter(id => byId.has(id));
+          const newcomers = posts
+            .filter(post => !existing.includes(post.id))
+            .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
+            .map(post => post.id);
+          feedStableOrder = [...existing, ...newcomers];
+          posts = feedStableOrder.map(id => byId.get(id)).filter(Boolean);
+        }
+
+        let feedHtml = '';
 
         for (const post of posts) {
           const admin = isAdmin();
@@ -2462,7 +3374,7 @@
           const postUserData = userDoc.exists ? userDoc.data() : {};
           const bannedUser = !!postUserData.banned;
 
-          container.append(`
+          feedHtml += `
             <div class="post-card ${post.pinned ? 'pinned' : ''}" data-post="${post.id}">
               ${(admin || owner) ? `
                 <div class="admin-controls">
@@ -2492,7 +3404,20 @@
                 <button class="share-btn" onclick="sharePost('${post.id}')"><i class="fa-solid fa-share-nodes"></i> ${t('share')}</button>
               </div>
             </div>
-          `);
+          `;
+        }
+
+        container.html(feedHtml);
+        container.css('min-height', '');
+
+        if (feedAnchorPostId) {
+          const anchorEl = document.querySelector(`[data-post="${feedAnchorPostId}"]`);
+          if (anchorEl && Number.isFinite(feedAnchorTop)) {
+            const nextTop = anchorEl.getBoundingClientRect().top;
+            window.scrollBy(0, nextTop - feedAnchorTop);
+          }
+          feedAnchorPostId = null;
+          feedAnchorTop = null;
         }
 
         openPostFromUrlIfAny();
@@ -2502,6 +3427,9 @@
     async function reactToFeedPost(postId, type, targetId) {
       if (!auth.currentUser) return openAuth();
 
+      const anchorEl = document.querySelector(`[data-post="${postId}"]`);
+      feedAnchorPostId = postId;
+      feedAnchorTop = anchorEl ? anchorEl.getBoundingClientRect().top : null;
       const uid = auth.currentUser.uid;
       const rid = `${postId}_${uid}`;
       const rref = db.collection('reactions_feed').doc(rid);
@@ -2539,6 +3467,10 @@
         t.update(pref, updates);
       });
 
+      requestAnimationFrame(() => {
+        window.scrollTo(0, scrollY);
+      });
+
       if (added && targetId !== uid) {
         await db.collection('notifications').add({
           targetId,
@@ -2549,15 +3481,18 @@
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       }
+
     }
 
     async function deletePost(id) {
       if (!confirm(t('deletePost'))) return;
+      feedPreserveOrder = false;
       await db.collection('posts').doc(id).delete();
     }
 
     async function togglePin(id, status) {
       if (!isAdmin()) return;
+      feedPreserveOrder = false;
       await db.collection('posts').doc(id).update({ pinned: !status });
     }
 
@@ -2634,6 +3569,24 @@
       }
     }
 
+    function upgradeImageUrl(url = '') {
+      let clean = String(url || '').trim();
+      if (!clean) return '';
+      clean = clean.replace(/&amp;/g, '&');
+      if (clean.startsWith('//')) clean = 'https:' + clean;
+      if (clean.includes('via.placeholder.com')) return clean;
+      clean = clean.replace(/([?&])(w|width|h|height|q|quality)=\d+/gi, '$1');
+      clean = clean.replace(/[?&]+$/,'');
+      clean = clean.replace(/\/\d{2,4}\//g, '/1024/');
+      clean = clean.replace(/-\d+x\d+(?=\.[a-z]{3,4}(?:$|\?))/i, '-1200x675');
+      clean = clean.replace(/(\.(jpg|jpeg|png|webp))(\?.*)?$/i, '$1');
+      return clean;
+    }
+
+    function bestImage(url = '', label = 'Moroccansportshub') {
+      return upgradeImageUrl(url) || buildFallbackImageUrl(label);
+    }
+
     async function fetchRssViaRss2Json(url) {
       const res = await fetchWithTimeout('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url), {}, 2600);
       if (!res.ok) throw new Error('rss2json failed');
@@ -2642,7 +3595,7 @@
       return data.items.map(item => ({
         title: item.title || 'Untitled',
         desc: (item.description || '').replace(/<[^>]*>?/gm, ''),
-        img: item.thumbnail || item.enclosure?.link || item.enclosure || '',
+        img: upgradeImageUrl(item.thumbnail || item.enclosure?.link || item.enclosure || ''),
         link: item.link || '#',
         pubDate: item.pubDate || ''
       }));
@@ -2659,7 +3612,7 @@
       return items.map(item => ({
         title: item.querySelector('title')?.textContent?.trim() || 'Untitled',
         desc: (item.querySelector('description')?.textContent || '').replace(/<[^>]*>?/gm, ''),
-        img: item.querySelector('enclosure')?.getAttribute('url') || item.querySelector('media\:content, content')?.getAttribute('url') || item.querySelector('media\:thumbnail, thumbnail')?.getAttribute('url') || '',
+        img: upgradeImageUrl(item.querySelector('enclosure')?.getAttribute('url') || item.querySelector('media\:content, content')?.getAttribute('url') || item.querySelector('media\:thumbnail, thumbnail')?.getAttribute('url') || ''),
         link: item.querySelector('link')?.textContent?.trim() || '#',
         pubDate: item.querySelector('pubDate')?.textContent?.trim() || ''
       }));
@@ -2693,7 +3646,7 @@
         const link = a.href || '#';
         if (!title || title.length < 18 || seen.has(title)) continue;
         seen.add(title);
-        const img = a.querySelector('img')?.src || a.closest('article')?.querySelector('img')?.src || '';
+        const img = upgradeImageUrl(a.querySelector('img')?.src || a.closest('article')?.querySelector('img')?.src || '');
         items.push({ title, desc: '', img, link, pubDate: '' });
         if (items.length >= 12) break;
       }
@@ -2720,7 +3673,7 @@
           id: masterPool.length,
           title: item.title || 'Untitled',
           desc: item.desc || '',
-          img: item.img || 'https://via.placeholder.com/800x450?text=Moroccansportshub',
+          img: bestImage(item.img, item.title || 'Moroccansportshub'),
           link: item.link || '#',
           tag: opts.tag || '',
           sport: opts.sport || '',
@@ -2733,11 +3686,37 @@
       return ids;
     }
 
+    function localizedEmptyText(message = '') {
+      const m = String(message || '').toLowerCase();
+      if (m.includes('chess')) return t('noNewsChess');
+      if (m.includes('global')) return t('noNewsGlobal');
+      if (m.includes('football')) return t('noNewsFootball');
+      if (m.includes('basket')) return t('noNewsBasketball');
+      if (m.includes('tennis')) return t('noNewsTennis');
+      if (m.includes('esport')) return t('noNewsEsports');
+      if (m.includes('moroccan') || m.includes('maroc')) return t('noNewsMorocco');
+      return message || t('loading');
+    }
+
     function renderIdsGrid(selector, ids, emptyText) {
       const html = ids.length ? ids.map(id => {
         const n = masterPool[id];
-        return `<div class="mini-card" onclick="openDetails(${n.id})"><span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${n.tag || ''}</span><h3>${n.title}</h3></div>`;
-      }).join('') : `<div class="mini-card"><h3>${emptyText}</h3></div>`;
+        const sportLabel = homeLabel(n.sport || 'football');
+        const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+        const tagLabel = localizeTagLabel(n.tag) || sportLabel;
+        const image = bestImage(n.img, n.title || 'Moroccansportshub');
+        return `<div class="mini-card" onclick="openDetails(${n.id})">
+          <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
+            <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
+          </div>
+          <span class="mini-card-tag">${tagLabel}</span>
+          <h3>${n.title}</h3>
+          <div class="mini-card-meta">
+            <span class="mini-chip"><i class="fa-solid fa-layer-group"></i>${sportLabel}</span>
+            <span class="mini-chip"><i class="fa-solid fa-earth-africa"></i>${regionLabel}</span>
+          </div>
+        </div>`;
+      }).join('') : `<div class="mini-card"><h3>${localizedEmptyText(emptyText)}</h3></div>`;
       $(selector).html(html);
     }
 
@@ -2885,27 +3864,177 @@
       renderIdsGrid('#feed-chess', chessIds, 'Chess news unavailable right now.');
     }
 
-    async function initNews() {
-      masterPool = [];
-      globalPool = [];
-      $('#center-intel').html('<div class="mini-card"><h3>Loading news...</h3></div>');
-      $('#wire-left').html('');
-      $('#wire-right').html('');
-      $('#feed-morocco, #feed-global, #feed-chess').html('<div class="mini-card"><h3>Loading...</h3></div>');
 
-      const jobs = [loadMoroccoPages(), loadGlobalPages(), loadStaticFeeds()];
-      jobs.forEach(job => Promise.resolve(job).then(() => renderHome()).catch(() => {}));
-      await Promise.allSettled(jobs);
-      renderHome();
-
-      if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
-        $('#search-results-area').hide();
-        $('#standard-home-layout').show();
-        $('#search-output-grid').empty();
-      }
+    function homeLabel(key) {
+      const labels = {
+        topStory: { en: 'Top Story', fr: 'À la une', ar: 'الخبر الأبرز' },
+        morocco: { en: 'Morocco', fr: 'Maroc', ar: 'المغرب' },
+        global: { en: 'Global', fr: 'Monde', ar: 'العالم' },
+        football: { en: 'Football', fr: 'Football', ar: 'كرة القدم' },
+        basketball: { en: 'Basketball', fr: 'Basket-ball', ar: 'كرة السلة' },
+        tennis: { en: 'Tennis', fr: 'Tennis', ar: 'التنس' },
+        esports: { en: 'Esport', fr: 'Esport', ar: 'الرياضات الإلكترونية' },
+        trending: { en: 'Trending', fr: 'Tendance', ar: 'الأكثر تداولاً' },
+        updated: { en: 'Updated', fr: 'Mis à jour', ar: 'محدّث' },
+        aiPick: { en: 'AI Pick', fr: 'Choix IA', ar: 'اختيار الذكاء الاصطناعي' },
+        breaking: { en: 'Breaking', fr: 'Urgent', ar: 'عاجل' },
+        latest: { en: 'Latest', fr: 'Dernier', ar: 'الأحدث' },
+        livePulse: { en: 'Live Pulse', fr: 'Pulse Live', ar: 'نبض مباشر' },
+        focus: { en: 'Focus', fr: 'Focus', ar: 'التركيز' },
+        region: { en: 'Region', fr: 'Région', ar: 'المنطقة' },
+        status: { en: 'Status', fr: 'Statut', ar: 'الحالة' },
+        readStory: { en: 'Read Story', fr: 'Lire', ar: 'قراءة الخبر' },
+        fallbackSummary: {
+          en: 'Latest sports intelligence curated for Moroccansportshub readers.',
+          fr: 'Les dernières infos sportives sélectionnées pour les lecteurs de Moroccansportshub.',
+          ar: 'آخر الأخبار الرياضية المختارة لزوار Moroccansportshub.'
+        },
+        fallbackCard: {
+          en: 'Tap to open the full story and reactions.',
+          fr: 'Touchez pour ouvrir l’info complète et les réactions.',
+          ar: 'اضغط لفتح الخبر الكامل والتفاعلات.'
+        }
+      };
+      return labels[key]?.[currentLang] || labels[key]?.en || key;
     }
 
-    function renderHome(forceShuffle = false) {
+    function localizeTagLabel(tag = '') {
+      const raw = String(tag || '').trim();
+      if (!raw) return '';
+      const upper = raw.toUpperCase();
+      if (upper === 'CHESS') return t('chess');
+      return raw
+        .replace(/MOROCCO/gi, homeLabel('morocco'))
+        .replace(/GLOBAL/gi, homeLabel('global'))
+        .replace(/FOOTBALL/gi, homeLabel('football'))
+        .replace(/BASKETBALL/gi, homeLabel('basketball'))
+        .replace(/TENNIS/gi, homeLabel('tennis'))
+        .replace(/ESPORTS?/gi, homeLabel('esports'))
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function buildFallbackImageUrl(label = 'Moroccansportshub') {
+      const safe = String(label || 'Moroccansportshub').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])).slice(0, 44);
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#091015"/>
+              <stop offset="100%" stop-color="#10222b"/>
+            </linearGradient>
+          </defs>
+          <rect width="1200" height="675" fill="url(#g)"/>
+          <circle cx="1030" cy="120" r="180" fill="rgba(0,242,254,0.10)"/>
+          <circle cx="170" cy="560" r="170" fill="rgba(0,242,254,0.08)"/>
+          <rect x="86" y="82" width="1028" height="511" rx="28" fill="none" stroke="#00f2fe" stroke-opacity="0.22"/>
+          <text x="600" y="308" text-anchor="middle" fill="#00f2fe" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700">Moroccansportshub</text>
+          <text x="600" y="372" text-anchor="middle" fill="#d8f8fb" font-family="Arial, Helvetica, sans-serif" font-size="34">${safe}</text>
+        </svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
+    function relativeTimeLabel(dateInput) {
+      const date = dateInput instanceof Date ? dateInput : new Date(dateInput || Date.now());
+      const diffMs = Date.now() - date.getTime();
+      const mins = Math.max(1, Math.floor(diffMs / 60000));
+      if (mins < 60) {
+        if (currentLang === 'fr') return `il y a ${mins} min`;
+        if (currentLang === 'ar') return `منذ ${mins} دقيقة`;
+        return `${mins} min ago`;
+      }
+      const hrs = Math.floor(mins / 60);
+      if (hrs < 24) {
+        if (currentLang === 'fr') return `il y a ${hrs} h`;
+        if (currentLang === 'ar') return `منذ ${hrs} س`;
+        return `${hrs}h ago`;
+      }
+      const days = Math.floor(hrs / 24);
+      if (currentLang === 'fr') return `il y a ${days} j`;
+      if (currentLang === 'ar') return `منذ ${days} يوم`;
+      return `${days}d ago`;
+    }
+
+    function getNewsBadge(item, index = 0) {
+      if (index === 0) return { text: homeLabel('breaking'), cls: 'breaking-badge', icon: 'fa-bolt' };
+      if ((item.score || 0) > 4) return { text: homeLabel('trending'), cls: 'trending-badge', icon: 'fa-fire' };
+      if (String(item.tag || '').toLowerCase().includes('ai')) return { text: homeLabel('aiPick'), cls: 'ai-badge', icon: 'fa-brain' };
+      return { text: localizeTagLabel(item.tag) || homeLabel('topStory'), cls: 'gold-badge', icon: 'fa-star' };
+    }
+
+    function safeSnippet(text = '', max = 120) {
+      const clean = String(text).trim();
+      if (!clean) return '';
+      return clean.length > max ? `${clean.slice(0, max - 3).trim()}...` : clean;
+    }
+
+    function buildHomeSkeleton() {
+      return `
+        <div class="home-skeleton">
+          <div class="skeleton-stack">
+            ${Array.from({ length: 5 }).map(() => `<div class="skeleton-card skeleton-side"></div>`).join('')}
+          </div>
+          <div class="skeleton-card skeleton-feature">
+            <div class="skeleton-pill"></div>
+            <div class="skeleton-image skeleton-card"></div>
+            <div class="skeleton-line w-90"></div>
+            <div class="skeleton-line w-70"></div>
+            <div class="skeleton-line w-55"></div>
+          </div>
+          <div class="skeleton-stack">
+            ${Array.from({ length: 3 }).map(() => `
+              <div class="skeleton-card" style="height:148px; border-radius:22px; border:1px solid var(--border);"></div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderBreakingTicker() {
+      const recent = sortItemsByNewest(filterItemsByAge(masterPool, 24).length ? filterItemsByAge(masterPool, 24) : masterPool).slice(0, 8);
+      if (!recent.length) {
+        $('#breaking-ticker').hide();
+        return;
+      }
+      $('#ticker-label span').text(homeLabel('breaking'));
+      const items = recent.map(item => `
+        <span class="ticker-item" onclick="openDetails(${item.id})">
+          <i class="fa-solid fa-circle-dot"></i>
+          <span>${item.title}</span>
+        </span>
+      `).join('');
+      $('#ticker-scroll').html(items + items);
+      $('#breaking-ticker').show();
+    }
+
+
+async function initNews() {
+  masterPool = [];
+  globalPool = [];
+  $('#center-intel').html(buildHomeSkeleton());
+  $('#wire-left').html('');
+  $('#wire-right').html('');
+  $('#feed-morocco, #feed-global, #feed-chess').html('<div class="mini-card"><div class="skeleton-line w-70"></div><div class="skeleton-line w-90"></div><div class="skeleton-line w-55"></div></div>');
+  $('#breaking-ticker').hide();
+
+  const jobs = [loadMoroccoPages(), loadGlobalPages(), loadStaticFeeds()];
+  jobs.forEach(job => Promise.resolve(job).then(() => {
+    renderHome();
+    renderBreakingTicker();
+  }).catch(() => {}));
+
+  await Promise.allSettled(jobs);
+  renderHome();
+  renderBreakingTicker();
+
+  if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
+    $('#search-results-area').hide();
+    $('#standard-home-layout').show();
+    $('#search-output-grid').empty();
+  }
+}
+
+function renderHome(forceShuffle = false) {
       const recentPool = filterItemsByAge(masterPool, 45);
       const newestPool = sortItemsByNewest(recentPool.length ? recentPool : masterPool);
       if (!newestPool.length) return;
@@ -2921,25 +4050,140 @@
 
       const featured = featuredWindow[featuredIndex];
       const remaining = newestPool.filter(n => n.id !== featured.id);
+      const imgSrc = bestImage(featured.img, featured.title || 'Moroccansportshub');
+      const heroSummary = (featured.desc || '').trim();
+      const heroCopy = heroSummary.length > 260 ? `${heroSummary.slice(0, 257).trim()}...` : heroSummary;
+      const heroTag = localizeTagLabel(featured.tag) || (featured.region === 'morocco' ? homeLabel('morocco') : homeLabel('topStory'));
+      const heroSport = homeLabel(featured.sport || 'football');
+      const heroRegion = featured.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+      const heroTime = relativeTimeLabel(featured.time || featured.date || featured.pubDate || Date.now());
 
-      const imgSrc = featured.img && featured.img.trim() !== '' ? featured.img : 'https://via.placeholder.com/1200x675?text=Moroccansportshub';
       $('#center-intel').html(`
+        <div class="hero-kicker"><i class="fa-solid fa-bolt"></i><span>${heroTag}</span></div>
+        <div class="hero-meta">
+          <span class="hero-pill"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
+          <span class="hero-pill"><i class="fa-solid fa-layer-group"></i> ${heroSport}</span>
+          <span class="hero-pill"><i class="fa-solid fa-earth-africa"></i> ${heroRegion}</span>
+          <span class="hero-pill"><i class="fa-solid fa-clock"></i> ${heroTime}</span>
+        </div>
         <h1 onclick="openDetails(${featured.id})">${featured.title}</h1>
-        <img src="${imgSrc}" alt="${featured.title}" onclick="openDetails(${featured.id})" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://via.placeholder.com/1200x675?text=Moroccansportshub';">
-        <p style="color:var(--dim); line-height:1.6;">${(featured.desc || '').slice(0, 240)}...</p>
+        <div class="hero-media-wrap" onclick="openDetails(${featured.id})">
+          <img src="${imgSrc}" alt="${featured.title}" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
+          <div class="hero-floating-badges">
+            <span class="breaking-badge"><i class="fa-solid fa-bolt"></i> ${homeLabel('breaking')}</span>
+            <span class="trending-badge"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
+            <span class="ai-badge"><i class="fa-solid fa-brain"></i> ${homeLabel('aiPick')}</span>
+          </div>
+        </div>
+        <p class="feature-summary">${heroCopy || homeLabel('fallbackSummary')}</p>
+        <div class="feature-cta-row">
+          <button class="solid-btn" onclick="openDetails(${featured.id})">${homeLabel('readStory')}</button>
+          <div class="hero-meta">
+            <span class="hero-pill"><i class="fa-solid fa-clock"></i> ${homeLabel('updated')}</span>
+            <span class="hero-pill"><i class="fa-solid fa-chart-line"></i> ${homeLabel('livePulse')}</span>
+          </div>
+        </div>
+        <div class="hero-bottom-strip">
+          <div class="hero-stat"><strong>${homeLabel('focus')}</strong><span>${heroSport}</span></div>
+          <div class="hero-stat"><strong>${homeLabel('region')}</strong><span>${heroRegion}</span></div>
+          <div class="hero-stat"><strong>${homeLabel('status')}</strong><span>${homeLabel('livePulse')}</span></div>
+        </div>
       `);
-      $('#wire-left').html(remaining.slice(0, Math.min(9, remaining.length)).map(n => `<div class="side-item" onclick="openDetails(${n.id})"><h4>${n.title}</h4></div>`).join(''));
-      $('#wire-right').html(remaining.slice(9, Math.min(15, remaining.length)).map(n => `<div class="mini-card" onclick="openDetails(${n.id})"><span style="display:block; color:var(--cyan); font-size:.7rem; margin-bottom:8px; font-weight:800;">${n.tag}</span><h3>${n.title}</h3></div>`).join(''));
+
+      $('#wire-left').html(remaining.slice(0, Math.min(9, remaining.length)).map((n, i) => {
+        const badge = getNewsBadge(n, i);
+        return `
+        <div class="side-item" onclick="openDetails(${n.id})">
+          <div class="side-item-top">
+            <span class="side-rank">${i + 1}</span>
+            <div class="mini-card-tag"><i class="fa-solid ${badge.icon}"></i><span>${badge.text}</span></div>
+          </div>
+          <h4>${n.title}</h4>
+          <small>${n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global')} • ${homeLabel(n.sport || 'football')}</small>
+        </div>`;
+      }).join(''));
+
+      $('#wire-right').html(remaining.slice(9, Math.min(15, remaining.length)).map((n, i) => {
+        const badge = getNewsBadge(n, i + 1);
+        const summary = (n.desc || '').trim();
+        const copy = summary.length > 88 ? `${summary.slice(0, 85).trim()}...` : summary;
+        const image = bestImage(n.img, n.title || 'Moroccansportshub');
+        return `
+          <div class="mini-card" onclick="openDetails(${n.id})">
+            <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
+              <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:170px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
+            </div>
+            <span class="mini-card-tag"><i class="fa-solid ${badge.icon}"></i>${badge.text}</span>
+            <h3>${n.title}</h3>
+            <p>${copy || homeLabel('fallbackCard')}</p>
+            <div class="mini-card-meta">
+              <span class="mini-chip"><i class="fa-solid fa-layer-group"></i>${homeLabel(n.sport || 'football')}</span>
+              <span class="mini-chip"><i class="fa-solid fa-clock"></i>${relativeTimeLabel(n.time || n.date || n.pubDate || Date.now())}</span>
+            </div>
+          </div>
+        `;
+      }).join(''));
+    }
+
+
+function closeArticlePage() {
+      switchPage(lastRegularPage || 'home');
+    }
+
+    function openCurrentArticleSource() {
+      if (currentArticleLink) {
+        window.open(currentArticleLink, '_blank', 'noopener');
+      }
+    }
+
+    function buildArticleExtraCopy(n) {
+      const sportLabel = homeLabel(n.sport || 'football');
+      const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+      return {
+        why: `${n.title} is part of the current ${sportLabel.toLowerCase()} conversation in ${regionLabel.toLowerCase()}. This page gives readers a cleaner view of the story, the source, and the key context without opening a popup.`,
+        context: `Category: ${sportLabel}. Region: ${regionLabel}. Source access is available through the button above, while this page keeps the headline, image, and summary easier to read and share.`
+      };
     }
 
 function openDetails(id) {
       const n = masterPool[id];
       if (!n) return;
-      $('#m-title').text(n.title);
-      $('#m-body').text(n.desc || '');
-      $('#m-link').attr('href', n.link || '#');
-      syncReacts(n.title);
-      $('#news-modal').css('display', 'flex');
+
+      const image = bestImage(n.img, n.title || 'Moroccansportshub');
+      const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+      const sportLabel = homeLabel(n.sport || 'football');
+      const primaryBadge = localizeTagLabel(n.tag) || homeLabel('topStory');
+      const timeLabel = relativeTimeLabel(n.time || n.date || n.pubDate || Date.now());
+      const extra = buildArticleExtraCopy(n);
+
+      currentArticleLink = n.link || '';
+      $('#article-title').text(n.title || '');
+      $('#article-lead').text(n.desc || homeLabel('fallbackSummary'));
+      $('#article-body').text(n.desc || homeLabel('fallbackSummary'));
+      $('#article-why').text(extra.why);
+      $('#article-context').text(extra.context);
+
+      $('#article-meta').html(`
+        <span class="detail-chip"><i class="fa-solid fa-bolt"></i>${primaryBadge}</span>
+        <span class="detail-chip"><i class="fa-solid fa-layer-group"></i>${sportLabel}</span>
+        <span class="detail-chip"><i class="fa-solid fa-earth-africa"></i>${regionLabel}</span>
+        <span class="detail-chip"><i class="fa-solid fa-clock"></i>${timeLabel}</span>
+      `);
+
+      if (image) {
+        $('#article-image').attr('src', image).attr('alt', n.title || 'story image');
+        $('#article-hero').show();
+      } else {
+        $('#article-hero').hide();
+      }
+
+      if (currentArticleLink) {
+        $('#article-source-btn').show().text(t('readFull'));
+      } else {
+        $('#article-source-btn').hide();
+      }
+
+      switchPage('article');
     }
 
     async function syncReacts(title) {
@@ -3013,6 +4257,15 @@ function openDetails(id) {
       }
     }
 
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+
     function makeAiMove() {
       const moves = game.moves();
       if (!moves.length) return;
@@ -3022,8 +4275,18 @@ function openDetails(id) {
     }
 
     function openColorStudio() {
+      if (window.innerWidth < 768) return;
       loadCustomColorsIntoInputs();
-      $('#colors-modal').css('display', 'flex');
+      window.scrollTo({ top: 0, behavior: ('scrollBehavior' in document.documentElement.style) ? 'smooth' : 'auto' });
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      const modal = document.getElementById('colors-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+        const content = modal.querySelector('.modal-content');
+        if (content) content.scrollTop = 0;
+      }
     }
 
     function hexToRgba(hex, alpha) {
@@ -3035,17 +4298,15 @@ function openDetails(id) {
     }
 
     function applyCustomColors(colors) {
-      const root = document.documentElement;
-      const body = document.body;
-      const targets = [root.style, body.style];
-      targets.forEach(style => {
-        if (colors.bg) style.setProperty('--bg', colors.bg);
-        if (colors.bg2) style.setProperty('--bg2', colors.bg2);
-        if (colors.card) style.setProperty('--card', hexToRgba(colors.card, 0.08));
-        if (colors.text) style.setProperty('--text', colors.text);
-        if (colors.cyan) style.setProperty('--cyan', colors.cyan);
-        if (colors.red) style.setProperty('--red', colors.red);
-      });
+      const style = document.documentElement.style;
+      if (colors.bg) style.setProperty('--bg', colors.bg);
+      if (colors.bg2) style.setProperty('--bg2', colors.bg2);
+      if (colors.card) style.setProperty('--card', hexToRgba(colors.card, 0.08));
+      if (colors.text) style.setProperty('--text', colors.text);
+      if (colors.cyan) style.setProperty('--cyan', colors.cyan);
+      if (colors.red) style.setProperty('--red', colors.red);
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) themeMeta.setAttribute('content', colors.bg || (currentTheme === 'light' ? '#f5f8fb' : '#000000'));
     }
 
     function loadCustomColorsIntoInputs() {
@@ -3059,15 +4320,29 @@ function openDetails(id) {
     }
 
     function saveCustomColors() {
+      if (window.innerWidth < 768) return;
       const colors = { bg: $('#color-bg').val(), bg2: $('#color-bg2').val(), card: $('#color-card').val(), text: $('#color-text').val(), cyan: $('#color-cyan').val(), red: $('#color-red').val() };
       localStorage.setItem('msh_custom_colors', JSON.stringify(colors));
       applyCustomColors(colors);
-      $('#colors-modal').hide();
+      closeModal('colors-modal');
     }
 
     function resetCustomColors() {
       localStorage.removeItem('msh_custom_colors');
-      location.reload();
+      const root = document.documentElement.style;
+      root.setProperty('--bg', '#000000');
+      root.setProperty('--bg2', '#091015');
+      root.setProperty('--card', 'rgba(255,255,255,.05)');
+      root.setProperty('--text', '#ffffff');
+      root.setProperty('--cyan', '#00f2fe');
+      root.setProperty('--red', '#c1272d');
+      document.getElementById('color-bg').value = '#000000';
+      document.getElementById('color-bg2').value = '#091015';
+      document.getElementById('color-card').value = '#111111';
+      document.getElementById('color-text').value = '#ffffff';
+      document.getElementById('color-cyan').value = '#00f2fe';
+      document.getElementById('color-red').value = '#c1272d';
+      closeModal('colors-modal');
     }
 
 
@@ -3080,6 +4355,16 @@ function openDetails(id) {
       } else {
         panel.hide();
       }
+    }
+
+    function getAiQuickPrompt(kind) {
+      const map = {
+        morocco: t('aiPromptMorocco'),
+        global: t('aiPromptGlobal'),
+        tennis: t('aiPromptTennis'),
+        matches: t('aiPromptMatches')
+      };
+      return map[kind] || t('aiPromptGlobal');
     }
 
     function askAiQuick(text) {
@@ -3143,12 +4428,12 @@ function openDetails(id) {
     function buildWebsiteAnswerHtml(query) {
       const matches = getWebsiteMatches(query);
       if (!matches.length) return '';
-      let html = `<div style="margin-bottom:8px;"><strong>Found on the website:</strong></div>`;
+      let html = `<div style="margin-bottom:8px;"><strong>${currentLang === 'fr' ? 'Trouvé sur le site :' : currentLang === 'ar' ? 'موجود على الموقع:' : 'Found on the website:'}</strong></div>`;
       matches.forEach((x, i) => {
         html += `
           <div style="margin:10px 0; padding:10px; border:1px solid var(--border); border-radius:12px;">
             <div style="font-weight:700; margin-bottom:8px;">${i + 1}. ${escapeHtml(x.item.title)}</div>
-            <a href="${x.item.link}" target="_blank" class="solid-btn" style="display:inline-block; text-decoration:none;">Open source</a>
+            <a href="${x.item.link}" target="_blank" class="solid-btn" style="display:inline-block; text-decoration:none;">${currentLang === 'fr' ? 'Ouvrir la source' : currentLang === 'ar' ? 'فتح المصدر' : 'Open source'}</a>
           </div>
         `;
       });
@@ -3198,12 +4483,12 @@ function openDetails(id) {
         }
       }
 
-      appendAiMessage('bot', 'Thinking...');
+      appendAiMessage('bot', t('aiThinking'));
       try {
         const answer = await askBackendAI(text);
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
-        if (last && last.textContent === 'Thinking...') {
+        if (last && last.textContent === t('aiThinking')) {
           last.innerHTML = escapeHtml(answer).replace(/\n/g, '<br>');
         } else {
           appendAiMessage('bot', answer);
@@ -3211,8 +4496,8 @@ function openDetails(id) {
       } catch (err) {
         const msgs = document.querySelectorAll('#ai-messages .ai-msg.bot');
         const last = msgs[msgs.length - 1];
-        const fallback = 'I could not reach the AI backend right now. Please try again.';
-        if (last && last.textContent === 'Thinking...') {
+        const fallback = t('aiError');
+        if (last && last.textContent === t('aiThinking')) {
           last.textContent = fallback;
         } else {
           appendAiMessage('bot', fallback);
@@ -3251,8 +4536,42 @@ function loadMatchesWidget() {
       container.appendChild(script);
     }
 
+
+    const legalContent = {
+      about: {
+        title: 'About MoroccanSportsHub',
+        body: `MoroccanSportsHub is an independent sports platform focused on Moroccan football, major global sports stories, and community conversation.
+
+We aim to deliver fast headlines, readable summaries, match updates, and a fan-driven feed in one place.`
+      },
+      privacy: {
+        title: 'Privacy Policy',
+        body: `MoroccanSportsHub may store basic account information you provide during sign up, along with content you post, reactions you make, and technical data needed to keep the website working.
+
+We do not sell your personal information. If you contact us by email, we only use that communication to respond to your request or support issue.
+
+By using the site, you agree that publicly posted content and profile names can be shown inside the community feed.`
+      },
+      terms: {
+        title: 'Terms & Conditions',
+        body: `By using MoroccanSportsHub, you agree to use the platform responsibly.
+
+Do not post abusive, illegal, misleading, or harmful content. Admin moderation may remove posts or restrict accounts when needed to protect the community.
+
+All news links, summaries, and community content are provided for information purposes. External sources remain the property and responsibility of their original publishers.`
+      }
+    };
+
+    function openLegalModal(kind) {
+      const item = legalContent[kind] || legalContent.about;
+      $('#legal-title').text(item.title);
+      $('#legal-body').html(String(item.body).replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>'));
+      $('#legal-modal').css('display', 'flex');
+      document.body.style.overflow = 'hidden';
+    }
+
     $(document).on('click', '.modal', function(e) {
-      if (e.target === this) $(this).hide();
+      if (e.target === this) { $(this).hide(); document.body.style.overflow = ''; }
     });
 
     document.addEventListener('change', function(e) {
