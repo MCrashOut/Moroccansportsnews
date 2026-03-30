@@ -1263,6 +1263,53 @@
   "description": "Latest Moroccan football news, global sports updates, and AI-powered sports insights."
 }
 </script>
+
+  <style id="mobile-footer-fix">
+    @media (max-width: 640px) {
+      .site-footer {
+        margin: 22px 14px 18px !important;
+        padding: 18px 16px !important;
+        overflow: hidden;
+      }
+      .footer-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+      }
+      .footer-copy,
+      .footer-links a,
+      .footer-contact a,
+      .footer-contact span,
+      .footer-links span {
+        overflow-wrap: anywhere;
+      }
+      .footer-social {
+        justify-content: flex-start;
+      }
+      .footer-title,
+      .footer-brand {
+        margin-bottom: 8px;
+      }
+      .footer-links,
+      .footer-contact {
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-right {
+        display: flex;
+        align-items: center;
+      }
+      .header-right .notif-wrap {
+        order: 1;
+      }
+      .header-right .mobile-menu-btn {
+        order: 2;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <h1 style="display:none;">MoroccanSportsHub - Moroccan football news and global sports updates</h1>
@@ -1541,13 +1588,23 @@
       <div>
         <div class="footer-title">More</div>
         <div class="footer-links">
-          <span class="footer-copy">About: Independent coverage focused on Moroccan football, major global sports stories, and fan conversation.</span>
-          <span>Privacy Policy and Terms pages can be added next as dedicated pages.</span>
+          <a href="#" onclick="openLegalModal('about'); return false;">About</a>
+          <a href="#" onclick="openLegalModal('privacy'); return false;">Privacy Policy</a>
+          <a href="#" onclick="openLegalModal('terms'); return false;">Terms &amp; Conditions</a>
         </div>
       </div>
     </div>
   </footer>
 
+
+
+  <div id="legal-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('legal-modal')">&times;</span>
+      <h2 id="legal-title" style="color:var(--cyan); margin-bottom:14px;">About</h2>
+      <div id="legal-body" class="detail-summary" style="text-align:left;"></div>
+    </div>
+  </div>
 
   <div id="post-modal" class="modal">
     <div class="modal-content">
@@ -2864,7 +2921,10 @@
       if (feedListener) feedListener();
 
       feedListener = db.collection('posts').onSnapshot(async snapshot => {
-        const container = $('#feed-container').empty();
+        const container = $('#feed-container');
+        const previousHeight = container.outerHeight();
+        if (previousHeight) container.css('min-height', `${previousHeight}px`);
+
         let posts = [];
         snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
 
@@ -2893,6 +2953,8 @@
           posts = feedStableOrder.map(id => byId.get(id)).filter(Boolean);
         }
 
+        let feedHtml = '';
+
         for (const post of posts) {
           const admin = isAdmin();
           const owner = auth.currentUser && auth.currentUser.uid === post.userId;
@@ -2907,7 +2969,7 @@
           const postUserData = userDoc.exists ? userDoc.data() : {};
           const bannedUser = !!postUserData.banned;
 
-          container.append(`
+          feedHtml += `
             <div class="post-card ${post.pinned ? 'pinned' : ''}" data-post="${post.id}">
               ${(admin || owner) ? `
                 <div class="admin-controls">
@@ -2937,7 +2999,20 @@
                 <button class="share-btn" onclick="sharePost('${post.id}')"><i class="fa-solid fa-share-nodes"></i> ${t('share')}</button>
               </div>
             </div>
-          `);
+          `;
+        }
+
+        container.html(feedHtml);
+        container.css('min-height', '');
+
+        if (feedAnchorPostId) {
+          const anchorEl = document.querySelector(`[data-post="${feedAnchorPostId}"]`);
+          if (anchorEl && Number.isFinite(feedAnchorTop)) {
+            const nextTop = anchorEl.getBoundingClientRect().top;
+            window.scrollBy(0, nextTop - feedAnchorTop);
+          }
+          feedAnchorPostId = null;
+          feedAnchorTop = null;
         }
 
         openPostFromUrlIfAny();
@@ -4021,6 +4096,40 @@ function loadMatchesWidget() {
       script.type = 'module';
       script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
       container.appendChild(script);
+    }
+
+
+    const legalContent = {
+      about: {
+        title: 'About MoroccanSportsHub',
+        body: `MoroccanSportsHub is an independent sports platform focused on Moroccan football, major global sports stories, and community conversation.
+
+We aim to deliver fast headlines, readable summaries, match updates, and a fan-driven feed in one place.`
+      },
+      privacy: {
+        title: 'Privacy Policy',
+        body: `MoroccanSportsHub may store basic account information you provide during sign up, along with content you post, reactions you make, and technical data needed to keep the website working.
+
+We do not sell your personal information. If you contact us by email, we only use that communication to respond to your request or support issue.
+
+By using the site, you agree that publicly posted content and profile names can be shown inside the community feed.`
+      },
+      terms: {
+        title: 'Terms & Conditions',
+        body: `By using MoroccanSportsHub, you agree to use the platform responsibly.
+
+Do not post abusive, illegal, misleading, or harmful content. Admin moderation may remove posts or restrict accounts when needed to protect the community.
+
+All news links, summaries, and community content are provided for information purposes. External sources remain the property and responsibility of their original publishers.`
+      }
+    };
+
+    function openLegalModal(kind) {
+      const item = legalContent[kind] || legalContent.about;
+      $('#legal-title').text(item.title);
+      $('#legal-body').html(String(item.body).replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>'));
+      $('#legal-modal').css('display', 'flex');
+      document.body.style.overflow = 'hidden';
     }
 
     $(document).on('click', '.modal', function(e) {
