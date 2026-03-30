@@ -1619,6 +1619,64 @@
 
   </style>
 
+
+  <style id="final-home-mobile-fix">
+    @media (max-width: 640px) {
+      .home-bottom-section {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        margin-top: 20px !important;
+      }
+      .home-bottom-card {
+        width: 100% !important;
+        padding: 16px !important;
+        overflow: hidden !important;
+      }
+      .home-quick-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+      }
+      .home-quick-btn {
+        display: block !important;
+        width: 100% !important;
+        padding: 14px !important;
+        min-height: auto !important;
+      }
+      .home-quick-btn strong,
+      .home-quick-btn span {
+        display: block !important;
+        width: 100% !important;
+        white-space: normal !important;
+      }
+      .home-quick-btn strong {
+        font-size: 1rem !important;
+        margin-bottom: 8px !important;
+        line-height: 1.35 !important;
+      }
+      .home-quick-btn span {
+        font-size: .9rem !important;
+        line-height: 1.6 !important;
+      }
+      .home-mini-row {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+      }
+      .home-mini-row strong,
+      .home-mini-row span {
+        width: 100% !important;
+        white-space: normal !important;
+      }
+      .article-back-row {
+        gap: 8px !important;
+      }
+      .article-title {
+        font-size: 2.1rem !important;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <h1 style="display:none;">MoroccanSportsHub - Moroccan football news and global sports updates</h1>
@@ -1795,33 +1853,33 @@
 
       <div class="home-bottom-section">
         <div class="home-bottom-card">
-          <h3>Explore the Hub</h3>
+          <h3 id="home-explore-title">Explore the Hub</h3>
           <div class="home-quick-grid">
             <button class="home-quick-btn" onclick="switchPage('morocco')">
-              <strong>Moroccan News</strong>
-              <span>Botola, national teams, Moroccan stars, and daily local coverage.</span>
+              <strong id="home-quick-morocco-title">Moroccan News</strong>
+              <span id="home-quick-morocco-desc">Botola, national teams, Moroccan stars, and daily local coverage.</span>
             </button>
             <button class="home-quick-btn" onclick="switchPage('global')">
-              <strong>Global Stories</strong>
-              <span>Big football stories, world headlines, and major sports updates.</span>
+              <strong id="home-quick-global-title">Global Stories</strong>
+              <span id="home-quick-global-desc">Big football stories, world headlines, and major sports updates.</span>
             </button>
             <button class="home-quick-btn" onclick="switchPage('feed')">
-              <strong>Community Feed</strong>
-              <span>Check the latest fan posts, reactions, and pinned discussions.</span>
+              <strong id="home-quick-feed-title">Community Feed</strong>
+              <span id="home-quick-feed-desc">Check the latest fan posts, reactions, and pinned discussions.</span>
             </button>
             <button class="home-quick-btn" onclick="switchPage('matches')">
-              <strong>Matches</strong>
-              <span>Quick access to live fixtures, scores, and football widgets.</span>
+              <strong id="home-quick-matches-title">Matches</strong>
+              <span id="home-quick-matches-desc">Quick access to live fixtures, scores, and football widgets.</span>
             </button>
           </div>
         </div>
         <div class="home-bottom-card">
-          <h3>Why MoroccanSportsHub</h3>
+          <h3 id="home-why-title">Why MoroccanSportsHub</h3>
           <div class="home-mini-list">
-            <div class="home-mini-row"><strong>Fast Coverage</strong><span>Moroccan + global sports in one homepage.</span></div>
-            <div class="home-mini-row"><strong>Community Layer</strong><span>Fans can react, post, and help surface top stories.</span></div>
-            <div class="home-mini-row"><strong>AI Support</strong><span>Ask the assistant for quick sports answers anytime.</span></div>
-            <div class="home-mini-row" style="border-bottom:none;"><strong>Clean Navigation</strong><span>Jump straight into news, matches, chess, or the feed.</span></div>
+            <div class="home-mini-row"><strong id="home-why-1-title">Fast Coverage</strong><span id="home-why-1-desc">Moroccan + global sports in one homepage.</span></div>
+            <div class="home-mini-row"><strong id="home-why-2-title">Community Layer</strong><span id="home-why-2-desc">Fans can react, post, and help surface top stories.</span></div>
+            <div class="home-mini-row"><strong id="home-why-3-title">AI Support</strong><span id="home-why-3-desc">Ask the assistant for quick sports answers anytime.</span></div>
+            <div class="home-mini-row" style="border-bottom:none;"><strong id="home-why-4-title">Clean Navigation</strong><span id="home-why-4-desc">Jump straight into news, matches, chess, or the feed.</span></div>
           </div>
         </div>
       </div>
@@ -1832,7 +1890,7 @@
     <section id="article-page" class="page">
       <div class="article-shell">
         <div class="article-back-row">
-          <button class="ghost-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button class="ghost-btn" id="article-back-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
           <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
         </div>
         <div class="detail-top-meta" id="article-meta"></div>
@@ -1846,11 +1904,11 @@
         </div>
         <div class="article-side-grid">
           <div class="article-info-box">
-            <h3>Why it matters</h3>
+            <h3 id="article-why-label">Why it matters</h3>
             <p id="article-why"></p>
           </div>
           <div class="article-info-box">
-            <h3>Quick context</h3>
+            <h3 id="article-context-label">Quick context</h3>
             <p id="article-context"></p>
           </div>
         </div>
@@ -2174,7 +2232,31 @@
         moroccoEsportDesc: 'Moroccan esports and gaming stories in one dedicated page.',
         filterAll: 'All',
         aiThinking: 'Thinking...',
-        aiError: 'I could not reach the AI backend right now. Please try again.'
+        aiError: 'I could not reach the AI backend right now. Please try again.',
+        feedLatest: 'Latest',
+        feedTop: 'Top',
+        feedPinned: 'Pinned',
+        homeExploreTitle: 'Explore the Hub',
+        homeQuickMoroccoTitle: 'Moroccan News',
+        homeQuickMoroccoDesc: 'Botola, national teams, Moroccan stars, and daily local coverage.',
+        homeQuickGlobalTitle: 'Global Stories',
+        homeQuickGlobalDesc: 'Big football stories, world headlines, and major sports updates.',
+        homeQuickFeedTitle: 'Community Feed',
+        homeQuickFeedDesc: 'Check the latest fan posts, reactions, and pinned discussions.',
+        homeQuickMatchesTitle: 'Matches',
+        homeQuickMatchesDesc: 'Quick access to live fixtures, scores, and football widgets.',
+        homeWhyTitle: 'Why MoroccanSportsHub',
+        homeWhy1Title: 'Fast Coverage',
+        homeWhy1Desc: 'Moroccan + global sports in one homepage.',
+        homeWhy2Title: 'Community Layer',
+        homeWhy2Desc: 'Fans can react, post, and help surface top stories.',
+        homeWhy3Title: 'AI Support',
+        homeWhy3Desc: 'Ask the assistant for quick sports answers anytime.',
+        homeWhy4Title: 'Clean Navigation',
+        homeWhy4Desc: 'Jump straight into news, matches, chess, or the feed.',
+        articleBack: 'Back',
+        articleWhyLabel: 'Why it matters',
+        articleContextLabel: 'Quick context'
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -2260,7 +2342,31 @@
         moroccoEsportDesc: 'Actualités marocaines de l’esport et du gaming.',
         filterAll: 'Tout',
         aiThinking: 'Réflexion...',
-        aiError: 'Je ne peux pas joindre l’IA pour le moment. Réessayez.'
+        aiError: 'Je ne peux pas joindre l’IA pour le moment. Réessayez.',
+        feedLatest: 'Derniers',
+        feedTop: 'Top',
+        feedPinned: 'Épinglés',
+        homeExploreTitle: 'Explorer le Hub',
+        homeQuickMoroccoTitle: 'Actualités marocaines',
+        homeQuickMoroccoDesc: 'Botola, équipes nationales, stars marocaines et couverture locale quotidienne.',
+        homeQuickGlobalTitle: 'Grandes histoires mondiales',
+        homeQuickGlobalDesc: 'Grandes histoires football, titres mondiaux et mises à jour sportives majeures.',
+        homeQuickFeedTitle: 'Fil communautaire',
+        homeQuickFeedDesc: 'Consultez les derniers posts, réactions et discussions épinglées.',
+        homeQuickMatchesTitle: 'Matchs',
+        homeQuickMatchesDesc: 'Accès rapide aux rencontres en direct, scores et widgets football.',
+        homeWhyTitle: 'Pourquoi MoroccanSportsHub',
+        homeWhy1Title: 'Couverture rapide',
+        homeWhy1Desc: 'Sport marocain et mondial réunis sur une seule page.',
+        homeWhy2Title: 'Couche communauté',
+        homeWhy2Desc: 'Les fans peuvent réagir, publier et faire remonter les meilleures histoires.',
+        homeWhy3Title: 'Support IA',
+        homeWhy3Desc: 'Demandez rapidement des réponses sportives à l’assistant.',
+        homeWhy4Title: 'Navigation claire',
+        homeWhy4Desc: 'Accédez directement aux news, matchs, échecs ou au fil.',
+        articleBack: 'Retour',
+        articleWhyLabel: 'Pourquoi c’est important',
+        articleContextLabel: 'Contexte rapide'
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -2564,6 +2670,30 @@
       $('#ai-quick-tennis').text(t('aiQuickTennis'));
       $('#ai-quick-matches').text(t('aiQuickMatches'));
       $('#ai-send-btn').text(t('aiSend'));
+      $('#feed-tab-latest').text(t('feedLatest'));
+      $('#feed-tab-top').text(t('feedTop'));
+      $('#feed-tab-pinned').text(t('feedPinned'));
+      $('#home-explore-title').text(t('homeExploreTitle'));
+      $('#home-quick-morocco-title').text(t('homeQuickMoroccoTitle'));
+      $('#home-quick-morocco-desc').text(t('homeQuickMoroccoDesc'));
+      $('#home-quick-global-title').text(t('homeQuickGlobalTitle'));
+      $('#home-quick-global-desc').text(t('homeQuickGlobalDesc'));
+      $('#home-quick-feed-title').text(t('homeQuickFeedTitle'));
+      $('#home-quick-feed-desc').text(t('homeQuickFeedDesc'));
+      $('#home-quick-matches-title').text(t('homeQuickMatchesTitle'));
+      $('#home-quick-matches-desc').text(t('homeQuickMatchesDesc'));
+      $('#home-why-title').text(t('homeWhyTitle'));
+      $('#home-why-1-title').text(t('homeWhy1Title'));
+      $('#home-why-1-desc').text(t('homeWhy1Desc'));
+      $('#home-why-2-title').text(t('homeWhy2Title'));
+      $('#home-why-2-desc').text(t('homeWhy2Desc'));
+      $('#home-why-3-title').text(t('homeWhy3Title'));
+      $('#home-why-3-desc').text(t('homeWhy3Desc'));
+      $('#home-why-4-title').text(t('homeWhy4Title'));
+      $('#home-why-4-desc').text(t('homeWhy4Desc'));
+      $('#article-back-btn').html(`<i class="fa-solid fa-arrow-left"></i> ${t('articleBack')}`);
+      $('#article-why-label').text(t('articleWhyLabel'));
+      $('#article-context-label').text(t('articleContextLabel'));
       $('#ai-quick-morocco').attr('onclick', "askAiQuick(getAiQuickPrompt('morocco'))");
       $('#ai-quick-global').attr('onclick', "askAiQuick(getAiQuickPrompt('global'))");
       $('#ai-quick-tennis').attr('onclick', "askAiQuick(getAiQuickPrompt('tennis'))");
@@ -4139,9 +4269,24 @@ function closeArticlePage() {
     function buildArticleExtraCopy(n) {
       const sportLabel = homeLabel(n.sport || 'football');
       const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
+      const title = String(n.title || '').toLowerCase();
+
+      let why = '';
+      if (title.includes('transfer') || title.includes('sign') || title.includes('deal')) {
+        why = `This could influence squad planning, transfer strategy, or the next big decision in ${sportLabel.toLowerCase()}.`;
+      } else if (title.includes('injury') || title.includes('absence') || title.includes('out')) {
+        why = `This update may affect selection choices, preparation, and upcoming matches in ${sportLabel.toLowerCase()}.`;
+      } else if (title.includes('win') || title.includes('title') || title.includes('champion')) {
+        why = `This result can shift momentum, confidence, and the wider conversation around ${sportLabel.toLowerCase()}.`;
+      } else if (title.includes('coach') || title.includes('manager') || title.includes('boss')) {
+        why = `This matters because coaching changes often shape tactics, player roles, and the direction of the team.`;
+      } else {
+        why = `A relevant update in ${sportLabel.toLowerCase()} that fans following ${regionLabel.toLowerCase()} stories will want to keep an eye on.`;
+      }
+
       return {
-        why: `${n.title} is part of the current ${sportLabel.toLowerCase()} conversation in ${regionLabel.toLowerCase()}. This page gives readers a cleaner view of the story, the source, and the key context without opening a popup.`,
-        context: `Category: ${sportLabel}. Region: ${regionLabel}. Source access is available through the button above, while this page keeps the headline, image, and summary easier to read and share.`
+        why,
+        context: `${sportLabel} • ${regionLabel} • ${relativeTimeLabel(n.time || n.date || n.pubDate || Date.now())}`
       };
     }
 
