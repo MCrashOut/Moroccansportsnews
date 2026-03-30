@@ -2160,22 +2160,22 @@
     <section id="home-page" class="page active">
       <div id="search-results-area" style="display:none; margin-bottom:22px;"><div class="news-grid" id="search-output-grid"></div></div>
 
-      <div class="home-stats-strip" aria-label="Platform highlights">
+      <div class="home-stats-strip" id="home-stats-strip" aria-label="Platform highlights">
         <div class="home-stat-card">
-          <strong>24/7</strong>
-          <span>Always-on Moroccan and global sports coverage.</span>
+          <strong id="home-stat-1-title">24/7</strong>
+          <span id="home-stat-1-desc">Always-on Moroccan and global sports coverage.</span>
         </div>
         <div class="home-stat-card">
-          <strong>3 Languages</strong>
-          <span>English, French, and Arabic-ready navigation.</span>
+          <strong id="home-stat-2-title">3 Languages</strong>
+          <span id="home-stat-2-desc">English, French, and Arabic-ready navigation.</span>
         </div>
         <div class="home-stat-card">
-          <strong>Live Hub</strong>
-          <span>Match widgets, breaking ticker, and daily updates.</span>
+          <strong id="home-stat-3-title">Live Hub</strong>
+          <span id="home-stat-3-desc">Match widgets, breaking ticker, and daily updates.</span>
         </div>
         <div class="home-stat-card">
-          <strong>Fan Layer</strong>
-          <span>Community feed, reactions, and AI-powered discovery.</span>
+          <strong id="home-stat-4-title">Fan Layer</strong>
+          <span id="home-stat-4-desc">Community feed, reactions, and AI-powered discovery.</span>
         </div>
       </div>
 
@@ -2221,12 +2221,12 @@
 
       <div class="home-growth-cta">
         <div class="home-growth-copy">
-          <h3>Turn casual visitors into regular fans</h3>
-          <p>Push your strongest stories through alerts, featured coverage, and community conversations. This area can later connect to email capture, premium alerts, or a breaking-news membership flow.</p>
+          <h3 id="home-growth-title">Turn casual visitors into regular fans</h3>
+          <p id="home-growth-desc">Push your strongest stories through alerts, featured coverage, and community conversations. This area can later connect to email capture, premium alerts, or a breaking-news membership flow.</p>
         </div>
         <div class="home-growth-actions">
-          <button class="solid-btn" onclick="toggleNotifs()">View Alerts</button>
-          <button class="ghost-btn" onclick="switchPage('feed')">Open community</button>
+          <button class="solid-btn" id="home-growth-alerts-btn" onclick="toggleNotifs()">View Alerts</button>
+          <button class="ghost-btn" id="home-growth-community-btn" onclick="switchPage('feed')">Open community</button>
         </div>
       </div>
 
@@ -2261,30 +2261,30 @@
 
         <div class="article-engagement-grid">
           <div class="article-engagement-card">
-            <h3 class="article-section-title">Fan reactions</h3>
+            <h3 class="article-section-title" id="article-reactions-title">Fan reactions</h3>
             <div class="article-reaction-grid">
               <button class="article-react-btn" id="article-react-like" onclick="reactToArticle('like')">
                 <strong>👍 <span id="article-react-like-count">0</span></strong>
-                <span>Like this story</span>
+                <span id="article-react-like-label">Like this story</span>
               </button>
               <button class="article-react-btn" id="article-react-fire" onclick="reactToArticle('fire')">
                 <strong>🔥 <span id="article-react-fire-count">0</span></strong>
-                <span>Big moment</span>
+                <span id="article-react-fire-label">Big moment</span>
               </button>
               <button class="article-react-btn" id="article-react-clap" onclick="reactToArticle('clap')">
                 <strong>👏 <span id="article-react-clap-count">0</span></strong>
-                <span>Strong performance</span>
+                <span id="article-react-clap-label">Strong performance</span>
               </button>
             </div>
           </div>
 
           <div class="article-engagement-card">
-            <h3 class="article-section-title">Comments</h3>
+            <h3 class="article-section-title" id="article-comments-title">Comments</h3>
             <div class="article-comment-compose">
               <textarea id="article-comment-input" placeholder="Share your reaction to this story..."></textarea>
               <div class="article-comment-actions">
-                <span class="article-comment-note">Join the conversation around this article.</span>
-                <button class="solid-btn" onclick="postArticleComment()">Post Comment</button>
+                <span class="article-comment-note" id="article-comment-note">Join the conversation around this article.</span>
+                <button class="solid-btn" id="article-comment-submit-btn" onclick="postArticleComment()">Post Comment</button>
               </div>
             </div>
             <div class="article-comments-list" id="article-comments-list"></div>
@@ -2950,7 +2950,28 @@
         noNewsFootball: 'Football news unavailable right now.',
         noNewsBasketball: 'Basketball news unavailable right now.',
         noNewsTennis: 'Tennis news unavailable right now.',
-        noNewsEsports: 'Esport news unavailable right now.'
+        noNewsEsports: 'Esport news unavailable right now.',
+        homeStat1Title: '24/7',
+        homeStat1Desc: 'Always-on Moroccan and global sports coverage.',
+        homeStat2Title: '3 Languages',
+        homeStat2Desc: 'English, French, and Arabic-ready navigation.',
+        homeStat3Title: 'Live Hub',
+        homeStat3Desc: 'Match widgets, breaking ticker, and daily updates.',
+        homeStat4Title: 'Fan Layer',
+        homeStat4Desc: 'Community feed, reactions, and AI-powered discovery.',
+        homeGrowthTitle: 'Turn casual visitors into regular fans',
+        homeGrowthDesc: 'Push your strongest stories through alerts, featured coverage, and community conversations. This area can later connect to email capture, premium alerts, or a breaking-news membership flow.',
+        homeGrowthAlertsBtn: 'View Alerts',
+        homeGrowthCommunityBtn: 'Open community',
+        articleReactionsTitle: 'Fan reactions',
+        articleReactLikeLabel: 'Like this story',
+        articleReactFireLabel: 'Big moment',
+        articleReactClapLabel: 'Strong performance',
+        articleCommentsTitle: 'Comments',
+        articleCommentPlaceholder: 'Share your reaction to this story...',
+        articleCommentNote: 'Join the conversation around this article.',
+        articleCommentSubmit: 'Post Comment',
+        articleCommentsEmpty: 'No comments yet. Be the first fan to react.'
       },
       fr: {
         aiTitle: 'IA Sport',
@@ -2983,7 +3004,28 @@
         noNewsFootball: 'Actualités football indisponibles pour le moment.',
         noNewsBasketball: 'Actualités basket indisponibles pour le moment.',
         noNewsTennis: 'Actualités tennis indisponibles pour le moment.',
-        noNewsEsports: 'Actualités esport indisponibles pour le moment.'
+        noNewsEsports: 'Actualités esport indisponibles pour le moment.',
+        homeStat1Title: '24/7',
+        homeStat1Desc: 'Couverture continue du sport marocain et mondial.',
+        homeStat2Title: '3 langues',
+        homeStat2Desc: 'Navigation prête pour l’anglais, le français et l’arabe.',
+        homeStat3Title: 'Hub Live',
+        homeStat3Desc: 'Widgets de matchs, bandeau urgent et mises à jour quotidiennes.',
+        homeStat4Title: 'Couche fans',
+        homeStat4Desc: 'Fil communautaire, réactions et découverte assistée par IA.',
+        homeGrowthTitle: 'Transformez les visiteurs occasionnels en fans réguliers',
+        homeGrowthDesc: 'Mettez vos meilleures histoires en avant via les alertes, la une et les conversations de la communauté. Cette zone pourra ensuite se connecter à la collecte d’e-mails, aux alertes premium ou à une formule d’adhésion breaking news.',
+        homeGrowthAlertsBtn: 'Voir les alertes',
+        homeGrowthCommunityBtn: 'Ouvrir la communauté',
+        articleReactionsTitle: 'Réactions des fans',
+        articleReactLikeLabel: 'Aimer cette actu',
+        articleReactFireLabel: 'Grand moment',
+        articleReactClapLabel: 'Belle performance',
+        articleCommentsTitle: 'Commentaires',
+        articleCommentPlaceholder: 'Partagez votre réaction à cette actu...',
+        articleCommentNote: 'Rejoignez la conversation autour de cet article.',
+        articleCommentSubmit: 'Publier',
+        articleCommentsEmpty: 'Aucun commentaire pour le moment. Soyez le premier fan à réagir.'
       },
       ar: {
         aiTitle: 'الذكاء الرياضي',
@@ -3016,7 +3058,28 @@
         noNewsFootball: 'أخبار كرة القدم غير متوفرة حالياً.',
         noNewsBasketball: 'أخبار كرة السلة غير متوفرة حالياً.',
         noNewsTennis: 'أخبار التنس غير متوفرة حالياً.',
-        noNewsEsports: 'أخبار الرياضات الإلكترونية غير متوفرة حالياً.'
+        noNewsEsports: 'أخبار الرياضات الإلكترونية غير متوفرة حالياً.',
+        homeStat1Title: '24/7',
+        homeStat1Desc: 'تغطية مستمرة للرياضة المغربية والعالمية.',
+        homeStat2Title: '3 لغات',
+        homeStat2Desc: 'تنقل جاهز بالإنجليزية والفرنسية والعربية.',
+        homeStat3Title: 'مركز مباشر',
+        homeStat3Desc: 'ويدجت المباريات والشريط العاجل وتحديثات يومية.',
+        homeStat4Title: 'طبقة الجماهير',
+        homeStat4Desc: 'منشورات المجتمع والتفاعلات واكتشاف مدعوم بالذكاء الاصطناعي.',
+        homeGrowthTitle: 'حوّل الزوار العابرين إلى جماهير دائمة',
+        homeGrowthDesc: 'ادفع أقوى قصصك عبر التنبيهات والتغطية المميزة ومحادثات المجتمع. ويمكن لهذا القسم لاحقاً أن يتصل بجمع البريد الإلكتروني أو التنبيهات المدفوعة أو عضوية الأخبار العاجلة.',
+        homeGrowthAlertsBtn: 'عرض التنبيهات',
+        homeGrowthCommunityBtn: 'فتح المجتمع',
+        articleReactionsTitle: 'تفاعلات الجماهير',
+        articleReactLikeLabel: 'أعجبني هذا الخبر',
+        articleReactFireLabel: 'لحظة كبيرة',
+        articleReactClapLabel: 'أداء قوي',
+        articleCommentsTitle: 'التعليقات',
+        articleCommentPlaceholder: 'شارك رأيك حول هذا الخبر...',
+        articleCommentNote: 'انضم إلى النقاش حول هذا المقال.',
+        articleCommentSubmit: 'نشر التعليق',
+        articleCommentsEmpty: 'لا توجد تعليقات بعد. كن أول مشجع يتفاعل.'
       }
     };
 
@@ -3153,9 +3216,31 @@
       $('#home-why-3-desc').text(t('homeWhy3Desc'));
       $('#home-why-4-title').text(t('homeWhy4Title'));
       $('#home-why-4-desc').text(t('homeWhy4Desc'));
+      $('#home-stats-strip').attr('aria-label', currentLang === 'fr' ? 'Points forts de la plateforme' : currentLang === 'ar' ? 'أبرز مميزات المنصة' : 'Platform highlights');
+      $('#home-stat-1-title').text(t('homeStat1Title'));
+      $('#home-stat-1-desc').text(t('homeStat1Desc'));
+      $('#home-stat-2-title').text(t('homeStat2Title'));
+      $('#home-stat-2-desc').text(t('homeStat2Desc'));
+      $('#home-stat-3-title').text(t('homeStat3Title'));
+      $('#home-stat-3-desc').text(t('homeStat3Desc'));
+      $('#home-stat-4-title').text(t('homeStat4Title'));
+      $('#home-stat-4-desc').text(t('homeStat4Desc'));
+      $('#home-growth-title').text(t('homeGrowthTitle'));
+      $('#home-growth-desc').text(t('homeGrowthDesc'));
+      $('#home-growth-alerts-btn').text(t('homeGrowthAlertsBtn'));
+      $('#home-growth-community-btn').text(t('homeGrowthCommunityBtn'));
       $('#article-back-btn').html(`<i class="fa-solid fa-arrow-left"></i> ${t('articleBack')}`);
       $('#article-why-label').text(t('articleWhyLabel'));
       $('#article-context-label').text(t('articleContextLabel'));
+      $('#article-reactions-title').text(t('articleReactionsTitle'));
+      $('#article-react-like-label').text(t('articleReactLikeLabel'));
+      $('#article-react-fire-label').text(t('articleReactFireLabel'));
+      $('#article-react-clap-label').text(t('articleReactClapLabel'));
+      $('#article-comments-title').text(t('articleCommentsTitle'));
+      $('#article-comment-input').attr('placeholder', t('articleCommentPlaceholder'));
+      $('#article-comment-note').text(t('articleCommentNote'));
+      $('#article-comment-submit-btn').text(t('articleCommentSubmit'));
+      $('#article-comments-empty').text(t('articleCommentsEmpty'));
       $('#footer-brand').text(t('footerBrand'));
       $('#footer-copy').text(t('footerCopy'));
       $('#footer-contact-title').text(t('footerContactTitle'));
