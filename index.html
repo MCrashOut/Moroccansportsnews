@@ -3,21 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MoroccanSportsHub | Latest Moroccan Football & Global Sports News</title>
+  <title>Moroccansportshub</title>
   <!-- avatar-fix-v3: strict unsigned Cloudinary upload -->
 
-  <meta name="description" content="MoroccanSportsHub brings the latest Moroccan football news, global sports updates, match stories, and AI-powered sports insights." />
+  <meta name="description" content="Moroccansportshub - Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
   <link rel="canonical" href="https://moroccansportshub.com/" />
-  <meta property="og:title" content="MoroccanSportsHub | Latest Moroccan Football & Global Sports News" />
+  <meta property="og:title" content="Moroccansportshub" />
   <meta property="og:description" content="Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MoroccanSportsHub | Latest Moroccan Football & Global Sports News" />
-  <meta name="twitter:description" content="Latest Moroccan football news, global sports updates, and AI-powered insights." />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta name="keywords" content="MoroccanSportsHub, Moroccan sports news, Morocco football, Botola, Moroccan football news, global sports news" />
-  <meta property="og:site_name" content="MoroccanSportsHub" />
-  <meta property="og:url" content="https://moroccansportshub.com/" />
+  <meta name="twitter:title" content="Moroccansportshub" />
+  <meta name="twitter:description" content="Latest Moroccan and global sports news and AI insights." />
 
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#000000" />
@@ -899,13 +895,6 @@
     .color-grid input[type="color"] { width:100%; height:44px; border:none; background:transparent; padding:0; }
     @media (max-width:640px){ .color-grid { grid-template-columns:1fr; } }
 
-    @media (max-width: 767px) {
-      #desktop-color-btn,
-      .drawer-color-btn {
-        display: none !important;
-      }
-    }
-
     .ai-fab {
       position: fixed;
       right: 18px;
@@ -1059,7 +1048,7 @@
       gap: 30px;
       white-space: nowrap;
       padding-left: 22px;
-      animation: tickerMove 42s linear infinite;
+      animation: tickerMove 28s linear infinite;
       will-change: transform;
     }
     .ticker-item {
@@ -1190,8 +1179,6 @@
       .breaking-ticker { margin-bottom: -40px; }
     }
     @media (max-width: 640px) {
-      .site-footer { margin: 22px 14px 18px; padding: 18px 16px; }
-      .footer-grid { grid-template-columns: 1fr; }
       .breaking-ticker {
         margin: 66px 14px -34px;
       }
@@ -1207,7 +1194,7 @@
         padding-bottom: 10px;
       }
       .ticker-scroll {
-        animation-duration: 34s;
+        animation-duration: 20s;
         padding-left: 14px;
       }
       .detail-summary {
@@ -1226,503 +1213,95 @@
     }
 
   
-    .site-footer {
-      margin: 28px 5% 24px;
+    .home-desktop-fill {
+      margin-top: 22px;
       border: 1px solid var(--border);
       border-radius: 24px;
+      padding: 18px;
       background: var(--card);
       box-shadow: 0 14px 32px var(--shadow);
-      padding: 22px 20px;
     }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr .9fr;
-      gap: 18px;
-      align-items: start;
-    }
-    .footer-brand { color: var(--cyan); font-weight: 800; margin-bottom: 8px; letter-spacing: -.02em; }
-    .footer-copy { color: var(--dim); line-height: 1.7; font-size: .88rem; }
-    .footer-title { color: var(--text); font-size: .82rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
-    .footer-links, .footer-contact { display: flex; flex-direction: column; gap: 10px; }
-    .footer-links a, .footer-contact a, .footer-contact span { color: var(--dim); font-size: .86rem; line-height: 1.5; }
-    .footer-links a:hover, .footer-contact a:hover { color: var(--cyan); }
-    .footer-social { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-    .footer-social a {
-      width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--border);
-      display: inline-flex; align-items: center; justify-content: center; color: var(--text); background: rgba(255,255,255,.03);
-    }
-    .footer-social a:hover { color: var(--cyan); border-color: rgba(0,242,254,.35); }
-
-  
-    .home-bottom-section {
-      margin-top: 28px;
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 20px;
-      align-items: start;
-    }
-    .home-bottom-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: 0 14px 32px var(--shadow);
-      backdrop-filter: blur(14px);
-    }
-    .home-bottom-card h3 {
-      color: var(--cyan);
-      font-size: 1rem;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-    .home-quick-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .home-quick-btn {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      padding: 16px;
-      text-align: left;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .home-quick-btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0,242,254,.28);
-      background: rgba(0,242,254,.05);
-    }
-    .home-quick-btn strong {
-      display: block;
-      color: var(--text);
-      margin-bottom: 6px;
-      font-size: .92rem;
-    }
-    .home-quick-btn span {
-      display: block;
-      color: var(--dim);
-      font-size: .8rem;
-      line-height: 1.55;
-    }
-    .home-mini-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .home-mini-row {
+    .home-desktop-fill-head {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       gap: 12px;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      color: var(--dim);
-      font-size: .84rem;
-    }
-    .home-mini-row strong {
-      color: var(--text);
-      font-size: .9rem;
-    }
-    .feed-tabs {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin: 0 0 16px;
-    }
-    .feed-tab {
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text);
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: .8rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .feed-tab.active,
-    .feed-tab:hover {
-      background: var(--cyan);
-      color: #000;
-      border-color: var(--cyan);
-    }
-
-  
-    @media (max-width: 900px) {
-      .home-bottom-section {
-        grid-template-columns: 1fr;
-      }
-    }
-    @media (max-width: 640px) {
-      .home-quick-grid {
-        grid-template-columns: 1fr;
-      }
-      .home-bottom-card {
-        padding: 16px;
-      }
-    }
-
-  
-    .article-shell {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-    .article-back-row {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       flex-wrap: wrap;
     }
-    .article-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1.08;
-      letter-spacing: -.03em;
-      margin: 10px 0 14px;
-      color: var(--text);
-    }
-    .article-lead {
-      color: var(--dim);
-      line-height: 1.8;
-      font-size: 1rem;
-      margin-bottom: 18px;
-    }
-    .article-hero {
-      border-radius: 26px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      box-shadow: 0 18px 40px rgba(0,0,0,.24);
-      margin-bottom: 20px;
-    }
-    .article-hero img {
-      width: 100%;
-      max-height: 520px;
-      object-fit: cover;
-      display: block;
-    }
-    .article-body-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 22px;
-      box-shadow: 0 14px 32px var(--shadow);
-      margin-bottom: 18px;
-    }
-    .article-body-copy {
-      color: var(--text);
-      line-height: 1.9;
-      font-size: 1rem;
-      white-space: pre-wrap;
-    }
-    .article-side-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-    .article-info-box {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 18px;
-      box-shadow: 0 14px 32px var(--shadow);
-    }
-    .article-info-box h3 {
+    .home-desktop-fill-head h3 {
       color: var(--cyan);
-      font-size: .94rem;
-      margin-bottom: 10px;
+      font-size: .96rem;
       text-transform: uppercase;
       letter-spacing: .08em;
+      margin: 0;
     }
-    .article-info-box p {
+    .home-desktop-fill-head span {
       color: var(--dim);
-      line-height: 1.75;
-      font-size: .9rem;
+      font-size: .82rem;
     }
-
-  
-    @media (max-width: 900px) {
-      .article-side-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    @media (max-width: 640px) {
-      .article-body-card,
-      .article-info-box {
-        padding: 16px;
-      }
-      .article-title {
-        font-size: 2rem;
-      }
-      .article-lead,
-      .article-body-copy {
-        font-size: .95rem;
-      }
-    }
-
-  
-    .hero-followup {
-      margin-top: 18px;
+    .home-desktop-fill-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
-    .hero-followup-card {
+    .desktop-story-card {
       border: 1px solid var(--border);
       border-radius: 20px;
       background: rgba(255,255,255,.03);
       padding: 14px;
       cursor: pointer;
       transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      min-height: 168px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    .hero-followup-card:hover {
+    .desktop-story-card:hover {
       transform: translateY(-2px);
       border-color: rgba(0,242,254,.28);
       background: rgba(0,242,254,.04);
     }
-    .hero-followup-card strong {
+    .desktop-story-card strong {
       display: block;
       color: var(--text);
+      font-size: .95rem;
       line-height: 1.45;
       margin-bottom: 8px;
-      font-size: .92rem;
     }
-    .hero-followup-card span {
-      display: block;
-      color: var(--dim);
-      font-size: .8rem;
-      line-height: 1.6;
-    }
-    @media (max-width: 640px) {
-      .hero-followup {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-      .hero-followup-card {
-        padding: 14px;
-      }
-    }
-
-  </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "MoroccanSportsHub",
-  "url": "https://moroccansportshub.com/",
-  "description": "Latest Moroccan football news, global sports updates, and AI-powered sports insights."
-}
-</script>
-
-  <style id="mobile-footer-fix">
-    @media (max-width: 640px) {
-      .site-footer {
-        margin: 22px 14px 18px !important;
-        padding: 18px 16px !important;
-        overflow: hidden;
-      }
-      .footer-grid {
-        display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 18px !important;
-      }
-      .footer-copy,
-      .footer-links a,
-      .footer-contact a,
-      .footer-contact span,
-      .footer-links span {
-        overflow-wrap: anywhere;
-      }
-      .footer-social {
-        justify-content: flex-start;
-      }
-      .footer-title,
-      .footer-brand {
-        margin-bottom: 8px;
-      }
-      .footer-links,
-      .footer-contact {
-        gap: 8px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .header-right {
-        display: flex;
-        align-items: center;
-      }
-      .header-right .notif-wrap {
-        order: 1;
-      }
-      .header-right .mobile-menu-btn {
-        order: 2;
-      }
-    }
-  
-    .home-bottom-section {
-      margin-top: 28px;
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 20px;
-      align-items: start;
-    }
-    .home-bottom-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: 0 14px 32px var(--shadow);
-      backdrop-filter: blur(14px);
-    }
-    .home-bottom-card h3 {
-      color: var(--cyan);
-      font-size: 1rem;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-    .home-quick-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .home-quick-btn {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      padding: 16px;
-      text-align: left;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .home-quick-btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0,242,254,.28);
-      background: rgba(0,242,254,.05);
-    }
-    .home-quick-btn strong {
-      display: block;
-      color: var(--text);
-      margin-bottom: 6px;
-      font-size: .92rem;
-    }
-    .home-quick-btn span {
-      display: block;
-      color: var(--dim);
-      font-size: .8rem;
-      line-height: 1.55;
-    }
-    .home-mini-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .home-mini-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255,255,255,.06);
+    .desktop-story-card p {
       color: var(--dim);
       font-size: .84rem;
+      line-height: 1.6;
+      margin-bottom: 12px;
     }
-    .home-mini-row strong {
-      color: var(--text);
-      font-size: .9rem;
-    }
-    .feed-tabs {
+    .desktop-story-meta {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
-      margin: 0 0 16px;
     }
-    .feed-tab {
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text);
+    .desktop-story-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
       border-radius: 999px;
-      padding: 10px 14px;
-      font-size: .8rem;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--dim);
+      font-size: .7rem;
       font-weight: 700;
-      cursor: pointer;
     }
-    .feed-tab.active,
-    .feed-tab:hover {
-      background: var(--cyan);
-      color: #000;
-      border-color: var(--cyan);
+    @media (max-width: 1024px) {
+      .home-desktop-fill {
+        display: none !important;
+      }
     }
 
   </style>
-
-
-  <style id="final-home-mobile-fix">
-    @media (max-width: 640px) {
-      .home-bottom-section {
-        grid-template-columns: 1fr !important;
-        gap: 16px !important;
-        margin-top: 20px !important;
-      }
-      .home-bottom-card {
-        width: 100% !important;
-        padding: 16px !important;
-        overflow: hidden !important;
-      }
-      .home-quick-grid {
-        grid-template-columns: 1fr !important;
-        gap: 10px !important;
-      }
-      .home-quick-btn {
-        display: block !important;
-        width: 100% !important;
-        padding: 14px !important;
-        min-height: auto !important;
-      }
-      .home-quick-btn strong,
-      .home-quick-btn span {
-        display: block !important;
-        width: 100% !important;
-        white-space: normal !important;
-      }
-      .home-quick-btn strong {
-        font-size: 1rem !important;
-        margin-bottom: 8px !important;
-        line-height: 1.35 !important;
-      }
-      .home-quick-btn span {
-        font-size: .9rem !important;
-        line-height: 1.6 !important;
-      }
-      .home-mini-row {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 6px !important;
-      }
-      .home-mini-row strong,
-      .home-mini-row span {
-        width: 100% !important;
-        white-space: normal !important;
-      }
-      .article-back-row {
-        gap: 8px !important;
-      }
-      .article-title {
-        font-size: 2.1rem !important;
-      }
-    }
-  </style>
-
 </head>
 <body>
-  <h1 style="display:none;">MoroccanSportsHub - Moroccan football news and global sports updates</h1>
+  <h1 style="display:none;">Moroccan Sports News and Global Sports Updates</h1>
 <button class="ai-fab" id="ai-fab" onclick="toggleAiAssistant()" aria-label="Open sports assistant">
     <i class="fa-solid fa-cloud"></i>
   </button>
@@ -1786,7 +1365,7 @@
       </div>
 
       <div id="auth-ui" class="desktop-mobile-hide">
-        <button class="auth-btn" id="auth-main-btn" onclick="handleMainAuthAction()">Access Hub</button>
+        <button class="auth-btn" onclick="openAuth()">Access Hub</button>
       </div>
     </div>
   </header>
@@ -1808,7 +1387,7 @@
       </button>
 
       <div id="drawer-auth-ui">
-        <button class="auth-btn" id="drawer-auth-main-btn" onclick="handleMainAuthAction(); toggleDrawer(false);">Access Hub</button>
+        <button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">Access Hub</button>
       </div>
 
       <div class="top-controls">
@@ -1840,7 +1419,7 @@
         <div><strong id="d-global-title">Global</strong><span id="d-global-desc">International sports stories</span></div>
       </button>
 
-      <button class="drawer-color-btn" onclick="openColorStudio(); toggleDrawer(false);">
+      <button onclick="openColorStudio(); toggleDrawer(false);">
         <i class="fa-solid fa-palette"></i>
         <div><strong id="d-colors-title">Colors</strong><span id="d-colors-desc">Customize website colors</span></div>
       </button>
@@ -1894,68 +1473,13 @@
         <div id="wire-right"></div>
       </div>
 
-      <div class="home-bottom-section">
-        <div class="home-bottom-card">
-          <h3 id="home-explore-title">Explore the Hub</h3>
-          <div class="home-quick-grid">
-            <button class="home-quick-btn" onclick="switchPage('morocco')">
-              <strong id="home-quick-morocco-title">Moroccan News</strong>
-              <span id="home-quick-morocco-desc">Botola, national teams, Moroccan stars, and daily local coverage.</span>
-            </button>
-            <button class="home-quick-btn" onclick="switchPage('global')">
-              <strong id="home-quick-global-title">Global Stories</strong>
-              <span id="home-quick-global-desc">Big football stories, world headlines, and major sports updates.</span>
-            </button>
-            <button class="home-quick-btn" onclick="switchPage('feed')">
-              <strong id="home-quick-feed-title">Community Feed</strong>
-              <span id="home-quick-feed-desc">Check the latest fan posts, reactions, and pinned discussions.</span>
-            </button>
-            <button class="home-quick-btn" onclick="switchPage('matches')">
-              <strong id="home-quick-matches-title">Matches</strong>
-              <span id="home-quick-matches-desc">Quick access to live fixtures, scores, and football widgets.</span>
-            </button>
-          </div>
+      <section id="home-desktop-fill" class="home-desktop-fill" style="display:none;">
+        <div class="home-desktop-fill-head">
+          <h3 id="desktop-fill-title">More from the hub</h3>
+          <span id="desktop-fill-subtitle">Fresh stories and quick picks</span>
         </div>
-        <div class="home-bottom-card">
-          <h3 id="home-why-title">Why MoroccanSportsHub</h3>
-          <div class="home-mini-list">
-            <div class="home-mini-row"><strong id="home-why-1-title">Fast Coverage</strong><span id="home-why-1-desc">Moroccan + global sports in one homepage.</span></div>
-            <div class="home-mini-row"><strong id="home-why-2-title">Community Layer</strong><span id="home-why-2-desc">Fans can react, post, and help surface top stories.</span></div>
-            <div class="home-mini-row"><strong id="home-why-3-title">AI Support</strong><span id="home-why-3-desc">Ask the assistant for quick sports answers anytime.</span></div>
-            <div class="home-mini-row" style="border-bottom:none;"><strong id="home-why-4-title">Clean Navigation</strong><span id="home-why-4-desc">Jump straight into news, matches, chess, or the feed.</span></div>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-
-    <section id="article-page" class="page">
-      <div class="article-shell">
-        <div class="article-back-row">
-          <button class="ghost-btn" id="article-back-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
-          <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
-        </div>
-        <div class="detail-top-meta" id="article-meta"></div>
-        <h1 id="article-title" class="article-title"></h1>
-        <p id="article-lead" class="article-lead"></p>
-        <div id="article-hero" class="article-hero" style="display:none;">
-          <img id="article-image" src="" alt="article image" loading="lazy" referrerpolicy="no-referrer">
-        </div>
-        <div class="article-body-card">
-          <div id="article-body" class="article-body-copy"></div>
-        </div>
-        <div class="article-side-grid">
-          <div class="article-info-box">
-            <h3 id="article-why-label">Why it matters</h3>
-            <p id="article-why"></p>
-          </div>
-          <div class="article-info-box">
-            <h3 id="article-context-label">Quick context</h3>
-            <p id="article-context"></p>
-          </div>
-        </div>
-      </div>
+        <div id="home-desktop-fill-grid" class="home-desktop-fill-grid"></div>
+      </section>
     </section>
 
     <section id="feed-page" class="page">
@@ -1964,11 +1488,6 @@
         <div class="composer" onclick="$('#post-modal').css('display','flex')">
           <span id="composer-text">Broadcast intelligence...</span>
           <i class="fa-solid fa-paper-plane" style="color:var(--cyan)"></i>
-        </div>
-        <div class="feed-tabs">
-          <button id="feed-tab-latest" class="feed-tab active" onclick="setFeedView('latest')">Latest</button>
-          <button id="feed-tab-top" class="feed-tab" onclick="setFeedView('top')">Top</button>
-          <button id="feed-tab-pinned" class="feed-tab" onclick="setFeedView('pinned')">Pinned</button>
         </div>
         <div id="feed-container"></div>
       </div>
@@ -2046,44 +1565,6 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand" id="footer-brand">MoroccanSportsHub</div>
-        <div class="footer-copy" id="footer-copy">MoroccanSportsHub is a modern sports platform delivering real-time Moroccan football news, global sports coverage, AI-powered insights, and a community-driven feed.</div>
-        <div class="footer-social">
-          <a href="https://x.com/MarocSportsHub" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="https://www.facebook.com/profile.php?id=61574503853445" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-title" id="footer-contact-title">Contact</div>
-        <div class="footer-contact">
-          <a href="mailto:moroccansportshub.news@gmail.com">moroccansportshub.news@gmail.com</a>
-          <span id="footer-contact-copy">Reach out for feedback, corrections, partnerships, or page support.</span>
-        </div>
-      </div>
-      <div>
-        <div class="footer-title" id="footer-more-title">More</div>
-        <div class="footer-links">
-          <a href="#" id="footer-about-link" onclick="openLegalModal('about'); return false;">About</a>
-          <a href="#" id="footer-privacy-link" onclick="openLegalModal('privacy'); return false;">Privacy Policy</a>
-          <a href="#" id="footer-terms-link" onclick="openLegalModal('terms'); return false;">Terms &amp; Conditions</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-
-
-  <div id="legal-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('legal-modal')">&times;</span>
-      <h2 id="legal-title" style="color:var(--cyan); margin-bottom:14px;">About</h2>
-      <div id="legal-body" class="detail-summary" style="text-align:left;"></div>
-    </div>
-  </div>
-
   <div id="post-modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="$('#post-modal').hide(); document.body.style.overflow='';">&times;</span>
@@ -2097,7 +1578,7 @@
 
   <div id="colors-modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('colors-modal')">&times;</span>
+      <span class="close" onclick="$('#colors-modal').hide(); document.body.style.overflow='';">&times;</span>
       <h2 id="colors-modal-title" style="color:var(--cyan); margin-bottom:8px;">Color Studio</h2>
       <p id="colors-modal-desc" style="color:var(--dim); margin-bottom:12px;">Customize the website palette.</p>
       <div class="color-grid">
@@ -2176,19 +1657,12 @@
     let feedListener = null;
     let notifListener = null;
     let currentLang = localStorage.getItem('msh_lang') || 'en';
-    let currentTheme = 'dark';
+    let currentTheme = localStorage.getItem('msh_theme') || 'dark';
     let sharedPostHandled = false;
     let homeRandomSeed = Date.now();
     let globalPool = [];
     let globalCurrentFilter = 'all';
     let moroccoCurrentFilter = 'all';
-    let feedStableOrder = [];
-    let feedPreserveOrder = true;
-    let feedAnchorPostId = null;
-    let feedAnchorTop = null;
-    let feedViewMode = 'latest';
-    let lastRegularPage = 'home';
-    let currentArticleLink = '';
 
     const uiText = {
       en: {
@@ -2203,8 +1677,8 @@
         admin: 'Admin',
         search: 'Search',
         accessHub: 'Access Hub',
-        profileNav: 'Profile',
         agentHub: 'Agent Hub',
+        profileNav: 'Profile',
         notifTitle: 'INTELLIGENCE ALERTS',
         notifClear: 'Clear All',
         feedPageTitle: 'Community Feed',
@@ -2277,30 +1751,8 @@
         filterAll: 'All',
         aiThinking: 'Thinking...',
         aiError: 'I could not reach the AI backend right now. Please try again.',
-        feedLatest: 'Latest',
-        feedTop: 'Top',
-        feedPinned: 'Pinned',
-        homeExploreTitle: 'Explore the Hub',
-        homeQuickMoroccoTitle: 'Moroccan News',
-        homeQuickMoroccoDesc: 'Botola, national teams, Moroccan stars, and daily local coverage.',
-        homeQuickGlobalTitle: 'Global Stories',
-        homeQuickGlobalDesc: 'Big football stories, world headlines, and major sports updates.',
-        homeQuickFeedTitle: 'Community Feed',
-        homeQuickFeedDesc: 'Check the latest fan posts, reactions, and pinned discussions.',
-        homeQuickMatchesTitle: 'Matches',
-        homeQuickMatchesDesc: 'Quick access to live fixtures, scores, and football widgets.',
-        homeWhyTitle: 'Why MoroccanSportsHub',
-        homeWhy1Title: 'Fast Coverage',
-        homeWhy1Desc: 'Moroccan + global sports in one homepage.',
-        homeWhy2Title: 'Community Layer',
-        homeWhy2Desc: 'Fans can react, post, and help surface top stories.',
-        homeWhy3Title: 'AI Support',
-        homeWhy3Desc: 'Ask the assistant for quick sports answers anytime.',
-        homeWhy4Title: 'Clean Navigation',
-        homeWhy4Desc: 'Jump straight into news, matches, chess, or the feed.',
-        articleBack: 'Back',
-        articleWhyLabel: 'Why it matters',
-        articleContextLabel: 'Quick context'
+        desktopFillTitle: 'More from the hub',
+        desktopFillSubtitle: 'Fresh stories and quick picks'
       },
       fr: {
         brand: 'Moroccansportshub',
@@ -2314,8 +1766,8 @@
         admin: 'Admin',
         search: 'Recherche',
         accessHub: 'Accéder',
-        profileNav: 'Profil',
         agentHub: 'Espace Agent',
+        profileNav: 'Profil',
         notifTitle: 'ALERTES',
         notifClear: 'Tout effacer',
         feedPageTitle: 'Fil Communautaire',
@@ -2388,30 +1840,8 @@
         filterAll: 'Tout',
         aiThinking: 'Réflexion...',
         aiError: 'Je ne peux pas joindre l’IA pour le moment. Réessayez.',
-        feedLatest: 'Derniers',
-        feedTop: 'Top',
-        feedPinned: 'Épinglés',
-        homeExploreTitle: 'Explorer le Hub',
-        homeQuickMoroccoTitle: 'Actualités marocaines',
-        homeQuickMoroccoDesc: 'Botola, équipes nationales, stars marocaines et couverture locale quotidienne.',
-        homeQuickGlobalTitle: 'Grandes histoires mondiales',
-        homeQuickGlobalDesc: 'Grandes histoires football, titres mondiaux et mises à jour sportives majeures.',
-        homeQuickFeedTitle: 'Fil communautaire',
-        homeQuickFeedDesc: 'Consultez les derniers posts, réactions et discussions épinglées.',
-        homeQuickMatchesTitle: 'Matchs',
-        homeQuickMatchesDesc: 'Accès rapide aux rencontres en direct, scores et widgets football.',
-        homeWhyTitle: 'Pourquoi MoroccanSportsHub',
-        homeWhy1Title: 'Couverture rapide',
-        homeWhy1Desc: 'Sport marocain et mondial réunis sur une seule page.',
-        homeWhy2Title: 'Couche communauté',
-        homeWhy2Desc: 'Les fans peuvent réagir, publier et faire remonter les meilleures histoires.',
-        homeWhy3Title: 'Support IA',
-        homeWhy3Desc: 'Demandez rapidement des réponses sportives à l’assistant.',
-        homeWhy4Title: 'Navigation claire',
-        homeWhy4Desc: 'Accédez directement aux news, matchs, échecs ou au fil.',
-        articleBack: 'Retour',
-        articleWhyLabel: 'Pourquoi c’est important',
-        articleContextLabel: 'Contexte rapide'
+        desktopFillTitle: 'Encore du hub',
+        desktopFillSubtitle: 'Nouvelles fraîches et sélections rapides'
       },
       ar: {
         brand: 'Moroccansportshub',
@@ -2425,8 +1855,8 @@
         admin: 'الإدارة',
         search: 'بحث',
         accessHub: 'الدخول',
-        profileNav: 'الملف الشخصي',
         agentHub: 'حسابي',
+        profileNav: 'الملف الشخصي',
         notifTitle: 'الإشعارات',
         notifClear: 'مسح الكل',
         feedPageTitle: 'منشورات المجتمع',
@@ -2498,55 +1928,7 @@
         moroccoEsportDesc: 'أخبار الرياضات الإلكترونية والألعاب في المغرب.',
         filterAll: 'الكل',
         aiThinking: 'جارٍ التفكير...',
-        aiError: 'تعذر الوصول إلى الذكاء الاصطناعي حالياً. حاول مرة أخرى.',
-        feedLatest: 'الأحدث',
-        feedTop: 'الأعلى',
-        feedPinned: 'المثبتة',
-        articleBack: 'رجوع',
-        articleWhyLabel: 'لماذا يهم هذا الخبر',
-        articleContextLabel: 'سياق سريع',
-        homeExploreTitle: 'استكشف المنصة',
-        homeQuickMoroccoTitle: 'أخبار المغرب',
-        homeQuickMoroccoDesc: 'البطولة، المنتخبات الوطنية، النجوم المغاربة، وتغطية محلية يومية.',
-        homeQuickGlobalTitle: 'قصص عالمية',
-        homeQuickGlobalDesc: 'أكبر قصص كرة القدم، العناوين العالمية، وأهم تحديثات الرياضة.',
-        homeQuickFeedTitle: 'منشورات المجتمع',
-        homeQuickFeedDesc: 'اطّلع على أحدث المنشورات والتفاعلات والنقاشات المثبتة.',
-        homeQuickMatchesTitle: 'المباريات',
-        homeQuickMatchesDesc: 'وصول سريع إلى المباريات المباشرة والنتائج وويدجت كرة القدم.',
-        homeWhyTitle: 'لماذا MoroccanSportsHub',
-        homeWhy1Title: 'تغطية سريعة',
-        homeWhy1Desc: 'رياضة المغرب والعالم في صفحة رئيسية واحدة.',
-        homeWhy2Title: 'طبقة المجتمع',
-        homeWhy2Desc: 'يمكن للجماهير التفاعل والنشر والمساعدة في إبراز أهم القصص.',
-        homeWhy3Title: 'دعم الذكاء الاصطناعي',
-        homeWhy3Desc: 'اسأل المساعد للحصول على إجابات رياضية سريعة في أي وقت.',
-        homeWhy4Title: 'تنقل واضح',
-        homeWhy4Desc: 'انتقل مباشرة إلى الأخبار أو المباريات أو الشطرنج أو المنشورات.',
-        footerBrand: 'MoroccanSportsHub',
-        footerCopy: 'MoroccanSportsHub منصة رياضية حديثة تقدم أخبار كرة القدم المغربية والرياضة العالمية وتحليلات الذكاء الاصطناعي ومنشورات المجتمع بشكل مباشر.',
-        footerContactTitle: 'تواصل معنا',
-        footerContactCopy: 'راسلنا بخصوص الملاحظات أو التصحيحات أو الشراكات أو دعم الموقع.',
-        footerMoreTitle: 'المزيد',
-        footerAbout: 'من نحن',
-        footerPrivacy: 'سياسة الخصوصية',
-        footerTerms: 'الشروط والأحكام',
-        legalAboutTitle: 'حول MoroccanSportsHub',
-        legalAboutBody: `MoroccanSportsHub منصة رياضية مستقلة تركز على كرة القدم المغربية وأهم القصص الرياضية العالمية ونقاش المجتمع.
-
-هدفنا تقديم عناوين سريعة وملخصات واضحة وتحديثات المباريات ومنشورات يقودها الجمهور في مكان واحد.`,
-        legalPrivacyTitle: 'سياسة الخصوصية',
-        legalPrivacyBody: `قد يحتفظ MoroccanSportsHub بمعلومات الحساب الأساسية التي تقدمها أثناء التسجيل، إضافة إلى المحتوى الذي تنشره والتفاعلات التي تقوم بها والبيانات التقنية اللازمة لتشغيل الموقع.
-
-نحن لا نبيع معلوماتك الشخصية. وإذا تواصلت معنا عبر البريد الإلكتروني فنحن نستخدم الرسالة فقط للرد على طلبك أو مساعدتك.
-
-باستخدامك للموقع فإنك توافق على إمكانية عرض المحتوى المنشور علناً وأسماء الحسابات داخل منشورات المجتمع.`,
-        legalTermsTitle: 'الشروط والأحكام',
-        legalTermsBody: `باستخدامك MoroccanSportsHub فإنك توافق على استعمال المنصة بشكل مسؤول.
-
-يُمنع نشر محتوى مسيء أو غير قانوني أو مضلل أو ضار. ويمكن للإدارة حذف المنشورات أو تقييد الحسابات عند الحاجة لحماية المجتمع.
-
-جميع الروابط والملخصات ومحتوى المجتمع تُعرض لأغراض معلوماتية، وتبقى المصادر الخارجية ملكاً وضمن مسؤولية ناشريها الأصليين.`
+        aiError: 'تعذر الوصول إلى الذكاء الاصطناعي حالياً. حاول مرة أخرى.'
       }
     };
 
@@ -2696,7 +2078,7 @@
       applyUiLanguage();
       await initNews();
       renderBreakingTicker();
-      if ($('#feed-page').hasClass('active')) { feedPreserveOrder = false; loadFeed(); }
+      if ($('#feed-page').hasClass('active')) loadFeed();
       if ($('#admin-page').hasClass('active')) loadAdminPanel();
     }
 
@@ -2764,40 +2146,6 @@
       $('#ai-quick-tennis').text(t('aiQuickTennis'));
       $('#ai-quick-matches').text(t('aiQuickMatches'));
       $('#ai-send-btn').text(t('aiSend'));
-      $('#feed-tab-latest').text(t('feedLatest'));
-      $('#feed-tab-top').text(t('feedTop'));
-      $('#feed-tab-pinned').text(t('feedPinned'));
-      $('#home-explore-title').text(t('homeExploreTitle'));
-      $('#home-quick-morocco-title').text(t('homeQuickMoroccoTitle'));
-      $('#home-quick-morocco-desc').text(t('homeQuickMoroccoDesc'));
-      $('#home-quick-global-title').text(t('homeQuickGlobalTitle'));
-      $('#home-quick-global-desc').text(t('homeQuickGlobalDesc'));
-      $('#home-quick-feed-title').text(t('homeQuickFeedTitle'));
-      $('#home-quick-feed-desc').text(t('homeQuickFeedDesc'));
-      $('#home-quick-matches-title').text(t('homeQuickMatchesTitle'));
-      $('#home-quick-matches-desc').text(t('homeQuickMatchesDesc'));
-      $('#home-why-title').text(t('homeWhyTitle'));
-      $('#home-why-1-title').text(t('homeWhy1Title'));
-      $('#home-why-1-desc').text(t('homeWhy1Desc'));
-      $('#home-why-2-title').text(t('homeWhy2Title'));
-      $('#home-why-2-desc').text(t('homeWhy2Desc'));
-      $('#home-why-3-title').text(t('homeWhy3Title'));
-      $('#home-why-3-desc').text(t('homeWhy3Desc'));
-      $('#home-why-4-title').text(t('homeWhy4Title'));
-      $('#home-why-4-desc').text(t('homeWhy4Desc'));
-      $('#article-back-btn').html(`<i class="fa-solid fa-arrow-left"></i> ${t('articleBack')}`);
-      $('#article-why-label').text(t('articleWhyLabel'));
-      $('#article-context-label').text(t('articleContextLabel'));
-      $('#footer-brand').text(t('footerBrand'));
-      $('#footer-copy').text(t('footerCopy'));
-      $('#footer-contact-title').text(t('footerContactTitle'));
-      $('#footer-contact-copy').text(t('footerContactCopy'));
-      $('#footer-more-title').text(t('footerMoreTitle'));
-      $('#footer-about-link').text(t('footerAbout'));
-      $('#footer-privacy-link').text(t('footerPrivacy'));
-      $('#footer-terms-link').text(t('footerTerms'));
-      const mainAuthLabel = auth.currentUser ? t('profileNav') : t('accessHub');
-      $('#auth-main-btn, #drawer-auth-main-btn').text(mainAuthLabel);
       $('#ai-quick-morocco').attr('onclick', "askAiQuick(getAiQuickPrompt('morocco'))");
       $('#ai-quick-global').attr('onclick', "askAiQuick(getAiQuickPrompt('global'))");
       $('#ai-quick-tennis').attr('onclick', "askAiQuick(getAiQuickPrompt('tennis'))");
@@ -2826,10 +2174,9 @@
       $('#gf-esports').text(t('moroccoEsportTitle') || 'Esport');
 
       if (auth.currentUser) {
-        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
-        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('agentHub')}</button>`);
+        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('profileNav')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('profileNav')}</button>`);
       } else {
-        $('#auth-main-btn, #drawer-auth-main-btn').text(t('accessHub'));
         $('#auth-ui').html(`<button class="auth-btn" onclick="openAuth()">${t('accessHub')}</button>`);
         $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
       }
@@ -2838,27 +2185,10 @@
     }
 
     async function initAppPrefs() {
-      const isMobile = window.innerWidth < 768;
       document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-
-      currentTheme = isMobile ? 'dark' : (localStorage.getItem('msh_theme') === 'light' ? 'light' : 'dark');
       setTheme(currentTheme);
-
-      if (isMobile) {
-        localStorage.removeItem('msh_custom_colors');
-        document.documentElement.style.removeProperty('--bg');
-        document.documentElement.style.removeProperty('--bg2');
-        document.documentElement.style.removeProperty('--card');
-        document.documentElement.style.removeProperty('--text');
-        document.documentElement.style.removeProperty('--cyan');
-        document.documentElement.style.removeProperty('--red');
-      } else {
-        const savedColors = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
-        if (Object.keys(savedColors).length) applyCustomColors(savedColors);
-      }
-
+      const savedColors = JSON.parse(localStorage.getItem('msh_custom_colors') || '{}');
+      if (Object.keys(savedColors).length) applyCustomColors(savedColors);
       await setLanguage(currentLang);
     }
 
@@ -2871,11 +2201,9 @@
       if (open) {
         drawer.addClass('open');
         backdrop.addClass('show');
-        document.body.style.overflow = 'hidden';
       } else {
         drawer.removeClass('open');
         backdrop.removeClass('show');
-        document.body.style.overflow = '';
       }
     }
 
@@ -2900,14 +2228,6 @@
       maybeAutoCloseDrawerFromEventTarget(e.target);
     }, { passive: true });
 
-    function handleMainAuthAction() {
-      if (auth.currentUser) {
-        switchPage('profile');
-      } else {
-        openAuth();
-      }
-    }
-
     function switchPage(p) {
       if (p === 'profile-check') {
         if (!auth.currentUser) {
@@ -2922,7 +2242,6 @@
         return;
       }
 
-      if (p !== 'article') lastRegularPage = p;
       $('.page').removeClass('active');
       $('#' + p + '-page').addClass('active');
 
@@ -2990,9 +2309,8 @@
       masterPool = [];
 
       if (user) {
-        $('#auth-main-btn, #drawer-auth-main-btn').text(t('profileNav'));
-        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('agentHub')}</button>`);
-        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('agentHub')}</button>`);
+        $('#auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check')">${t('profileNav')}</button>`);
+        $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="switchPage('profile-check'); toggleDrawer(false);">${t('profileNav')}</button>`);
         $('#set-name').val(user.displayName || '');
         setProfileAvatarPreview(user.photoURL || '', user.displayName || 'Agent');
 
@@ -3542,67 +2860,20 @@
       return `<div class="post-media"><img src="${mediaUrl}" alt="media" onerror="this.style.display='none'"></div>`;
     }
 
-    
-    function setFeedView(mode) {
-      feedViewMode = mode;
-      $('.feed-tab').removeClass('active');
-      $(`#feed-tab-${mode}`).addClass('active');
-      feedPreserveOrder = false;
-      if ($('#feed-page').hasClass('active')) { feedPreserveOrder = false; loadFeed(); }
-    }
-
-async function loadFeed() {
+    async function loadFeed() {
       if (feedListener) feedListener();
 
       feedListener = db.collection('posts').onSnapshot(async snapshot => {
-        const container = $('#feed-container');
-        const previousHeight = container.outerHeight();
-        if (previousHeight) container.css('min-height', `${previousHeight}px`);
-
+        const container = $('#feed-container').empty();
         let posts = [];
         snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
 
-        const rankingSort = (a, b) => {
+        posts.sort((a, b) => {
           if ((b.pinned ? 1 : 0) !== (a.pinned ? 1 : 0)) {
             return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
           }
-          if ((b.score || 0) !== (a.score || 0)) {
-            return (b.score || 0) - (a.score || 0);
-          }
-          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-        };
-
-        const latestSort = (a, b) => {
-          if ((b.pinned ? 1 : 0) !== (a.pinned ? 1 : 0)) {
-            return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
-          }
-          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-        };
-
-        if (feedViewMode === 'pinned') {
-          posts = posts.filter(post => post.pinned).sort(rankingSort);
-          feedStableOrder = posts.map(post => post.id);
-          feedPreserveOrder = true;
-        } else if (feedViewMode === 'latest') {
-          posts.sort(latestSort);
-          feedStableOrder = posts.map(post => post.id);
-          feedPreserveOrder = true;
-        } else if (!feedPreserveOrder || !feedStableOrder.length) {
-          posts.sort(rankingSort);
-          feedStableOrder = posts.map(post => post.id);
-          feedPreserveOrder = true;
-        } else {
-          const byId = new Map(posts.map(post => [post.id, post]));
-          const existing = feedStableOrder.filter(id => byId.has(id));
-          const newcomers = posts
-            .filter(post => !existing.includes(post.id))
-            .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
-            .map(post => post.id);
-          feedStableOrder = [...existing, ...newcomers];
-          posts = feedStableOrder.map(id => byId.get(id)).filter(Boolean);
-        }
-
-        let feedHtml = '';
+          return (b.score || 0) - (a.score || 0);
+        });
 
         for (const post of posts) {
           const admin = isAdmin();
@@ -3618,7 +2889,7 @@ async function loadFeed() {
           const postUserData = userDoc.exists ? userDoc.data() : {};
           const bannedUser = !!postUserData.banned;
 
-          feedHtml += `
+          container.append(`
             <div class="post-card ${post.pinned ? 'pinned' : ''}" data-post="${post.id}">
               ${(admin || owner) ? `
                 <div class="admin-controls">
@@ -3648,20 +2919,7 @@ async function loadFeed() {
                 <button class="share-btn" onclick="sharePost('${post.id}')"><i class="fa-solid fa-share-nodes"></i> ${t('share')}</button>
               </div>
             </div>
-          `;
-        }
-
-        container.html(feedHtml);
-        container.css('min-height', '');
-
-        if (feedAnchorPostId) {
-          const anchorEl = document.querySelector(`[data-post="${feedAnchorPostId}"]`);
-          if (anchorEl && Number.isFinite(feedAnchorTop)) {
-            const nextTop = anchorEl.getBoundingClientRect().top;
-            window.scrollBy(0, nextTop - feedAnchorTop);
-          }
-          feedAnchorPostId = null;
-          feedAnchorTop = null;
+          `);
         }
 
         openPostFromUrlIfAny();
@@ -3671,9 +2929,6 @@ async function loadFeed() {
     async function reactToFeedPost(postId, type, targetId) {
       if (!auth.currentUser) return openAuth();
 
-      const anchorEl = document.querySelector(`[data-post="${postId}"]`);
-      feedAnchorPostId = postId;
-      feedAnchorTop = anchorEl ? anchorEl.getBoundingClientRect().top : null;
       const uid = auth.currentUser.uid;
       const rid = `${postId}_${uid}`;
       const rref = db.collection('reactions_feed').doc(rid);
@@ -3711,10 +2966,6 @@ async function loadFeed() {
         t.update(pref, updates);
       });
 
-      requestAnimationFrame(() => {
-        window.scrollTo(0, scrollY);
-      });
-
       if (added && targetId !== uid) {
         await db.collection('notifications').add({
           targetId,
@@ -3725,18 +2976,15 @@ async function loadFeed() {
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       }
-
     }
 
     async function deletePost(id) {
       if (!confirm(t('deletePost'))) return;
-      feedPreserveOrder = false;
       await db.collection('posts').doc(id).delete();
     }
 
     async function togglePin(id, status) {
       if (!isAdmin()) return;
-      feedPreserveOrder = false;
       await db.collection('posts').doc(id).update({ pinned: !status });
     }
 
@@ -4332,18 +3580,6 @@ function renderHome(forceShuffle = false) {
           <div class="hero-stat"><strong>${homeLabel('region')}</strong><span>${heroRegion}</span></div>
           <div class="hero-stat"><strong>${homeLabel('status')}</strong><span>${homeLabel('livePulse')}</span></div>
         </div>
-        <div class="hero-followup">
-          ${remaining.slice(0, 2).map(item => {
-            const itemSummary = (item.desc || '').trim();
-            const itemCopy = itemSummary.length > 92 ? `${itemSummary.slice(0, 89).trim()}...` : itemSummary;
-            return `
-              <div class="hero-followup-card" onclick="openDetails(${item.id})">
-                <strong>${item.title}</strong>
-                <span>${itemCopy || homeLabel('fallbackSummary')}</span>
-              </div>
-            `;
-          }).join('')}
-        </div>
       `);
 
       $('#wire-left').html(remaining.slice(0, Math.min(9, remaining.length)).map((n, i) => {
@@ -4379,41 +3615,30 @@ function renderHome(forceShuffle = false) {
           </div>
         `;
       }).join(''));
-    }
 
-
-function closeArticlePage() {
-      switchPage(lastRegularPage || 'home');
-    }
-
-    function openCurrentArticleSource() {
-      if (currentArticleLink) {
-        window.open(currentArticleLink, '_blank', 'noopener');
-      }
-    }
-
-    function buildArticleExtraCopy(n) {
-      const sportLabel = homeLabel(n.sport || 'football');
-      const regionLabel = n.region === 'morocco' ? homeLabel('morocco') : homeLabel('global');
-      const title = String(n.title || '').toLowerCase();
-
-      let why = '';
-      if (title.includes('transfer') || title.includes('sign') || title.includes('deal')) {
-        why = `This could influence squad planning, transfer strategy, or the next big decision in ${sportLabel.toLowerCase()}.`;
-      } else if (title.includes('injury') || title.includes('absence') || title.includes('out')) {
-        why = `This update may affect selection choices, preparation, and upcoming matches in ${sportLabel.toLowerCase()}.`;
-      } else if (title.includes('win') || title.includes('title') || title.includes('champion')) {
-        why = `This result can shift momentum, confidence, and the wider conversation around ${sportLabel.toLowerCase()}.`;
-      } else if (title.includes('coach') || title.includes('manager') || title.includes('boss')) {
-        why = `This matters because coaching changes often shape tactics, player roles, and the direction of the team.`;
+      const desktopFillItems = remaining.slice(15, Math.min(18, remaining.length));
+      if (window.innerWidth > 1024 && desktopFillItems.length) {
+        $('#home-desktop-fill').show();
+        $('#home-desktop-fill-grid').html(desktopFillItems.map((n, i) => {
+          const summary = (n.desc || '').trim();
+          const copy = summary.length > 110 ? `${summary.slice(0, 107).trim()}...` : summary;
+          return `
+            <div class="desktop-story-card" onclick="openDetails(${n.id})">
+              <div>
+                <strong>${n.title}</strong>
+                <p>${copy || homeLabel('fallbackCard')}</p>
+              </div>
+              <div class="desktop-story-meta">
+                <span><i class="fa-solid fa-layer-group"></i>${homeLabel(n.sport || 'football')}</span>
+                <span><i class="fa-solid fa-clock"></i>${relativeTimeLabel(n.time || n.date || n.pubDate || Date.now())}</span>
+              </div>
+            </div>
+          `;
+        }).join(''));
       } else {
-        why = `A relevant update in ${sportLabel.toLowerCase()} that fans following ${regionLabel.toLowerCase()} stories will want to keep an eye on.`;
+        $('#home-desktop-fill').hide();
+        $('#home-desktop-fill-grid').empty();
       }
-
-      return {
-        why,
-        context: `${sportLabel} • ${regionLabel} • ${relativeTimeLabel(n.time || n.date || n.pubDate || Date.now())}`
-      };
     }
 
 function openDetails(id) {
@@ -4425,36 +3650,23 @@ function openDetails(id) {
       const sportLabel = homeLabel(n.sport || 'football');
       const primaryBadge = localizeTagLabel(n.tag) || homeLabel('topStory');
       const timeLabel = relativeTimeLabel(n.time || n.date || n.pubDate || Date.now());
-      const extra = buildArticleExtraCopy(n);
 
-      currentArticleLink = n.link || '';
-      $('#article-title').text(n.title || '');
-      $('#article-lead').text(n.desc || homeLabel('fallbackSummary'));
-      $('#article-body').text(n.desc || homeLabel('fallbackSummary'));
-      $('#article-why').text(extra.why);
-      $('#article-context').text(extra.context);
+      $('#m-title').text(n.title);
+      $('#m-body').text(n.desc || homeLabel('fallbackSummary'));
+      $('#m-link').attr('href', n.link || '#').text(t('readFull'));
 
-      $('#article-meta').html(`
+      $('#m-image').attr('src', image).attr('alt', n.title);
+      $('#detail-image-wrap').show();
+
+      $('#detail-meta').html(`
         <span class="detail-chip"><i class="fa-solid fa-bolt"></i>${primaryBadge}</span>
         <span class="detail-chip"><i class="fa-solid fa-layer-group"></i>${sportLabel}</span>
         <span class="detail-chip"><i class="fa-solid fa-earth-africa"></i>${regionLabel}</span>
         <span class="detail-chip"><i class="fa-solid fa-clock"></i>${timeLabel}</span>
       `);
 
-      if (image) {
-        $('#article-image').attr('src', image).attr('alt', n.title || 'story image');
-        $('#article-hero').show();
-      } else {
-        $('#article-hero').hide();
-      }
-
-      if (currentArticleLink) {
-        $('#article-source-btn').show().text(t('readFull'));
-      } else {
-        $('#article-source-btn').hide();
-      }
-
-      switchPage('article');
+      syncReacts(n.title);
+      $('#news-modal').css('display', 'flex');
     }
 
     async function syncReacts(title) {
@@ -4528,15 +3740,6 @@ function openDetails(id) {
       }
     }
 
-    function closeModal(id) {
-      const modal = document.getElementById(id);
-      if (!modal) return;
-      modal.style.display = 'none';
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-    }
-
     function makeAiMove() {
       const moves = game.moves();
       if (!moves.length) return;
@@ -4546,18 +3749,15 @@ function openDetails(id) {
     }
 
     function openColorStudio() {
-      if (window.innerWidth < 768) return;
       loadCustomColorsIntoInputs();
-      window.scrollTo({ top: 0, behavior: ('scrollBehavior' in document.documentElement.style) ? 'smooth' : 'auto' });
+      window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
       document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-      const modal = document.getElementById('colors-modal');
-      if (modal) {
-        modal.style.display = 'flex';
-        const content = modal.querySelector('.modal-content');
-        if (content) content.scrollTop = 0;
-      }
+      const modal = $('#colors-modal');
+      modal.css('display', 'flex');
+      setTimeout(() => {
+        const el = modal.find('.modal-content').get(0);
+        if (el) el.scrollTop = 0;
+      }, 0);
     }
 
     function hexToRgba(hex, alpha) {
@@ -4591,29 +3791,15 @@ function openDetails(id) {
     }
 
     function saveCustomColors() {
-      if (window.innerWidth < 768) return;
       const colors = { bg: $('#color-bg').val(), bg2: $('#color-bg2').val(), card: $('#color-card').val(), text: $('#color-text').val(), cyan: $('#color-cyan').val(), red: $('#color-red').val() };
       localStorage.setItem('msh_custom_colors', JSON.stringify(colors));
       applyCustomColors(colors);
-      closeModal('colors-modal');
+      $('#colors-modal').hide();
     }
 
     function resetCustomColors() {
       localStorage.removeItem('msh_custom_colors');
-      const root = document.documentElement.style;
-      root.setProperty('--bg', '#000000');
-      root.setProperty('--bg2', '#091015');
-      root.setProperty('--card', 'rgba(255,255,255,.05)');
-      root.setProperty('--text', '#ffffff');
-      root.setProperty('--cyan', '#00f2fe');
-      root.setProperty('--red', '#c1272d');
-      document.getElementById('color-bg').value = '#000000';
-      document.getElementById('color-bg2').value = '#091015';
-      document.getElementById('color-card').value = '#111111';
-      document.getElementById('color-text').value = '#ffffff';
-      document.getElementById('color-cyan').value = '#00f2fe';
-      document.getElementById('color-red').value = '#c1272d';
-      closeModal('colors-modal');
+      location.reload();
     }
 
 
@@ -4805,31 +3991,6 @@ function loadMatchesWidget() {
       script.type = 'module';
       script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
       container.appendChild(script);
-    }
-
-
-    const legalContent = {
-      about: lang => ({
-        title: t('legalAboutTitle'),
-        body: t('legalAboutBody')
-      }),
-      privacy: lang => ({
-        title: t('legalPrivacyTitle'),
-        body: t('legalPrivacyBody')
-      }),
-      terms: lang => ({
-        title: t('legalTermsTitle'),
-        body: t('legalTermsBody')
-      })
-    };
-
-    function openLegalModal(kind) {
-      const factory = legalContent[kind] || legalContent.about;
-      const item = factory(currentLang);
-      $('#legal-title').text(item.title);
-      $('#legal-body').html(String(item.body).replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>'));
-      $('#legal-modal').css('display', 'flex');
-      document.body.style.overflow = 'hidden';
     }
 
     $(document).on('click', '.modal', function(e) {
