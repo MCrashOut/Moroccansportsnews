@@ -4014,6 +4014,7 @@ async function loadFeed() {
 
         let posts = [];
         snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
+        posts = posts.filter(post => post.kind !== 'article_comment');
 
         const rankingSort = (a, b) => {
           if ((b.pinned ? 1 : 0) !== (a.pinned ? 1 : 0)) {
@@ -4930,8 +4931,8 @@ function closeArticlePage() {
       await db.runTransaction(async tr => {
         const snap = await tr.get(ref);
         const data = snap.exists ? (snap.data() || {}) : { like: 0, heart: 0, fire: 0, voters: {} };
-
         data.voters = data.voters || {};
+
         if (!data.voters[auth.currentUser.uid]) {
           data.voters[auth.currentUser.uid] = { like: false, heart: false, fire: false };
         }
@@ -4981,8 +4982,10 @@ function closeArticlePage() {
         articleCommentsUnsub = null;
       }
 
-      articleCommentsUnsub = db.collection('articleComments')
-        .where('articleId', '==', currentArticleId)
+      const articleKey = articleDocKeyFromId(currentArticleId);
+      articleCommentsUnsub = db.collection('posts')
+        .where('kind', '==', 'article_comment')
+        .where('articleKey', '==', articleKey)
         .onSnapshot(renderArticleComments, err => console.error('Article comments error', err));
     }
 
@@ -4997,17 +5000,23 @@ function closeArticlePage() {
       const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
       const userData = userDoc.exists ? (userDoc.data() || {}) : {};
       const authorName = userData.name || auth.currentUser.displayName || 'Fan';
+      const articleKey = articleDocKeyFromId(currentArticleId);
 
-      await db.collection('articleComments').add({
+      await db.collection('posts').add({
+        kind: 'article_comment',
         articleId: currentArticleId,
-        articleKey: articleDocKeyFromId(currentArticleId),
+        articleKey,
         text: textValue,
-        createdAt: Date.now(),
-        authorId: auth.currentUser.uid,
-        authorName
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        userId: auth.currentUser.uid,
+        username: authorName,
+        authorName,
+        score: 0,
+        pinned: false
       });
 
       input.value = '';
+      $('#article-comments-empty').hide();
     }
 
 function openDetails(id) {
