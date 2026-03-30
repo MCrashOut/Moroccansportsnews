@@ -4874,6 +4874,12 @@ function closeArticlePage() {
       return `article_${String(id)}`;
     }
 
+    function currentArticleReactionDocKey() {
+      const title = ($('#article-title').text() || '').trim();
+      if (title) return btoa(title).substring(0, 30);
+      return articleDocKeyFromId(currentArticleId);
+    }
+
     function estimateArticleCommentTime(value) {
       return relativeTimeLabel(value || Date.now());
     }
@@ -4895,7 +4901,7 @@ function closeArticlePage() {
         articleReactionsUnsub = null;
       }
 
-      const ref = db.collection('reactions').doc(articleDocKeyFromId(currentArticleId));
+      const ref = db.collection('reactions').doc(currentArticleReactionDocKey());
       articleReactionsUnsub = ref.onSnapshot(doc => {
         const data = doc.exists ? (doc.data() || {}) : {};
         const voters = data.voters || {};
@@ -4903,13 +4909,13 @@ function closeArticlePage() {
 
         $('#article-react-like-count').text(data.like || 0);
         $('#article-react-fire-count').text(data.fire || 0);
-        $('#article-react-clap-count').text(data.clap || 0);
+        $('#article-react-clap-count').text(data.heart || 0);
 
         $('.article-react-btn').removeClass('active');
         if (uid && voters[uid]) {
           if (voters[uid].like) $('#article-react-like').addClass('active');
           if (voters[uid].fire) $('#article-react-fire').addClass('active');
-          if (voters[uid].clap) $('#article-react-clap').addClass('active');
+          if (voters[uid].heart) $('#article-react-clap').addClass('active');
         }
       }, err => console.error('Article reactions error', err));
     }
@@ -4918,26 +4924,31 @@ function closeArticlePage() {
       if (!auth.currentUser) return openAuth();
       if (!currentArticleId) return;
 
-      const ref = db.collection('reactions').doc(articleDocKeyFromId(currentArticleId));
+      const mappedType = type === 'clap' ? 'heart' : type;
+      const ref = db.collection('reactions').doc(currentArticleReactionDocKey());
+
       await db.runTransaction(async tr => {
         const snap = await tr.get(ref);
-        const data = snap.exists ? (snap.data() || {}) : { like: 0, fire: 0, clap: 0, voters: {} };
+        const data = snap.exists ? (snap.data() || {}) : { like: 0, heart: 0, fire: 0, voters: {} };
+
         data.voters = data.voters || {};
         if (!data.voters[auth.currentUser.uid]) {
-          data.voters[auth.currentUser.uid] = { like: false, fire: false, clap: false };
+          data.voters[auth.currentUser.uid] = { like: false, heart: false, fire: false };
         }
 
-        const active = !!data.voters[auth.currentUser.uid][type];
+        const active = !!data.voters[auth.currentUser.uid][mappedType];
         if (active) {
-          data[type] = Math.max((data[type] || 1) - 1, 0);
-          data.voters[auth.currentUser.uid][type] = false;
+          data[mappedType] = Math.max((data[mappedType] || 1) - 1, 0);
+          data.voters[auth.currentUser.uid][mappedType] = false;
         } else {
-          data[type] = (data[type] || 0) + 1;
-          data.voters[auth.currentUser.uid][type] = true;
+          data[mappedType] = (data[mappedType] || 0) + 1;
+          data.voters[auth.currentUser.uid][mappedType] = true;
         }
 
         tr.set(ref, data);
       });
+
+      loadArticleReactions();
     }
 
     function renderArticleComments(snapshot) {
