@@ -24,18 +24,21 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <link rel="icon" type="image/png" href="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+  <script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link id="chessboard-css" rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" /></noscript>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
 
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   
@@ -1518,6 +1521,16 @@
   "description": "Latest Moroccan football news, global sports updates, and AI-powered sports insights."
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "MoroccanSportsHub",
+  "url": "https://moroccansportshub.com/",
+  "logo": "https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true",
+  "sameAs": []
+}
+</script>
 
   <style id="mobile-footer-fix">
     @media (max-width: 640px) {
@@ -1720,8 +1733,91 @@
     }
   </style>
 
+
+  <style id="upgrade-pack-v1">
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      transform: translateY(-160%);
+      z-index: 7000;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--cyan);
+      color: #000;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(0,0,0,.2);
+      transition: transform .18s ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .stats-strip {
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap:14px;
+      margin: 0 0 22px;
+    }
+    .stat-card {
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:16px;
+      box-shadow: 0 14px 28px var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+    .stat-card strong {
+      display:block;
+      font-size:1.35rem;
+      line-height:1;
+      margin-bottom:8px;
+      color: var(--text);
+    }
+    .stat-card span { color:var(--dim); font-size:.85rem; line-height:1.6; }
+    .newsletter-card {
+      margin-top: 20px;
+      display:grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 14px;
+      align-items:center;
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:18px;
+      background: linear-gradient(135deg, rgba(0,242,254,.08), rgba(255,255,255,.03));
+    }
+    .newsletter-card h3 {
+      color:var(--text);
+      font-size:1.05rem;
+      margin-bottom:6px;
+    }
+    .newsletter-card p { color:var(--dim); line-height:1.7; font-size:.9rem; }
+    .newsletter-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .enhanced-focus:focus-visible,
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid rgba(0,242,254,.42);
+      outline-offset: 3px;
+    }
+    .feature, .mini-card, .post-card, .home-bottom-card, .article-body-card, .article-info-box, .stat-card {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 400px;
+    }
+    @media (max-width: 900px) {
+      .stats-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .newsletter-card { grid-template-columns: 1fr; }
+      .newsletter-actions { justify-content:flex-start; }
+    }
+    @media (max-width: 640px) {
+      .stats-strip { grid-template-columns: 1fr; gap:10px; }
+      .stat-card { padding:14px; }
+      .newsletter-card { padding:16px; }
+    }
+  </style>
+
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <h1 style="display:none;">MoroccanSportsHub - Moroccan football news and global sports updates</h1>
 <button class="ai-fab" id="ai-fab" onclick="toggleAiAssistant()" aria-label="Open sports assistant">
     <i class="fa-solid fa-cloud"></i>
@@ -1742,7 +1838,7 @@
       <button id="ai-quick-matches" onclick="askAiQuick(getAiQuickPrompt('matches'))">Matches</button>
     </div>
     <div class="ai-input-wrap">
-      <input id="ai-input" type="text" placeholder="Ask a sports question..." onkeydown="if(event.key==='Enter') sendAiMessage()">
+      <input id="ai-input" type="text" placeholder="Ask a sports question..." onkeydown="if(event.key==='Enter') sendAiMessage()" aria-label="Ask the sports assistant">
       <button id="ai-send-btn" class="solid-btn" onclick="sendAiMessage()">Send</button>
     </div>
   </div>
@@ -1765,19 +1861,19 @@
     </nav>
 
     <div class="header-right">
-      <button class="icon-btn mobile-menu-btn" onclick="toggleDrawer()">
+      <button class="icon-btn mobile-menu-btn" onclick="toggleDrawer()" aria-label="Open menu">
         <i class="fa-solid fa-bars"></i>
       </button>
 
       <div class="notif-wrap">
-        <button class="icon-btn" onclick="toggleNotifs()"><i class="fa-solid fa-bell"></i></button>
+        <button class="icon-btn" onclick="toggleNotifs()" aria-label="Open notifications"><i class="fa-solid fa-bell"></i></button>
         <span id="notif-count" class="notif-badge"></span>
       </div>
 
-      <button class="icon-btn desktop-mobile-hide" onclick="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button class="icon-btn desktop-mobile-hide" onclick="toggleSearch()" aria-label="Open search"><i class="fa-solid fa-magnifying-glass"></i></button>
 
       <div class="top-controls desktop-mobile-hide">
-        <select id="lang-select" onchange="setLanguage(this.value)">
+        <select id="lang-select" onchange="setLanguage(this.value)" aria-label="Select language">
           <option value="en">EN</option>
           <option value="fr">FR</option>
           <option value="ar">AR</option>
@@ -1812,7 +1908,7 @@
       </div>
 
       <div class="top-controls">
-        <select id="drawer-lang-select" onchange="setLanguage(this.value)">
+        <select id="drawer-lang-select" onchange="setLanguage(this.value)" aria-label="Select language">
           <option value="en">English</option>
           <option value="fr">Français</option>
           <option value="ar">العربية</option>
@@ -1872,7 +1968,7 @@
   </div>
 
   <div id="search-overlay" class="search-overlay">
-    <input id="active-search-input" type="text" placeholder="Search Intelligence..." onkeyup="handleSearch(event)">
+    <input id="active-search-input" type="text" placeholder="Search Intelligence..." onkeyup="handleSearch(event)" aria-label="Search stories">
     <button class="icon-btn" onclick="toggleSearch()"><i class="fa-solid fa-xmark" style="color:var(--red)"></i></button>
   </div>
 
@@ -1885,9 +1981,15 @@
     </div>
   </div>
 
-  <main>
+  <main id="main-content">
     <section id="home-page" class="page active">
       <div id="search-results-area" style="display:none; margin-bottom:22px;"><div class="news-grid" id="search-output-grid"></div></div>
+      <div class="stats-strip" aria-label="Site highlights">
+        <div class="stat-card"><strong>24/7</strong><span>Always-on Moroccan and global sports coverage.</span></div>
+        <div class="stat-card"><strong>3 Languages</strong><span>English, French, and Arabic-ready navigation.</span></div>
+        <div class="stat-card"><strong>Live Hub</strong><span>Match widgets, breaking ticker, and daily updates.</span></div>
+        <div class="stat-card"><strong>Fan Layer</strong><span>Community feed, reactions, and AI-powered discovery.</span></div>
+      </div>
       <div id="standard-home-layout" class="home-grid">
         <div id="wire-left" class="side-col"></div>
         <div id="center-intel" class="feature"></div>
@@ -1924,6 +2026,17 @@
             <div class="home-mini-row"><strong id="home-why-3-title">AI Support</strong><span id="home-why-3-desc">Ask the assistant for quick sports answers anytime.</span></div>
             <div class="home-mini-row" style="border-bottom:none;"><strong id="home-why-4-title">Clean Navigation</strong><span id="home-why-4-desc">Jump straight into news, matches, chess, or the feed.</span></div>
           </div>
+        </div>
+      </div>
+
+      <div class="newsletter-card" aria-label="Join alerts and updates">
+        <div>
+          <h3>Turn casual visitors into regular fans</h3>
+          <p>Push your strongest stories through alerts, featured coverage, and community conversations. This area can later connect to email capture, premium alerts, or a breaking-news membership flow.</p>
+        </div>
+        <div class="newsletter-actions">
+          <button class="solid-btn" onclick="toggleNotifs()">View alerts</button>
+          <button class="ghost-btn" onclick="switchPage('feed')">Open community</button>
         </div>
       </div>
 
@@ -2940,6 +3053,35 @@
       }
     }
 
+    function loadScriptOnce(src, id) {
+      return new Promise((resolve, reject) => {
+        if (id && document.getElementById(id)) return resolve();
+        const existing = Array.from(document.scripts).find(s => s.src === src);
+        if (existing) {
+          if (existing.dataset.loaded === 'true') return resolve();
+          existing.addEventListener('load', () => resolve(), { once: true });
+          existing.addEventListener('error', reject, { once: true });
+          return;
+        }
+        const script = document.createElement('script');
+        if (id) script.id = id;
+        script.src = src;
+        script.defer = true;
+        script.onload = () => { script.dataset.loaded = 'true'; resolve(); };
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    }
+
+    async function ensureChessReady() {
+      if (window.Chess && window.Chessboard) return true;
+      const css = document.getElementById('chessboard-css');
+      if (css && css.rel !== 'stylesheet') css.rel = 'stylesheet';
+      await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js', 'lazy-chess-js');
+      await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js', 'lazy-chessboard-js');
+      return !!(window.Chess && window.Chessboard);
+    }
+
     function switchPage(p) {
       if (p === 'profile-check') {
         if (!auth.currentUser) {
@@ -2967,6 +3109,7 @@
       if (p === 'matches') loadMatchesWidget();
       if (p === 'admin') loadAdminPanel();
       if (p === 'global') renderGlobalFeed();
+      if (p === 'chess') ensureChessReady().catch(err => console.error('Chess libraries failed to load.', err));
       if (p === 'home') {
         homeRandomSeed = Date.now();
         renderHome(true);
@@ -4486,6 +4629,13 @@ function openDetails(id) {
         $('#article-source-btn').hide();
       }
 
+      upsertArticleSchema({
+        title: $('#article-title').text(),
+        description: $('#article-lead').text() || $('#article-why').text(),
+        image: $('#article-image').attr('src') || '',
+        url: currentArticleLink || window.location.href
+      });
+
       switchPage('article');
     }
 
@@ -4537,7 +4687,14 @@ function openDetails(id) {
       syncReacts(title);
     }
 
-    function startChess(side) {
+    async function startChess(side) {
+      try {
+        await ensureChessReady();
+      } catch (err) {
+        console.error(err);
+        alert('Chess failed to load. Please try again.');
+        return;
+      }
       game = new Chess();
       if (board) board.destroy();
       board = Chessboard('myBoard', {
@@ -4873,6 +5030,39 @@ function loadMatchesWidget() {
         handleProfilePicSelection(e.target.files?.[0] || null);
       }
     });
+
+
+    let searchDebounceTimer = null;
+    const activeSearchInput = document.getElementById('active-search-input');
+    if (activeSearchInput) {
+      activeSearchInput.addEventListener('input', (event) => {
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(() => handleSearch({ key: 'Enter', target: event.target }), 180);
+      });
+    }
+
+    function upsertArticleSchema({ title = '', description = '', image = '', url = '' } = {}) {
+      let schemaNode = document.getElementById('dynamic-article-schema');
+      if (!schemaNode) {
+        schemaNode = document.createElement('script');
+        schemaNode.type = 'application/ld+json';
+        schemaNode.id = 'dynamic-article-schema';
+        document.head.appendChild(schemaNode);
+      }
+      schemaNode.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'NewsArticle',
+        headline: title,
+        description,
+        image: image ? [image] : [],
+        mainEntityOfPage: url || window.location.href,
+        publisher: {
+          '@type': 'Organization',
+          name: 'MoroccanSportsHub',
+          url: 'https://moroccansportshub.com/'
+        }
+      });
+    }
 
     window.addEventListener('popstate', () => { sharedPostHandled = false; });
     initAppPrefs();
