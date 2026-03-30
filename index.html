@@ -4895,7 +4895,7 @@ function closeArticlePage() {
         articleReactionsUnsub = null;
       }
 
-      const ref = db.collection('articleReactions').doc(articleDocKeyFromId(currentArticleId));
+      const ref = db.collection('reactions').doc(articleDocKeyFromId(currentArticleId));
       articleReactionsUnsub = ref.onSnapshot(doc => {
         const data = doc.exists ? (doc.data() || {}) : {};
         const voters = data.voters || {};
@@ -4918,7 +4918,7 @@ function closeArticlePage() {
       if (!auth.currentUser) return openAuth();
       if (!currentArticleId) return;
 
-      const ref = db.collection('articleReactions').doc(articleDocKeyFromId(currentArticleId));
+      const ref = db.collection('reactions').doc(articleDocKeyFromId(currentArticleId));
       await db.runTransaction(async tr => {
         const snap = await tr.get(ref);
         const data = snap.exists ? (snap.data() || {}) : { like: 0, fire: 0, clap: 0, voters: {} };
