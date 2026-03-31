@@ -3495,7 +3495,7 @@
 
       if (p === 'feed') loadFeed();
       if (p === 'profile') loadProfile();
-      if (p === 'matches') loadMatchesWidget(true);
+      if (p === 'matches') loadMatchesWidget();
       if (p === 'admin') loadAdminPanel();
       if (p === 'global') renderGlobalFeed();
       if (p === 'home') {
@@ -5703,54 +5703,34 @@ function openDetails(id) {
       }
     }
 
-function loadMatchesWidget(forceReload = false) {
+function loadMatchesWidget() {
       const container = document.getElementById('live-inject');
-      if (!container) return;
+      container.innerHTML = `
+        <api-sports-widget
+          data-type="config"
+          data-key="77aa814e7955b3042a9ebf24fc1bee18"
+          data-sport="football"
+          data-theme="dark"
+          data-target-game="modal">
+        </api-sports-widget>
 
-      const widgetMarkup = `
-        <div class="matches-widget-shell">
-          <api-sports-widget
-            data-type="config"
-            data-key="77aa814e7955b3042a9ebf24fc1bee18"
-            data-sport="football"
-            data-theme="dark"
-            data-target-game="modal">
-          </api-sports-widget>
-
-          <api-sports-widget
-            data-type="games"
-            data-sport="football"
-            data-theme="dark"
-            data-key="77aa814e7955b3042a9ebf24fc1bee18"
-            data-target-game="modal">
-          </api-sports-widget>
-        </div>
-        <div id="matches-widget-fallback" class="profile-subtle-note" style="margin-top:12px; display:none;">Live matches are temporarily unavailable. Please refresh and try again.</div>
+        <api-sports-widget
+          data-type="games"
+          data-sport="football"
+          data-theme="dark"
+          data-key="77aa814e7955b3042a9ebf24fc1bee18"
+          data-target-game="modal">
+        </api-sports-widget>
       `;
 
-      if (forceReload || !container.querySelector('api-sports-widget')) {
-        container.innerHTML = widgetMarkup;
-      }
+      const oldScript = document.getElementById('api-sports-script');
+      if (oldScript) oldScript.remove();
 
-      const showFallback = () => {
-        const fb = document.getElementById('matches-widget-fallback');
-        if (fb) fb.style.display = 'block';
-      };
-
-      const existingScript = document.getElementById('api-sports-script');
-      if (!existingScript || forceReload) {
-        if (existingScript) existingScript.remove();
-        const script = document.createElement('script');
-        script.id = 'api-sports-script';
-        script.type = 'module';
-        script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
-        script.onerror = showFallback;
-        document.body.appendChild(script);
-      }
-
-      setTimeout(() => {
-        if (!container.querySelector('api-sports-widget')) showFallback();
-      }, 3500);
+      const script = document.createElement('script');
+      script.id = 'api-sports-script';
+      script.type = 'module';
+      script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
+      container.appendChild(script);
     }
 
 
