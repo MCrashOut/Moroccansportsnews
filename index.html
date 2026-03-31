@@ -22,6 +22,7 @@
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#000000" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <link rel="icon" type="image/png" href="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -4268,10 +4269,14 @@ async function loadFeed() {
     }
 
     function upgradeImageUrl(url = '') {
+      if (url && typeof url === 'object') {
+        url = url.url || url.src || url.link || url.href || '';
+      }
       let clean = String(url || '').trim();
-      if (!clean) return '';
+      if (!clean || clean === '[object Object]' || clean === 'undefined' || clean === 'null') return '';
       clean = clean.replace(/&amp;/g, '&');
       if (clean.startsWith('//')) clean = 'https:' + clean;
+      if (!/^https?:/i.test(clean) && !clean.startsWith('data:image/')) return '';
       if (clean.includes('via.placeholder.com')) return clean;
       clean = clean.replace(/([?&])(w|width|h|height|q|quality)=\d+/gi, '$1');
       clean = clean.replace(/[?&]+$/,'');
@@ -4285,71 +4290,18 @@ async function loadFeed() {
       return upgradeImageUrl(url) || buildFallbackImageUrl(label);
     }
 
-    async function fetchRssViaRss2Json(url) {
-      const res = await fetchWithTimeout('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url), {}, 2600);
-      if (!res.ok) throw new Error('rss2json failed');
-      const data = await res.json();
-      if (!data.items || !data.items.length) throw new Error('No RSS items');
-      return data.items.map(item => ({
-        title: item.title || 'Untitled',
-        desc: (item.description || '').replace(/<[^>]*>?/gm, ''),
-        img: upgradeImageUrl(item.thumbnail || item.enclosure?.link || item.enclosure || ''),
-        link: item.link || '#',
-        pubDate: item.pubDate || ''
-      }));
+    function googleNewsSearchLink(query, hl = 'en', gl = 'MA', ceid = 'MA:fr') {
+      return `https://news.google.com/search?q=${encodeURIComponent(query)}&hl=${encodeURIComponent(hl)}&gl=${encodeURIComponent(gl)}&ceid=${encodeURIComponent(ceid)}`;
     }
 
-    async function fetchRssViaXml(url) {
-      const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-      const res = await fetchWithTimeout(proxy, {}, 2400);
-      if (!res.ok) throw new Error('XML fetch failed');
-      const txt = await res.text();
-      const xml = new DOMParser().parseFromString(txt, 'text/xml');
-      const items = [...xml.querySelectorAll('item')];
-      if (!items.length) throw new Error('No XML items');
+    function buildInlineNewsItems(items = []) {
       return items.map(item => ({
-        title: item.querySelector('title')?.textContent?.trim() || 'Untitled',
-        desc: (item.querySelector('description')?.textContent || '').replace(/<[^>]*>?/gm, ''),
-        img: upgradeImageUrl(item.querySelector('enclosure')?.getAttribute('url') || item.querySelector('media\:content, content')?.getAttribute('url') || item.querySelector('media\:thumbnail, thumbnail')?.getAttribute('url') || ''),
-        link: item.querySelector('link')?.textContent?.trim() || '#',
-        pubDate: item.querySelector('pubDate')?.textContent?.trim() || ''
+        title: item.title || 'Untitled',
+        desc: item.desc || homeLabel('fallbackSummary'),
+        img: item.img || '',
+        link: item.link || '#',
+        pubDate: item.pubDate || new Date().toUTCString()
       }));
-    }
-
-    async function fetchRssItems(url) {
-      try { return await fetchRssViaRss2Json(url); }
-      catch (e) { return await fetchRssViaXml(url); }
-    }
-
-    async function fetchHtmlCards(url, mode) {
-      const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-      const res = await fetchWithTimeout(proxy, {}, 1800);
-      if (!res.ok) throw new Error('HTML fetch failed');
-      const html = await res.text();
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      let links = [];
-
-      if (mode === 'frmf') {
-        links = [...doc.querySelectorAll('a')].filter(a => /\/fr\//.test(a.href || '') && (a.textContent || '').trim().length > 18);
-      } else if (mode === 'frmbb') {
-        links = [...doc.querySelectorAll('article a, .jeg_post_title a, h3 a, h2 a, .entry-title a')];
-      } else if (mode === 'frmt') {
-        links = [...doc.querySelectorAll('article a, .av-masonry-entry a, .slide-entry a, h3 a, h2 a, .entry-title a')];
-      }
-
-      const items = [];
-      const seen = new Set();
-      for (const a of links) {
-        const title = (a.textContent || '').replace(/\s+/g, ' ').trim();
-        const link = a.href || '#';
-        if (!title || title.length < 18 || seen.has(title)) continue;
-        seen.add(title);
-        const img = upgradeImageUrl(a.querySelector('img')?.src || a.closest('article')?.querySelector('img')?.src || '');
-        items.push({ title, desc: '', img, link, pubDate: '' });
-        if (items.length >= 12) break;
-      }
-      if (!items.length) throw new Error('No HTML cards');
-      return items;
     }
 
     function dedupeItems(items) {
@@ -4419,17 +4371,10 @@ async function loadFeed() {
     }
 
     async function collectNews(sources, opts = {}) {
-      const withTimeout = (promise, ms = 2500) =>
-        Promise.race([
-          promise,
-          new Promise(resolve => setTimeout(() => resolve([]), ms))
-        ]);
-
       const batches = await Promise.allSettled(
         sources.map(async (src) => {
           try {
-            if (src.kind === 'rss') return await withTimeout(fetchRssItems(src.url), src.timeout || 2500);
-            if (src.kind === 'html') return await withTimeout(fetchHtmlCards(src.url, src.mode), src.timeout || 2500);
+            if (src.kind === 'inline') return buildInlineNewsItems(src.items || []);
             return [];
           } catch (e) {
             return [];
@@ -4445,54 +4390,38 @@ async function loadFeed() {
     }
 
     async function loadMoroccoPages() {
-      const after21 = recentAfterDate(21);
-      const after45 = recentAfterDate(45);
+      const footballSources = [{ kind:'inline', items:[
+        { title:'Morocco football headlines', desc:'Open a live Google News search covering Botola, FRMF, Lions of the Atlas, and Moroccan football stories.', link: googleNewsSearchLink('Morocco football OR Botola OR FRMF OR "Lions of the Atlas"', 'fr', 'MA', 'MA:fr') },
+        { title:'Botola and club updates', desc:'Quick access to the latest Botola Pro and Moroccan club reporting.', link: googleNewsSearchLink('Botola Pro OR Wydad OR Raja OR FAR Rabat OR RS Berkane', 'fr', 'MA', 'MA:fr') },
+        { title:'National team coverage', desc:'Follow Morocco national team news, squad updates, and match coverage.', link: googleNewsSearchLink('Morocco national team OR "équipe du Maroc" OR "المنتخب المغربي" football', 'ar', 'MA', 'MA:ar') },
+        { title:'Moroccan stars abroad', desc:'Track Moroccan players and transfers across international leagues.', link: googleNewsSearchLink('Moroccan players abroad football transfers', 'en', 'MA', 'MA:en') },
+        { title:'Women football in Morocco', desc:'Open stories about women football, clubs, and national team progress in Morocco.', link: googleNewsSearchLink('Morocco women football OR women national team Morocco', 'en', 'MA', 'MA:en') },
+        { title:'Arabic football headlines', desc:'Browse Arabic-language coverage for Moroccan football.', link: googleNewsSearchLink('"كرة القدم المغربية" OR "البطولة الاحترافية" OR "أسود الأطلس"', 'ar', 'MA', 'MA:ar') }
+      ]}];
 
-      const footballSources = [
-        { kind:'rss', url: googleNewsRss(`site:frmf.ma OR site:sport.le360.ma OR site:hesport.com OR site:lematin.ma (botola OR "lions de l'atlas" OR "football maroc") after:${after21}`, 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url: googleNewsRss(`site:frmf.ma OR site:hespress.com OR site:snrtnews.com ("كرة القدم المغربية" OR "المنتخب المغربي" OR "البطولة الاحترافية") after:${after21}`, 'ar', 'MA:ar', 'MA') },
-        { kind:'rss', url:'https://sport.le360.ma/rss.xml' }
-      ];
+      const basketballSources = [{ kind:'inline', items:[
+        { title:'Morocco basketball headlines', desc:'Open Moroccan basketball coverage, league updates, and federation stories.', link: googleNewsSearchLink('Morocco basketball OR FRMBB OR "basket maroc"', 'fr', 'MA', 'MA:fr') },
+        { title:'League and federation updates', desc:'Track Moroccan basketball league movement and federation announcements.', link: googleNewsSearchLink('FRMBB OR Moroccan basketball league', 'en', 'MA', 'MA:en') },
+        { title:'Arabic basketball stories', desc:'Browse Arabic reporting around basketball in Morocco.', link: googleNewsSearchLink('"كرة السلة المغربية" OR "منتخب المغرب لكرة السلة"', 'ar', 'MA', 'MA:ar') }
+      ]}];
 
-      const basketballSources = [
-        { kind:'rss', url: googleNewsRss(`("basketball maroc" OR "basket maroc" OR "maroc basket" OR "FRMBB") after:${after45}`, 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url: googleNewsRss(`("كرة السلة المغربية" OR "منتخب المغرب لكرة السلة" OR "البطولة المغربية لكرة السلة") after:${after45}`, 'ar', 'MA:ar', 'MA') },
-        { kind:'rss', url: googleNewsRss(`(site:hespress.com OR site:snrtnews.com OR site:lematin.ma OR site:sport.le360.ma) ("basket maroc" OR "كرة السلة المغربية") after:${after45}`, 'fr', 'MA:fr', 'MA') }
-      ];
+      const tennisSources = [{ kind:'inline', items:[
+        { title:'Morocco tennis headlines', desc:'Open current tennis coverage across Morocco, players, and tournaments.', link: googleNewsSearchLink('Morocco tennis OR FRMT OR tennis maroc', 'fr', 'MA', 'MA:fr') },
+        { title:'Moroccan players and events', desc:'Track player updates, local tournaments, and padel/tennis stories.', link: googleNewsSearchLink('Moroccan tennis players OR tournaments OR padel Morocco', 'en', 'MA', 'MA:en') },
+        { title:'Arabic tennis coverage', desc:'Browse Arabic-language tennis stories from Morocco.', link: googleNewsSearchLink('"التنس المغربي" OR "بطولة المغرب للتنس"', 'ar', 'MA', 'MA:ar') }
+      ]}];
 
-      const tennisSources = [
-        { kind:'rss', url: googleNewsRss(`("tennis maroc" OR "joueur maroc tennis" OR "FRMT" OR "tournoi maroc tennis" OR "padel maroc") after:${after45}`, 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url: googleNewsRss(`("التنس المغربي" OR "لاعب مغربي تنس" OR "بطولة المغرب للتنس" OR "مضرب المغرب") after:${after45}`, 'ar', 'MA:ar', 'MA') },
-        { kind:'rss', url: googleNewsRss(`(site:hespress.com OR site:snrtnews.com OR site:lematin.ma OR site:sport.le360.ma) ("tennis maroc" OR "التنس المغربي") after:${after45}`, 'fr', 'MA:fr', 'MA') }
-      ];
-
-      const esportSources = [
-        { kind:'rss', url: googleNewsRss(`("esport maroc" OR "e-sport maroc" OR "gaming maroc" OR "joueur maroc esport") after:${after45}`, 'fr', 'MA:fr', 'MA') },
-        { kind:'rss', url: googleNewsRss(`("الرياضات الإلكترونية في المغرب" OR "الألعاب الإلكترونية في المغرب" OR "لاعب مغربي إلكتروني") after:${after45}`, 'ar', 'MA:ar', 'MA') },
-        { kind:'rss', url: googleNewsRss(`(site:hespress.com OR site:snrtnews.com OR site:lematin.ma) ("esport maroc" OR "gaming maroc" OR "الرياضات الإلكترونية في المغرب") after:${after45}`, 'fr', 'MA:fr', 'MA') }
-      ];
+      const esportSources = [{ kind:'inline', items:[
+        { title:'Morocco esports headlines', desc:'Open Moroccan esports and gaming stories in Google News.', link: googleNewsSearchLink('Morocco esports OR gaming maroc OR esport maroc', 'fr', 'MA', 'MA:fr') },
+        { title:'Players, teams, and tournaments', desc:'Follow Moroccan esports teams, players, and local events.', link: googleNewsSearchLink('Morocco esports teams OR tournaments OR gaming events', 'en', 'MA', 'MA:en') },
+        { title:'Arabic esports coverage', desc:'Browse Arabic esports stories related to Morocco.', link: googleNewsSearchLink('"الرياضات الإلكترونية في المغرب" OR "الألعاب الإلكترونية في المغرب"', 'ar', 'MA', 'MA:ar') }
+      ]}];
 
       const tasks = [
-        {
-          selector: '#feed-morocco-football',
-          empty: 'Moroccan football news unavailable right now.',
-          promise: collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:24, maxAgeDays: 21 })
-        },
-        {
-          selector: '#feed-morocco-basketball',
-          empty: 'Moroccan basketball news unavailable right now.',
-          promise: collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:24, maxAgeDays: 45 })
-        },
-        {
-          selector: '#feed-morocco-tennis',
-          empty: 'Moroccan tennis news unavailable right now.',
-          promise: collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:24, maxAgeDays: 45 })
-        },
-        {
-          selector: '#feed-morocco-esports',
-          empty: 'Moroccan esport news unavailable right now.',
-          promise: collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:24, maxAgeDays: 45 })
-        }
+        { selector: '#feed-morocco-football', empty: 'Moroccan football news unavailable right now.', promise: collectNews(footballSources, { tag:'MOROCCO FOOTBALL', sport:'football', region:'morocco', limit:24, maxAgeDays: 21 }) },
+        { selector: '#feed-morocco-basketball', empty: 'Moroccan basketball news unavailable right now.', promise: collectNews(basketballSources, { tag:'MOROCCO BASKETBALL', sport:'basketball', region:'morocco', limit:24, maxAgeDays: 45 }) },
+        { selector: '#feed-morocco-tennis', empty: 'Moroccan tennis news unavailable right now.', promise: collectNews(tennisSources, { tag:'MOROCCO TENNIS', sport:'tennis', region:'morocco', limit:24, maxAgeDays: 45 }) },
+        { selector: '#feed-morocco-esports', empty: 'Moroccan esport news unavailable right now.', promise: collectNews(esportSources, { tag:'MOROCCO ESPORT', sport:'esports', region:'morocco', limit:24, maxAgeDays: 45 }) }
       ];
 
       await Promise.all(tasks.map(async task => {
@@ -4505,60 +4434,36 @@ async function loadFeed() {
 
     async function loadGlobalPages() {
       globalPool = [];
-      const footballIds = await collectNews([
-        { kind:'rss', url:'https://feeds.bbci.co.uk/sport/football/rss.xml' },
-        { kind:'rss', url: googleNewsRss('football world', 'en-US', 'US:en', 'US') }
-      ], { tag:'GLOBAL FOOTBALL', sport:'football', region:'global', limit:18 });
+      const footballIds = await collectNews([{ kind:'inline', items:[
+        { title:'Global football headlines', desc:'Open current world football coverage in Google News.', link: googleNewsSearchLink('world football headlines', 'en-US', 'US', 'US:en') },
+        { title:'Champions League and top leagues', desc:'Follow Champions League, Premier League, La Liga, Serie A, and more.', link: googleNewsSearchLink('Champions League OR Premier League OR La Liga OR Serie A', 'en-US', 'US', 'US:en') },
+        { title:'Transfers and major clubs', desc:'Track transfer stories, major clubs, and global football developments.', link: googleNewsSearchLink('football transfers top clubs', 'en-US', 'US', 'US:en') }
+      ]}], { tag:'GLOBAL FOOTBALL', sport:'football', region:'global', limit:18 });
 
-      const basketballIds = await collectNews([
-        { kind:'rss', url: googleNewsRss('basketball NBA FIBA', 'en-US', 'US:en', 'US') },
-        { kind:'rss', url: googleNewsRss('basketball EuroLeague', 'en-US', 'US:en', 'US') }
-      ], { tag:'GLOBAL BASKETBALL', sport:'basketball', region:'global', limit:18 });
+      const basketballIds = await collectNews([{ kind:'inline', items:[
+        { title:'Global basketball headlines', desc:'Open the latest NBA, EuroLeague, and FIBA basketball stories.', link: googleNewsSearchLink('NBA OR EuroLeague OR FIBA basketball', 'en-US', 'US', 'US:en') },
+        { title:'NBA and international basketball', desc:'Follow global basketball news and big matchups.', link: googleNewsSearchLink('global basketball headlines', 'en-US', 'US', 'US:en') }
+      ]}], { tag:'GLOBAL BASKETBALL', sport:'basketball', region:'global', limit:18 });
 
-      const tennisIds = await collectNews([
-        { kind:'rss', url: googleNewsRss('tennis ATP WTA Grand Slam', 'en-US', 'US:en', 'US') }
-      ], { tag:'GLOBAL TENNIS', sport:'tennis', region:'global', limit:18 });
+      const tennisIds = await collectNews([{ kind:'inline', items:[
+        { title:'Global tennis headlines', desc:'Open ATP, WTA, and Grand Slam coverage.', link: googleNewsSearchLink('ATP OR WTA OR Grand Slam tennis', 'en-US', 'US', 'US:en') },
+        { title:'ATP, WTA, and majors', desc:'Track matches, rankings, and tournament stories.', link: googleNewsSearchLink('tennis rankings tournament headlines', 'en-US', 'US', 'US:en') }
+      ]}], { tag:'GLOBAL TENNIS', sport:'tennis', region:'global', limit:18 });
 
-      const esportsIds = await collectNews([
-        { kind:'rss', url:'https://www.talkesport.com/feed/' },
-        { kind:'rss', url: googleNewsRss('esports gaming', 'en-US', 'US:en', 'US') }
-      ], { tag:'GLOBAL ESPORT', sport:'esports', region:'global', limit:18 });
+      const esportsIds = await collectNews([{ kind:'inline', items:[
+        { title:'Global esports headlines', desc:'Open esports and gaming coverage across major titles and tournaments.', link: googleNewsSearchLink('esports gaming headlines', 'en-US', 'US', 'US:en') },
+        { title:'Teams, tournaments, and gaming business', desc:'Follow major esports developments worldwide.', link: googleNewsSearchLink('esports tournaments teams gaming business', 'en-US', 'US', 'US:en') }
+      ]}], { tag:'GLOBAL ESPORT', sport:'esports', region:'global', limit:18 });
 
       globalPool = [...footballIds, ...basketballIds, ...tennisIds, ...esportsIds];
       renderGlobalFeed();
     }
 
-    function setMoroccoFilter(filter) {
-      moroccoCurrentFilter = filter;
-      $('.morocco-filter').removeClass('active');
-      $('#mf-' + filter).addClass('active');
-      renderMoroccoFeed();
-    }
-
-    function renderMoroccoFeed() {
-      const ids = moroccoCurrentFilter === 'all'
-        ? masterPool.filter(n => n.region === 'morocco').map(n => n.id)
-        : masterPool.filter(n => n.region === 'morocco' && n.sport === moroccoCurrentFilter).map(n => n.id);
-      renderIdsGrid('#feed-morocco', ids, 'Moroccan news unavailable right now.');
-    }
-
-    function setGlobalFilter(filter) {
-      globalCurrentFilter = filter;
-      $('.filter-chip').not('.morocco-filter').removeClass('active');
-      $('#gf-' + filter).addClass('active');
-      renderGlobalFeed();
-    }
-
-    function renderGlobalFeed() {
-      const ids = globalCurrentFilter === 'all' ? globalPool : globalPool.filter(id => masterPool[id]?.sport === globalCurrentFilter);
-      renderIdsGrid('#feed-global', ids, 'Global news unavailable right now.');
-    }
-
     async function loadStaticFeeds() {
-      const chessIds = await collectNews([
-        { kind:'rss', url:'https://www.chess.com/rss/news' },
-        { kind:'rss', url: googleNewsRss('chess FIDE', 'en-US', 'US:en', 'US') }
-      ], { tag:'CHESS', sport:'chess', region:'global', limit:18 });
+      const chessIds = await collectNews([{ kind:'inline', items:[
+        { title:'Chess headlines', desc:'Open a live Google News search for chess, FIDE, and tournament coverage.', link: googleNewsSearchLink('chess FIDE tournament headlines', 'en-US', 'US', 'US:en') },
+        { title:'Top chess tournaments', desc:'Follow world chess tournaments, rankings, and standout matches.', link: googleNewsSearchLink('world chess tournament news', 'en-US', 'US', 'US:en') }
+      ]}], { tag:'CHESS', sport:'chess', region:'global', limit:18 });
       renderIdsGrid('#feed-chess', chessIds, 'Chess news unavailable right now.');
     }
 
