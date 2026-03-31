@@ -1805,6 +1805,89 @@
       .toast { max-width: 100%; }
     }
 
+    .article-related-wrap {
+      margin-top: 18px;
+    }
+    .article-related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .article-related-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,.03);
+      padding: 14px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .article-related-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.04);
+    }
+    .article-related-card strong {
+      display: block;
+      color: var(--text);
+      line-height: 1.45;
+      margin-bottom: 8px;
+      font-size: .92rem;
+    }
+    .article-related-card span {
+      display: block;
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.6;
+    }
+    .admin-queue-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .admin-queue-item {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .admin-queue-head {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:8px;
+      flex-wrap:wrap;
+    }
+    .admin-queue-type {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      color: var(--cyan);
+      font-size:.72rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .admin-queue-copy {
+      color: var(--text);
+      line-height: 1.7;
+      font-size: .88rem;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      margin-bottom: 10px;
+    }
+    .admin-queue-meta {
+      color: var(--dim);
+      font-size: .78rem;
+      line-height: 1.6;
+    }
+    @media (max-width: 900px) {
+      .article-related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -2430,6 +2513,13 @@
           <div class="article-info-box">
             <h3 id="article-context-label">Quick context</h3>
             <p id="article-context"></p>
+          </div>
+        </div>
+
+        <div class="article-related-wrap">
+          <div class="article-info-box">
+            <h3 id="article-related-title">Related articles</h3>
+            <div class="article-related-grid" id="article-related-grid"></div>
           </div>
         </div>
 
@@ -3326,6 +3416,7 @@
       applyUiLanguage();
       await initNews();
       renderBreakingTicker();
+      tryOpenArticleFromUrl();
       if ($('#feed-page').hasClass('active')) { feedPreserveOrder = false; loadFeed(); }
       if ($('#admin-page').hasClass('active')) loadAdminPanel();
     }
@@ -3690,7 +3781,7 @@
       }
 
       applyUiLanguage();
-      initNews();
+      initNews().then(() => tryOpenArticleFromUrl());
 
       const params = new URLSearchParams(window.location.search);
       if (params.get('post')) {
@@ -5236,6 +5327,9 @@ function renderHome(forceShuffle = false) {
       }
       $('#article-meta').html('');
       if (currentArticleLink) $('#article-source-btn').show().text(t('readFull')); else $('#article-source-btn').hide();
+      renderRelatedArticles(saved);
+      updateArticleSeo(saved);
+      updateArticleRoute(saved);
       switchPage('article');
       resetArticleEngagementUi();
       syncArticleSaveButton();
@@ -5464,7 +5558,160 @@ function renderHome(forceShuffle = false) {
       }
     }
 
-function openDetails(id) {
+
+    function slugifyArticleTitle(str) {
+      return String(str || 'article')
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 80) || 'article';
+    }
+
+    function buildArticleUrl(articleId, title) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('article', String(articleId));
+      url.searchParams.set('slug', slugifyArticleTitle(title));
+      url.searchParams.delete('post');
+      url.hash = 'article';
+      return url.toString();
+    }
+
+    function setCanonicalUrl(url) {
+      const canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) canonical.setAttribute('href', url);
+    }
+
+    function upsertMeta(selector, attr, value) {
+      if (!value) return;
+      const el = document.querySelector(selector);
+      if (el) el.setAttribute(attr, value);
+    }
+
+    function updateArticleSeo(n) {
+      if (!n) return;
+      const title = n.title || 'MoroccanSportsHub';
+      const desc = safeSnippet(n.desc || homeLabel('fallbackSummary') || 'Latest sports update from MoroccanSportsHub.', 180);
+      const image = bestImage(n.img, title);
+      const canonicalUrl = buildArticleUrl(n.id, title);
+
+      document.title = `${title} | MoroccanSportsHub`;
+      upsertMeta('meta[name="description"]', 'content', desc);
+      upsertMeta('meta[name="keywords"]', 'content', `${title}, Moroccan football news, Botola, Atlas Lions, ${n.sport || 'football'}, ${n.region || 'global'} sports`);
+      upsertMeta('meta[property="og:title"]', 'content', title);
+      upsertMeta('meta[property="og:description"]', 'content', desc);
+      upsertMeta('meta[property="og:url"]', 'content', canonicalUrl);
+      upsertMeta('meta[name="twitter:title"]', 'content', title);
+      upsertMeta('meta[name="twitter:description"]', 'content', desc);
+      if (image) {
+        upsertMeta('meta[property="og:image"]', 'content', image);
+        upsertMeta('meta[name="twitter:image"]', 'content', image);
+      }
+      setCanonicalUrl(canonicalUrl);
+
+      let schemaEl = document.getElementById('dynamic-article-schema');
+      if (!schemaEl) {
+        schemaEl = document.createElement('script');
+        schemaEl.type = 'application/ld+json';
+        schemaEl.id = 'dynamic-article-schema';
+        document.head.appendChild(schemaEl);
+      }
+      schemaEl.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'NewsArticle',
+        headline: title,
+        description: desc,
+        image: image ? [image] : undefined,
+        mainEntityOfPage: canonicalUrl,
+        url: canonicalUrl,
+        datePublished: new Date(n.time || n.date || n.pubDate || Date.now()).toISOString(),
+        dateModified: new Date().toISOString(),
+        author: { '@type': 'Organization', name: 'MoroccanSportsHub' },
+        publisher: {
+          '@type': 'Organization',
+          name: 'MoroccanSportsHub',
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true'
+          }
+        }
+      });
+    }
+
+    function restoreDefaultSeo() {
+      document.title = 'MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores';
+      upsertMeta('meta[name="description"]', 'content', 'MoroccanSportsHub delivers Moroccan football news, Botola updates, Atlas Lions coverage, transfers, live scores, fixtures, and major global sports stories in English, French, and Arabic.');
+      upsertMeta('meta[name="keywords"]', 'content', 'Moroccan football news, Botola Pro news, Atlas Lions news, Morocco live scores, Morocco fixtures, Moroccan transfers, Wydad news, Raja news, FAR Rabat news, MoroccanSportsHub, global sports news');
+      upsertMeta('meta[property="og:title"]', 'content', 'MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores');
+      upsertMeta('meta[property="og:description"]', 'content', 'Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and major global sports stories.');
+      upsertMeta('meta[property="og:url"]', 'content', 'https://moroccansportshub.com/');
+      upsertMeta('meta[name="twitter:title"]', 'content', 'MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores');
+      upsertMeta('meta[name="twitter:description"]', 'content', 'Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and major global sports stories.');
+      upsertMeta('meta[property="og:image"]', 'content', 'https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true');
+      upsertMeta('meta[name="twitter:image"]', 'content', 'https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true');
+      setCanonicalUrl('https://moroccansportshub.com/');
+      const schemaEl = document.getElementById('dynamic-article-schema');
+      if (schemaEl) schemaEl.remove();
+    }
+
+    function renderRelatedArticles(currentItem) {
+      const target = $('#article-related-grid');
+      if (!target.length) return;
+      if (!currentItem) {
+        target.html('');
+        return;
+      }
+      const pool = masterPool
+        .filter(item => item && item.id !== currentItem.id)
+        .map(item => {
+          let score = 0;
+          if (item.region === currentItem.region) score += 3;
+          if ((item.sport || 'football') === (currentItem.sport || 'football')) score += 4;
+          const a = String(item.title || '').toLowerCase();
+          const b = String(currentItem.title || '').toLowerCase();
+          a.split(/\s+/).forEach(word => {
+            if (word.length > 4 && b.includes(word)) score += 1;
+          });
+          return { item, score, time: item.time || item.date || item.pubDate || 0 };
+        })
+        .sort((x, y) => (y.score - x.score) || (new Date(y.time).getTime() - new Date(x.time).getTime()))
+        .slice(0, 3);
+
+      if (!pool.length) {
+        target.html('<div class="article-comment-empty">More stories will appear here as the feed updates.</div>');
+        return;
+      }
+
+      target.html(pool.map(({ item }) => `
+        <div class="article-related-card" onclick="openDetails(${item.id})">
+          <strong>${escapeHtml(item.title || 'Untitled story')}</strong>
+          <span>${escapeHtml(safeSnippet(item.desc || homeLabel('fallbackSummary'), 110))}</span>
+        </div>
+      `).join(''));
+    }
+
+    function updateArticleRoute(n, replace = false) {
+      if (!n) return;
+      const nextUrl = buildArticleUrl(n.id, n.title || 'article');
+      const state = { articleId: n.id };
+      if (replace) history.replaceState(state, '', nextUrl);
+      else history.pushState(state, '', nextUrl);
+    }
+
+    function tryOpenArticleFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const articleId = params.get('article');
+      if (articleId == null || articleId === '') return false;
+      const numericId = Number(articleId);
+      const direct = Number.isFinite(numericId) ? masterPool[numericId] : null;
+      if (direct) {
+        openDetails(direct.id, true);
+        return true;
+      }
+      return false;
+    }
+
+function openDetails(id, replaceHistory = false) {
       const n = masterPool[id];
       if (!n) return;
 
@@ -5483,6 +5730,9 @@ function openDetails(id) {
       $('#article-body').text(n.desc || homeLabel('fallbackSummary'));
       $('#article-why').text(extra.why);
       $('#article-context').text(extra.context);
+      renderRelatedArticles(n);
+      updateArticleSeo(n);
+      updateArticleRoute(n, replaceHistory);
 
       $('#article-meta').html(`
         <span class="detail-chip"><i class="fa-solid fa-bolt"></i>${primaryBadge}</span>
@@ -5938,7 +6188,12 @@ function loadMatchesWidget(forceReload = false) {
       if (e.target && e.target.id === 'article-comment-input') handleArticleCommentTyping();
     });
 
-    window.addEventListener('popstate', () => { sharedPostHandled = false; });
+    window.addEventListener('popstate', () => {
+      sharedPostHandled = false;
+      if (!tryOpenArticleFromUrl() && !new URLSearchParams(window.location.search).get('post')) {
+        restoreDefaultSeo();
+      }
+    });
     initAppPrefs();
     renderSavedArticles();
     window.reactToArticle = reactToArticle;
