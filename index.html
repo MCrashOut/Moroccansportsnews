@@ -3,30 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores</title>
+  <title>MoroccanSportsHub | Latest Moroccan Football & Global Sports News</title>
   <!-- avatar-fix-v3: strict unsigned Cloudinary upload -->
 
-  <meta name="description" content="MoroccanSportsHub delivers Moroccan football news, Botola updates, Atlas Lions coverage, transfers, live scores, fixtures, and major global sports stories in English, French, and Arabic." />
+  <meta name="description" content="MoroccanSportsHub brings the latest Moroccan football news, global sports updates, match stories, and AI-powered sports insights." />
   <link rel="canonical" href="https://moroccansportshub.com/" />
-  <meta property="og:title" content="MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores" />
-  <meta property="og:description" content="Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and major global sports stories." />
+  <meta property="og:title" content="MoroccanSportsHub | Latest Moroccan Football & Global Sports News" />
+  <meta property="og:description" content="Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores" />
-  <meta name="twitter:description" content="Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and major global sports stories." />
+  <meta name="twitter:title" content="MoroccanSportsHub | Latest Moroccan Football & Global Sports News" />
+  <meta name="twitter:description" content="Latest Moroccan football news, global sports updates, and AI-powered insights." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta name="keywords" content="Moroccan football news, Botola Pro news, Atlas Lions news, Morocco live scores, Morocco fixtures, Moroccan transfers, Wydad news, Raja news, FAR Rabat news, MoroccanSportsHub, global sports news" />
+  <meta name="keywords" content="MoroccanSportsHub, Moroccan sports news, Morocco football, Botola, Moroccan football news, global sports news" />
   <meta property="og:site_name" content="MoroccanSportsHub" />
   <meta property="og:url" content="https://moroccansportshub.com/" />
-  <meta property="og:image" content="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
-  <meta property="og:image:alt" content="MoroccanSportsHub logo" />
-  <meta property="og:locale" content="en_US" />
-  <meta name="twitter:image" content="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
 
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#000000" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <link rel="icon" type="image/png" href="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1360,62 +1355,6 @@
       border-color: var(--cyan);
     }
 
-    .home-trending-shell {
-      min-height: 100%;
-    }
-    .home-trending-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .home-trending-post {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      padding: 16px;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .home-trending-post:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0,242,254,.28);
-      background: rgba(0,242,254,.04);
-    }
-    .home-trending-head {
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
-      margin-bottom:10px;
-    }
-    .home-trending-user {
-      color: var(--cyan);
-      font-weight: 800;
-      font-size: .88rem;
-      line-height: 1.4;
-    }
-    .home-trending-time {
-      color: var(--dim);
-      font-size: .74rem;
-      white-space: nowrap;
-    }
-    .home-trending-copy {
-      color: var(--text);
-      line-height: 1.7;
-      font-size: .9rem;
-      margin-bottom: 12px;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-    .home-trending-meta {
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      color: var(--dim);
-      font-size: .78rem;
-      font-weight: 700;
-    }
-
   
     @media (max-width: 900px) {
       .home-bottom-section {
@@ -1423,8 +1362,7 @@
       }
     }
     @media (max-width: 640px) {
-      .home-quick-grid,
-      .home-trending-grid {
+      .home-quick-grid {
         grid-template-columns: 1fr;
       }
       .home-bottom-card {
@@ -1710,158 +1648,6 @@
       }
     }
 
-    .article-comment-head-left {
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width:0;
-    }
-    .article-comment-actions-right {
-      display:flex;
-      gap:8px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-    .article-comment-delete-btn,
-    .article-save-btn,
-    .saved-article-btn {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: .74rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .article-comment-delete-btn:hover,
-    .article-save-btn:hover,
-    .saved-article-btn:hover {
-      border-color: rgba(0,242,254,.28);
-      color: var(--cyan);
-    }
-    .article-live-note,
-    .article-feedback,
-    .profile-subtle-note {
-      color: var(--dim);
-      font-size: .8rem;
-      line-height: 1.6;
-    }
-    .article-feedback {
-      margin-top: 12px;
-      min-height: 20px;
-    }
-    .article-live-note.typing {
-      color: var(--cyan);
-    }
-    .saved-articles-wrap {
-      margin-top: 18px;
-      text-align: left;
-      border-top: 1px solid var(--border);
-      padding-top: 18px;
-    }
-    .saved-articles-list {
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      margin-top: 12px;
-    }
-    .saved-article-item {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      border-radius: 16px;
-      padding: 12px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
-    }
-    .saved-article-copy strong {
-      display:block;
-      margin-bottom:6px;
-      color: var(--text);
-      line-height:1.45;
-    }
-    .saved-article-copy span {
-      display:block;
-      color: var(--dim);
-      font-size:.8rem;
-      line-height:1.55;
-    }
-    .saved-articles-empty {
-      color: var(--dim);
-      font-size: .86rem;
-      line-height: 1.7;
-      margin-top: 12px;
-    }
-    @keyframes commentPulseIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .article-comment-item.new-comment {
-      animation: commentPulseIn .28s ease;
-    }
-
-    .admin-summary-grid {
-      display:grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap:14px;
-    }
-    .admin-stat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 18px;
-      box-shadow: 0 14px 32px var(--shadow);
-    }
-    .admin-stat-card strong {
-      display:block;
-      font-size:1.7rem;
-      line-height:1;
-      margin-bottom:8px;
-      color: var(--text);
-    }
-    .admin-stat-card span {
-      color: var(--dim);
-      font-size:.84rem;
-      line-height:1.5;
-    }
-    .toast-stack {
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      z-index: 6500;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      pointer-events: none;
-    }
-    .toast {
-      min-width: 220px;
-      max-width: min(360px, calc(100vw - 32px));
-      background: color-mix(in srgb, var(--bg) 92%, var(--card));
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--cyan);
-      border-radius: 16px;
-      padding: 12px 14px;
-      box-shadow: 0 16px 34px rgba(0,0,0,.28);
-      transform: translateY(8px);
-      opacity: 0;
-      animation: toastIn .2s ease forwards;
-    }
-    .toast.error { border-left-color: var(--red); }
-    .toast.success { border-left-color: var(--green); }
-    @keyframes toastIn { to { transform: translateY(0); opacity: 1; } }
-    @media (max-width: 900px) {
-      .admin-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media (max-width: 640px) {
-      .admin-summary-grid { grid-template-columns: 1fr; }
-      .toast-stack { left: 14px; right: 14px; bottom: 14px; }
-      .toast { max-width: 100%; }
-    }
-
   </style>
 <script type="application/ld+json">
 {
@@ -1888,25 +1674,6 @@
     "email": "moroccansportshub.news@gmail.com",
     "contactType": "customer support"
   }]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "MoroccanSportsHub Homepage",
-  "url": "https://moroccansportshub.com/",
-  "description": "Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and global sports stories.",
-  "inLanguage": ["en", "fr", "ar"],
-  "isPartOf": {
-    "@type": "WebSite",
-    "name": "MoroccanSportsHub",
-    "url": "https://moroccansportshub.com/"
-  },
-  "primaryImageOfPage": {
-    "@type": "ImageObject",
-    "url": "https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true"
-  }
 }
 </script>
 
@@ -2049,62 +1816,6 @@
       background: var(--cyan);
       color: #000;
       border-color: var(--cyan);
-    }
-
-    .home-trending-shell {
-      min-height: 100%;
-    }
-    .home-trending-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .home-trending-post {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      padding: 16px;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .home-trending-post:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0,242,254,.28);
-      background: rgba(0,242,254,.04);
-    }
-    .home-trending-head {
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
-      margin-bottom:10px;
-    }
-    .home-trending-user {
-      color: var(--cyan);
-      font-weight: 800;
-      font-size: .88rem;
-      line-height: 1.4;
-    }
-    .home-trending-time {
-      color: var(--dim);
-      font-size: .74rem;
-      white-space: nowrap;
-    }
-    .home-trending-copy {
-      color: var(--text);
-      line-height: 1.7;
-      font-size: .9rem;
-      margin-bottom: 12px;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-    .home-trending-meta {
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      color: var(--dim);
-      font-size: .78rem;
-      font-weight: 700;
     }
 
   </style>
@@ -2475,18 +2186,6 @@
       </div>
 
       <div class="home-bottom-section">
-        <div class="home-bottom-card home-trending-shell">
-          <div class="subpage-top" style="margin-bottom:14px;">
-            <h3 style="margin:0;">Trending Fan Posts</h3>
-            <button class="ghost-btn" onclick="switchPage('feed')">Open Feed</button>
-          </div>
-          <div id="home-trending-posts" class="home-trending-grid">
-            <div class="mini-card">
-              <h3 style="margin-bottom:8px;">Trending fan posts will appear here.</h3>
-              <p>Popular community posts with the most reactions will fill this space automatically.</p>
-            </div>
-          </div>
-        </div>
         <div class="home-bottom-card">
           <h3 id="home-explore-title">Explore the Hub</h3>
           <div class="home-quick-grid">
@@ -2504,10 +2203,13 @@
             </button>
             <button class="home-quick-btn" onclick="switchPage('matches')">
               <strong id="home-quick-matches-title">Matches</strong>
-              <span id="home-quick-matches-desc">Quick access to live fixtures and scores.</span>
+              <span id="home-quick-matches-desc">Quick access to live fixtures, scores, and football widgets.</span>
             </button>
           </div>
-          <div class="home-mini-list" style="margin-top:14px;">
+        </div>
+        <div class="home-bottom-card">
+          <h3 id="home-why-title">Why MoroccanSportsHub</h3>
+          <div class="home-mini-list">
             <div class="home-mini-row"><strong id="home-why-1-title">Fast Coverage</strong><span id="home-why-1-desc">Moroccan + global sports in one homepage.</span></div>
             <div class="home-mini-row"><strong id="home-why-2-title">Community Layer</strong><span id="home-why-2-desc">Fans can react, post, and help surface top stories.</span></div>
             <div class="home-mini-row"><strong id="home-why-3-title">AI Support</strong><span id="home-why-3-desc">Ask the assistant for quick sports answers anytime.</span></div>
@@ -2536,7 +2238,6 @@
         <div class="article-back-row">
           <button class="ghost-btn" id="article-back-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
           <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
-          <button class="ghost-btn article-save-btn" id="article-save-btn" onclick="toggleSaveCurrentArticle()">Save Article</button>
         </div>
         <div class="detail-top-meta" id="article-meta"></div>
         <h1 id="article-title" class="article-title"></h1>
@@ -2585,8 +2286,6 @@
                 <span class="article-comment-note" id="article-comment-note">Join the conversation around this article.</span>
                 <button class="solid-btn" id="article-comment-submit-btn" onclick="postArticleComment()">Post Comment</button>
               </div>
-              <div class="article-live-note" id="article-live-note">Live updates appear automatically.</div>
-              <div class="article-feedback" id="article-feedback"></div>
             </div>
             <div class="article-comments-list" id="article-comments-list"></div>
             <p class="article-comment-empty" id="article-comments-empty">No comments yet. Be the first fan to react.</p>
@@ -2657,7 +2356,7 @@
       <div class="profile-box">
         <div class="section-title" id="profile-page-title" style="margin-bottom:8px;">Agent Identity Sync</div>
         <div class="profile-avatar-wrap">
-          <img id="profile-avatar-preview" class="profile-avatar-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23091015'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-size='38' font-weight='700' fill='%2300f2fe'%3EMSH%3C/text%3E%3C/svg%3E" alt="Profile picture" onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23091015'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-size='38' font-weight='700' fill='%2300f2fe'%3EMSH%3C/text%3E%3C/svg%3E'">
+          <img id="profile-avatar-preview" class="profile-avatar-preview" src="https://via.placeholder.com/160?text=MSH" alt="Profile picture" onerror="this.src='https://via.placeholder.com/160?text=MSH'">
           <div id="profile-avatar-fallback" class="profile-avatar-fallback" style="display:none;">A</div>
           <input id="profile-pic" class="auth-input" type="file" accept="image/*">
           <div class="profile-avatar-note">Upload JPG, PNG, or WEBP up to 4MB.</div>
@@ -2667,12 +2366,6 @@
         <input id="set-name" class="auth-input" type="text" placeholder="Update Agent ID">
         <button class="solid-btn" id="profile-sync-btn" style="width:100%; margin-top:8px;" onclick="updateProfileData()">Sync Database</button>
         <button class="ghost-btn" id="profile-logout-btn" style="width:100%; margin-top:10px;" onclick="logout()">Logout</button>
-        <div class="saved-articles-wrap">
-          <div class="section-title" style="margin-bottom:6px;">Saved Articles</div>
-          <div class="profile-subtle-note">Keep the best stories and reopen them anytime.</div>
-          <div class="saved-articles-list" id="saved-articles-list"></div>
-          <p class="saved-articles-empty" id="saved-articles-empty">No saved articles yet.</p>
-        </div>
       </div>
     </section>
 
@@ -2682,17 +2375,7 @@
         <div class="mini-card">
           <h3 id="admin-tools-title" style="margin-bottom:8px;">Admin Tools</h3>
           <p id="admin-tools-desc" style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Ban or unban users from posting. You can also manage posts directly from the Feed page.</p>
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <button class="solid-btn" id="admin-sync-users-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
-            <button class="ghost-btn" onclick="loadAdminPanel(true)">Refresh Admin</button>
-          </div>
-        </div>
-        <div id="admin-summary-cards" class="admin-summary-grid"></div>
-        <div class="mini-card">
-          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-            <input id="admin-user-search" class="auth-input" type="text" placeholder="Search users by name or email" style="margin:0; flex:1; min-width:220px;">
-            <button class="ghost-btn" onclick="loadAdminPanel(true)">Search</button>
-          </div>
+          <button class="solid-btn" id="admin-sync-users-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
         </div>
         <div id="admin-users-list"></div>
       </div>
@@ -2726,7 +2409,6 @@
       </div>
     </div>
   </footer>
-
 
 
   <div id="legal-modal" class="modal">
@@ -2842,13 +2524,6 @@
     let feedViewMode = 'latest';
     let lastRegularPage = 'home';
     let currentArticleLink = '';
-    let currentArticleId = null;
-    let articleReactionsUnsub = null;
-    let articleCommentsUnsub = null;
-    let articleTypingTimer = null;
-    let latestRenderedCommentIds = [];
-    const ARTICLE_COMMENT_COOLDOWN_MS = 15000;
-    const SAVED_ARTICLES_KEY = 'msh_saved_articles_v1';
 
     const uiText = {
       en: {
@@ -3702,7 +3377,6 @@
       if (p !== 'article') lastRegularPage = p;
       $('.page').removeClass('active');
       $('#' + p + '-page').addClass('active');
-      if (p === 'profile') renderSavedArticles();
 
       $('nav a').removeClass('active');
       if (p.startsWith('morocco-')) $('#nav-morocco').addClass('active');
@@ -3710,13 +3384,12 @@
 
       if (p === 'feed') loadFeed();
       if (p === 'profile') loadProfile();
-      if (p === 'matches') loadMatchesWidget(true);
+      if (p === 'matches') loadMatchesWidget();
       if (p === 'admin') loadAdminPanel();
       if (p === 'global') renderGlobalFeed();
       if (p === 'home') {
         homeRandomSeed = Date.now();
         renderHome(true);
-        loadHomeTrendingPosts();
       }
 
       toggleDrawer(false);
@@ -3803,7 +3476,6 @@
         $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
         $('#set-name').val('');
         $('#profile-email').text('');
-        renderSavedArticles();
         $('#nav-admin, #drawer-admin-btn').hide();
 
         if (notifListener) {
@@ -4209,7 +3881,7 @@
         banned: !currentStatus
       }, { merge: true });
 
-      showToast(currentStatus ? t('userUnbanned') : t('userBanned'), 'success');
+      alert(currentStatus ? t('userUnbanned') : t('userBanned'));
       loadFeed();
       loadAdminPanel();
     }
@@ -4235,11 +3907,11 @@
       });
 
       await batch.commit();
-      showToast(t('usersBackfilled'), 'success');
+      alert(t('usersBackfilled'));
       loadAdminPanel();
     }
 
-    async function loadAdminPanel(forceRefresh = false) {
+    async function loadAdminPanel() {
       if (!isAdmin()) {
         alert(t('notAllowed'));
         switchPage('home');
@@ -4247,88 +3919,35 @@
       }
 
       const wrap = $('#admin-users-list').empty();
-      const summaryWrap = $('#admin-summary-cards').empty();
-      const query = ($('#admin-user-search').val() || '').trim().toLowerCase();
+      const snap = await db.collection('users').get();
 
-      const [usersSnap, postsSnap] = await Promise.all([
-        db.collection('users').get(),
-        db.collection('posts').get()
-      ]);
-
-      let userCount = 0;
-      let bannedCount = 0;
-      let feedCount = 0;
-      let commentCount = 0;
-      const users = [];
-
-      usersSnap.forEach(doc => {
-        const u = doc.data() || {};
-        userCount += 1;
-        if (u.banned) bannedCount += 1;
-        users.push({ id: doc.id, ...u });
-      });
-
-      postsSnap.forEach(doc => {
-        const p = doc.data() || {};
-        if (p.kind === 'article_comment') commentCount += 1;
-        else feedCount += 1;
-      });
-
-      summaryWrap.html(`
-        <div class="admin-stat-card"><strong>${userCount}</strong><span>Total users</span></div>
-        <div class="admin-stat-card"><strong>${feedCount}</strong><span>Feed posts</span></div>
-        <div class="admin-stat-card"><strong>${commentCount}</strong><span>Article comments</span></div>
-        <div class="admin-stat-card"><strong>${bannedCount}</strong><span>Banned users</span></div>
-      `);
-
-      const filtered = users.filter(u => {
-        if (auth.currentUser && u.id === auth.currentUser.uid) return false;
-        if (!query) return true;
-        return `${u.name || ''} ${u.email || ''}`.toLowerCase().includes(query);
-      });
-
-      if (!filtered.length) {
+      if (snap.empty) {
         wrap.html(`<p style="color:var(--dim)">${t('noUsers')}</p>`);
-        if (forceRefresh) showToast('No matching users found.', 'error');
         return;
       }
 
-      filtered
-        .sort((a, b) => Number(!!b.banned) - Number(!!a.banned) || String(a.name || '').localeCompare(String(b.name || '')))
-        .forEach(u => {
-          const banned = !!u.banned;
-          wrap.append(`
-            <div class="post-card">
-              <div class="admin-user-row">
-                <div>
-                  <div class="post-user">${escapeHtml(u.name || 'Agent')}</div>
-                  <div class="post-time">${escapeHtml(u.email || '')}</div>
-                </div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                  <button class="${banned ? 'green-btn' : 'amber-btn'}" onclick="banUser('${u.id}', ${banned})">
-                    ${banned ? 'Unban' : 'Ban'}
-                  </button>
-                </div>
+      snap.forEach(doc => {
+        const u = doc.data();
+        const banned = !!u.banned;
+
+        if (auth.currentUser && doc.id === auth.currentUser.uid) return;
+
+        wrap.append(`
+          <div class="post-card">
+            <div class="admin-user-row">
+              <div>
+                <div class="post-user">${u.name || 'Agent'}</div>
+                <div class="post-time">${u.email || ''}</div>
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="${banned ? 'green-btn' : 'amber-btn'}" onclick="banUser('${doc.id}', ${banned})">
+                  ${banned ? 'Unban' : 'Ban'}
+                </button>
               </div>
             </div>
-          `);
-        });
-
-      if (forceRefresh) showToast('Admin panel refreshed.', 'success');
-    }
-
-    function showToast(message, type = 'success') {
-      const stack = document.getElementById('toast-stack');
-      if (!stack) return;
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      toast.textContent = message;
-      stack.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(8px)';
-        setTimeout(() => toast.remove(), 220);
-      }, 2600);
+          </div>
+        `);
+      });
     }
 
     function buildShareUrl(postId) {
@@ -5104,7 +4723,6 @@ async function initNews() {
   await Promise.allSettled(jobs);
   renderHome();
   renderBreakingTicker();
-  loadHomeTrendingPosts();
 
   if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
     $('#search-results-area').hide();
@@ -5217,81 +4835,6 @@ function renderHome(forceShuffle = false) {
     }
 
 
-
-async function loadHomeTrendingPosts() {
-      const container = $('#home-trending-posts');
-      if (!container.length) return;
-      container.html(`
-        <div class="mini-card">
-          <div class="skeleton-line w-70"></div>
-          <div class="skeleton-line w-90"></div>
-          <div class="skeleton-line w-55"></div>
-        </div>
-        <div class="mini-card">
-          <div class="skeleton-line w-70"></div>
-          <div class="skeleton-line w-90"></div>
-          <div class="skeleton-line w-55"></div>
-        </div>
-      `);
-      try {
-        const snap = await db.collection('posts').orderBy('createdAt', 'desc').limit(40).get();
-        const posts = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-          .filter(post => post && !post.kind && !post.blocked && String(post.content || '').trim());
-
-        posts.sort((a, b) => {
-          const ap = a.pinned ? 1 : 0;
-          const bp = b.pinned ? 1 : 0;
-          if (bp !== ap) return bp - ap;
-          const ar = (a.likes || 0) + (a.hearts || 0) + (a.fires || 0);
-          const br = (b.likes || 0) + (b.hearts || 0) + (b.fires || 0);
-          if (br !== ar) return br - ar;
-          return (b.score || 0) - (a.score || 0);
-        });
-
-        const topPosts = posts.slice(0, 6);
-        if (!topPosts.length) {
-          container.html(`<div class="mini-card"><h3 style="margin-bottom:8px;">No trending fan posts yet.</h3><p>The community feed will surface the most active posts here automatically.</p></div>`);
-          return;
-        }
-
-        const userIds = [...new Set(topPosts.map(post => post.userId).filter(Boolean))];
-        const userMap = {};
-        await Promise.all(userIds.map(async uid => {
-          try {
-            const doc = await db.collection('users').doc(uid).get();
-            if (doc.exists) userMap[uid] = doc.data() || {};
-          } catch {}
-        }));
-
-        container.html(topPosts.map(post => {
-          const profile = userMap[post.userId] || {};
-          const username = escapeHtml(post.username || profile.username || 'fan');
-          const body = escapeHtml(safeSnippet(post.content || '', 170));
-          const reactions = (post.likes || 0) + (post.hearts || 0) + (post.fires || 0);
-          const time = post.createdAt?.toDate ? relativeTimeLabel(post.createdAt.toDate()) : relativeTimeLabel(Date.now());
-          return `
-            <div class="home-trending-post" onclick="switchPage('feed')">
-              <div class="home-trending-head">
-                <div class="home-trending-user">@${username}${post.pinned ? ' 📌' : ''}</div>
-                <div class="home-trending-time">${time}</div>
-              </div>
-              <div class="home-trending-copy">${body}</div>
-              <div class="home-trending-meta">
-                <span>🔥 ${post.fires || 0}</span>
-                <span>❤️ ${post.hearts || 0}</span>
-                <span>👍 ${post.likes || 0}</span>
-                <span>${reactions} reactions</span>
-              </div>
-            </div>
-          `;
-        }).join(''));
-      } catch (err) {
-        console.error('Home trending posts failed', err);
-        container.html(`<div class="mini-card"><h3 style="margin-bottom:8px;">Trending fan posts are unavailable right now.</h3><p>Please try again in a moment.</p></div>`);
-      }
-    }
-
-
 function closeArticlePage() {
       switchPage(lastRegularPage || 'home');
     }
@@ -5336,159 +4879,7 @@ function closeArticlePage() {
     }
 
     function estimateArticleCommentTime(value) {
-      const millis = value?.toMillis?.() || value || Date.now();
-      return relativeTimeLabel(millis);
-    }
-
-    function setArticleFeedback(message = '', tone = 'dim') {
-      const el = $('#article-feedback');
-      el.text(message || '');
-      el.css('color', tone === 'error' ? 'var(--red)' : tone === 'success' ? 'var(--green)' : tone === 'accent' ? 'var(--cyan)' : 'var(--dim)');
-    }
-
-    function articleCooldownKey() {
-      const uid = auth.currentUser?.uid || 'guest';
-      return `msh_article_comment_cooldown_${uid}_${articleDocKeyFromId(currentArticleId)}`;
-    }
-
-    function getArticleCooldownRemaining() {
-      const lastTs = Number(localStorage.getItem(articleCooldownKey()) || '0');
-      return Math.max(0, ARTICLE_COMMENT_COOLDOWN_MS - (Date.now() - lastTs));
-    }
-
-    function markArticleCommentPostedNow() {
-      localStorage.setItem(articleCooldownKey(), String(Date.now()));
-    }
-
-    function getSavedArticles() {
-      try {
-        return JSON.parse(localStorage.getItem(SAVED_ARTICLES_KEY) || '[]');
-      } catch {
-        return [];
-      }
-    }
-
-    function setSavedArticles(items) {
-      localStorage.setItem(SAVED_ARTICLES_KEY, JSON.stringify(items.slice(0, 30)));
-    }
-
-    function isCurrentArticleSaved() {
-      if (currentArticleId == null) return false;
-      return getSavedArticles().some(item => String(item.id) === String(currentArticleId));
-    }
-
-    function syncArticleSaveButton() {
-      const saved = isCurrentArticleSaved();
-      $('#article-save-btn').text(saved ? 'Saved ✓' : 'Save Article');
-    }
-
-    function buildSavedArticlePayload() {
-      const n = masterPool[currentArticleId] || {};
-      return {
-        id: currentArticleId,
-        title: n.title || ($('#article-title').text() || 'Untitled story'),
-        desc: n.desc || ($('#article-lead').text() || ''),
-        link: currentArticleLink || n.link || '',
-        img: n.img || $('#article-image').attr('src') || '',
-        region: n.region || '',
-        sport: n.sport || 'football',
-        savedAt: Date.now()
-      };
-    }
-
-    function toggleSaveCurrentArticle() {
-      if (currentArticleId == null) return;
-      const saved = getSavedArticles();
-      const existingIndex = saved.findIndex(item => String(item.id) === String(currentArticleId));
-      if (existingIndex >= 0) {
-        saved.splice(existingIndex, 1);
-        setArticleFeedback('Article removed from your saved list.', 'dim');
-      } else {
-        saved.unshift(buildSavedArticlePayload());
-        setArticleFeedback('Article saved to your profile.', 'success');
-      }
-      setSavedArticles(saved);
-      syncArticleSaveButton();
-      renderSavedArticles();
-    }
-
-    function openSavedArticle(savedId) {
-      const localMatch = masterPool.find(item => String(item.id) === String(savedId));
-      if (localMatch) {
-        openDetails(localMatch.id);
-        switchPage('article');
-        return;
-      }
-      const saved = getSavedArticles().find(item => String(item.id) === String(savedId));
-      if (!saved) return;
-      currentArticleId = saved.id;
-      currentArticleLink = saved.link || '';
-      $('#article-title').text(saved.title || '');
-      $('#article-lead').text(saved.desc || homeLabel('fallbackSummary'));
-      $('#article-body').text(saved.desc || homeLabel('fallbackSummary'));
-      $('#article-why').text('Saved from your personal reading list.');
-      $('#article-context').text(`${homeLabel(saved.sport || 'football')} • ${saved.region || homeLabel('global')} • ${relativeTimeLabel(saved.savedAt || Date.now())}`);
-      const image = bestImage(saved.img, saved.title || 'Moroccansportshub');
-      if (image) {
-        $('#article-image').attr('src', image).attr('alt', saved.title || 'story image');
-        $('#article-hero').show();
-      } else {
-        $('#article-hero').hide();
-      }
-      $('#article-meta').html('');
-      if (currentArticleLink) $('#article-source-btn').show().text(t('readFull')); else $('#article-source-btn').hide();
-      switchPage('article');
-      resetArticleEngagementUi();
-      syncArticleSaveButton();
-      loadArticleReactions();
-      loadArticleComments();
-    }
-
-    function renderSavedArticles() {
-      const items = getSavedArticles();
-      if (!items.length) {
-        $('#saved-articles-list').empty();
-        $('#saved-articles-empty').show();
-        return;
-      }
-      $('#saved-articles-empty').hide();
-      $('#saved-articles-list').html(items.map(item => `
-        <div class="saved-article-item">
-          <div class="saved-article-copy">
-            <strong>${escapeHtml(item.title || 'Untitled story')}</strong>
-            <span>${escapeHtml(safeSnippet(item.desc || 'Saved from MoroccanSportsHub.', 110))}</span>
-          </div>
-          <button class="saved-article-btn" onclick="openSavedArticle('${String(item.id).replace(/'/g, "\'")}')">Open</button>
-        </div>
-      `).join(''));
-    }
-
-    function canDeleteArticleComment(item) {
-      if (!auth.currentUser || !item) return false;
-      return isAdmin() || item.userId === auth.currentUser.uid;
-    }
-
-    async function deleteArticleComment(commentId) {
-      if (!commentId) return;
-      if (!auth.currentUser) return openAuth();
-      const ok = window.confirm('Delete this comment? This action cannot be undone.');
-      if (!ok) return;
-      try {
-        await db.collection('posts').doc(commentId).delete();
-        setArticleFeedback('Comment deleted.', 'success');
-      } catch (err) {
-        console.error('Delete article comment failed', err);
-        setArticleFeedback('Could not delete this comment.', 'error');
-      }
-    }
-
-    function handleArticleCommentTyping() {
-      const note = $('#article-live-note');
-      note.text('Typing… live updates still continue below.').addClass('typing');
-      clearTimeout(articleTypingTimer);
-      articleTypingTimer = setTimeout(() => {
-        note.text('Live updates appear automatically.').removeClass('typing');
-      }, 1000);
+      return relativeTimeLabel(value || Date.now());
     }
 
     function resetArticleEngagementUi() {
@@ -5499,10 +4890,6 @@ function closeArticlePage() {
       $('#article-comments-list').empty();
       $('#article-comments-empty').show();
       $('#article-comment-input').val('');
-      $('#article-live-note').text('Live updates appear automatically.').removeClass('typing');
-      setArticleFeedback('');
-      latestRenderedCommentIds = [];
-      syncArticleSaveButton();
     }
 
     function loadArticleReactions() {
@@ -5528,10 +4915,7 @@ function closeArticlePage() {
           if (voters[uid].fire) $('#article-react-fire').addClass('active');
           if (voters[uid].heart) $('#article-react-clap').addClass('active');
         }
-      }, err => {
-        console.error('Article reactions error', err);
-        setArticleFeedback('Reactions are temporarily unavailable.', 'error');
-      });
+      }, err => console.error('Article reactions error', err));
     }
 
     async function reactToArticle(type) {
@@ -5541,32 +4925,28 @@ function closeArticlePage() {
       const mappedType = type === 'clap' ? 'heart' : type;
       const ref = db.collection('reactions').doc(currentArticleReactionDocKey());
 
-      try {
-        await db.runTransaction(async tr => {
-          const snap = await tr.get(ref);
-          const data = snap.exists ? (snap.data() || {}) : { like: 0, heart: 0, fire: 0, voters: {} };
-          data.voters = data.voters || {};
+      await db.runTransaction(async tr => {
+        const snap = await tr.get(ref);
+        const data = snap.exists ? (snap.data() || {}) : { like: 0, heart: 0, fire: 0, voters: {} };
+        data.voters = data.voters || {};
 
-          if (!data.voters[auth.currentUser.uid]) {
-            data.voters[auth.currentUser.uid] = { like: false, heart: false, fire: false };
-          }
+        if (!data.voters[auth.currentUser.uid]) {
+          data.voters[auth.currentUser.uid] = { like: false, heart: false, fire: false };
+        }
 
-          const active = !!data.voters[auth.currentUser.uid][mappedType];
-          if (active) {
-            data[mappedType] = Math.max((data[mappedType] || 1) - 1, 0);
-            data.voters[auth.currentUser.uid][mappedType] = false;
-          } else {
-            data[mappedType] = (data[mappedType] || 0) + 1;
-            data.voters[auth.currentUser.uid][mappedType] = true;
-          }
+        const active = !!data.voters[auth.currentUser.uid][mappedType];
+        if (active) {
+          data[mappedType] = Math.max((data[mappedType] || 1) - 1, 0);
+          data.voters[auth.currentUser.uid][mappedType] = false;
+        } else {
+          data[mappedType] = (data[mappedType] || 0) + 1;
+          data.voters[auth.currentUser.uid][mappedType] = true;
+        }
 
-          tr.set(ref, data);
-        });
-        setArticleFeedback('Reaction updated live.', 'accent');
-      } catch (err) {
-        console.error('Article reaction update failed', err);
-        setArticleFeedback('Could not save your reaction.', 'error');
-      }
+        tr.set(ref, data);
+      });
+
+      loadArticleReactions();
     }
 
     function renderArticleComments(snapshot) {
@@ -5575,29 +4955,19 @@ function closeArticlePage() {
       items.sort((a, b) => ((b.createdAt?.toMillis?.() || b.createdAt || 0) - (a.createdAt?.toMillis?.() || a.createdAt || 0)));
 
       if (!items.length) {
-        latestRenderedCommentIds = [];
         $('#article-comments-list').empty();
         $('#article-comments-empty').show();
         return;
       }
 
-      const previousIds = new Set(latestRenderedCommentIds);
-      latestRenderedCommentIds = items.map(item => item.id);
       $('#article-comments-empty').hide();
       $('#article-comments-list').html(items.map(item => {
         const createdAt = item.createdAt?.toMillis?.() || item.createdAt || Date.now();
-        const canDelete = canDeleteArticleComment(item);
-        const isNew = !previousIds.has(item.id);
         return `
-        <div class="article-comment-item ${isNew ? 'new-comment' : ''}">
+        <div class="article-comment-item">
           <div class="article-comment-head">
-            <div class="article-comment-head-left">
-              <span class="article-comment-author">${escapeHtml(item.authorName || item.username || 'Fan')}</span>
-              <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(createdAt))}</span>
-            </div>
-            <div class="article-comment-actions-right">
-              ${canDelete ? `<button class="article-comment-delete-btn" onclick="deleteArticleComment('${String(item.id).replace(/'/g, "\'")}')">Delete</button>` : ''}
-            </div>
+            <span class="article-comment-author">${escapeHtml(item.authorName || item.username || 'Fan')}</span>
+            <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(createdAt))}</span>
           </div>
           <div class="article-comment-text">${escapeHtml(item.text || '')}</div>
         </div>
@@ -5616,10 +4986,7 @@ function closeArticlePage() {
       articleCommentsUnsub = db.collection('posts')
         .where('kind', '==', 'article_comment')
         .where('articleKey', '==', articleKey)
-        .onSnapshot(renderArticleComments, err => {
-          console.error('Article comments error', err);
-          setArticleFeedback('Comments are temporarily unavailable.', 'error');
-        });
+        .onSnapshot(renderArticleComments, err => console.error('Article comments error', err));
     }
 
     async function postArticleComment() {
@@ -5630,39 +4997,26 @@ function closeArticlePage() {
       const textValue = (input?.value || '').trim();
       if (!textValue) return;
 
-      const remaining = getArticleCooldownRemaining();
-      if (remaining > 0) {
-        setArticleFeedback(`Please wait ${Math.ceil(remaining / 1000)}s before posting again.`, 'error');
-        return;
-      }
+      const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+      const userData = userDoc.exists ? (userDoc.data() || {}) : {};
+      const authorName = userData.name || auth.currentUser.displayName || 'Fan';
+      const articleKey = articleDocKeyFromId(currentArticleId);
 
-      try {
-        const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
-        const userData = userDoc.exists ? (userDoc.data() || {}) : {};
-        const authorName = userData.name || auth.currentUser.displayName || 'Fan';
-        const articleKey = articleDocKeyFromId(currentArticleId);
+      await db.collection('posts').add({
+        kind: 'article_comment',
+        articleId: currentArticleId,
+        articleKey,
+        text: textValue,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        userId: auth.currentUser.uid,
+        username: authorName,
+        authorName,
+        score: 0,
+        pinned: false
+      });
 
-        await db.collection('posts').add({
-          kind: 'article_comment',
-          articleId: currentArticleId,
-          articleKey,
-          text: textValue,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          userId: auth.currentUser.uid,
-          username: authorName,
-          authorName,
-          score: 0,
-          pinned: false
-        });
-
-        input.value = '';
-        markArticleCommentPostedNow();
-        $('#article-comments-empty').hide();
-        setArticleFeedback('Comment posted successfully.', 'success');
-      } catch (err) {
-        console.error('Post article comment failed', err);
-        setArticleFeedback('Could not post your comment.', 'error');
-      }
+      input.value = '';
+      $('#article-comments-empty').hide();
     }
 
 function openDetails(id) {
@@ -5678,7 +5032,6 @@ function openDetails(id) {
       const extra = buildArticleExtraCopy(n);
 
       currentArticleLink = n.link || '';
-      syncArticleSaveButton();
       $('#article-title').text(n.title || '');
       $('#article-lead').text(n.desc || homeLabel('fallbackSummary'));
       $('#article-body').text(n.desc || homeLabel('fallbackSummary'));
@@ -6048,13 +5401,8 @@ function openDetails(id) {
       }
     }
 
-function loadMatchesWidget(forceReload = false) {
+function loadMatchesWidget() {
       const container = document.getElementById('live-inject');
-      if (!container) return;
-
-      if (!forceReload && container.dataset.loaded === '1') return;
-
-      container.dataset.loaded = '0';
       container.innerHTML = `
         <api-sports-widget
           data-type="config"
@@ -6080,24 +5428,7 @@ function loadMatchesWidget(forceReload = false) {
       script.id = 'api-sports-script';
       script.type = 'module';
       script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
-      script.onload = () => { container.dataset.loaded = '1'; };
-      script.onerror = () => {
-        container.insertAdjacentHTML('beforeend', `<div class="mini-card"><p style="color:var(--dim)">The live matches widget could not load right now.</p></div>`);
-      };
-      document.body.appendChild(script);
-
-      setTimeout(() => {
-        if (container.dataset.loaded !== '1') {
-          const retry = document.getElementById('api-sports-script');
-          if (retry) retry.remove();
-          const retryScript = document.createElement('script');
-          retryScript.id = 'api-sports-script';
-          retryScript.type = 'module';
-          retryScript.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
-          retryScript.onload = () => { container.dataset.loaded = '1'; };
-          document.body.appendChild(retryScript);
-        }
-      }, 1800);
+      container.appendChild(script);
     }
 
 
@@ -6135,19 +5466,10 @@ function loadMatchesWidget(forceReload = false) {
       }
     });
 
-    document.addEventListener('input', function(e) {
-      if (e.target && e.target.id === 'article-comment-input') handleArticleCommentTyping();
-    });
-
     window.addEventListener('popstate', () => { sharedPostHandled = false; });
     initAppPrefs();
-    renderSavedArticles();
     window.reactToArticle = reactToArticle;
     window.postArticleComment = postArticleComment;
-    window.toggleSaveCurrentArticle = toggleSaveCurrentArticle;
-    window.openSavedArticle = openSavedArticle;
-    window.deleteArticleComment = deleteArticleComment;
   </script>
-  <div id="toast-stack" class="toast-stack"></div>
 </body>
 </html>
