@@ -5468,6 +5468,8 @@ function loadMatchesWidget() {
 
     window.addEventListener('popstate', () => { sharedPostHandled = false; });
     initAppPrefs();
+    window.reactToArticle = reactToArticle;
+    window.postArticleComment = postArticleComment;
   </script>
 </body>
 </html>
