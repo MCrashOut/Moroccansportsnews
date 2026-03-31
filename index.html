@@ -1267,7 +1267,7 @@
     .home-bottom-section {
       margin-top: 28px;
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1fr;
       gap: 20px;
       align-items: start;
     }
@@ -1360,62 +1360,6 @@
       border-color: var(--cyan);
     }
 
-    .home-trending-shell {
-      min-height: 100%;
-    }
-    .home-trending-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .home-trending-post {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      padding: 16px;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .home-trending-post:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0,242,254,.28);
-      background: rgba(0,242,254,.04);
-    }
-    .home-trending-head {
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
-      margin-bottom:10px;
-    }
-    .home-trending-user {
-      color: var(--cyan);
-      font-weight: 800;
-      font-size: .88rem;
-      line-height: 1.4;
-    }
-    .home-trending-time {
-      color: var(--dim);
-      font-size: .74rem;
-      white-space: nowrap;
-    }
-    .home-trending-copy {
-      color: var(--text);
-      line-height: 1.7;
-      font-size: .9rem;
-      margin-bottom: 12px;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-    .home-trending-meta {
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      color: var(--dim);
-      font-size: .78rem;
-      font-weight: 700;
-    }
-
   
     @media (max-width: 900px) {
       .home-bottom-section {
@@ -1423,8 +1367,7 @@
       }
     }
     @media (max-width: 640px) {
-      .home-quick-grid,
-      .home-trending-grid {
+      .home-quick-grid {
         grid-template-columns: 1fr;
       }
       .home-bottom-card {
@@ -1958,7 +1901,7 @@
     .home-bottom-section {
       margin-top: 28px;
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1fr;
       gap: 20px;
       align-items: start;
     }
@@ -2049,62 +1992,6 @@
       background: var(--cyan);
       color: #000;
       border-color: var(--cyan);
-    }
-
-    .home-trending-shell {
-      min-height: 100%;
-    }
-    .home-trending-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .home-trending-post {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      padding: 16px;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .home-trending-post:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0,242,254,.28);
-      background: rgba(0,242,254,.04);
-    }
-    .home-trending-head {
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
-      margin-bottom:10px;
-    }
-    .home-trending-user {
-      color: var(--cyan);
-      font-weight: 800;
-      font-size: .88rem;
-      line-height: 1.4;
-    }
-    .home-trending-time {
-      color: var(--dim);
-      font-size: .74rem;
-      white-space: nowrap;
-    }
-    .home-trending-copy {
-      color: var(--text);
-      line-height: 1.7;
-      font-size: .9rem;
-      margin-bottom: 12px;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-    .home-trending-meta {
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      color: var(--dim);
-      font-size: .78rem;
-      font-weight: 700;
     }
 
   </style>
@@ -2475,18 +2362,6 @@
       </div>
 
       <div class="home-bottom-section">
-        <div class="home-bottom-card home-trending-shell">
-          <div class="subpage-top" style="margin-bottom:14px;">
-            <h3 style="margin:0;">Trending Fan Posts</h3>
-            <button class="ghost-btn" onclick="switchPage('feed')">Open Feed</button>
-          </div>
-          <div id="home-trending-posts" class="home-trending-grid">
-            <div class="mini-card">
-              <h3 style="margin-bottom:8px;">Trending fan posts will appear here.</h3>
-              <p>Popular community posts with the most reactions will fill this space automatically.</p>
-            </div>
-          </div>
-        </div>
         <div class="home-bottom-card">
           <h3 id="home-explore-title">Explore the Hub</h3>
           <div class="home-quick-grid">
@@ -3716,7 +3591,6 @@
       if (p === 'home') {
         homeRandomSeed = Date.now();
         renderHome(true);
-        loadHomeTrendingPosts();
       }
 
       toggleDrawer(false);
@@ -5104,7 +4978,6 @@ async function initNews() {
   await Promise.allSettled(jobs);
   renderHome();
   renderBreakingTicker();
-  loadHomeTrendingPosts();
 
   if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
     $('#search-results-area').hide();
@@ -5218,83 +5091,9 @@ function renderHome(forceShuffle = false) {
 
 
 
-async function loadHomeTrendingPosts() {
-      const container = $('#home-trending-posts');
-      if (!container.length) return;
-      container.html(`
-        <div class="mini-card">
-          <div class="skeleton-line w-70"></div>
-          <div class="skeleton-line w-90"></div>
-          <div class="skeleton-line w-55"></div>
-        </div>
-        <div class="mini-card">
-          <div class="skeleton-line w-70"></div>
-          <div class="skeleton-line w-90"></div>
-          <div class="skeleton-line w-55"></div>
-        </div>
-      `);
-      try {
-        const snap = await db.collection('posts').orderBy('createdAt', 'desc').limit(40).get();
-        const posts = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-          .filter(post => post && !post.kind && !post.blocked && String(post.content || '').trim());
-
-        posts.sort((a, b) => {
-          const ap = a.pinned ? 1 : 0;
-          const bp = b.pinned ? 1 : 0;
-          if (bp !== ap) return bp - ap;
-          const ar = (a.likes || 0) + (a.hearts || 0) + (a.fires || 0);
-          const br = (b.likes || 0) + (b.hearts || 0) + (b.fires || 0);
-          if (br !== ar) return br - ar;
-          return (b.score || 0) - (a.score || 0);
-        });
-
-        const topPosts = posts.slice(0, 6);
-        if (!topPosts.length) {
-          container.html(`<div class="mini-card"><h3 style="margin-bottom:8px;">No trending fan posts yet.</h3><p>The community feed will surface the most active posts here automatically.</p></div>`);
-          return;
-        }
-
-        const userIds = [...new Set(topPosts.map(post => post.userId).filter(Boolean))];
-        const userMap = {};
-        await Promise.all(userIds.map(async uid => {
-          try {
-            const doc = await db.collection('users').doc(uid).get();
-            if (doc.exists) userMap[uid] = doc.data() || {};
-          } catch {}
-        }));
-
-        container.html(topPosts.map(post => {
-          const profile = userMap[post.userId] || {};
-          const username = escapeHtml(post.username || profile.username || 'fan');
-          const body = escapeHtml(safeSnippet(post.content || '', 170));
-          const reactions = (post.likes || 0) + (post.hearts || 0) + (post.fires || 0);
-          const time = post.createdAt?.toDate ? relativeTimeLabel(post.createdAt.toDate()) : relativeTimeLabel(Date.now());
-          return `
-            <div class="home-trending-post" onclick="switchPage('feed')">
-              <div class="home-trending-head">
-                <div class="home-trending-user">@${username}${post.pinned ? ' 📌' : ''}</div>
-                <div class="home-trending-time">${time}</div>
-              </div>
-              <div class="home-trending-copy">${body}</div>
-              <div class="home-trending-meta">
-                <span>🔥 ${post.fires || 0}</span>
-                <span>❤️ ${post.hearts || 0}</span>
-                <span>👍 ${post.likes || 0}</span>
-                <span>${reactions} reactions</span>
-              </div>
-            </div>
-          `;
-        }).join(''));
-      } catch (err) {
-        console.error('Home trending posts failed', err);
-        container.html(`<div class="mini-card"><h3 style="margin-bottom:8px;">Trending fan posts are unavailable right now.</h3><p>Please try again in a moment.</p></div>`);
-      }
-    }
 
 
-function closeArticlePage() {
-      switchPage(lastRegularPage || 'home');
-    }
+
 
     function openCurrentArticleSource() {
       if (currentArticleLink) {
