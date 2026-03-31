@@ -5186,6 +5186,10 @@ function renderHome(forceShuffle = false) {
 
 
 
+    function closeArticlePage() {
+      switchPage(lastRegularPage || 'home');
+    }
+
     function openCurrentArticleSource() {
       if (currentArticleLink) {
         window.open(currentArticleLink, '_blank', 'noopener');
