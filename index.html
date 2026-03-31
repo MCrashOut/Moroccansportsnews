@@ -1741,6 +1741,66 @@
       animation: commentPulseIn .28s ease;
     }
 
+    .admin-summary-grid {
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap:14px;
+    }
+    .admin-stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 14px 32px var(--shadow);
+    }
+    .admin-stat-card strong {
+      display:block;
+      font-size:1.7rem;
+      line-height:1;
+      margin-bottom:8px;
+      color: var(--text);
+    }
+    .admin-stat-card span {
+      color: var(--dim);
+      font-size:.84rem;
+      line-height:1.5;
+    }
+    .toast-stack {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 6500;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      min-width: 220px;
+      max-width: min(360px, calc(100vw - 32px));
+      background: color-mix(in srgb, var(--bg) 92%, var(--card));
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--cyan);
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: 0 16px 34px rgba(0,0,0,.28);
+      transform: translateY(8px);
+      opacity: 0;
+      animation: toastIn .2s ease forwards;
+    }
+    .toast.error { border-left-color: var(--red); }
+    .toast.success { border-left-color: var(--green); }
+    @keyframes toastIn { to { transform: translateY(0); opacity: 1; } }
+    @media (max-width: 900px) {
+      .admin-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .admin-summary-grid { grid-template-columns: 1fr; }
+      .toast-stack { left: 14px; right: 14px; bottom: 14px; }
+      .toast { max-width: 100%; }
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -2452,7 +2512,7 @@
       <div class="profile-box">
         <div class="section-title" id="profile-page-title" style="margin-bottom:8px;">Agent Identity Sync</div>
         <div class="profile-avatar-wrap">
-          <img id="profile-avatar-preview" class="profile-avatar-preview" src="https://via.placeholder.com/160?text=MSH" alt="Profile picture" onerror="this.src='https://via.placeholder.com/160?text=MSH'">
+          <img id="profile-avatar-preview" class="profile-avatar-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23091015'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-size='38' font-weight='700' fill='%2300f2fe'%3EMSH%3C/text%3E%3C/svg%3E" alt="Profile picture" onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23091015'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-size='38' font-weight='700' fill='%2300f2fe'%3EMSH%3C/text%3E%3C/svg%3E'">
           <div id="profile-avatar-fallback" class="profile-avatar-fallback" style="display:none;">A</div>
           <input id="profile-pic" class="auth-input" type="file" accept="image/*">
           <div class="profile-avatar-note">Upload JPG, PNG, or WEBP up to 4MB.</div>
@@ -2477,7 +2537,17 @@
         <div class="mini-card">
           <h3 id="admin-tools-title" style="margin-bottom:8px;">Admin Tools</h3>
           <p id="admin-tools-desc" style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Ban or unban users from posting. You can also manage posts directly from the Feed page.</p>
-          <button class="solid-btn" id="admin-sync-users-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="solid-btn" id="admin-sync-users-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
+            <button class="ghost-btn" onclick="loadAdminPanel(true)">Refresh Admin</button>
+          </div>
+        </div>
+        <div id="admin-summary-cards" class="admin-summary-grid"></div>
+        <div class="mini-card">
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <input id="admin-user-search" class="auth-input" type="text" placeholder="Search users by name or email" style="margin:0; flex:1; min-width:220px;">
+            <button class="ghost-btn" onclick="loadAdminPanel(true)">Search</button>
+          </div>
         </div>
         <div id="admin-users-list"></div>
       </div>
@@ -3495,7 +3565,7 @@
 
       if (p === 'feed') loadFeed();
       if (p === 'profile') loadProfile();
-      if (p === 'matches') loadMatchesWidget();
+      if (p === 'matches') loadMatchesWidget(true);
       if (p === 'admin') loadAdminPanel();
       if (p === 'global') renderGlobalFeed();
       if (p === 'home') {
@@ -3993,7 +4063,7 @@
         banned: !currentStatus
       }, { merge: true });
 
-      alert(currentStatus ? t('userUnbanned') : t('userBanned'));
+      showToast(currentStatus ? t('userUnbanned') : t('userBanned'), 'success');
       loadFeed();
       loadAdminPanel();
     }
@@ -4019,11 +4089,11 @@
       });
 
       await batch.commit();
-      alert(t('usersBackfilled'));
+      showToast(t('usersBackfilled'), 'success');
       loadAdminPanel();
     }
 
-    async function loadAdminPanel() {
+    async function loadAdminPanel(forceRefresh = false) {
       if (!isAdmin()) {
         alert(t('notAllowed'));
         switchPage('home');
@@ -4031,35 +4101,88 @@
       }
 
       const wrap = $('#admin-users-list').empty();
-      const snap = await db.collection('users').get();
+      const summaryWrap = $('#admin-summary-cards').empty();
+      const query = ($('#admin-user-search').val() || '').trim().toLowerCase();
 
-      if (snap.empty) {
+      const [usersSnap, postsSnap] = await Promise.all([
+        db.collection('users').get(),
+        db.collection('posts').get()
+      ]);
+
+      let userCount = 0;
+      let bannedCount = 0;
+      let feedCount = 0;
+      let commentCount = 0;
+      const users = [];
+
+      usersSnap.forEach(doc => {
+        const u = doc.data() || {};
+        userCount += 1;
+        if (u.banned) bannedCount += 1;
+        users.push({ id: doc.id, ...u });
+      });
+
+      postsSnap.forEach(doc => {
+        const p = doc.data() || {};
+        if (p.kind === 'article_comment') commentCount += 1;
+        else feedCount += 1;
+      });
+
+      summaryWrap.html(`
+        <div class="admin-stat-card"><strong>${userCount}</strong><span>Total users</span></div>
+        <div class="admin-stat-card"><strong>${feedCount}</strong><span>Feed posts</span></div>
+        <div class="admin-stat-card"><strong>${commentCount}</strong><span>Article comments</span></div>
+        <div class="admin-stat-card"><strong>${bannedCount}</strong><span>Banned users</span></div>
+      `);
+
+      const filtered = users.filter(u => {
+        if (auth.currentUser && u.id === auth.currentUser.uid) return false;
+        if (!query) return true;
+        return `${u.name || ''} ${u.email || ''}`.toLowerCase().includes(query);
+      });
+
+      if (!filtered.length) {
         wrap.html(`<p style="color:var(--dim)">${t('noUsers')}</p>`);
+        if (forceRefresh) showToast('No matching users found.', 'error');
         return;
       }
 
-      snap.forEach(doc => {
-        const u = doc.data();
-        const banned = !!u.banned;
-
-        if (auth.currentUser && doc.id === auth.currentUser.uid) return;
-
-        wrap.append(`
-          <div class="post-card">
-            <div class="admin-user-row">
-              <div>
-                <div class="post-user">${u.name || 'Agent'}</div>
-                <div class="post-time">${u.email || ''}</div>
-              </div>
-              <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button class="${banned ? 'green-btn' : 'amber-btn'}" onclick="banUser('${doc.id}', ${banned})">
-                  ${banned ? 'Unban' : 'Ban'}
-                </button>
+      filtered
+        .sort((a, b) => Number(!!b.banned) - Number(!!a.banned) || String(a.name || '').localeCompare(String(b.name || '')))
+        .forEach(u => {
+          const banned = !!u.banned;
+          wrap.append(`
+            <div class="post-card">
+              <div class="admin-user-row">
+                <div>
+                  <div class="post-user">${escapeHtml(u.name || 'Agent')}</div>
+                  <div class="post-time">${escapeHtml(u.email || '')}</div>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <button class="${banned ? 'green-btn' : 'amber-btn'}" onclick="banUser('${u.id}', ${banned})">
+                    ${banned ? 'Unban' : 'Ban'}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        `);
-      });
+          `);
+        });
+
+      if (forceRefresh) showToast('Admin panel refreshed.', 'success');
+    }
+
+    function showToast(message, type = 'success') {
+      const stack = document.getElementById('toast-stack');
+      if (!stack) return;
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      stack.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(8px)';
+        setTimeout(() => toast.remove(), 220);
+      }, 2600);
     }
 
     function buildShareUrl(postId) {
@@ -5703,9 +5826,18 @@ function openDetails(id) {
       }
     }
 
-function loadMatchesWidget() {
+function loadMatchesWidget(forceReload = false) {
       const container = document.getElementById('live-inject');
+      if (!container) return;
+
+      if (!forceReload && container.dataset.loaded === '1') return;
+
+      container.dataset.loaded = '0';
       container.innerHTML = `
+        <div class="mini-card" style="margin-bottom:12px;">
+          <h3 style="margin-bottom:6px;">Live Football Center</h3>
+          <p style="color:var(--dim); line-height:1.6;">If the live widget takes a moment, wait a few seconds. If it still does not appear, reopen the Matches page.</p>
+        </div>
         <api-sports-widget
           data-type="config"
           data-key="77aa814e7955b3042a9ebf24fc1bee18"
@@ -5730,7 +5862,24 @@ function loadMatchesWidget() {
       script.id = 'api-sports-script';
       script.type = 'module';
       script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
-      container.appendChild(script);
+      script.onload = () => { container.dataset.loaded = '1'; };
+      script.onerror = () => {
+        container.insertAdjacentHTML('beforeend', `<div class="mini-card"><p style="color:var(--dim)">The live matches widget could not load right now.</p></div>`);
+      };
+      document.body.appendChild(script);
+
+      setTimeout(() => {
+        if (container.dataset.loaded !== '1') {
+          const retry = document.getElementById('api-sports-script');
+          if (retry) retry.remove();
+          const retryScript = document.createElement('script');
+          retryScript.id = 'api-sports-script';
+          retryScript.type = 'module';
+          retryScript.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
+          retryScript.onload = () => { container.dataset.loaded = '1'; };
+          document.body.appendChild(retryScript);
+        }
+      }, 1800);
     }
 
 
@@ -5781,5 +5930,6 @@ function loadMatchesWidget() {
     window.openSavedArticle = openSavedArticle;
     window.deleteArticleComment = deleteArticleComment;
   </script>
+  <div id="toast-stack" class="toast-stack"></div>
 </body>
 </html>
