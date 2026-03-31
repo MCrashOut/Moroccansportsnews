@@ -1625,6 +1625,19 @@
       white-space: pre-wrap;
       overflow-wrap: anywhere;
     }
+    .article-comment-delete {
+      border: 1px solid rgba(193,39,45,.35);
+      background: rgba(193,39,45,.08);
+      color: #ff9da0;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: .72rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .article-comment-delete:hover {
+      background: rgba(193,39,45,.16);
+    }
     .article-comment-empty {
       color: var(--dim);
       font-size: .88rem;
@@ -3439,7 +3452,7 @@
     }
 
     function isAdmin() {
-      return auth.currentUser && auth.currentUser.email === 'rabiimodz@gmail.com';
+      return !!(auth.currentUser && (auth.currentUser.email || '').trim().toLowerCase() === 'rabiimodz@gmail.com');
     }
 
     auth.onAuthStateChanged(async user => {
@@ -4931,34 +4944,69 @@ function closeArticlePage() {
       const mappedType = type === 'clap' ? 'heart' : type;
       const ref = db.collection('reactions').doc(currentArticleReactionDocKey());
 
-      await db.runTransaction(async tr => {
-        const snap = await tr.get(ref);
-        const data = snap.exists ? (snap.data() || {}) : { like: 0, heart: 0, fire: 0, voters: {} };
-        data.voters = data.voters || {};
+      try {
+        await db.runTransaction(async tr => {
+          const snap = await tr.get(ref);
+          const data = snap.exists ? (snap.data() || {}) : { like: 0, heart: 0, fire: 0, voters: {} };
+          data.voters = data.voters || {};
 
-        if (!data.voters[auth.currentUser.uid]) {
-          data.voters[auth.currentUser.uid] = { like: false, heart: false, fire: false };
-        }
+          if (!data.voters[auth.currentUser.uid]) {
+            data.voters[auth.currentUser.uid] = { like: false, heart: false, fire: false };
+          }
 
-        const active = !!data.voters[auth.currentUser.uid][mappedType];
-        if (active) {
-          data[mappedType] = Math.max((data[mappedType] || 1) - 1, 0);
-          data.voters[auth.currentUser.uid][mappedType] = false;
-        } else {
-          data[mappedType] = (data[mappedType] || 0) + 1;
-          data.voters[auth.currentUser.uid][mappedType] = true;
-        }
+          const active = !!data.voters[auth.currentUser.uid][mappedType];
+          if (active) {
+            data[mappedType] = Math.max((data[mappedType] || 1) - 1, 0);
+            data.voters[auth.currentUser.uid][mappedType] = false;
+          } else {
+            data[mappedType] = (data[mappedType] || 0) + 1;
+            data.voters[auth.currentUser.uid][mappedType] = true;
+          }
 
-        tr.set(ref, data);
-      });
+          tr.set(ref, data);
+        });
 
-      loadArticleReactions();
+        loadArticleReactions();
+      } catch (err) {
+        console.error('Article reaction submit failed', err);
+        alert('Reactions are blocked by Firestore permissions. Update your Firestore rules for the reactions collection.');
+      }
+    }
+
+    function commentTimestampMs(value) {
+      if (!value) return 0;
+      if (typeof value?.toMillis === 'function') return value.toMillis();
+      if (typeof value === 'number') return value;
+      const parsed = Date.parse(value);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function canDeleteArticleComment(item) {
+      const uid = auth.currentUser?.uid || '';
+      return !!uid && (uid === item.userId || isAdmin());
+    }
+
+    async function deleteArticleComment(commentId) {
+      if (!commentId) return;
+      if (!auth.currentUser) return openAuth();
+      const articleKey = articleDocKeyFromId(currentArticleId);
+      const ref = db.collection('posts').doc(commentId);
+      const snap = await ref.get();
+      if (!snap.exists) return;
+      const data = snap.data() || {};
+      if (data.kind !== 'article_comment' || data.articleKey !== articleKey) return;
+      if (!canDeleteArticleComment(data)) {
+        alert(t('notAllowed'));
+        return;
+      }
+      if (!confirm('Delete this comment?')) return;
+      await ref.delete();
     }
 
     function renderArticleComments(snapshot) {
       const items = [];
       snapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
-      items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      items.sort((a, b) => commentTimestampMs(b.createdAt) - commentTimestampMs(a.createdAt));
 
       if (!items.length) {
         $('#article-comments-list').empty();
@@ -4967,15 +5015,19 @@ function closeArticlePage() {
       }
 
       $('#article-comments-empty').hide();
-      $('#article-comments-list').html(items.map(item => `
+      $('#article-comments-list').html(items.map(item => {
+        const canDelete = canDeleteArticleComment(item);
+        const deleteBtn = canDelete ? `<button class="article-comment-delete" onclick="deleteArticleComment('${item.id}')">Delete</button>` : '';
+        return `
         <div class="article-comment-item">
           <div class="article-comment-head">
-            <span class="article-comment-author">${escapeHtml(item.authorName || 'Fan')}</span>
-            <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(item.createdAt))}</span>
+            <span class="article-comment-author">${escapeHtml(item.authorName || item.username || 'Fan')}</span>
+            <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(commentTimestampMs(item.createdAt)))}</span>
+            ${deleteBtn}
           </div>
           <div class="article-comment-text">${escapeHtml(item.text || '')}</div>
-        </div>
-      `).join(''));
+        </div>`;
+      }).join(''));
     }
 
     function loadArticleComments() {
