@@ -22,11 +22,6 @@
   <meta property="og:image:alt" content="MoroccanSportsHub logo" />
   <meta property="og:locale" content="en_US" />
   <meta name="twitter:image" content="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
-  <meta id="meta-og-image-alt" property="og:image:alt" content="MoroccanSportsHub logo" />
-  <meta id="meta-article-published" property="article:published_time" content="" />
-  <meta id="meta-article-modified" property="article:modified_time" content="" />
-  <meta id="meta-article-section" property="article:section" content="Sports" />
-  <meta id="meta-article-tag" property="article:tag" content="Moroccan football" />
 
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#000000" />
@@ -1365,6 +1360,62 @@
       border-color: var(--cyan);
     }
 
+    .home-trending-shell {
+      min-height: 100%;
+    }
+    .home-trending-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .home-trending-post {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      padding: 16px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .home-trending-post:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.04);
+    }
+    .home-trending-head {
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .home-trending-user {
+      color: var(--cyan);
+      font-weight: 800;
+      font-size: .88rem;
+      line-height: 1.4;
+    }
+    .home-trending-time {
+      color: var(--dim);
+      font-size: .74rem;
+      white-space: nowrap;
+    }
+    .home-trending-copy {
+      color: var(--text);
+      line-height: 1.7;
+      font-size: .9rem;
+      margin-bottom: 12px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .home-trending-meta {
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      color: var(--dim);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
   
     @media (max-width: 900px) {
       .home-bottom-section {
@@ -1372,7 +1423,8 @@
       }
     }
     @media (max-width: 640px) {
-      .home-quick-grid {
+      .home-quick-grid,
+      .home-trending-grid {
         grid-template-columns: 1fr;
       }
       .home-bottom-card {
@@ -1810,159 +1862,6 @@
       .toast { max-width: 100%; }
     }
 
-    .home-trending-shell {
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
-      gap: 20px;
-      align-items: start;
-    }
-    .trending-posts-card,
-    .seo-boost-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: 0 14px 32px var(--shadow);
-      backdrop-filter: blur(14px);
-    }
-    .trending-posts-header {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:14px;
-    }
-    .trending-posts-header h3,
-    .seo-boost-card h3 {
-      color: var(--cyan);
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin:0;
-    }
-    .trending-posts-grid {
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-    .trending-post-card {
-      border:1px solid var(--border);
-      border-radius:20px;
-      background: rgba(255,255,255,.03);
-      padding:16px;
-      cursor:pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .trending-post-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(0,242,254,.28);
-      background: rgba(0,242,254,.05);
-    }
-    .trending-post-top {
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:10px;
-      margin-bottom:10px;
-    }
-    .trending-post-rank {
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      background: rgba(0,242,254,.12);
-      color: var(--cyan);
-      font-size:.82rem;
-      font-weight:800;
-      flex-shrink:0;
-    }
-    .trending-post-user {
-      color: var(--text);
-      font-size: .9rem;
-      font-weight: 800;
-      line-height: 1.4;
-    }
-    .trending-post-time {
-      color: var(--dim);
-      font-size: .74rem;
-      line-height:1.5;
-      margin-top: 2px;
-    }
-    .trending-post-copy {
-      color: var(--dim);
-      font-size: .84rem;
-      line-height: 1.7;
-      margin-bottom: 12px;
-      min-height: 58px;
-      white-space: pre-wrap;
-      overflow-wrap:anywhere;
-    }
-    .trending-post-stats {
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .trending-stat-pill {
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      font-size:.76rem;
-      font-weight:700;
-    }
-    .seo-points {
-      display:grid;
-      gap: 12px;
-      margin-top: 14px;
-    }
-    .seo-point {
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      border-radius:18px;
-      padding:14px;
-    }
-    .seo-point strong {
-      display:block;
-      color: var(--text);
-      margin-bottom:6px;
-      font-size:.9rem;
-    }
-    .seo-point span {
-      display:block;
-      color: var(--dim);
-      font-size:.82rem;
-      line-height:1.7;
-    }
-    .trending-empty {
-      color: var(--dim);
-      font-size: .86rem;
-      line-height: 1.7;
-      padding: 10px 0 4px;
-    }
-    @media (max-width: 1000px) {
-      .home-trending-shell {
-        grid-template-columns: 1fr;
-      }
-    }
-    @media (max-width: 640px) {
-      .trending-posts-grid {
-        grid-template-columns: 1fr;
-      }
-      .trending-posts-card,
-      .seo-boost-card {
-        padding:16px;
-      }
-    }
-
   </style>
 <script type="application/ld+json">
 {
@@ -2010,7 +1909,6 @@
   }
 }
 </script>
-<script id="dynamic-article-schema" type="application/ld+json">{"@context":"https://schema.org","@type":"NewsArticle","headline":"MoroccanSportsHub","description":"Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and global sports stories.","mainEntityOfPage":"https://moroccansportshub.com/","url":"https://moroccansportshub.com/","author":{"@type":"Organization","name":"MoroccanSportsHub"},"publisher":{"@type":"Organization","name":"MoroccanSportsHub","logo":{"@type":"ImageObject","url":"https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true"}},"image":["https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true"],"datePublished":"","dateModified":"","articleSection":"Sports","keywords":["Moroccan football","Botola","Atlas Lions","Live scores"]}</script>
 
   <style id="mobile-footer-fix">
     @media (max-width: 640px) {
@@ -2151,6 +2049,62 @@
       background: var(--cyan);
       color: #000;
       border-color: var(--cyan);
+    }
+
+    .home-trending-shell {
+      min-height: 100%;
+    }
+    .home-trending-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .home-trending-post {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      padding: 16px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .home-trending-post:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.04);
+    }
+    .home-trending-head {
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .home-trending-user {
+      color: var(--cyan);
+      font-weight: 800;
+      font-size: .88rem;
+      line-height: 1.4;
+    }
+    .home-trending-time {
+      color: var(--dim);
+      font-size: .74rem;
+      white-space: nowrap;
+    }
+    .home-trending-copy {
+      color: var(--text);
+      line-height: 1.7;
+      font-size: .9rem;
+      margin-bottom: 12px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .home-trending-meta {
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      color: var(--dim);
+      font-size: .78rem;
+      font-weight: 700;
     }
 
   </style>
@@ -2520,35 +2474,19 @@
         <div id="wire-right"></div>
       </div>
 
-      <div class="home-trending-shell">
-        <div class="trending-posts-card">
-          <div class="trending-posts-header">
-            <h3 id="home-trending-posts-title">Trending Fan Posts</h3>
-            <button class="ghost-btn" onclick="switchPage('feed')" id="home-trending-posts-btn">Open Feed</button>
-          </div>
-          <div id="home-trending-posts" class="trending-posts-grid"></div>
-          <div id="home-trending-empty" class="trending-empty" style="display:none;">No fan posts yet. Be the first to publish something in the feed.</div>
-        </div>
-        <div class="seo-boost-card">
-          <h3 id="home-seo-boost-title">Search & Story Signals</h3>
-          <div class="seo-points">
-            <div class="seo-point">
-              <strong id="home-seo-point-1-title">Live article SEO</strong>
-              <span id="home-seo-point-1-desc">Every opened story now updates page title, description, canonical URL, Open Graph tags, Twitter tags, and NewsArticle structured data automatically.</span>
-            </div>
-            <div class="seo-point">
-              <strong id="home-seo-point-2-title">Index-ready structure</strong>
-              <span id="home-seo-point-2-desc">Homepage metadata is tuned for Moroccan football, Botola, Atlas Lions, live scores, fixtures, and transfer searches.</span>
-            </div>
-            <div class="seo-point">
-              <strong id="home-seo-point-3-title">Discoverability boost</strong>
-              <span id="home-seo-point-3-desc">Share cards, schema, and article-specific URLs now align better for Google, social previews, and richer click-through.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="home-bottom-section">
+        <div class="home-bottom-card home-trending-shell">
+          <div class="subpage-top" style="margin-bottom:14px;">
+            <h3 style="margin:0;">Trending Fan Posts</h3>
+            <button class="ghost-btn" onclick="switchPage('feed')">Open Feed</button>
+          </div>
+          <div id="home-trending-posts" class="home-trending-grid">
+            <div class="mini-card">
+              <h3 style="margin-bottom:8px;">Trending fan posts will appear here.</h3>
+              <p>Popular community posts with the most reactions will fill this space automatically.</p>
+            </div>
+          </div>
+        </div>
         <div class="home-bottom-card">
           <h3 id="home-explore-title">Explore the Hub</h3>
           <div class="home-quick-grid">
@@ -2566,13 +2504,10 @@
             </button>
             <button class="home-quick-btn" onclick="switchPage('matches')">
               <strong id="home-quick-matches-title">Matches</strong>
-              <span id="home-quick-matches-desc">Quick access to live fixtures, scores, and football widgets.</span>
+              <span id="home-quick-matches-desc">Quick access to live fixtures and scores.</span>
             </button>
           </div>
-        </div>
-        <div class="home-bottom-card">
-          <h3 id="home-why-title">Why MoroccanSportsHub</h3>
-          <div class="home-mini-list">
+          <div class="home-mini-list" style="margin-top:14px;">
             <div class="home-mini-row"><strong id="home-why-1-title">Fast Coverage</strong><span id="home-why-1-desc">Moroccan + global sports in one homepage.</span></div>
             <div class="home-mini-row"><strong id="home-why-2-title">Community Layer</strong><span id="home-why-2-desc">Fans can react, post, and help surface top stories.</span></div>
             <div class="home-mini-row"><strong id="home-why-3-title">AI Support</strong><span id="home-why-3-desc">Ask the assistant for quick sports answers anytime.</span></div>
@@ -2914,8 +2849,6 @@
     let latestRenderedCommentIds = [];
     const ARTICLE_COMMENT_COOLDOWN_MS = 15000;
     const SAVED_ARTICLES_KEY = 'msh_saved_articles_v1';
-    let homeTrendingPostsUnsub = null;
-    const DEFAULT_SEO = {};
 
     const uiText = {
       en: {
@@ -3703,7 +3636,6 @@
         if (Object.keys(savedColors).length) applyCustomColors(savedColors);
       }
 
-      if (!DEFAULT_SEO.title) captureDefaultSeo();
       await setLanguage(currentLang);
     }
 
@@ -3767,10 +3699,7 @@
         return;
       }
 
-      if (p !== 'article') {
-        lastRegularPage = p;
-        resetSeoToHomepage();
-      }
+      if (p !== 'article') lastRegularPage = p;
       $('.page').removeClass('active');
       $('#' + p + '-page').addClass('active');
       if (p === 'profile') renderSavedArticles();
@@ -3787,6 +3716,7 @@
       if (p === 'home') {
         homeRandomSeed = Date.now();
         renderHome(true);
+        loadHomeTrendingPosts();
       }
 
       toggleDrawer(false);
@@ -3886,8 +3816,6 @@
       }
 
       applyUiLanguage();
-      if (!DEFAULT_SEO.title) captureDefaultSeo();
-      initHomeTrendingPosts();
       initNews();
 
       const params = new URLSearchParams(window.location.search);
@@ -5140,169 +5068,6 @@ async function loadFeed() {
       `;
     }
 
-
-    function captureDefaultSeo() {
-      DEFAULT_SEO.title = document.title;
-      DEFAULT_SEO.description = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
-      DEFAULT_SEO.keywords = document.querySelector('meta[name="keywords"]')?.getAttribute('content') || '';
-      DEFAULT_SEO.ogTitle = document.querySelector('meta[property="og:title"]')?.getAttribute('content') || '';
-      DEFAULT_SEO.ogDescription = document.querySelector('meta[property="og:description"]')?.getAttribute('content') || '';
-      DEFAULT_SEO.ogUrl = document.querySelector('meta[property="og:url"]')?.getAttribute('content') || '';
-      DEFAULT_SEO.ogImage = document.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
-      DEFAULT_SEO.twitterTitle = document.querySelector('meta[name="twitter:title"]')?.getAttribute('content') || '';
-      DEFAULT_SEO.twitterDescription = document.querySelector('meta[name="twitter:description"]')?.getAttribute('content') || '';
-      DEFAULT_SEO.twitterImage = document.querySelector('meta[name="twitter:image"]')?.getAttribute('content') || '';
-      DEFAULT_SEO.canonical = document.querySelector('link[rel="canonical"]')?.getAttribute('href') || window.location.origin + window.location.pathname;
-      DEFAULT_SEO.schema = document.getElementById('dynamic-article-schema')?.textContent || '';
-    }
-
-    function setMetaBySelector(selector, value) {
-      const el = document.querySelector(selector);
-      if (el) el.setAttribute('content', value || '');
-    }
-
-    function updateCanonical(url) {
-      const link = document.querySelector('link[rel="canonical"]');
-      if (link) link.setAttribute('href', url);
-    }
-
-    function slugifyArticleTitle(text) {
-      return String(text || 'story').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 90) || 'story';
-    }
-
-    function buildArticleUrl(id, title) {
-      return `${window.location.origin}${window.location.pathname}#article-${id}-${slugifyArticleTitle(title)}`;
-    }
-
-    function updateDynamicArticleSchema(payload) {
-      const el = document.getElementById('dynamic-article-schema');
-      if (!el) return;
-      el.textContent = JSON.stringify(payload);
-    }
-
-    function resetSeoToHomepage() {
-      if (!DEFAULT_SEO.title) return;
-      document.title = DEFAULT_SEO.title;
-      setMetaBySelector('meta[name="description"]', DEFAULT_SEO.description);
-      setMetaBySelector('meta[name="keywords"]', DEFAULT_SEO.keywords);
-      setMetaBySelector('meta[property="og:title"]', DEFAULT_SEO.ogTitle);
-      setMetaBySelector('meta[property="og:description"]', DEFAULT_SEO.ogDescription);
-      setMetaBySelector('meta[property="og:url"]', DEFAULT_SEO.ogUrl);
-      setMetaBySelector('meta[property="og:image"]', DEFAULT_SEO.ogImage);
-      setMetaBySelector('meta[name="twitter:title"]', DEFAULT_SEO.twitterTitle);
-      setMetaBySelector('meta[name="twitter:description"]', DEFAULT_SEO.twitterDescription);
-      setMetaBySelector('meta[name="twitter:image"]', DEFAULT_SEO.twitterImage);
-      setMetaBySelector('meta[property="article:published_time"]', '');
-      setMetaBySelector('meta[property="article:modified_time"]', '');
-      setMetaBySelector('meta[property="article:section"]', 'Sports');
-      setMetaBySelector('meta[property="article:tag"]', 'Moroccan football');
-      updateCanonical(DEFAULT_SEO.canonical);
-      updateDynamicArticleSchema(JSON.parse(DEFAULT_SEO.schema || '{"@context":"https://schema.org","@type":"NewsArticle"}'));
-      if (window.location.hash && window.location.hash.startsWith('#article-')) {
-        history.replaceState(null, '', window.location.pathname);
-      }
-    }
-
-    function applyArticleSeo(article) {
-      if (!article) return;
-      const title = article.title || 'MoroccanSportsHub';
-      const desc = safeSnippet((article.desc || homeLabel('fallbackSummary') || '').replace(/\s+/g, ' ').trim(), 155) || DEFAULT_SEO.description;
-      const image = bestImage(article.img, title) || DEFAULT_SEO.ogImage;
-      const published = article.pubDate || article.date || new Date().toISOString();
-      const section = article.region === 'morocco' ? 'Moroccan Football' : 'Global Sports';
-      const sport = homeLabel(article.sport || 'football');
-      const articleUrl = buildArticleUrl(article.id, title);
-      document.title = `${title} | MoroccanSportsHub`;
-      setMetaBySelector('meta[name="description"]', desc);
-      setMetaBySelector('meta[name="keywords"]', `${title}, ${section}, ${sport}, Moroccan football, Botola, Atlas Lions, live scores`);
-      setMetaBySelector('meta[property="og:title"]', title);
-      setMetaBySelector('meta[property="og:description"]', desc);
-      setMetaBySelector('meta[property="og:url"]', articleUrl);
-      setMetaBySelector('meta[property="og:image"]', image);
-      setMetaBySelector('meta[property="og:image:alt"]', title);
-      setMetaBySelector('meta[name="twitter:title"]', title);
-      setMetaBySelector('meta[name="twitter:description"]', desc);
-      setMetaBySelector('meta[name="twitter:image"]', image);
-      setMetaBySelector('meta[property="article:published_time"]', published);
-      setMetaBySelector('meta[property="article:modified_time"]', new Date().toISOString());
-      setMetaBySelector('meta[property="article:section"]', section);
-      setMetaBySelector('meta[property="article:tag"]', sport);
-      updateCanonical(articleUrl);
-      history.replaceState(null, '', articleUrl);
-      updateDynamicArticleSchema({
-        '@context': 'https://schema.org',
-        '@type': 'NewsArticle',
-        headline: title,
-        description: desc,
-        mainEntityOfPage: articleUrl,
-        url: articleUrl,
-        image: [image],
-        datePublished: published,
-        dateModified: new Date().toISOString(),
-        articleSection: section,
-        keywords: [section, sport, 'Moroccan football', 'Botola', 'Atlas Lions', title],
-        author: { '@type': 'Organization', name: 'MoroccanSportsHub' },
-        publisher: { '@type': 'Organization', name: 'MoroccanSportsHub', logo: { '@type': 'ImageObject', url: DEFAULT_SEO.ogImage || image } }
-      });
-    }
-
-    function buildTrendingPostPayload(post) {
-      const total = Number(post.likes || 0) + Number(post.hearts || 0) + Number(post.fires || 0);
-      const score = Number(post.score || 0) || total;
-      return { ...post, total, score };
-    }
-
-    function renderHomeTrendingPosts(posts) {
-      const list = (posts || []).map(buildTrendingPostPayload)
-        .filter(post => post.kind !== 'article_comment')
-        .sort((a, b) => {
-          if ((b.pinned ? 1 : 0) !== (a.pinned ? 1 : 0)) return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
-          if ((b.score || 0) !== (a.score || 0)) return (b.score || 0) - (a.score || 0);
-          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-        })
-        .slice(0, 6);
-      const container = $('#home-trending-posts');
-      const empty = $('#home-trending-empty');
-      if (!list.length) {
-        container.html('');
-        empty.show();
-        return;
-      }
-      empty.hide();
-      container.html(list.map((post, index) => {
-        const created = post.createdAt?.toDate ? post.createdAt.toDate().getTime() : (post.createdAt?.seconds ? post.createdAt.seconds * 1000 : Date.now());
-        const snippet = safeSnippet((post.content || '').trim(), 160) || 'Join the conversation in the community feed.';
-        return `
-          <div class="trending-post-card" onclick="switchPage('feed')">
-            <div class="trending-post-top">
-              <div>
-                <div class="trending-post-user">@${escapeHtml(post.username || 'fan')} ${post.pinned ? '📌' : ''}</div>
-                <div class="trending-post-time">${escapeHtml(relativeTimeLabel(created))}</div>
-              </div>
-              <span class="trending-post-rank">${index + 1}</span>
-            </div>
-            <div class="trending-post-copy">${escapeHtml(snippet)}</div>
-            <div class="trending-post-stats">
-              <span class="trending-stat-pill"><i class="fa-solid fa-fire"></i>${post.fires || 0}</span>
-              <span class="trending-stat-pill"><i class="fa-solid fa-heart"></i>${post.hearts || 0}</span>
-              <span class="trending-stat-pill"><i class="fa-solid fa-thumbs-up"></i>${post.likes || 0}</span>
-              <span class="trending-stat-pill"><i class="fa-solid fa-chart-line"></i>${post.score || post.total || 0}</span>
-            </div>
-          </div>
-        `;
-      }).join(''));
-    }
-
-    function initHomeTrendingPosts() {
-      if (homeTrendingPostsUnsub) homeTrendingPostsUnsub();
-      homeTrendingPostsUnsub = db.collection('posts').onSnapshot(snapshot => {
-        const posts = [];
-        snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
-        renderHomeTrendingPosts(posts);
-      }, err => {
-        console.error('Trending posts load failed', err);
-      });
-    }
     function renderBreakingTicker() {
       const recent = sortItemsByNewest(filterItemsByAge(masterPool, 24).length ? filterItemsByAge(masterPool, 24) : masterPool).slice(0, 8);
       if (!recent.length) {
@@ -5339,6 +5104,7 @@ async function initNews() {
   await Promise.allSettled(jobs);
   renderHome();
   renderBreakingTicker();
+  loadHomeTrendingPosts();
 
   if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
     $('#search-results-area').hide();
@@ -5448,6 +5214,81 @@ function renderHome(forceShuffle = false) {
           </div>
         `;
       }).join(''));
+    }
+
+
+
+async function loadHomeTrendingPosts() {
+      const container = $('#home-trending-posts');
+      if (!container.length) return;
+      container.html(`
+        <div class="mini-card">
+          <div class="skeleton-line w-70"></div>
+          <div class="skeleton-line w-90"></div>
+          <div class="skeleton-line w-55"></div>
+        </div>
+        <div class="mini-card">
+          <div class="skeleton-line w-70"></div>
+          <div class="skeleton-line w-90"></div>
+          <div class="skeleton-line w-55"></div>
+        </div>
+      `);
+      try {
+        const snap = await db.collection('posts').orderBy('createdAt', 'desc').limit(40).get();
+        const posts = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+          .filter(post => post && !post.kind && !post.blocked && String(post.content || '').trim());
+
+        posts.sort((a, b) => {
+          const ap = a.pinned ? 1 : 0;
+          const bp = b.pinned ? 1 : 0;
+          if (bp !== ap) return bp - ap;
+          const ar = (a.likes || 0) + (a.hearts || 0) + (a.fires || 0);
+          const br = (b.likes || 0) + (b.hearts || 0) + (b.fires || 0);
+          if (br !== ar) return br - ar;
+          return (b.score || 0) - (a.score || 0);
+        });
+
+        const topPosts = posts.slice(0, 6);
+        if (!topPosts.length) {
+          container.html(`<div class="mini-card"><h3 style="margin-bottom:8px;">No trending fan posts yet.</h3><p>The community feed will surface the most active posts here automatically.</p></div>`);
+          return;
+        }
+
+        const userIds = [...new Set(topPosts.map(post => post.userId).filter(Boolean))];
+        const userMap = {};
+        await Promise.all(userIds.map(async uid => {
+          try {
+            const doc = await db.collection('users').doc(uid).get();
+            if (doc.exists) userMap[uid] = doc.data() || {};
+          } catch {}
+        }));
+
+        container.html(topPosts.map(post => {
+          const profile = userMap[post.userId] || {};
+          const username = escapeHtml(post.username || profile.username || 'fan');
+          const body = escapeHtml(safeSnippet(post.content || '', 170));
+          const reactions = (post.likes || 0) + (post.hearts || 0) + (post.fires || 0);
+          const time = post.createdAt?.toDate ? relativeTimeLabel(post.createdAt.toDate()) : relativeTimeLabel(Date.now());
+          return `
+            <div class="home-trending-post" onclick="switchPage('feed')">
+              <div class="home-trending-head">
+                <div class="home-trending-user">@${username}${post.pinned ? ' 📌' : ''}</div>
+                <div class="home-trending-time">${time}</div>
+              </div>
+              <div class="home-trending-copy">${body}</div>
+              <div class="home-trending-meta">
+                <span>🔥 ${post.fires || 0}</span>
+                <span>❤️ ${post.hearts || 0}</span>
+                <span>👍 ${post.likes || 0}</span>
+                <span>${reactions} reactions</span>
+              </div>
+            </div>
+          `;
+        }).join(''));
+      } catch (err) {
+        console.error('Home trending posts failed', err);
+        container.html(`<div class="mini-card"><h3 style="margin-bottom:8px;">Trending fan posts are unavailable right now.</h3><p>Please try again in a moment.</p></div>`);
+      }
     }
 
 
@@ -5595,7 +5436,6 @@ function closeArticlePage() {
         $('#article-hero').hide();
       }
       $('#article-meta').html('');
-      applyArticleSeo(saved);
       if (currentArticleLink) $('#article-source-btn').show().text(t('readFull')); else $('#article-source-btn').hide();
       switchPage('article');
       resetArticleEngagementUi();
@@ -5838,7 +5678,6 @@ function openDetails(id) {
       const extra = buildArticleExtraCopy(n);
 
       currentArticleLink = n.link || '';
-      applyArticleSeo(n);
       syncArticleSaveButton();
       $('#article-title').text(n.title || '');
       $('#article-lead').text(n.desc || homeLabel('fallbackSummary'));
@@ -6212,7 +6051,9 @@ function openDetails(id) {
 function loadMatchesWidget(forceReload = false) {
       const container = document.getElementById('live-inject');
       if (!container) return;
+
       if (!forceReload && container.dataset.loaded === '1') return;
+
       container.dataset.loaded = '0';
       container.innerHTML = `
         <api-sports-widget
@@ -6222,6 +6063,7 @@ function loadMatchesWidget(forceReload = false) {
           data-theme="dark"
           data-target-game="modal">
         </api-sports-widget>
+
         <api-sports-widget
           data-type="games"
           data-sport="football"
@@ -6230,15 +6072,32 @@ function loadMatchesWidget(forceReload = false) {
           data-target-game="modal">
         </api-sports-widget>
       `;
+
       const oldScript = document.getElementById('api-sports-script');
       if (oldScript) oldScript.remove();
+
       const script = document.createElement('script');
       script.id = 'api-sports-script';
       script.type = 'module';
       script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
       script.onload = () => { container.dataset.loaded = '1'; };
-      script.onerror = () => { console.error('Matches widget failed to load'); };
+      script.onerror = () => {
+        container.insertAdjacentHTML('beforeend', `<div class="mini-card"><p style="color:var(--dim)">The live matches widget could not load right now.</p></div>`);
+      };
       document.body.appendChild(script);
+
+      setTimeout(() => {
+        if (container.dataset.loaded !== '1') {
+          const retry = document.getElementById('api-sports-script');
+          if (retry) retry.remove();
+          const retryScript = document.createElement('script');
+          retryScript.id = 'api-sports-script';
+          retryScript.type = 'module';
+          retryScript.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
+          retryScript.onload = () => { container.dataset.loaded = '1'; };
+          document.body.appendChild(retryScript);
+        }
+      }, 1800);
     }
 
 
