@@ -2083,153 +2083,10 @@
     }
   </style>
 
-
-  <style id="upgrade-pack-v2">
-    .page { content-visibility: auto; contain-intrinsic-size: 1000px; }
-    img { max-width: 100%; }
-    .mini-card, .post-card, .article-engagement-card, .article-body-card, .article-info-box, .home-bottom-card, .admin-stat-card {
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .mini-card:hover, .home-bottom-card:hover, .article-engagement-card:hover, .article-info-box:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 38px rgba(0,0,0,.24);
-    }
-    .toast-wrap {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 6500;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: min(340px, calc(100vw - 28px));
-      pointer-events: none;
-    }
-    .toast-item {
-      pointer-events: auto;
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--cyan);
-      background: color-mix(in srgb, var(--bg) 92%, var(--card));
-      color: var(--text);
-      border-radius: 18px;
-      padding: 14px 16px;
-      box-shadow: 0 16px 34px rgba(0,0,0,.3);
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: flex-start;
-      animation: toastIn .2s ease;
-      backdrop-filter: blur(16px);
-    }
-    .toast-item.success { border-left-color: var(--green); }
-    .toast-item.warn { border-left-color: var(--amber); }
-    .toast-item.error { border-left-color: var(--red); }
-    .toast-item button {
-      border: 0;
-      background: transparent;
-      color: var(--dim);
-      cursor: pointer;
-      font-size: 1rem;
-      line-height: 1;
-      padding: 0;
-    }
-    .toast-item button:hover { color: var(--text); }
-    @keyframes toastIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .admin-top-actions {
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .admin-overview-card { overflow: hidden; }
-    .admin-stats-grid {
-      display:grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin: 14px 0 16px;
-    }
-    .admin-stat-card {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      border-radius: 18px;
-      padding: 14px;
-    }
-    .admin-stat-card span {
-      display:block;
-      color: var(--dim);
-      font-size: .74rem;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-    .admin-stat-card strong {
-      display:block;
-      color: var(--text);
-      font-size: 1.4rem;
-      letter-spacing: -.03em;
-    }
-    .admin-toolbar { display:grid; gap:10px; }
-    .admin-filter-input { margin: 0; }
-    .admin-subtle-note {
-      color: var(--dim);
-      font-size: .8rem;
-      line-height: 1.6;
-    }
-    .admin-user-meta {
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-    .admin-user-pill {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      color: var(--dim);
-      border-radius: 999px;
-      padding: 7px 10px;
-      font-size: .72rem;
-      font-weight: 700;
-    }
-    .admin-user-actions {
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .admin-empty-state {
-      border: 1px dashed var(--border);
-      border-radius: 20px;
-      padding: 24px;
-      text-align: center;
-      color: var(--dim);
-      background: rgba(255,255,255,.02);
-    }
-    .feature img, .mini-card img, .post-media img, .article-hero img, #detail-image-wrap img {
-      loading: lazy;
-    }
-    @media (max-width: 900px) {
-      .admin-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media (max-width: 640px) {
-      .toast-wrap { right: 14px; bottom: 14px; width: calc(100vw - 28px); }
-      .admin-top-actions { width: 100%; }
-      .admin-top-actions .solid-btn, .admin-top-actions .ghost-btn { width: 100%; }
-      .admin-stats-grid { grid-template-columns: 1fr; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-    }
-  </style>
-
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
   <h1 style="display:none;">MoroccanSportsHub - Moroccan football news and global sports updates</h1>
-  <div id="toast-wrap" class="toast-wrap" aria-live="polite" aria-atomic="true"></div>
 <button class="ai-fab" id="ai-fab" onclick="toggleAiAssistant()" aria-label="Open sports assistant">
     <i class="fa-solid fa-cloud"></i>
   </button>
@@ -2615,27 +2472,12 @@
     </section>
 
     <section id="admin-page" class="page">
-      <div class="subpage-top">
-        <div class="section-title" id="admin-page-title" style="margin-bottom:0;">Admin Panel</div>
-        <div class="admin-top-actions">
-          <button class="solid-btn" id="admin-sync-users-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
-          <button class="ghost-btn" id="admin-refresh-btn" onclick="loadAdminPanel()">Refresh</button>
-        </div>
-      </div>
+      <div class="section-title" id="admin-page-title">Admin Panel</div>
       <div class="admin-grid">
-        <div class="mini-card admin-overview-card">
+        <div class="mini-card">
           <h3 id="admin-tools-title" style="margin-bottom:8px;">Admin Tools</h3>
-          <p id="admin-tools-desc" style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Ban or unban users from posting, review platform totals, and monitor community health in one place.</p>
-          <div class="admin-stats-grid" id="admin-stats-grid">
-            <div class="admin-stat-card"><span>Total users</span><strong id="admin-stat-users">—</strong></div>
-            <div class="admin-stat-card"><span>Feed posts</span><strong id="admin-stat-posts">—</strong></div>
-            <div class="admin-stat-card"><span>Comments</span><strong id="admin-stat-comments">—</strong></div>
-            <div class="admin-stat-card"><span>Banned users</span><strong id="admin-stat-banned">—</strong></div>
-          </div>
-          <div class="admin-toolbar">
-            <input id="admin-user-filter" class="auth-input admin-filter-input" type="text" placeholder="Search users by name or email..." oninput="filterAdminUsers(this.value)">
-            <div class="admin-subtle-note" id="admin-live-note">Live numbers refresh when you open this page.</div>
-          </div>
+          <p id="admin-tools-desc" style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Ban or unban users from posting. You can also manage posts directly from the Feed page.</p>
+          <button class="solid-btn" id="admin-sync-users-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
         </div>
         <div id="admin-users-list"></div>
       </div>
@@ -3638,7 +3480,7 @@
       }
 
       if (p === 'admin' && !isAdmin()) {
-        showToast(t('notAllowed'), 'warn');
+        alert(t('notAllowed'));
         return;
       }
 
@@ -3653,7 +3495,7 @@
 
       if (p === 'feed') loadFeed();
       if (p === 'profile') loadProfile();
-      if (p === 'matches') loadMatchesWidget();
+      if (p === 'matches') loadMatchesWidget(true);
       if (p === 'admin') loadAdminPanel();
       if (p === 'global') renderGlobalFeed();
       if (p === 'home') {
@@ -4144,20 +3986,20 @@
     }
 
     async function banUser(userId, currentStatus) {
-      if (!isAdmin()) return showToast(t('notAllowed'), 'warn');
+      if (!isAdmin()) return alert(t('notAllowed'));
       if (!confirm(currentStatus ? t('unbanUser') : t('banUser'))) return;
 
       await db.collection('users').doc(userId).set({
         banned: !currentStatus
       }, { merge: true });
 
-      showToast(currentStatus ? t('userUnbanned') : t('userBanned'), 'success');
+      alert(currentStatus ? t('userUnbanned') : t('userBanned'));
       loadFeed();
       loadAdminPanel();
     }
 
     async function backfillUsersFromPosts() {
-      if (!isAdmin()) return showToast(t('notAllowed'), 'warn');
+      if (!isAdmin()) return alert(t('notAllowed'));
 
       const postsSnap = await db.collection('posts').get();
       const batch = db.batch();
@@ -4177,61 +4019,39 @@
       });
 
       await batch.commit();
-      showToast(t('usersBackfilled'), 'success');
+      alert(t('usersBackfilled'));
       loadAdminPanel();
     }
 
     async function loadAdminPanel() {
       if (!isAdmin()) {
-        showToast(t('notAllowed'), 'warn');
+        alert(t('notAllowed'));
         switchPage('home');
         return;
       }
 
       const wrap = $('#admin-users-list').empty();
-      const [usersSnap, postsSnap] = await Promise.all([
-        db.collection('users').get(),
-        db.collection('posts').get()
-      ]);
+      const snap = await db.collection('users').get();
 
-      const posts = [];
-      postsSnap.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
-      const feedPosts = posts.filter(post => post.kind !== 'article_comment');
-      const articleComments = posts.filter(post => post.kind === 'article_comment');
-      const bannedCount = usersSnap.docs.filter(doc => !!doc.data().banned).length;
-
-      $('#admin-stat-users').text(usersSnap.size);
-      $('#admin-stat-posts').text(feedPosts.length);
-      $('#admin-stat-comments').text(articleComments.length);
-      $('#admin-stat-banned').text(bannedCount);
-
-      if (usersSnap.empty) {
-        wrap.html(`<div class="admin-empty-state">${t('noUsers')}</div>`);
+      if (snap.empty) {
+        wrap.html(`<p style="color:var(--dim)">${t('noUsers')}</p>`);
         return;
       }
 
-      const rows = [];
-      usersSnap.forEach(doc => {
+      snap.forEach(doc => {
         const u = doc.data();
         const banned = !!u.banned;
+
         if (auth.currentUser && doc.id === auth.currentUser.uid) return;
 
-        const userPosts = feedPosts.filter(post => post.userId === doc.id).length;
-        const userComments = articleComments.filter(post => post.userId === doc.id).length;
-
-        rows.push(`
-          <div class="post-card admin-user-card" data-admin-user-card data-search="${String((u.name || 'Agent') + ' ' + (u.email || '')).toLowerCase()}">
+        wrap.append(`
+          <div class="post-card">
             <div class="admin-user-row">
               <div>
                 <div class="post-user">${u.name || 'Agent'}</div>
-                <div class="post-time">${u.email || 'No email saved'}</div>
-                <div class="admin-user-meta">
-                  <span class="admin-user-pill">Posts: ${userPosts}</span>
-                  <span class="admin-user-pill">Comments: ${userComments}</span>
-                  <span class="admin-user-pill">${banned ? 'Status: banned' : 'Status: active'}</span>
-                </div>
+                <div class="post-time">${u.email || ''}</div>
               </div>
-              <div class="admin-user-actions">
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
                 <button class="${banned ? 'green-btn' : 'amber-btn'}" onclick="banUser('${doc.id}', ${banned})">
                   ${banned ? 'Unban' : 'Ban'}
                 </button>
@@ -4240,9 +4060,6 @@
           </div>
         `);
       });
-
-      wrap.html(rows.join('') || `<div class="admin-empty-state">${t('noUsers')}</div>`);
-      filterAdminUsers($('#admin-user-filter').val() || '');
     }
 
     function buildShareUrl(postId) {
@@ -4260,7 +4077,7 @@
       } else {
         try {
           await navigator.clipboard.writeText(url);
-          showToast('Link copied to clipboard.', 'success');
+          alert(url);
         } catch {
           prompt('Copy this link:', url);
         }
@@ -4286,7 +4103,7 @@
       if (mediaType === 'video') {
         return `<div class="post-media"><video controls playsinline src="${mediaUrl}"></video></div>`;
       }
-      return `<div class="post-media"><img src="${mediaUrl}" alt="media" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>`;
+      return `<div class="post-media"><img src="${mediaUrl}" alt="media" onerror="this.style.display='none'"></div>`;
     }
 
     
@@ -4362,12 +4179,8 @@ async function loadFeed() {
             if (r.exists) active[r.data().type] = true;
           }
 
-          let postUserData = feedUserDocCache.get(post.userId);
-          if (!postUserData) {
-            const userDoc = await db.collection('users').doc(post.userId).get();
-            postUserData = userDoc.exists ? userDoc.data() : {};
-            feedUserDocCache.set(post.userId, postUserData);
-          }
+          const userDoc = await db.collection('users').doc(post.userId).get();
+          const postUserData = userDoc.exists ? userDoc.data() : {};
           const bannedUser = !!postUserData.banned;
 
           feedHtml += `
@@ -5890,68 +5703,54 @@ function openDetails(id) {
       }
     }
 
-function loadMatchesWidget() {
+function loadMatchesWidget(forceReload = false) {
       const container = document.getElementById('live-inject');
       if (!container) return;
-      if (container.dataset.loaded === 'true') return;
-      container.innerHTML = `
-        <api-sports-widget
-          data-type="config"
-          data-key="77aa814e7955b3042a9ebf24fc1bee18"
-          data-sport="football"
-          data-theme="dark"
-          data-target-game="modal">
-        </api-sports-widget>
 
-        <api-sports-widget
-          data-type="games"
-          data-sport="football"
-          data-theme="dark"
-          data-key="77aa814e7955b3042a9ebf24fc1bee18"
-          data-target-game="modal">
-        </api-sports-widget>
+      const widgetMarkup = `
+        <div class="matches-widget-shell">
+          <api-sports-widget
+            data-type="config"
+            data-key="77aa814e7955b3042a9ebf24fc1bee18"
+            data-sport="football"
+            data-theme="dark"
+            data-target-game="modal">
+          </api-sports-widget>
+
+          <api-sports-widget
+            data-type="games"
+            data-sport="football"
+            data-theme="dark"
+            data-key="77aa814e7955b3042a9ebf24fc1bee18"
+            data-target-game="modal">
+          </api-sports-widget>
+        </div>
+        <div id="matches-widget-fallback" class="profile-subtle-note" style="margin-top:12px; display:none;">Live matches are temporarily unavailable. Please refresh and try again.</div>
       `;
 
-      const oldScript = document.getElementById('api-sports-script');
-      if (oldScript) oldScript.remove();
+      if (forceReload || !container.querySelector('api-sports-widget')) {
+        container.innerHTML = widgetMarkup;
+      }
 
-      const script = document.createElement('script');
-      script.id = 'api-sports-script';
-      script.type = 'module';
-      script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
-      container.appendChild(script);
-      container.dataset.loaded = 'true';
-    }
-
-    const feedUserDocCache = new Map();
-
-    function showToast(message, type = 'default', timeout = 2600) {
-      const wrap = document.getElementById('toast-wrap');
-      if (!wrap || !message) return;
-      const el = document.createElement('div');
-      el.className = `toast-item ${type}`;
-      el.innerHTML = `<div>${message}</div><button aria-label="Close">×</button>`;
-      const remove = () => {
-        if (el.parentNode) el.parentNode.removeChild(el);
+      const showFallback = () => {
+        const fb = document.getElementById('matches-widget-fallback');
+        if (fb) fb.style.display = 'block';
       };
-      el.querySelector('button').addEventListener('click', remove);
-      wrap.appendChild(el);
-      window.setTimeout(remove, timeout);
-    }
 
-    function filterAdminUsers(query = '') {
-      const term = String(query).trim().toLowerCase();
-      document.querySelectorAll('[data-admin-user-card]').forEach(card => {
-        const haystack = card.getAttribute('data-search') || '';
-        card.style.display = !term || haystack.includes(term) ? '' : 'none';
-      });
-    }
+      const existingScript = document.getElementById('api-sports-script');
+      if (!existingScript || forceReload) {
+        if (existingScript) existingScript.remove();
+        const script = document.createElement('script');
+        script.id = 'api-sports-script';
+        script.type = 'module';
+        script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
+        script.onerror = showFallback;
+        document.body.appendChild(script);
+      }
 
-    function applyPerformanceTweaks() {
-      document.querySelectorAll('img').forEach(img => {
-        if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
-        if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
-      });
+      setTimeout(() => {
+        if (!container.querySelector('api-sports-widget')) showFallback();
+      }, 3500);
     }
 
 
@@ -5994,7 +5793,6 @@ function loadMatchesWidget() {
     });
 
     window.addEventListener('popstate', () => { sharedPostHandled = false; });
-    applyPerformanceTweaks();
     initAppPrefs();
     renderSavedArticles();
     window.reactToArticle = reactToArticle;
