@@ -4876,8 +4876,6 @@ function closeArticlePage() {
     }
 
     function currentArticleReactionDocKey() {
-      const title = ($('#article-title').text() || '').trim();
-      if (title) return btoa(title).substring(0, 30);
       return articleDocKeyFromId(currentArticleId);
     }
 
@@ -4955,7 +4953,7 @@ function closeArticlePage() {
     function renderArticleComments(snapshot) {
       const items = [];
       snapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
-      items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      items.sort((a, b) => ((b.createdAt?.toMillis?.() || b.createdAt || 0) - (a.createdAt?.toMillis?.() || a.createdAt || 0)));
 
       if (!items.length) {
         $('#article-comments-list').empty();
@@ -4964,15 +4962,18 @@ function closeArticlePage() {
       }
 
       $('#article-comments-empty').hide();
-      $('#article-comments-list').html(items.map(item => `
+      $('#article-comments-list').html(items.map(item => {
+        const createdAt = item.createdAt?.toMillis?.() || item.createdAt || Date.now();
+        return `
         <div class="article-comment-item">
           <div class="article-comment-head">
-            <span class="article-comment-author">${escapeHtml(item.authorName || 'Fan')}</span>
-            <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(item.createdAt))}</span>
+            <span class="article-comment-author">${escapeHtml(item.authorName || item.username || 'Fan')}</span>
+            <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(createdAt))}</span>
           </div>
           <div class="article-comment-text">${escapeHtml(item.text || '')}</div>
         </div>
-      `).join(''));
+      `;
+      }).join(''));
     }
 
     function loadArticleComments() {
