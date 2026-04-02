@@ -37,10 +37,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
 
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -2472,6 +2472,12 @@
             <div class="home-mini-row" style="border-bottom:none;"><strong id="home-why-4-title">Clean Navigation</strong><span id="home-why-4-desc">Jump straight into news, matches, chess, or the feed.</span></div>
           </div>
         </div>
+        <div class="home-bottom-card">
+          <h3 id="home-most-read-title">Most Read Now</h3>
+          <div class="home-mini-list" id="home-most-read-list">
+            <div class="home-mini-row"><strong>Loading top stories...</strong><span>Tracking what fans open most right now.</span></div>
+          </div>
+        </div>
       </div>
 
 
@@ -2494,6 +2500,7 @@
         <div class="article-back-row">
           <button class="ghost-btn" id="article-back-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
           <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
+          <button class="ghost-btn" id="article-copy-btn" onclick="copyCurrentArticleLink()">Copy Link</button>
           <button class="ghost-btn article-save-btn" id="article-save-btn" onclick="toggleSaveCurrentArticle()">Save Article</button>
         </div>
         <div class="detail-top-meta" id="article-meta"></div>
@@ -2658,6 +2665,11 @@
             <input id="admin-user-search" class="auth-input" type="text" placeholder="Search users by name or email" style="margin:0; flex:1; min-width:220px;">
             <button class="ghost-btn" onclick="loadAdminPanel(true)">Search</button>
           </div>
+        </div>
+        <div class="mini-card">
+          <h3 style="margin-bottom:8px;">Moderation Queue</h3>
+          <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">User reports from feed posts and article comments appear here for quick review.</p>
+          <div id="admin-queue-list" class="admin-queue-list"></div>
         </div>
         <div id="admin-users-list"></div>
       </div>
@@ -4213,11 +4225,13 @@
 
       const wrap = $('#admin-users-list').empty();
       const summaryWrap = $('#admin-summary-cards').empty();
+      const queueWrap = $('#admin-queue-list').empty();
       const query = ($('#admin-user-search').val() || '').trim().toLowerCase();
 
-      const [usersSnap, postsSnap] = await Promise.all([
+      const [usersSnap, postsSnap, notifSnap] = await Promise.all([
         db.collection('users').get(),
-        db.collection('posts').get()
+        db.collection('posts').get(),
+        db.collection('notifications').get()
       ]);
 
       let userCount = 0;
@@ -4225,6 +4239,7 @@
       let feedCount = 0;
       let commentCount = 0;
       const users = [];
+      const reports = [];
 
       usersSnap.forEach(doc => {
         const u = doc.data() || {};
@@ -4239,12 +4254,40 @@
         else feedCount += 1;
       });
 
+      notifSnap.forEach(doc => {
+        const n = doc.data() || {};
+        if (n.type === 'report') reports.push({ id: doc.id, ...n });
+      });
+
       summaryWrap.html(`
         <div class="admin-stat-card"><strong>${userCount}</strong><span>Total users</span></div>
         <div class="admin-stat-card"><strong>${feedCount}</strong><span>Feed posts</span></div>
         <div class="admin-stat-card"><strong>${commentCount}</strong><span>Article comments</span></div>
         <div class="admin-stat-card"><strong>${bannedCount}</strong><span>Banned users</span></div>
       `);
+
+      reports
+        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
+        .slice(0, 15)
+        .forEach(item => {
+          queueWrap.append(`
+            <div class="admin-queue-item">
+              <div class="admin-queue-head">
+                <span class="admin-queue-type"><i class="fa-regular fa-flag"></i> ${item.reportKind === 'article_comment' ? 'Comment report' : 'Feed report'}</span>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <button class="ghost-btn" onclick="openAdminQueueTarget('${item.targetType || ''}', '${item.targetId || ''}')">Open</button>
+                  <button class="amber-btn" onclick="deleteAdminQueueItem('${item.id}')">Clear</button>
+                </div>
+              </div>
+              <div class="admin-queue-copy">${escapeHtml(item.preview || 'No preview')}</div>
+              <div class="admin-queue-meta">Reported by ${escapeHtml(item.fromName || 'Fan')} · ${escapeHtml(item.createdAt?.toDate ? item.createdAt.toDate().toLocaleString() : 'just now')}</div>
+            </div>
+          `);
+        });
+
+      if (!reports.length) {
+        queueWrap.html(`<div class="admin-queue-meta">No reports in the queue.</div>`);
+      }
 
       const filtered = users.filter(u => {
         if (auth.currentUser && u.id === auth.currentUser.uid) return false;
@@ -4337,7 +4380,7 @@
       if (mediaType === 'video') {
         return `<div class="post-media"><video controls playsinline src="${mediaUrl}"></video></div>`;
       }
-      return `<div class="post-media"><img src="${mediaUrl}" alt="media" onerror="this.style.display='none'"></div>`;
+      return `<div class="post-media"><img src="${mediaUrl}" alt="media" loading="lazy" onerror="this.style.display='none'"></div>`;
     }
 
     
@@ -4445,6 +4488,7 @@ async function loadFeed() {
                 <button class="feed-react-btn ${active.heart ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'heart', '${post.userId}')">❤️ ${post.hearts || 0}</button>
                 <button class="feed-react-btn ${active.fire ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'fire', '${post.userId}')">🔥 ${post.fires || 0}</button>
                 <button class="share-btn" onclick="sharePost('${post.id}')"><i class="fa-solid fa-share-nodes"></i> ${t('share')}</button>
+                <button class="share-btn" onclick="reportFeedPost('${post.id}', '${post.userId}')"><i class="fa-regular fa-flag"></i> Report</button>
               </div>
             </div>
           `;
@@ -5472,27 +5516,24 @@ function renderHome(forceShuffle = false) {
       items.sort((a, b) => ((b.createdAt?.toMillis?.() || b.createdAt || 0) - (a.createdAt?.toMillis?.() || a.createdAt || 0)));
 
       if (!items.length) {
-        latestRenderedCommentIds = [];
         $('#article-comments-list').empty();
         $('#article-comments-empty').show();
         return;
       }
 
-      const previousIds = new Set(latestRenderedCommentIds);
-      latestRenderedCommentIds = items.map(item => item.id);
       $('#article-comments-empty').hide();
       $('#article-comments-list').html(items.map(item => {
         const createdAt = item.createdAt?.toMillis?.() || item.createdAt || Date.now();
-        const canDelete = canDeleteArticleComment(item);
-        const isNew = !previousIds.has(item.id);
+        const canDelete = auth.currentUser && (isAdmin() || auth.currentUser.uid === item.userId);
         return `
-        <div class="article-comment-item ${isNew ? 'new-comment' : ''}">
+        <div class="article-comment-item">
           <div class="article-comment-head">
             <div class="article-comment-head-left">
               <span class="article-comment-author">${escapeHtml(item.authorName || item.username || 'Fan')}</span>
               <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(createdAt))}</span>
             </div>
             <div class="article-comment-actions-right">
+              <button class="article-comment-delete-btn" onclick="reportArticleComment('${String(item.id).replace(/'/g, "\'")}', '${String(item.userId || '').replace(/'/g, "\'")}')">Report</button>
               ${canDelete ? `<button class="article-comment-delete-btn" onclick="deleteArticleComment('${String(item.id).replace(/'/g, "\'")}')">Delete</button>` : ''}
             </div>
           </div>
@@ -6200,11 +6241,17 @@ function loadMatchesWidget(forceReload = false) {
     });
     initAppPrefs();
     renderSavedArticles();
+    renderMostReadHome();
     window.reactToArticle = reactToArticle;
     window.postArticleComment = postArticleComment;
     window.toggleSaveCurrentArticle = toggleSaveCurrentArticle;
     window.openSavedArticle = openSavedArticle;
     window.deleteArticleComment = deleteArticleComment;
+    window.copyCurrentArticleLink = copyCurrentArticleLink;
+    window.reportFeedPost = reportFeedPost;
+    window.reportArticleComment = reportArticleComment;
+    window.deleteAdminQueueItem = deleteAdminQueueItem;
+    window.openAdminQueueTarget = openAdminQueueTarget;
   </script>
   <div id="toast-stack" class="toast-stack"></div>
 </body>
