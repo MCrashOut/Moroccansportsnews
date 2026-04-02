@@ -3732,6 +3732,17 @@
       }
     }
 
+    function clearArticleRouteParams(replace = true) {
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('article');
+        url.searchParams.delete('slug');
+        const next = `${url.pathname}${url.searchParams.toString() ? '?' + url.searchParams.toString() : ''}${url.hash || ''}`;
+        if (replace) history.replaceState({}, '', next);
+        else history.pushState({}, '', next);
+      } catch (err) {}
+    }
+
     function switchPage(p) {
       if (p === 'profile-check') {
         if (!auth.currentUser) {
@@ -3746,7 +3757,12 @@
         return;
       }
 
-      if (p !== 'article') lastRegularPage = p;
+      if (p !== 'article') {
+        lastRegularPage = p;
+        currentArticleId = null;
+        currentArticleLink = '';
+        clearArticleRouteParams(true);
+      }
       $('.page').removeClass('active');
       $('#' + p + '-page').addClass('active');
       if (p === 'profile') renderSavedArticles();
@@ -3862,18 +3878,15 @@
       }
 
       applyUiLanguage();
-      initNews().then(() => tryOpenArticleFromUrl());
-
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('post')) {
-        switchPage('feed');
-        loadFeed();
-      } else if (params.get('article')) {
-        const articleId = Number(params.get('article'));
-        if (Number.isFinite(articleId) && masterPool[articleId]) {
-          openDetails(articleId);
+      initNews().then(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('post')) {
+          switchPage('feed');
+          loadFeed();
+          return;
         }
-      }
+        tryOpenArticleFromUrl();
+      });
     });
 
 
@@ -5159,12 +5172,6 @@ async function initNews() {
   renderHome();
   renderBreakingTicker();
 
-  const params = new URLSearchParams(window.location.search);
-  const articleId = Number(params.get('article'));
-  if (Number.isFinite(articleId) && masterPool[articleId]) {
-    openDetails(articleId);
-  }
-
   if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
     $('#search-results-area').hide();
     $('#standard-home-layout').show();
@@ -5282,7 +5289,9 @@ function renderHome(forceShuffle = false) {
 
 
     function closeArticlePage() {
-      try { history.replaceState({}, '', location.pathname); } catch (err) {}
+      currentArticleId = null;
+      currentArticleLink = '';
+      clearArticleRouteParams(true);
       switchPage(lastRegularPage || 'home');
     }
 
@@ -6503,7 +6512,17 @@ function loadMatchesWidget(forceReload = false) {
 
     window.addEventListener('popstate', () => {
       sharedPostHandled = false;
-      if (!tryOpenArticleFromUrl() && !new URLSearchParams(window.location.search).get('post')) {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('article')) {
+        tryOpenArticleFromUrl();
+        return;
+      }
+      if (!params.get('post')) {
+        currentArticleId = null;
+        currentArticleLink = '';
+        if ($('#article-page').hasClass('active')) {
+          switchPage(lastRegularPage || 'home');
+        }
         restoreDefaultSeo();
       }
     });
