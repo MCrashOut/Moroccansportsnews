@@ -2570,6 +2570,7 @@
           <button class="ghost-btn" id="article-back-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
           <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
           <button class="ghost-btn article-save-btn" id="article-save-btn" onclick="toggleSaveCurrentArticle()">Save Article</button>
+          <button class="ghost-btn article-copy-btn" id="article-copy-btn" onclick="copyCurrentArticleLink()">Copy Link</button>
         </div>
         <div class="detail-top-meta" id="article-meta"></div>
         <h1 id="article-title" class="article-title"></h1>
@@ -4330,6 +4331,8 @@
         <div class="admin-stat-card"><strong>${commentCount}</strong><span>Article comments</span></div>
         <div class="admin-stat-card"><strong>${bannedCount}</strong><span>Banned users</span></div>
       `);
+
+      loadModerationQueue();
 
       const filtered = users.filter(u => {
         if (auth.currentUser && u.id === auth.currentUser.uid) return false;
