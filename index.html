@@ -5574,7 +5574,7 @@ function renderHome(forceShuffle = false) {
     }
 
     function buildSavedArticlePayload() {
-      const n = masterPool[currentArticleId] || {};
+      const n = findArticleById(currentArticleId) || {};
       return {
         id: currentArticleId,
         title: n.title || ($('#article-title').text() || 'Untitled story'),
@@ -5999,12 +5999,16 @@ function renderHome(forceShuffle = false) {
       else history.pushState(state, '', nextUrl);
     }
 
+    function findArticleById(id) {
+      const target = String(id);
+      return masterPool.find(item => item && String(item.id) === target) || null;
+    }
+
     function tryOpenArticleFromUrl() {
       const params = new URLSearchParams(window.location.search);
       const articleId = params.get('article');
       if (articleId == null || articleId === '') return false;
-      const numericId = Number(articleId);
-      const direct = Number.isFinite(numericId) ? masterPool[numericId] : null;
+      const direct = findArticleById(articleId);
       if (direct) {
         openDetails(direct.id, true);
         return true;
@@ -6013,7 +6017,7 @@ function renderHome(forceShuffle = false) {
     }
 
 function openDetails(id, replaceHistory = false) {
-      const n = masterPool[id];
+      const n = findArticleById(id);
       if (!n) return;
 
       currentArticleId = id;
