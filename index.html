@@ -37,10 +37,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
 
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -1882,6 +1882,81 @@
       font-size: .78rem;
       line-height: 1.6;
     }
+    .home-mostread-list {
+      display: grid;
+      gap: 12px;
+    }
+    .home-mostread-item {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      padding: 14px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .home-mostread-item:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.04);
+    }
+    .home-mostread-rank {
+      color: var(--cyan);
+      font-size: .72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .home-mostread-item strong {
+      display: block;
+      color: var(--text);
+      line-height: 1.45;
+      margin-bottom: 8px;
+      font-size: .92rem;
+    }
+    .home-mostread-item span {
+      display: block;
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.6;
+    }
+    .article-comment-actions-right {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .article-comment-report-btn,
+    .feed-report-btn,
+    .article-copy-btn,
+    .admin-queue-btn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: .74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .article-comment-report-btn:hover,
+    .feed-report-btn:hover,
+    .article-copy-btn:hover,
+    .admin-queue-btn:hover {
+      border-color: rgba(0,242,254,.28);
+      color: var(--cyan);
+    }
+    .admin-queue-actions {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+
     @media (max-width: 900px) {
       .article-related-grid {
         grid-template-columns: 1fr;
@@ -2472,12 +2547,6 @@
             <div class="home-mini-row" style="border-bottom:none;"><strong id="home-why-4-title">Clean Navigation</strong><span id="home-why-4-desc">Jump straight into news, matches, chess, or the feed.</span></div>
           </div>
         </div>
-        <div class="home-bottom-card">
-          <h3 id="home-most-read-title">Most Read Now</h3>
-          <div class="home-mini-list" id="home-most-read-list">
-            <div class="home-mini-row"><strong>Loading top stories...</strong><span>Tracking what fans open most right now.</span></div>
-          </div>
-        </div>
       </div>
 
 
@@ -2500,7 +2569,6 @@
         <div class="article-back-row">
           <button class="ghost-btn" id="article-back-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
           <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
-          <button class="ghost-btn" id="article-copy-btn" onclick="copyCurrentArticleLink()">Copy Link</button>
           <button class="ghost-btn article-save-btn" id="article-save-btn" onclick="toggleSaveCurrentArticle()">Save Article</button>
         </div>
         <div class="detail-top-meta" id="article-meta"></div>
@@ -2668,7 +2736,7 @@
         </div>
         <div class="mini-card">
           <h3 style="margin-bottom:8px;">Moderation Queue</h3>
-          <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">User reports from feed posts and article comments appear here for quick review.</p>
+          <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">User reports from posts and article comments appear here for review.</p>
           <div id="admin-queue-list" class="admin-queue-list"></div>
         </div>
         <div id="admin-users-list"></div>
@@ -3799,6 +3867,11 @@
       if (params.get('post')) {
         switchPage('feed');
         loadFeed();
+      } else if (params.get('article')) {
+        const articleId = Number(params.get('article'));
+        if (Number.isFinite(articleId) && masterPool[articleId]) {
+          openDetails(articleId);
+        }
       }
     });
 
@@ -4225,13 +4298,11 @@
 
       const wrap = $('#admin-users-list').empty();
       const summaryWrap = $('#admin-summary-cards').empty();
-      const queueWrap = $('#admin-queue-list').empty();
       const query = ($('#admin-user-search').val() || '').trim().toLowerCase();
 
-      const [usersSnap, postsSnap, notifSnap] = await Promise.all([
+      const [usersSnap, postsSnap] = await Promise.all([
         db.collection('users').get(),
-        db.collection('posts').get(),
-        db.collection('notifications').get()
+        db.collection('posts').get()
       ]);
 
       let userCount = 0;
@@ -4239,7 +4310,6 @@
       let feedCount = 0;
       let commentCount = 0;
       const users = [];
-      const reports = [];
 
       usersSnap.forEach(doc => {
         const u = doc.data() || {};
@@ -4254,40 +4324,12 @@
         else feedCount += 1;
       });
 
-      notifSnap.forEach(doc => {
-        const n = doc.data() || {};
-        if (n.type === 'report') reports.push({ id: doc.id, ...n });
-      });
-
       summaryWrap.html(`
         <div class="admin-stat-card"><strong>${userCount}</strong><span>Total users</span></div>
         <div class="admin-stat-card"><strong>${feedCount}</strong><span>Feed posts</span></div>
         <div class="admin-stat-card"><strong>${commentCount}</strong><span>Article comments</span></div>
         <div class="admin-stat-card"><strong>${bannedCount}</strong><span>Banned users</span></div>
       `);
-
-      reports
-        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
-        .slice(0, 15)
-        .forEach(item => {
-          queueWrap.append(`
-            <div class="admin-queue-item">
-              <div class="admin-queue-head">
-                <span class="admin-queue-type"><i class="fa-regular fa-flag"></i> ${item.reportKind === 'article_comment' ? 'Comment report' : 'Feed report'}</span>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                  <button class="ghost-btn" onclick="openAdminQueueTarget('${item.targetType || ''}', '${item.targetId || ''}')">Open</button>
-                  <button class="amber-btn" onclick="deleteAdminQueueItem('${item.id}')">Clear</button>
-                </div>
-              </div>
-              <div class="admin-queue-copy">${escapeHtml(item.preview || 'No preview')}</div>
-              <div class="admin-queue-meta">Reported by ${escapeHtml(item.fromName || 'Fan')} · ${escapeHtml(item.createdAt?.toDate ? item.createdAt.toDate().toLocaleString() : 'just now')}</div>
-            </div>
-          `);
-        });
-
-      if (!reports.length) {
-        queueWrap.html(`<div class="admin-queue-meta">No reports in the queue.</div>`);
-      }
 
       const filtered = users.filter(u => {
         if (auth.currentUser && u.id === auth.currentUser.uid) return false;
@@ -4380,7 +4422,7 @@
       if (mediaType === 'video') {
         return `<div class="post-media"><video controls playsinline src="${mediaUrl}"></video></div>`;
       }
-      return `<div class="post-media"><img src="${mediaUrl}" alt="media" loading="lazy" onerror="this.style.display='none'"></div>`;
+      return `<div class="post-media"><img src="${mediaUrl}" alt="media" onerror="this.style.display='none'"></div>`;
     }
 
     
@@ -4488,7 +4530,7 @@ async function loadFeed() {
                 <button class="feed-react-btn ${active.heart ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'heart', '${post.userId}')">❤️ ${post.hearts || 0}</button>
                 <button class="feed-react-btn ${active.fire ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'fire', '${post.userId}')">🔥 ${post.fires || 0}</button>
                 <button class="share-btn" onclick="sharePost('${post.id}')"><i class="fa-solid fa-share-nodes"></i> ${t('share')}</button>
-                <button class="share-btn" onclick="reportFeedPost('${post.id}', '${post.userId}')"><i class="fa-regular fa-flag"></i> Report</button>
+                <button class="feed-report-btn" onclick="reportPost('${post.id}')"><i class="fa-solid fa-flag"></i> Report</button>
               </div>
             </div>
           `;
@@ -5114,6 +5156,12 @@ async function initNews() {
   renderHome();
   renderBreakingTicker();
 
+  const params = new URLSearchParams(window.location.search);
+  const articleId = Number(params.get('article'));
+  if (Number.isFinite(articleId) && masterPool[articleId]) {
+    openDetails(articleId);
+  }
+
   if ($('#search-overlay').is(':visible') && !$('#active-search-input').val().trim()) {
     $('#search-results-area').hide();
     $('#standard-home-layout').show();
@@ -5231,12 +5279,214 @@ function renderHome(forceShuffle = false) {
 
 
     function closeArticlePage() {
+      try { history.replaceState({}, '', location.pathname); } catch (err) {}
       switchPage(lastRegularPage || 'home');
     }
 
     function openCurrentArticleSource() {
       if (currentArticleLink) {
         window.open(currentArticleLink, '_blank', 'noopener');
+      }
+    }
+
+    function currentArticlePageUrl() {
+      const base = `${location.origin}${location.pathname}`;
+      if (!currentArticleId && !currentArticleLink) return base;
+      const params = new URLSearchParams();
+      if (currentArticleId != null) params.set('article', String(currentArticleId));
+      const title = ($('#article-title').text() || '').trim();
+      if (title) {
+        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+        if (slug) params.set('slug', slug);
+      }
+      return `${base}?${params.toString()}`;
+    }
+
+    async function copyCurrentArticleLink() {
+      const url = currentArticlePageUrl();
+      try {
+        await navigator.clipboard.writeText(url);
+        setArticleFeedback('Article link copied.', 'success');
+      } catch (err) {
+        console.error('Copy article link failed', err);
+        prompt('Copy this link:', url);
+      }
+    }
+
+    function getMostReadArticles(limit = 5) {
+      try {
+        const raw = JSON.parse(localStorage.getItem('msh_most_read_articles') || '{}');
+        return Object.entries(raw)
+          .map(([id, reads]) => ({ id: Number(id), reads: Number(reads) || 0, item: masterPool[Number(id)] }))
+          .filter(entry => entry.item)
+          .sort((a, b) => b.reads - a.reads)
+          .slice(0, limit);
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function trackArticleRead(id) {
+      if (id == null) return;
+      try {
+        const raw = JSON.parse(localStorage.getItem('msh_most_read_articles') || '{}');
+        raw[String(id)] = (Number(raw[String(id)]) || 0) + 1;
+        localStorage.setItem('msh_most_read_articles', JSON.stringify(raw));
+      } catch (err) {
+        console.error('Track article read failed', err);
+      }
+    }
+
+    function loadMostReadNow() {
+      const wrap = $('#home-mostread-list');
+      if (!wrap.length) return;
+      const rows = getMostReadArticles(5);
+      if (!rows.length) {
+        wrap.html(`
+          <div class="home-mostread-item">
+            <strong>No reading data yet.</strong>
+            <span>Open stories from the homepage and this block will start filling automatically.</span>
+          </div>
+        `);
+        return;
+      }
+      wrap.html(rows.map((row, index) => {
+        const item = row.item || {};
+        const summary = String(item.desc || '').trim();
+        const short = summary.length > 96 ? `${summary.slice(0, 93).trim()}...` : summary;
+        return `
+          <div class="home-mostread-item" onclick="openDetails(${row.id})">
+            <div class="home-mostread-rank"><i class="fa-solid fa-fire"></i> #${index + 1} Most Read</div>
+            <strong>${escapeHtml(item.title || 'Story')}</strong>
+            <span>${escapeHtml(short || 'Read this story again and share it with more fans.')}</span>
+          </div>
+        `;
+      }).join(''));
+    }
+
+    async function reportPost(postId) {
+      if (!auth.currentUser) return openAuth();
+      const reason = prompt('Why are you reporting this post?');
+      if (reason === null) return;
+      const cleaned = String(reason || '').trim();
+      try {
+        await db.collection('notifications').add({
+          type: 'report',
+          reportType: 'post',
+          targetDocId: postId,
+          reason: cleaned,
+          reporterId: auth.currentUser.uid,
+          reporterName: auth.currentUser.displayName || auth.currentUser.email || 'Fan',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert('Post reported.');
+      } catch (err) {
+        console.error('Report post failed', err);
+        alert('Could not report this post.');
+      }
+    }
+
+    async function reportArticleComment(commentId) {
+      if (!auth.currentUser) return openAuth();
+      const reason = prompt('Why are you reporting this comment?');
+      if (reason === null) return;
+      const cleaned = String(reason || '').trim();
+      try {
+        await db.collection('notifications').add({
+          type: 'report',
+          reportType: 'article_comment',
+          targetDocId: commentId,
+          articleId: currentArticleId,
+          reason: cleaned,
+          reporterId: auth.currentUser.uid,
+          reporterName: auth.currentUser.displayName || auth.currentUser.email || 'Fan',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        setArticleFeedback('Comment reported.', 'success');
+      } catch (err) {
+        console.error('Report article comment failed', err);
+        setArticleFeedback('Could not report this comment.', 'error');
+      }
+    }
+
+    async function dismissModerationReport(reportId) {
+      if (!isAdmin()) return;
+      try {
+        await db.collection('notifications').doc(reportId).delete();
+        loadModerationQueue();
+      } catch (err) {
+        console.error('Dismiss report failed', err);
+      }
+    }
+
+    async function removeReportedContent(reportId, reportType, targetDocId) {
+      if (!isAdmin()) return;
+      const ok = confirm('Delete the reported content?');
+      if (!ok) return;
+      try {
+        if (reportType === 'post' || reportType === 'article_comment') {
+          await db.collection('posts').doc(targetDocId).delete();
+        }
+        await db.collection('notifications').doc(reportId).delete();
+        loadModerationQueue();
+        if ($('#feed-page').hasClass('active')) loadFeed();
+        if ($('#article-page').hasClass('active')) loadArticleComments();
+      } catch (err) {
+        console.error('Remove reported content failed', err);
+        alert('Could not remove the reported content.');
+      }
+    }
+
+    async function openModerationTarget(reportType, targetDocId, articleId) {
+      if (reportType === 'post') {
+        switchPage('feed');
+        setTimeout(() => {
+          const el = document.querySelector(`[data-post="${targetDocId}"]`);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.style.boxShadow = '0 0 0 2px rgba(0,242,254,.5), 0 18px 40px rgba(0,0,0,.28)';
+          }
+        }, 300);
+        return;
+      }
+      if (reportType === 'article_comment' && articleId != null) {
+        openDetails(Number(articleId));
+      }
+    }
+
+    async function loadModerationQueue() {
+      const wrap = $('#admin-queue-list');
+      if (!wrap.length || !isAdmin()) return;
+      wrap.html('<p style="color:var(--dim)">Loading moderation queue...</p>');
+      try {
+        const snap = await db.collection('notifications').where('type', '==', 'report').get();
+        const items = [];
+        snap.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
+        items.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+        if (!items.length) {
+          wrap.html('<p style="color:var(--dim)">No reports right now.</p>');
+          return;
+        }
+
+        wrap.html(items.map(item => `
+          <div class="admin-queue-item">
+            <div class="admin-queue-head">
+              <span class="admin-queue-type"><i class="fa-solid fa-flag"></i> ${escapeHtml(String(item.reportType || 'report').replaceAll('_', ' '))}</span>
+              <span class="post-time">${escapeHtml(relativeTimeLabel(item.createdAt?.toMillis?.() || item.createdAt?.seconds * 1000 || Date.now()))}</span>
+            </div>
+            <div class="admin-queue-copy">${escapeHtml(item.reason || 'No reason provided.')}</div>
+            <div class="admin-queue-meta">Reported by ${escapeHtml(item.reporterName || 'Fan')}</div>
+            <div class="admin-queue-actions">
+              <button class="admin-queue-btn" onclick="openModerationTarget('${item.reportType || ''}', '${item.targetDocId || ''}', ${item.articleId != null ? Number(item.articleId) : 'null'})">Open</button>
+              <button class="admin-queue-btn" onclick="removeReportedContent('${item.id}', '${item.reportType || ''}', '${item.targetDocId || ''}')">Delete Content</button>
+              <button class="admin-queue-btn" onclick="dismissModerationReport('${item.id}')">Dismiss</button>
+            </div>
+          </div>
+        `.replace('__ARTICLE__', item.articleId != null ? String(Number(item.articleId)) : 'null')).join(''));
+      } catch (err) {
+        console.error('Load moderation queue failed', err);
+        wrap.html('<p style="color:var(--red)">Could not load moderation queue.</p>');
       }
     }
 
@@ -5516,24 +5766,27 @@ function renderHome(forceShuffle = false) {
       items.sort((a, b) => ((b.createdAt?.toMillis?.() || b.createdAt || 0) - (a.createdAt?.toMillis?.() || a.createdAt || 0)));
 
       if (!items.length) {
+        latestRenderedCommentIds = [];
         $('#article-comments-list').empty();
         $('#article-comments-empty').show();
         return;
       }
 
+      const previousIds = new Set(latestRenderedCommentIds);
+      latestRenderedCommentIds = items.map(item => item.id);
       $('#article-comments-empty').hide();
       $('#article-comments-list').html(items.map(item => {
         const createdAt = item.createdAt?.toMillis?.() || item.createdAt || Date.now();
-        const canDelete = auth.currentUser && (isAdmin() || auth.currentUser.uid === item.userId);
+        const canDelete = canDeleteArticleComment(item);
+        const isNew = !previousIds.has(item.id);
         return `
-        <div class="article-comment-item">
+        <div class="article-comment-item ${isNew ? 'new-comment' : ''}">
           <div class="article-comment-head">
             <div class="article-comment-head-left">
               <span class="article-comment-author">${escapeHtml(item.authorName || item.username || 'Fan')}</span>
               <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(createdAt))}</span>
             </div>
             <div class="article-comment-actions-right">
-              <button class="article-comment-delete-btn" onclick="reportArticleComment('${String(item.id).replace(/'/g, "\'")}', '${String(item.userId || '').replace(/'/g, "\'")}')">Report</button>
               ${canDelete ? `<button class="article-comment-delete-btn" onclick="deleteArticleComment('${String(item.id).replace(/'/g, "\'")}')">Delete</button>` : ''}
             </div>
           </div>
@@ -5769,6 +6022,14 @@ function openDetails(id, replaceHistory = false) {
       const extra = buildArticleExtraCopy(n);
 
       currentArticleLink = n.link || '';
+      try { trackArticleRead(id); } catch (err) {}
+      try {
+        const params = new URLSearchParams(window.location.search);
+        params.set('article', String(id));
+        const slug = String(n.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+        if (slug) params.set('slug', slug);
+        history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
+      } catch (err) {}
       syncArticleSaveButton();
       $('#article-title').text(n.title || '');
       $('#article-lead').text(n.desc || homeLabel('fallbackSummary'));
@@ -6241,17 +6502,11 @@ function loadMatchesWidget(forceReload = false) {
     });
     initAppPrefs();
     renderSavedArticles();
-    renderMostReadHome();
     window.reactToArticle = reactToArticle;
     window.postArticleComment = postArticleComment;
     window.toggleSaveCurrentArticle = toggleSaveCurrentArticle;
     window.openSavedArticle = openSavedArticle;
     window.deleteArticleComment = deleteArticleComment;
-    window.copyCurrentArticleLink = copyCurrentArticleLink;
-    window.reportFeedPost = reportFeedPost;
-    window.reportArticleComment = reportArticleComment;
-    window.deleteAdminQueueItem = deleteAdminQueueItem;
-    window.openAdminQueueTarget = openAdminQueueTarget;
   </script>
   <div id="toast-stack" class="toast-stack"></div>
 </body>
