@@ -3,25 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MoroccanSportsHub | Latest Moroccan Football & Global Sports News</title>
+  <title>MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores</title>
   <!-- avatar-fix-v3: strict unsigned Cloudinary upload -->
 
-  <meta name="description" content="MoroccanSportsHub brings the latest Moroccan football news, global sports updates, match stories, and AI-powered sports insights." />
+  <meta name="description" content="MoroccanSportsHub delivers Moroccan football news, Botola updates, Atlas Lions coverage, transfers, live scores, fixtures, and major global sports stories in English, French, and Arabic." />
   <link rel="canonical" href="https://moroccansportshub.com/" />
-  <meta property="og:title" content="MoroccanSportsHub | Latest Moroccan Football & Global Sports News" />
-  <meta property="og:description" content="Latest Moroccan and global sports news, football updates, matches, and AI-powered insights." />
+  <meta property="og:title" content="MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores" />
+  <meta property="og:description" content="Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and major global sports stories." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MoroccanSportsHub | Latest Moroccan Football & Global Sports News" />
-  <meta name="twitter:description" content="Latest Moroccan football news, global sports updates, and AI-powered insights." />
+  <meta name="twitter:title" content="MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores" />
+  <meta name="twitter:description" content="Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and major global sports stories." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta name="keywords" content="MoroccanSportsHub, Moroccan sports news, Morocco football, Botola, Moroccan football news, global sports news" />
+  <meta name="keywords" content="Moroccan football news, Botola Pro news, Atlas Lions news, Morocco live scores, Morocco fixtures, Moroccan transfers, Wydad news, Raja news, FAR Rabat news, MoroccanSportsHub, global sports news" />
   <meta property="og:site_name" content="MoroccanSportsHub" />
   <meta property="og:url" content="https://moroccansportshub.com/" />
+  <meta property="og:image" content="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
+  <meta property="og:image:alt" content="MoroccanSportsHub logo" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:image" content="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
 
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#000000" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <link rel="icon" type="image/png" href="https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1262,7 +1267,7 @@
     .home-bottom-section {
       margin-top: 28px;
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1fr;
       gap: 20px;
       align-items: start;
     }
@@ -1648,6 +1653,316 @@
       }
     }
 
+    .article-comment-head-left {
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+    .article-comment-actions-right {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .article-comment-delete-btn,
+    .article-save-btn,
+    .saved-article-btn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: .74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .article-comment-delete-btn:hover,
+    .article-save-btn:hover,
+    .saved-article-btn:hover {
+      border-color: rgba(0,242,254,.28);
+      color: var(--cyan);
+    }
+    .article-live-note,
+    .article-feedback,
+    .profile-subtle-note {
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.6;
+    }
+    .article-feedback {
+      margin-top: 12px;
+      min-height: 20px;
+    }
+    .article-live-note.typing {
+      color: var(--cyan);
+    }
+    .saved-articles-wrap {
+      margin-top: 18px;
+      text-align: left;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+    }
+    .saved-articles-list {
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top: 12px;
+    }
+    .saved-article-item {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .saved-article-copy strong {
+      display:block;
+      margin-bottom:6px;
+      color: var(--text);
+      line-height:1.45;
+    }
+    .saved-article-copy span {
+      display:block;
+      color: var(--dim);
+      font-size:.8rem;
+      line-height:1.55;
+    }
+    .saved-articles-empty {
+      color: var(--dim);
+      font-size: .86rem;
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+    @keyframes commentPulseIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .article-comment-item.new-comment {
+      animation: commentPulseIn .28s ease;
+    }
+
+    .admin-summary-grid {
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap:14px;
+    }
+    .admin-stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 14px 32px var(--shadow);
+    }
+    .admin-stat-card strong {
+      display:block;
+      font-size:1.7rem;
+      line-height:1;
+      margin-bottom:8px;
+      color: var(--text);
+    }
+    .admin-stat-card span {
+      color: var(--dim);
+      font-size:.84rem;
+      line-height:1.5;
+    }
+    .toast-stack {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 6500;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      min-width: 220px;
+      max-width: min(360px, calc(100vw - 32px));
+      background: color-mix(in srgb, var(--bg) 92%, var(--card));
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--cyan);
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: 0 16px 34px rgba(0,0,0,.28);
+      transform: translateY(8px);
+      opacity: 0;
+      animation: toastIn .2s ease forwards;
+    }
+    .toast.error { border-left-color: var(--red); }
+    .toast.success { border-left-color: var(--green); }
+    @keyframes toastIn { to { transform: translateY(0); opacity: 1; } }
+    @media (max-width: 900px) {
+      .admin-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .admin-summary-grid { grid-template-columns: 1fr; }
+      .toast-stack { left: 14px; right: 14px; bottom: 14px; }
+      .toast { max-width: 100%; }
+    }
+
+    .article-related-wrap {
+      margin-top: 18px;
+    }
+    .article-related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .article-related-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,.03);
+      padding: 14px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .article-related-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.04);
+    }
+    .article-related-card strong {
+      display: block;
+      color: var(--text);
+      line-height: 1.45;
+      margin-bottom: 8px;
+      font-size: .92rem;
+    }
+    .article-related-card span {
+      display: block;
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.6;
+    }
+    .admin-queue-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .admin-queue-item {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .admin-queue-head {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:8px;
+      flex-wrap:wrap;
+    }
+    .admin-queue-type {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      color: var(--cyan);
+      font-size:.72rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .admin-queue-copy {
+      color: var(--text);
+      line-height: 1.7;
+      font-size: .88rem;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      margin-bottom: 10px;
+    }
+    .admin-queue-meta {
+      color: var(--dim);
+      font-size: .78rem;
+      line-height: 1.6;
+    }
+    .home-mostread-list {
+      display: grid;
+      gap: 12px;
+    }
+    .home-mostread-item {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      padding: 14px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .home-mostread-item:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.04);
+    }
+    .home-mostread-rank {
+      color: var(--cyan);
+      font-size: .72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .home-mostread-item strong {
+      display: block;
+      color: var(--text);
+      line-height: 1.45;
+      margin-bottom: 8px;
+      font-size: .92rem;
+    }
+    .home-mostread-item span {
+      display: block;
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.6;
+    }
+    .article-comment-actions-right {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .article-comment-report-btn,
+    .feed-report-btn,
+    .article-copy-btn,
+    .admin-queue-btn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: .74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .article-comment-report-btn:hover,
+    .feed-report-btn:hover,
+    .article-copy-btn:hover,
+    .admin-queue-btn:hover {
+      border-color: rgba(0,242,254,.28);
+      color: var(--cyan);
+    }
+    .admin-queue-actions {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+
+    @media (max-width: 900px) {
+      .article-related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -1674,6 +1989,25 @@
     "email": "moroccansportshub.news@gmail.com",
     "contactType": "customer support"
   }]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "MoroccanSportsHub Homepage",
+  "url": "https://moroccansportshub.com/",
+  "description": "Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and global sports stories.",
+  "inLanguage": ["en", "fr", "ar"],
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "MoroccanSportsHub",
+    "url": "https://moroccansportshub.com/"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true"
+  }
 }
 </script>
 
@@ -1725,7 +2059,7 @@
     .home-bottom-section {
       margin-top: 28px;
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1fr;
       gap: 20px;
       align-items: start;
     }
@@ -2203,13 +2537,10 @@
             </button>
             <button class="home-quick-btn" onclick="switchPage('matches')">
               <strong id="home-quick-matches-title">Matches</strong>
-              <span id="home-quick-matches-desc">Quick access to live fixtures, scores, and football widgets.</span>
+              <span id="home-quick-matches-desc">Quick access to live fixtures and scores.</span>
             </button>
           </div>
-        </div>
-        <div class="home-bottom-card">
-          <h3 id="home-why-title">Why MoroccanSportsHub</h3>
-          <div class="home-mini-list">
+          <div class="home-mini-list" style="margin-top:14px;">
             <div class="home-mini-row"><strong id="home-why-1-title">Fast Coverage</strong><span id="home-why-1-desc">Moroccan + global sports in one homepage.</span></div>
             <div class="home-mini-row"><strong id="home-why-2-title">Community Layer</strong><span id="home-why-2-desc">Fans can react, post, and help surface top stories.</span></div>
             <div class="home-mini-row"><strong id="home-why-3-title">AI Support</strong><span id="home-why-3-desc">Ask the assistant for quick sports answers anytime.</span></div>
@@ -2238,7 +2569,8 @@
         <div class="article-back-row">
           <button class="ghost-btn" id="article-back-btn" onclick="closeArticlePage()"><i class="fa-solid fa-arrow-left"></i> Back</button>
           <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
-          <button class="ghost-btn" id="article-whatsapp-btn" onclick="shareArticleWhatsApp()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+          <button class="ghost-btn article-save-btn" id="article-save-btn" onclick="toggleSaveCurrentArticle()">Save Article</button>
+          <button class="ghost-btn article-copy-btn" id="article-copy-btn" onclick="copyCurrentArticleLink()">Copy Link</button>
         </div>
         <div class="detail-top-meta" id="article-meta"></div>
         <h1 id="article-title" class="article-title"></h1>
@@ -2257,6 +2589,13 @@
           <div class="article-info-box">
             <h3 id="article-context-label">Quick context</h3>
             <p id="article-context"></p>
+          </div>
+        </div>
+
+        <div class="article-related-wrap">
+          <div class="article-info-box">
+            <h3 id="article-related-title">Related articles</h3>
+            <div class="article-related-grid" id="article-related-grid"></div>
           </div>
         </div>
 
@@ -2287,6 +2626,8 @@
                 <span class="article-comment-note" id="article-comment-note">Join the conversation around this article.</span>
                 <button class="solid-btn" id="article-comment-submit-btn" onclick="postArticleComment()">Post Comment</button>
               </div>
+              <div class="article-live-note" id="article-live-note">Live updates appear automatically.</div>
+              <div class="article-feedback" id="article-feedback"></div>
             </div>
             <div class="article-comments-list" id="article-comments-list"></div>
             <p class="article-comment-empty" id="article-comments-empty">No comments yet. Be the first fan to react.</p>
@@ -2357,7 +2698,7 @@
       <div class="profile-box">
         <div class="section-title" id="profile-page-title" style="margin-bottom:8px;">Agent Identity Sync</div>
         <div class="profile-avatar-wrap">
-          <img id="profile-avatar-preview" class="profile-avatar-preview" src="https://via.placeholder.com/160?text=MSH" alt="Profile picture" onerror="this.src='https://via.placeholder.com/160?text=MSH'">
+          <img id="profile-avatar-preview" class="profile-avatar-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23091015'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-size='38' font-weight='700' fill='%2300f2fe'%3EMSH%3C/text%3E%3C/svg%3E" alt="Profile picture" onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23091015'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-size='38' font-weight='700' fill='%2300f2fe'%3EMSH%3C/text%3E%3C/svg%3E'">
           <div id="profile-avatar-fallback" class="profile-avatar-fallback" style="display:none;">A</div>
           <input id="profile-pic" class="auth-input" type="file" accept="image/*">
           <div class="profile-avatar-note">Upload JPG, PNG, or WEBP up to 4MB.</div>
@@ -2367,6 +2708,12 @@
         <input id="set-name" class="auth-input" type="text" placeholder="Update Agent ID">
         <button class="solid-btn" id="profile-sync-btn" style="width:100%; margin-top:8px;" onclick="updateProfileData()">Sync Database</button>
         <button class="ghost-btn" id="profile-logout-btn" style="width:100%; margin-top:10px;" onclick="logout()">Logout</button>
+        <div class="saved-articles-wrap">
+          <div class="section-title" style="margin-bottom:6px;">Saved Articles</div>
+          <div class="profile-subtle-note">Keep the best stories and reopen them anytime.</div>
+          <div class="saved-articles-list" id="saved-articles-list"></div>
+          <p class="saved-articles-empty" id="saved-articles-empty">No saved articles yet.</p>
+        </div>
       </div>
     </section>
 
@@ -2376,7 +2723,22 @@
         <div class="mini-card">
           <h3 id="admin-tools-title" style="margin-bottom:8px;">Admin Tools</h3>
           <p id="admin-tools-desc" style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Ban or unban users from posting. You can also manage posts directly from the Feed page.</p>
-          <button class="solid-btn" id="admin-sync-users-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="solid-btn" id="admin-sync-users-btn" onclick="backfillUsersFromPosts()">Sync Users From Posts</button>
+            <button class="ghost-btn" onclick="loadAdminPanel(true)">Refresh Admin</button>
+          </div>
+        </div>
+        <div id="admin-summary-cards" class="admin-summary-grid"></div>
+        <div class="mini-card">
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <input id="admin-user-search" class="auth-input" type="text" placeholder="Search users by name or email" style="margin:0; flex:1; min-width:220px;">
+            <button class="ghost-btn" onclick="loadAdminPanel(true)">Search</button>
+          </div>
+        </div>
+        <div class="mini-card">
+          <h3 style="margin-bottom:8px;">Moderation Queue</h3>
+          <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">User reports from posts and article comments appear here for review.</p>
+          <div id="admin-queue-list" class="admin-queue-list"></div>
         </div>
         <div id="admin-users-list"></div>
       </div>
@@ -2526,6 +2888,13 @@
     let feedViewMode = 'latest';
     let lastRegularPage = 'home';
     let currentArticleLink = '';
+    let currentArticleId = null;
+    let articleReactionsUnsub = null;
+    let articleCommentsUnsub = null;
+    let articleTypingTimer = null;
+    let latestRenderedCommentIds = [];
+    const ARTICLE_COMMENT_COOLDOWN_MS = 15000;
+    const SAVED_ARTICLES_KEY = 'msh_saved_articles_v1';
 
     const uiText = {
       en: {
@@ -3128,6 +3497,7 @@
       applyUiLanguage();
       await initNews();
       renderBreakingTicker();
+      tryOpenArticleFromUrl();
       if ($('#feed-page').hasClass('active')) { feedPreserveOrder = false; loadFeed(); }
       if ($('#admin-page').hasClass('active')) loadAdminPanel();
     }
@@ -3362,6 +3732,17 @@
       }
     }
 
+    function clearArticleRouteParams(replace = true) {
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('article');
+        url.searchParams.delete('slug');
+        const next = `${url.pathname}${url.searchParams.toString() ? '?' + url.searchParams.toString() : ''}${url.hash || ''}`;
+        if (replace) history.replaceState({}, '', next);
+        else history.pushState({}, '', next);
+      } catch (err) {}
+    }
+
     function switchPage(p) {
       if (p === 'profile-check') {
         if (!auth.currentUser) {
@@ -3376,9 +3757,15 @@
         return;
       }
 
-      if (p !== 'article') lastRegularPage = p;
+      if (p !== 'article') {
+        lastRegularPage = p;
+        currentArticleId = null;
+        currentArticleLink = '';
+        clearArticleRouteParams(true);
+      }
       $('.page').removeClass('active');
       $('#' + p + '-page').addClass('active');
+      if (p === 'profile') renderSavedArticles();
 
       $('nav a').removeClass('active');
       if (p.startsWith('morocco-')) $('#nav-morocco').addClass('active');
@@ -3386,7 +3773,7 @@
 
       if (p === 'feed') loadFeed();
       if (p === 'profile') loadProfile();
-      if (p === 'matches') loadMatchesWidget();
+      if (p === 'matches') loadMatchesWidget(true);
       if (p === 'admin') loadAdminPanel();
       if (p === 'global') renderGlobalFeed();
       if (p === 'home') {
@@ -3478,6 +3865,7 @@
         $('#drawer-auth-ui').html(`<button class="auth-btn" onclick="openAuth(); toggleDrawer(false);">${t('accessHub')}</button>`);
         $('#set-name').val('');
         $('#profile-email').text('');
+        renderSavedArticles();
         $('#nav-admin, #drawer-admin-btn').hide();
 
         if (notifListener) {
@@ -3490,13 +3878,15 @@
       }
 
       applyUiLanguage();
-      initNews();
-
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('post')) {
-        switchPage('feed');
-        loadFeed();
-      }
+      initNews().then(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('post')) {
+          switchPage('feed');
+          loadFeed();
+          return;
+        }
+        tryOpenArticleFromUrl();
+      });
     });
 
 
@@ -3883,7 +4273,7 @@
         banned: !currentStatus
       }, { merge: true });
 
-      alert(currentStatus ? t('userUnbanned') : t('userBanned'));
+      showToast(currentStatus ? t('userUnbanned') : t('userBanned'), 'success');
       loadFeed();
       loadAdminPanel();
     }
@@ -3909,11 +4299,11 @@
       });
 
       await batch.commit();
-      alert(t('usersBackfilled'));
+      showToast(t('usersBackfilled'), 'success');
       loadAdminPanel();
     }
 
-    async function loadAdminPanel() {
+    async function loadAdminPanel(forceRefresh = false) {
       if (!isAdmin()) {
         alert(t('notAllowed'));
         switchPage('home');
@@ -3921,35 +4311,90 @@
       }
 
       const wrap = $('#admin-users-list').empty();
-      const snap = await db.collection('users').get();
+      const summaryWrap = $('#admin-summary-cards').empty();
+      const query = ($('#admin-user-search').val() || '').trim().toLowerCase();
 
-      if (snap.empty) {
+      const [usersSnap, postsSnap] = await Promise.all([
+        db.collection('users').get(),
+        db.collection('posts').get()
+      ]);
+
+      let userCount = 0;
+      let bannedCount = 0;
+      let feedCount = 0;
+      let commentCount = 0;
+      const users = [];
+
+      usersSnap.forEach(doc => {
+        const u = doc.data() || {};
+        userCount += 1;
+        if (u.banned) bannedCount += 1;
+        users.push({ id: doc.id, ...u });
+      });
+
+      postsSnap.forEach(doc => {
+        const p = doc.data() || {};
+        if (p.kind === 'article_comment') commentCount += 1;
+        else feedCount += 1;
+      });
+
+      summaryWrap.html(`
+        <div class="admin-stat-card"><strong>${userCount}</strong><span>Total users</span></div>
+        <div class="admin-stat-card"><strong>${feedCount}</strong><span>Feed posts</span></div>
+        <div class="admin-stat-card"><strong>${commentCount}</strong><span>Article comments</span></div>
+        <div class="admin-stat-card"><strong>${bannedCount}</strong><span>Banned users</span></div>
+      `);
+
+      loadModerationQueue();
+
+      const filtered = users.filter(u => {
+        if (auth.currentUser && u.id === auth.currentUser.uid) return false;
+        if (!query) return true;
+        return `${u.name || ''} ${u.email || ''}`.toLowerCase().includes(query);
+      });
+
+      if (!filtered.length) {
         wrap.html(`<p style="color:var(--dim)">${t('noUsers')}</p>`);
+        if (forceRefresh) showToast('No matching users found.', 'error');
         return;
       }
 
-      snap.forEach(doc => {
-        const u = doc.data();
-        const banned = !!u.banned;
-
-        if (auth.currentUser && doc.id === auth.currentUser.uid) return;
-
-        wrap.append(`
-          <div class="post-card">
-            <div class="admin-user-row">
-              <div>
-                <div class="post-user">${u.name || 'Agent'}</div>
-                <div class="post-time">${u.email || ''}</div>
-              </div>
-              <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button class="${banned ? 'green-btn' : 'amber-btn'}" onclick="banUser('${doc.id}', ${banned})">
-                  ${banned ? 'Unban' : 'Ban'}
-                </button>
+      filtered
+        .sort((a, b) => Number(!!b.banned) - Number(!!a.banned) || String(a.name || '').localeCompare(String(b.name || '')))
+        .forEach(u => {
+          const banned = !!u.banned;
+          wrap.append(`
+            <div class="post-card">
+              <div class="admin-user-row">
+                <div>
+                  <div class="post-user">${escapeHtml(u.name || 'Agent')}</div>
+                  <div class="post-time">${escapeHtml(u.email || '')}</div>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <button class="${banned ? 'green-btn' : 'amber-btn'}" onclick="banUser('${u.id}', ${banned})">
+                    ${banned ? 'Unban' : 'Ban'}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        `);
-      });
+          `);
+        });
+
+      if (forceRefresh) showToast('Admin panel refreshed.', 'success');
+    }
+
+    function showToast(message, type = 'success') {
+      const stack = document.getElementById('toast-stack');
+      if (!stack) return;
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      stack.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(8px)';
+        setTimeout(() => toast.remove(), 220);
+      }, 2600);
     }
 
     function buildShareUrl(postId) {
@@ -3972,24 +4417,6 @@
           prompt('Copy this link:', url);
         }
       }
-    }
-
-    function sharePostWhatsApp(postId) {
-      const post = masterPosts.find(p => p.id === postId) || {};
-      const url = buildShareUrl(postId);
-      const contentPreview = String(post.content || post.text || t('feedPageTitle')).replace(/\s+/g, ' ').trim();
-      const message = `${contentPreview.slice(0, 140)} ${url}`.trim();
-      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
-    }
-
-    function shareArticleWhatsApp() {
-      if (!currentArticleId) return;
-      const article = findArticleById(currentArticleId) || {};
-      const slug = slugifyArticleTitle(article.title || 'article');
-      const url = `${location.origin}${location.pathname}?article=${encodeURIComponent(currentArticleId)}&slug=${encodeURIComponent(slug)}`;
-      const title = String(article.title || 'MoroccanSportsHub').replace(/\s+/g, ' ').trim();
-      const message = `${title} ${url}`.trim();
-      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
     }
 
     function openPostFromUrlIfAny() {
@@ -4067,28 +4494,53 @@ async function loadFeed() {
         } else {
           const byId = new Map(posts.map(post => [post.id, post]));
           const existing = feedStableOrder.filter(id => byId.has(id));
-          const newcomers = posts
-            .filter(post => !existing.includes(post.id))
-            .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
-            .map(post => post.id);
-          feedStableOrder = [...existing, ...newcomers];
+          const newcomerIds = [];
+          for (const post of posts) {
+            if (!existing.includes(post.id)) newcomerIds.push(post.id);
+          }
+          newcomerIds.sort((a, b) => {
+            const pa = byId.get(a);
+            const pb = byId.get(b);
+            return (pb?.createdAt?.seconds || 0) - (pa?.createdAt?.seconds || 0);
+          });
+          feedStableOrder = [...existing, ...newcomerIds];
           posts = feedStableOrder.map(id => byId.get(id)).filter(Boolean);
         }
 
         let feedHtml = '';
+        const currentUid = auth.currentUser?.uid || null;
+        const uniqueUserIds = [...new Set(posts.map(post => post.userId).filter(Boolean))];
+
+        const [reactionDocs, userDocs] = await Promise.all([
+          currentUid
+            ? Promise.all(posts.map(post => db.collection('reactions_feed').doc(`${post.id}_${currentUid}`).get().catch(() => null)))
+            : Promise.resolve([]),
+          Promise.all(uniqueUserIds.map(uid => db.collection('users').doc(uid).get().catch(() => null)))
+        ]);
+
+        const activeMap = new Map();
+        if (currentUid) {
+          posts.forEach((post, idx) => {
+            const r = reactionDocs[idx];
+            const active = {};
+            if (r && r.exists) {
+              const data = r.data() || {};
+              if (data.type) active[data.type] = true;
+            }
+            activeMap.set(post.id, active);
+          });
+        }
+
+        const userMap = new Map();
+        userDocs.forEach(doc => {
+          if (doc && doc.exists) userMap.set(doc.id, doc.data() || {});
+        });
 
         for (const post of posts) {
           const admin = isAdmin();
-          const owner = auth.currentUser && auth.currentUser.uid === post.userId;
-          let active = {};
-
-          if (auth.currentUser) {
-            const r = await db.collection('reactions_feed').doc(`${post.id}_${auth.currentUser.uid}`).get();
-            if (r.exists) active[r.data().type] = true;
-          }
-
-          const userDoc = await db.collection('users').doc(post.userId).get();
-          const postUserData = userDoc.exists ? userDoc.data() : {};
+          const owner = currentUid && currentUid === post.userId;
+          const active = activeMap.get(post.id) || {};
+          const postUserData = userMap.get(post.userId) || {};
           const bannedUser = !!postUserData.banned;
 
           feedHtml += `
@@ -4096,7 +4548,7 @@ async function loadFeed() {
               ${(admin || owner) ? `
                 <div class="admin-controls">
                   ${admin ? `<i class="fa-solid fa-thumbtack ${post.pinned ? 'pin-on' : ''}" onclick="togglePin('${post.id}', ${post.pinned})"></i>` : ''}
-                  ${(admin && auth.currentUser && post.userId !== auth.currentUser.uid) ? `<i class="fa-solid fa-user-slash ${bannedUser ? 'ban-on' : ''}" onclick="banUser('${post.userId}', ${bannedUser})"></i>` : ''}
+                  ${(admin && currentUid && post.userId !== currentUid) ? `<i class="fa-solid fa-user-slash ${bannedUser ? 'ban-on' : ''}" onclick="banUser('${post.userId}', ${bannedUser})"></i>` : ''}
                   <i class="fa-solid fa-trash delete-on" onclick="deletePost('${post.id}')"></i>
                 </div>
               ` : ''}
@@ -4119,7 +4571,7 @@ async function loadFeed() {
                 <button class="feed-react-btn ${active.heart ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'heart', '${post.userId}')">❤️ ${post.hearts || 0}</button>
                 <button class="feed-react-btn ${active.fire ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'fire', '${post.userId}')">🔥 ${post.fires || 0}</button>
                 <button class="share-btn" onclick="sharePost('${post.id}')"><i class="fa-solid fa-share-nodes"></i> ${t('share')}</button>
-                <button class="share-btn" onclick="sharePostWhatsApp('${post.id}')"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+                <button class="feed-report-btn" onclick="reportPost('${post.id}')"><i class="fa-solid fa-flag"></i> Report</button>
               </div>
             </div>
           `;
@@ -4229,21 +4681,79 @@ async function loadFeed() {
       }
     }
 
+
+    function scoreSearchArticle(item, rawQuery) {
+      const q = String(rawQuery || '').trim().toLowerCase();
+      if (!q) return 0;
+
+      const fields = {
+        title: (item.title || '').toLowerCase(),
+        desc: (item.desc || '').toLowerCase(),
+        sport: (item.sport || '').toLowerCase(),
+        region: (item.region || '').toLowerCase(),
+        tag: (item.tag || '').toLowerCase()
+      };
+
+      const haystack = [fields.title, fields.desc, fields.sport, fields.region, fields.tag].join(' ');
+      let score = 0;
+
+      if (fields.title.includes(q)) score += 12;
+      if (fields.desc.includes(q)) score += 6;
+      if (fields.sport.includes(q)) score += 4;
+      if (fields.region.includes(q)) score += 4;
+      if (fields.tag.includes(q)) score += 3;
+
+      q.split(/\s+/).filter(Boolean).forEach(token => {
+        if (fields.title.includes(token)) score += 4;
+        if (fields.desc.includes(token)) score += 2;
+        if (fields.sport.includes(token) || fields.region.includes(token) || fields.tag.includes(token)) score += 1;
+      });
+
+      return score;
+    }
+
+    function buildSearchResultCard(n) {
+      const title = escapeHtml(n.title || '');
+      const desc = escapeHtml((n.desc || '').trim());
+      const safeDesc = desc.length > 150 ? desc.slice(0, 147) + '...' : desc;
+      const badge = escapeHtml(localizeTagLabel(n.tag) || homeLabel(n.region === 'morocco' ? 'morocco' : (n.sport || 'football')));
+      const metaRight = escapeHtml(homeLabel(n.sport || 'football'));
+      return `<div class="mini-card" onclick="openDetails(${JSON.stringify(n.id)})">
+        <div class="mini-card-tag"><i class="fa-solid fa-magnifying-glass"></i>${badge}</div>
+        <h3>${title}</h3>
+        <p>${safeDesc || 'Open this article to read more.'}</p>
+        <div class="hero-meta" style="margin-top:12px;">
+          <span class="hero-pill"><i class="fa-solid fa-earth-africa"></i>${escapeHtml(homeLabel(n.region === 'morocco' ? 'morocco' : 'global'))}</span>
+          <span class="hero-pill"><i class="fa-solid fa-layer-group"></i>${metaRight}</span>
+        </div>
+      </div>`;
+    }
+
     function handleSearch(e) {
-      const q = e.target.value.toLowerCase();
+      const q = (e.target.value || '').trim().toLowerCase();
       if (q.length > 1) {
         switchPage('home');
         $('#search-results-area').show();
         $('#standard-home-layout').hide();
+
+        const results = masterPool
+          .map(item => ({ item, score: scoreSearchArticle(item, q) }))
+          .filter(entry => entry.score > 0)
+          .sort((a, b) => {
+            const dateDiff = (new Date(b.item.pubDate || b.item.time || 0) - new Date(a.item.pubDate || a.item.time || 0));
+            return b.score - a.score || dateDiff;
+          })
+          .slice(0, 18)
+          .map(entry => buildSearchResultCard(entry.item))
+          .join('');
+
         $('#search-output-grid').html(
-          masterPool
-            .filter(n => (n.title || '').toLowerCase().includes(q))
-            .map(n => `<div class="mini-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`)
-            .join('')
+          results || `<div class="mini-card"><h3>No results found</h3><p>Try a club, league, player, sport, or keyword from the article summary.</p></div>`
         );
       } else {
         $('#search-results-area').hide();
         $('#standard-home-layout').show();
+        $('#search-output-grid').empty();
       }
     }
 
@@ -4856,13 +5366,294 @@ function renderHome(forceShuffle = false) {
     }
 
 
-function closeArticlePage() {
+
+
+
+
+
+    function closeArticlePage() {
+      currentArticleId = null;
+      currentArticleLink = '';
+      clearArticleRouteParams(true);
       switchPage(lastRegularPage || 'home');
     }
 
     function openCurrentArticleSource() {
       if (currentArticleLink) {
         window.open(currentArticleLink, '_blank', 'noopener');
+      }
+    }
+
+    function currentArticlePageUrl() {
+      const base = `${location.origin}${location.pathname}`;
+      if (!currentArticleId && !currentArticleLink) return base;
+      const params = new URLSearchParams();
+      if (currentArticleId != null) params.set('article', String(currentArticleId));
+      const title = ($('#article-title').text() || '').trim();
+      if (title) {
+        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+        if (slug) params.set('slug', slug);
+      }
+      return `${base}?${params.toString()}`;
+    }
+
+    async function copyCurrentArticleLink() {
+      const url = currentArticlePageUrl();
+      try {
+        await navigator.clipboard.writeText(url);
+        setArticleFeedback('Article link copied.', 'success');
+      } catch (err) {
+        console.error('Copy article link failed', err);
+        prompt('Copy this link:', url);
+      }
+    }
+
+    function getMostReadArticles(limit = 5) {
+      try {
+        const raw = JSON.parse(localStorage.getItem('msh_most_read_articles') || '{}');
+        return Object.entries(raw)
+          .map(([id, reads]) => ({ id: Number(id), reads: Number(reads) || 0, item: masterPool[Number(id)] }))
+          .filter(entry => entry.item)
+          .sort((a, b) => b.reads - a.reads)
+          .slice(0, limit);
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function trackArticleRead(id) {
+      if (id == null) return;
+      try {
+        const raw = JSON.parse(localStorage.getItem('msh_most_read_articles') || '{}');
+        raw[String(id)] = (Number(raw[String(id)]) || 0) + 1;
+        localStorage.setItem('msh_most_read_articles', JSON.stringify(raw));
+      } catch (err) {
+        console.error('Track article read failed', err);
+      }
+    }
+
+    function loadMostReadNow() {
+      const wrap = $('#home-mostread-list');
+      if (!wrap.length) return;
+      const rows = getMostReadArticles(5);
+      if (!rows.length) {
+        wrap.html(`
+          <div class="home-mostread-item">
+            <strong>No reading data yet.</strong>
+            <span>Open stories from the homepage and this block will start filling automatically.</span>
+          </div>
+        `);
+        return;
+      }
+      wrap.html(rows.map((row, index) => {
+        const item = row.item || {};
+        const summary = String(item.desc || '').trim();
+        const short = summary.length > 96 ? `${summary.slice(0, 93).trim()}...` : summary;
+        return `
+          <div class="home-mostread-item" onclick="openDetails(${row.id})">
+            <div class="home-mostread-rank"><i class="fa-solid fa-fire"></i> #${index + 1} Most Read</div>
+            <strong>${escapeHtml(item.title || 'Story')}</strong>
+            <span>${escapeHtml(short || 'Read this story again and share it with more fans.')}</span>
+          </div>
+        `;
+      }).join(''));
+    }
+
+    async function reportPost(postId) {
+      if (!auth.currentUser) return openAuth();
+      const reason = prompt('Why are you reporting this post?');
+      if (reason === null) return;
+      const cleaned = String(reason || '').trim();
+      try {
+        await db.collection('notifications').add({
+          type: 'report',
+          reportType: 'post',
+          targetDocId: postId,
+          reason: cleaned,
+          reporterId: auth.currentUser.uid,
+          reporterName: auth.currentUser.displayName || auth.currentUser.email || 'Fan',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert('Post reported.');
+      } catch (err) {
+        console.error('Report post failed', err);
+        alert('Could not report this post.');
+      }
+    }
+
+    async function reportArticleComment(commentId) {
+      if (!auth.currentUser) return openAuth();
+      const reason = prompt('Why are you reporting this comment?');
+      if (reason === null) return;
+      const cleaned = String(reason || '').trim();
+      try {
+        await db.collection('notifications').add({
+          type: 'report',
+          reportType: 'article_comment',
+          targetDocId: commentId,
+          articleId: currentArticleId,
+          reason: cleaned,
+          reporterId: auth.currentUser.uid,
+          reporterName: auth.currentUser.displayName || auth.currentUser.email || 'Fan',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        setArticleFeedback('Comment reported.', 'success');
+      } catch (err) {
+        console.error('Report article comment failed', err);
+        setArticleFeedback('Could not report this comment.', 'error');
+      }
+    }
+
+    
+async function dismissModerationReport(reportId) {
+      if (!isAdmin()) return;
+      try {
+        await db.collection('notifications').doc(reportId).delete();
+        loadModerationQueue();
+        showToast('Report dismissed.', 'success');
+      } catch (err) {
+        console.error('Dismiss report failed', err);
+        showToast('Could not dismiss the report.', 'error');
+      }
+    }
+
+    async function resolveModerationReport(reportId) {
+      if (!isAdmin()) return;
+      try {
+        await db.collection('notifications').doc(reportId).set({
+          status: 'resolved',
+          resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          resolvedBy: auth.currentUser?.email || 'admin'
+        }, { merge: true });
+        loadModerationQueue();
+        showToast('Report resolved.', 'success');
+      } catch (err) {
+        console.error('Resolve report failed', err);
+        showToast('Could not resolve the report.', 'error');
+      }
+    }
+
+    async function getModerationTargetDetails(reportType, targetDocId) {
+      if (!(reportType === 'post' || reportType === 'article_comment') || !targetDocId) return null;
+      const snap = await db.collection('posts').doc(targetDocId).get();
+      if (!snap.exists) return null;
+      const data = snap.data() || {};
+      return {
+        id: snap.id,
+        userId: data.userId || '',
+        username: data.username || 'User',
+        kind: data.kind || 'post'
+      };
+    }
+
+    async function banModerationTargetUser(reportId, reportType, targetDocId) {
+      if (!isAdmin()) return;
+      const details = await getModerationTargetDetails(reportType, targetDocId);
+      if (!details?.userId) {
+        showToast('Could not find the reported user.', 'error');
+        return;
+      }
+      const ok = confirm(`Ban ${details.username} from posting?`);
+      if (!ok) return;
+
+      try {
+        await db.collection('users').doc(details.userId).set({
+          banned: true
+        }, { merge: true });
+
+        await db.collection('notifications').doc(reportId).set({
+          status: 'resolved',
+          resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          resolvedBy: auth.currentUser?.email || 'admin',
+          actionTaken: 'banned_user',
+          targetUserId: details.userId
+        }, { merge: true });
+
+        loadModerationQueue();
+        if ($('#feed-page').hasClass('active')) loadFeed();
+        showToast('User banned from queue.', 'success');
+      } catch (err) {
+        console.error('Ban target user failed', err);
+        showToast('Could not ban the reported user.', 'error');
+      }
+    }
+
+    async function removeReportedContent(reportId, reportType, targetDocId) {
+      if (!isAdmin()) return;
+      const ok = confirm('Delete the reported content?');
+      if (!ok) return;
+      try {
+        if (reportType === 'post' || reportType === 'article_comment') {
+          await db.collection('posts').doc(targetDocId).delete();
+        }
+        await db.collection('notifications').doc(reportId).delete();
+        loadModerationQueue();
+        if ($('#feed-page').hasClass('active')) loadFeed();
+        if ($('#article-page').hasClass('active')) loadArticleComments();
+        showToast('Reported content removed.', 'success');
+      } catch (err) {
+        console.error('Remove reported content failed', err);
+        showToast('Could not remove the reported content.', 'error');
+      }
+    }
+
+    async function openModerationTarget(reportType, targetDocId, articleId) {
+      if (reportType === 'post') {
+        switchPage('feed');
+        setTimeout(() => {
+          const el = document.querySelector(`[data-post="${targetDocId}"]`);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.style.boxShadow = '0 0 0 2px rgba(0,242,254,.5), 0 18px 40px rgba(0,0,0,.28)';
+            setTimeout(() => {
+              el.style.boxShadow = '';
+            }, 2200);
+          }
+        }, 300);
+        return;
+      }
+      if (reportType === 'article_comment' && articleId != null) {
+        openDetails(Number(articleId));
+      }
+    }
+
+    async function loadModerationQueue() {
+      const wrap = $('#admin-queue-list');
+      if (!wrap.length || !isAdmin()) return;
+      wrap.html('<p style="color:var(--dim)">Loading moderation queue...</p>');
+      try {
+        const snap = await db.collection('notifications').where('type', '==', 'report').get();
+        const items = [];
+        snap.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
+        const activeItems = items
+          .filter(item => item.status !== 'resolved')
+          .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+        if (!activeItems.length) {
+          wrap.html('<p style="color:var(--dim)">No reports right now.</p>');
+          return;
+        }
+
+        wrap.html(activeItems.map(item => `
+          <div class="admin-queue-item">
+            <div class="admin-queue-head">
+              <span class="admin-queue-type"><i class="fa-solid fa-flag"></i> ${escapeHtml(String(item.reportType || 'report').replaceAll('_', ' '))}</span>
+              <span class="post-time">${escapeHtml(relativeTimeLabel(item.createdAt?.toMillis?.() || item.createdAt?.seconds * 1000 || Date.now()))}</span>
+            </div>
+            <div class="admin-queue-copy">${escapeHtml(item.reason || 'No reason provided.')}</div>
+            <div class="admin-queue-meta">Reported by ${escapeHtml(item.reporterName || 'Fan')}</div>
+            <div class="admin-queue-actions">
+              <button class="admin-queue-btn" onclick="openModerationTarget('${item.reportType || ''}', '${item.targetDocId || ''}', ${item.articleId != null ? Number(item.articleId) : 'null'})">Open</button>
+              <button class="admin-queue-btn" onclick="banModerationTargetUser('${item.id}', '${item.reportType || ''}', '${item.targetDocId || ''}')">Ban User</button>
+              <button class="admin-queue-btn" onclick="removeReportedContent('${item.id}', '${item.reportType || ''}', '${item.targetDocId || ''}')">Delete Content</button>
+              <button class="admin-queue-btn" onclick="resolveModerationReport('${item.id}')">Resolve</button>
+              <button class="admin-queue-btn" onclick="dismissModerationReport('${item.id}')">Dismiss</button>
+            </div>
+          </div>
+        `.replace('__ARTICLE__', item.articleId != null ? String(Number(item.articleId)) : 'null')).join(''));
+      } catch (err) {
+        console.error('Load moderation queue failed', err);
+        wrap.html('<p style="color:var(--red)">Could not load moderation queue.</p>');
       }
     }
 
@@ -4896,13 +5687,166 @@ function closeArticlePage() {
     }
 
     function currentArticleReactionDocKey() {
-      const title = ($('#article-title').text() || '').trim();
-      if (title) return btoa(title).substring(0, 30);
       return articleDocKeyFromId(currentArticleId);
     }
 
     function estimateArticleCommentTime(value) {
-      return relativeTimeLabel(value || Date.now());
+      const millis = value?.toMillis?.() || value || Date.now();
+      return relativeTimeLabel(millis);
+    }
+
+    function setArticleFeedback(message = '', tone = 'dim') {
+      const el = $('#article-feedback');
+      el.text(message || '');
+      el.css('color', tone === 'error' ? 'var(--red)' : tone === 'success' ? 'var(--green)' : tone === 'accent' ? 'var(--cyan)' : 'var(--dim)');
+    }
+
+    function articleCooldownKey() {
+      const uid = auth.currentUser?.uid || 'guest';
+      return `msh_article_comment_cooldown_${uid}_${articleDocKeyFromId(currentArticleId)}`;
+    }
+
+    function getArticleCooldownRemaining() {
+      const lastTs = Number(localStorage.getItem(articleCooldownKey()) || '0');
+      return Math.max(0, ARTICLE_COMMENT_COOLDOWN_MS - (Date.now() - lastTs));
+    }
+
+    function markArticleCommentPostedNow() {
+      localStorage.setItem(articleCooldownKey(), String(Date.now()));
+    }
+
+    function getSavedArticles() {
+      try {
+        return JSON.parse(localStorage.getItem(SAVED_ARTICLES_KEY) || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function setSavedArticles(items) {
+      localStorage.setItem(SAVED_ARTICLES_KEY, JSON.stringify(items.slice(0, 30)));
+    }
+
+    function isCurrentArticleSaved() {
+      if (currentArticleId == null) return false;
+      return getSavedArticles().some(item => String(item.id) === String(currentArticleId));
+    }
+
+    function syncArticleSaveButton() {
+      const saved = isCurrentArticleSaved();
+      $('#article-save-btn').text(saved ? 'Saved ✓' : 'Save Article');
+    }
+
+    function buildSavedArticlePayload() {
+      const n = findArticleById(currentArticleId) || {};
+      return {
+        id: currentArticleId,
+        title: n.title || ($('#article-title').text() || 'Untitled story'),
+        desc: n.desc || ($('#article-lead').text() || ''),
+        link: currentArticleLink || n.link || '',
+        img: n.img || $('#article-image').attr('src') || '',
+        region: n.region || '',
+        sport: n.sport || 'football',
+        savedAt: Date.now()
+      };
+    }
+
+    function toggleSaveCurrentArticle() {
+      if (currentArticleId == null) return;
+      const saved = getSavedArticles();
+      const existingIndex = saved.findIndex(item => String(item.id) === String(currentArticleId));
+      if (existingIndex >= 0) {
+        saved.splice(existingIndex, 1);
+        setArticleFeedback('Article removed from your saved list.', 'dim');
+      } else {
+        saved.unshift(buildSavedArticlePayload());
+        setArticleFeedback('Article saved to your profile.', 'success');
+      }
+      setSavedArticles(saved);
+      syncArticleSaveButton();
+      renderSavedArticles();
+    }
+
+    function openSavedArticle(savedId) {
+      const localMatch = masterPool.find(item => String(item.id) === String(savedId));
+      if (localMatch) {
+        openDetails(localMatch.id);
+        switchPage('article');
+        return;
+      }
+      const saved = getSavedArticles().find(item => String(item.id) === String(savedId));
+      if (!saved) return;
+      currentArticleId = saved.id;
+      currentArticleLink = saved.link || '';
+      $('#article-title').text(saved.title || '');
+      $('#article-lead').text(saved.desc || homeLabel('fallbackSummary'));
+      $('#article-body').text(saved.desc || homeLabel('fallbackSummary'));
+      $('#article-why').text('Saved from your personal reading list.');
+      $('#article-context').text(`${homeLabel(saved.sport || 'football')} • ${saved.region || homeLabel('global')} • ${relativeTimeLabel(saved.savedAt || Date.now())}`);
+      const image = bestImage(saved.img, saved.title || 'Moroccansportshub');
+      if (image) {
+        $('#article-image').attr('src', image).attr('alt', saved.title || 'story image');
+        $('#article-hero').show();
+      } else {
+        $('#article-hero').hide();
+      }
+      $('#article-meta').html('');
+      if (currentArticleLink) $('#article-source-btn').show().text(t('readFull')); else $('#article-source-btn').hide();
+      renderRelatedArticles(saved);
+      updateArticleSeo(saved);
+      updateArticleRoute(saved);
+      switchPage('article');
+      resetArticleEngagementUi();
+      syncArticleSaveButton();
+      loadArticleReactions();
+      loadArticleComments();
+    }
+
+    function renderSavedArticles() {
+      const items = getSavedArticles();
+      if (!items.length) {
+        $('#saved-articles-list').empty();
+        $('#saved-articles-empty').show();
+        return;
+      }
+      $('#saved-articles-empty').hide();
+      $('#saved-articles-list').html(items.map(item => `
+        <div class="saved-article-item">
+          <div class="saved-article-copy">
+            <strong>${escapeHtml(item.title || 'Untitled story')}</strong>
+            <span>${escapeHtml(safeSnippet(item.desc || 'Saved from MoroccanSportsHub.', 110))}</span>
+          </div>
+          <button class="saved-article-btn" onclick="openSavedArticle('${String(item.id).replace(/'/g, "\'")}')">Open</button>
+        </div>
+      `).join(''));
+    }
+
+    function canDeleteArticleComment(item) {
+      if (!auth.currentUser || !item) return false;
+      return isAdmin() || item.userId === auth.currentUser.uid;
+    }
+
+    async function deleteArticleComment(commentId) {
+      if (!commentId) return;
+      if (!auth.currentUser) return openAuth();
+      const ok = window.confirm('Delete this comment? This action cannot be undone.');
+      if (!ok) return;
+      try {
+        await db.collection('posts').doc(commentId).delete();
+        setArticleFeedback('Comment deleted.', 'success');
+      } catch (err) {
+        console.error('Delete article comment failed', err);
+        setArticleFeedback('Could not delete this comment.', 'error');
+      }
+    }
+
+    function handleArticleCommentTyping() {
+      const note = $('#article-live-note');
+      note.text('Typing… live updates still continue below.').addClass('typing');
+      clearTimeout(articleTypingTimer);
+      articleTypingTimer = setTimeout(() => {
+        note.text('Live updates appear automatically.').removeClass('typing');
+      }, 1000);
     }
 
     function resetArticleEngagementUi() {
@@ -4913,6 +5857,10 @@ function closeArticlePage() {
       $('#article-comments-list').empty();
       $('#article-comments-empty').show();
       $('#article-comment-input').val('');
+      $('#article-live-note').text('Live updates appear automatically.').removeClass('typing');
+      setArticleFeedback('');
+      latestRenderedCommentIds = [];
+      syncArticleSaveButton();
     }
 
     function loadArticleReactions() {
@@ -4922,7 +5870,7 @@ function closeArticlePage() {
         articleReactionsUnsub = null;
       }
 
-      const ref = db.collection('reactions').doc(currentArticleReactionDocKey());
+      const ref = db.collection('reactions_feed').doc(currentArticleReactionDocKey());
       articleReactionsUnsub = ref.onSnapshot(doc => {
         const data = doc.exists ? (doc.data() || {}) : {};
         const voters = data.voters || {};
@@ -4938,7 +5886,10 @@ function closeArticlePage() {
           if (voters[uid].fire) $('#article-react-fire').addClass('active');
           if (voters[uid].heart) $('#article-react-clap').addClass('active');
         }
-      }, err => console.error('Article reactions error', err));
+      }, err => {
+        console.error('Article reactions error', err);
+        setArticleFeedback('Reactions are temporarily unavailable.', 'error');
+      });
     }
 
     async function reactToArticle(type) {
@@ -4946,53 +5897,70 @@ function closeArticlePage() {
       if (!currentArticleId) return;
 
       const mappedType = type === 'clap' ? 'heart' : type;
-      const ref = db.collection('reactions').doc(currentArticleReactionDocKey());
+      const ref = db.collection('reactions_feed').doc(currentArticleReactionDocKey());
 
-      await db.runTransaction(async tr => {
-        const snap = await tr.get(ref);
-        const data = snap.exists ? (snap.data() || {}) : { like: 0, heart: 0, fire: 0, voters: {} };
-        data.voters = data.voters || {};
+      try {
+        await db.runTransaction(async tr => {
+          const snap = await tr.get(ref);
+          const data = snap.exists ? (snap.data() || {}) : { like: 0, heart: 0, fire: 0, voters: {} };
+          data.voters = data.voters || {};
 
-        if (!data.voters[auth.currentUser.uid]) {
-          data.voters[auth.currentUser.uid] = { like: false, heart: false, fire: false };
-        }
+          if (!data.voters[auth.currentUser.uid]) {
+            data.voters[auth.currentUser.uid] = { like: false, heart: false, fire: false };
+          }
 
-        const active = !!data.voters[auth.currentUser.uid][mappedType];
-        if (active) {
-          data[mappedType] = Math.max((data[mappedType] || 1) - 1, 0);
-          data.voters[auth.currentUser.uid][mappedType] = false;
-        } else {
-          data[mappedType] = (data[mappedType] || 0) + 1;
-          data.voters[auth.currentUser.uid][mappedType] = true;
-        }
+          const active = !!data.voters[auth.currentUser.uid][mappedType];
+          if (active) {
+            data[mappedType] = Math.max((data[mappedType] || 1) - 1, 0);
+            data.voters[auth.currentUser.uid][mappedType] = false;
+          } else {
+            data[mappedType] = (data[mappedType] || 0) + 1;
+            data.voters[auth.currentUser.uid][mappedType] = true;
+          }
 
-        tr.set(ref, data);
-      });
-
-      loadArticleReactions();
+          tr.set(ref, data);
+        });
+        setArticleFeedback('Reaction updated live.', 'accent');
+      } catch (err) {
+        console.error('Article reaction update failed', err);
+        setArticleFeedback('Could not save your reaction.', 'error');
+      }
     }
 
     function renderArticleComments(snapshot) {
       const items = [];
       snapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
-      items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      items.sort((a, b) => ((b.createdAt?.toMillis?.() || b.createdAt || 0) - (a.createdAt?.toMillis?.() || a.createdAt || 0)));
 
       if (!items.length) {
+        latestRenderedCommentIds = [];
         $('#article-comments-list').empty();
         $('#article-comments-empty').show();
         return;
       }
 
+      const previousIds = new Set(latestRenderedCommentIds);
+      latestRenderedCommentIds = items.map(item => item.id);
       $('#article-comments-empty').hide();
-      $('#article-comments-list').html(items.map(item => `
-        <div class="article-comment-item">
+      $('#article-comments-list').html(items.map(item => {
+        const createdAt = item.createdAt?.toMillis?.() || item.createdAt || Date.now();
+        const canDelete = canDeleteArticleComment(item);
+        const isNew = !previousIds.has(item.id);
+        return `
+        <div class="article-comment-item ${isNew ? 'new-comment' : ''}">
           <div class="article-comment-head">
-            <span class="article-comment-author">${escapeHtml(item.authorName || 'Fan')}</span>
-            <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(item.createdAt))}</span>
+            <div class="article-comment-head-left">
+              <span class="article-comment-author">${escapeHtml(item.authorName || item.username || 'Fan')}</span>
+              <span class="article-comment-time">${escapeHtml(estimateArticleCommentTime(createdAt))}</span>
+            </div>
+            <div class="article-comment-actions-right">
+              ${canDelete ? `<button class="article-comment-delete-btn" onclick="deleteArticleComment('${String(item.id).replace(/'/g, "\'")}')">Delete</button>` : ''}
+            </div>
           </div>
           <div class="article-comment-text">${escapeHtml(item.text || '')}</div>
         </div>
-      `).join(''));
+      `;
+      }).join(''));
     }
 
     function loadArticleComments() {
@@ -5006,7 +5974,10 @@ function closeArticlePage() {
       articleCommentsUnsub = db.collection('posts')
         .where('kind', '==', 'article_comment')
         .where('articleKey', '==', articleKey)
-        .onSnapshot(renderArticleComments, err => console.error('Article comments error', err));
+        .onSnapshot(renderArticleComments, err => {
+          console.error('Article comments error', err);
+          setArticleFeedback('Comments are temporarily unavailable.', 'error');
+        });
     }
 
     async function postArticleComment() {
@@ -5017,30 +5988,201 @@ function closeArticlePage() {
       const textValue = (input?.value || '').trim();
       if (!textValue) return;
 
-      const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
-      const userData = userDoc.exists ? (userDoc.data() || {}) : {};
-      const authorName = userData.name || auth.currentUser.displayName || 'Fan';
-      const articleKey = articleDocKeyFromId(currentArticleId);
+      const remaining = getArticleCooldownRemaining();
+      if (remaining > 0) {
+        setArticleFeedback(`Please wait ${Math.ceil(remaining / 1000)}s before posting again.`, 'error');
+        return;
+      }
 
-      await db.collection('posts').add({
-        kind: 'article_comment',
-        articleId: currentArticleId,
-        articleKey,
-        text: textValue,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        userId: auth.currentUser.uid,
-        username: authorName,
-        authorName,
-        score: 0,
-        pinned: false
-      });
+      try {
+        const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+        const userData = userDoc.exists ? (userDoc.data() || {}) : {};
+        const authorName = userData.name || auth.currentUser.displayName || 'Fan';
+        const articleKey = articleDocKeyFromId(currentArticleId);
 
-      input.value = '';
-      $('#article-comments-empty').hide();
+        await db.collection('posts').add({
+          kind: 'article_comment',
+          articleId: currentArticleId,
+          articleKey,
+          text: textValue,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          userId: auth.currentUser.uid,
+          username: authorName,
+          authorName,
+          score: 0,
+          pinned: false
+        });
+
+        input.value = '';
+        markArticleCommentPostedNow();
+        $('#article-comments-empty').hide();
+        loadArticleComments();
+        setArticleFeedback('Comment posted successfully.', 'success');
+      } catch (err) {
+        console.error('Post article comment failed', err);
+        setArticleFeedback('Could not post your comment.', 'error');
+      }
     }
 
-function openDetails(id) {
-      const n = masterPool[id];
+
+    function slugifyArticleTitle(str) {
+      return String(str || 'article')
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 80) || 'article';
+    }
+
+    function buildArticleUrl(articleId, title) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('article', String(articleId));
+      url.searchParams.set('slug', slugifyArticleTitle(title));
+      url.searchParams.delete('post');
+      url.hash = 'article';
+      return url.toString();
+    }
+
+    function setCanonicalUrl(url) {
+      const canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) canonical.setAttribute('href', url);
+    }
+
+    function upsertMeta(selector, attr, value) {
+      if (!value) return;
+      const el = document.querySelector(selector);
+      if (el) el.setAttribute(attr, value);
+    }
+
+    function updateArticleSeo(n) {
+      if (!n) return;
+      const title = n.title || 'MoroccanSportsHub';
+      const desc = safeSnippet(n.desc || homeLabel('fallbackSummary') || 'Latest sports update from MoroccanSportsHub.', 180);
+      const image = bestImage(n.img, title);
+      const canonicalUrl = buildArticleUrl(n.id, title);
+
+      document.title = `${title} | MoroccanSportsHub`;
+      upsertMeta('meta[name="description"]', 'content', desc);
+      upsertMeta('meta[name="keywords"]', 'content', `${title}, Moroccan football news, Botola, Atlas Lions, ${n.sport || 'football'}, ${n.region || 'global'} sports`);
+      upsertMeta('meta[property="og:title"]', 'content', title);
+      upsertMeta('meta[property="og:description"]', 'content', desc);
+      upsertMeta('meta[property="og:url"]', 'content', canonicalUrl);
+      upsertMeta('meta[name="twitter:title"]', 'content', title);
+      upsertMeta('meta[name="twitter:description"]', 'content', desc);
+      if (image) {
+        upsertMeta('meta[property="og:image"]', 'content', image);
+        upsertMeta('meta[name="twitter:image"]', 'content', image);
+      }
+      setCanonicalUrl(canonicalUrl);
+
+      let schemaEl = document.getElementById('dynamic-article-schema');
+      if (!schemaEl) {
+        schemaEl = document.createElement('script');
+        schemaEl.type = 'application/ld+json';
+        schemaEl.id = 'dynamic-article-schema';
+        document.head.appendChild(schemaEl);
+      }
+      schemaEl.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'NewsArticle',
+        headline: title,
+        description: desc,
+        image: image ? [image] : undefined,
+        mainEntityOfPage: canonicalUrl,
+        url: canonicalUrl,
+        datePublished: new Date(n.time || n.date || n.pubDate || Date.now()).toISOString(),
+        dateModified: new Date().toISOString(),
+        author: { '@type': 'Organization', name: 'MoroccanSportsHub' },
+        publisher: {
+          '@type': 'Organization',
+          name: 'MoroccanSportsHub',
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true'
+          }
+        }
+      });
+    }
+
+    function restoreDefaultSeo() {
+      document.title = 'MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores';
+      upsertMeta('meta[name="description"]', 'content', 'MoroccanSportsHub delivers Moroccan football news, Botola updates, Atlas Lions coverage, transfers, live scores, fixtures, and major global sports stories in English, French, and Arabic.');
+      upsertMeta('meta[name="keywords"]', 'content', 'Moroccan football news, Botola Pro news, Atlas Lions news, Morocco live scores, Morocco fixtures, Moroccan transfers, Wydad news, Raja news, FAR Rabat news, MoroccanSportsHub, global sports news');
+      upsertMeta('meta[property="og:title"]', 'content', 'MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores');
+      upsertMeta('meta[property="og:description"]', 'content', 'Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and major global sports stories.');
+      upsertMeta('meta[property="og:url"]', 'content', 'https://moroccansportshub.com/');
+      upsertMeta('meta[name="twitter:title"]', 'content', 'MoroccanSportsHub | Moroccan Football News, Botola, Atlas Lions & Live Scores');
+      upsertMeta('meta[name="twitter:description"]', 'content', 'Moroccan football news, Botola updates, Atlas Lions coverage, live scores, fixtures, transfers, and major global sports stories.');
+      upsertMeta('meta[property="og:image"]', 'content', 'https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true');
+      upsertMeta('meta[name="twitter:image"]', 'content', 'https://github.com/MCrashOut/Moroccansportsnews/blob/main/favicon.png/icon.png?raw=true');
+      setCanonicalUrl('https://moroccansportshub.com/');
+      const schemaEl = document.getElementById('dynamic-article-schema');
+      if (schemaEl) schemaEl.remove();
+    }
+
+    function renderRelatedArticles(currentItem) {
+      const target = $('#article-related-grid');
+      if (!target.length) return;
+      if (!currentItem) {
+        target.html('');
+        return;
+      }
+      const pool = masterPool
+        .filter(item => item && item.id !== currentItem.id)
+        .map(item => {
+          let score = 0;
+          if (item.region === currentItem.region) score += 3;
+          if ((item.sport || 'football') === (currentItem.sport || 'football')) score += 4;
+          const a = String(item.title || '').toLowerCase();
+          const b = String(currentItem.title || '').toLowerCase();
+          a.split(/\s+/).forEach(word => {
+            if (word.length > 4 && b.includes(word)) score += 1;
+          });
+          return { item, score, time: item.time || item.date || item.pubDate || 0 };
+        })
+        .sort((x, y) => (y.score - x.score) || (new Date(y.time).getTime() - new Date(x.time).getTime()))
+        .slice(0, 3);
+
+      if (!pool.length) {
+        target.html('<div class="article-comment-empty">More stories will appear here as the feed updates.</div>');
+        return;
+      }
+
+      target.html(pool.map(({ item }) => `
+        <div class="article-related-card" onclick="openDetails(${item.id})">
+          <strong>${escapeHtml(item.title || 'Untitled story')}</strong>
+          <span>${escapeHtml(safeSnippet(item.desc || homeLabel('fallbackSummary'), 110))}</span>
+        </div>
+      `).join(''));
+    }
+
+    function updateArticleRoute(n, replace = false) {
+      if (!n) return;
+      const nextUrl = buildArticleUrl(n.id, n.title || 'article');
+      const state = { articleId: n.id };
+      if (replace) history.replaceState(state, '', nextUrl);
+      else history.pushState(state, '', nextUrl);
+    }
+
+    function findArticleById(id) {
+      const target = String(id);
+      return masterPool.find(item => item && String(item.id) === target) || null;
+    }
+
+    function tryOpenArticleFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const articleId = params.get('article');
+      if (articleId == null || articleId === '') return false;
+      const direct = findArticleById(articleId);
+      if (direct) {
+        openDetails(direct.id, true);
+        return true;
+      }
+      return false;
+    }
+
+function openDetails(id, replaceHistory = false) {
+      const n = findArticleById(id);
       if (!n) return;
 
       currentArticleId = id;
@@ -5052,11 +6194,23 @@ function openDetails(id) {
       const extra = buildArticleExtraCopy(n);
 
       currentArticleLink = n.link || '';
+      try { trackArticleRead(id); } catch (err) {}
+      try {
+        const params = new URLSearchParams(window.location.search);
+        params.set('article', String(id));
+        const slug = String(n.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+        if (slug) params.set('slug', slug);
+        history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
+      } catch (err) {}
+      syncArticleSaveButton();
       $('#article-title').text(n.title || '');
       $('#article-lead').text(n.desc || homeLabel('fallbackSummary'));
       $('#article-body').text(n.desc || homeLabel('fallbackSummary'));
       $('#article-why').text(extra.why);
       $('#article-context').text(extra.context);
+      renderRelatedArticles(n);
+      updateArticleSeo(n);
+      updateArticleRoute(n, replaceHistory);
 
       $('#article-meta').html(`
         <span class="detail-chip"><i class="fa-solid fa-bolt"></i>${primaryBadge}</span>
@@ -5421,8 +6575,13 @@ function openDetails(id) {
       }
     }
 
-function loadMatchesWidget() {
+function loadMatchesWidget(forceReload = false) {
       const container = document.getElementById('live-inject');
+      if (!container) return;
+
+      if (!forceReload && container.dataset.loaded === '1') return;
+
+      container.dataset.loaded = '0';
       container.innerHTML = `
         <api-sports-widget
           data-type="config"
@@ -5448,7 +6607,24 @@ function loadMatchesWidget() {
       script.id = 'api-sports-script';
       script.type = 'module';
       script.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
-      container.appendChild(script);
+      script.onload = () => { container.dataset.loaded = '1'; };
+      script.onerror = () => {
+        container.insertAdjacentHTML('beforeend', `<div class="mini-card"><p style="color:var(--dim)">The live matches widget could not load right now.</p></div>`);
+      };
+      document.body.appendChild(script);
+
+      setTimeout(() => {
+        if (container.dataset.loaded !== '1') {
+          const retry = document.getElementById('api-sports-script');
+          if (retry) retry.remove();
+          const retryScript = document.createElement('script');
+          retryScript.id = 'api-sports-script';
+          retryScript.type = 'module';
+          retryScript.src = 'https://widgets.api-sports.io/3.1.0/widgets.js';
+          retryScript.onload = () => { container.dataset.loaded = '1'; };
+          document.body.appendChild(retryScript);
+        }
+      }, 1800);
     }
 
 
@@ -5486,10 +6662,35 @@ function loadMatchesWidget() {
       }
     });
 
-    window.addEventListener('popstate', () => { sharedPostHandled = false; });
+    document.addEventListener('input', function(e) {
+      if (e.target && e.target.id === 'article-comment-input') handleArticleCommentTyping();
+    });
+
+    window.addEventListener('popstate', () => {
+      sharedPostHandled = false;
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('article')) {
+        tryOpenArticleFromUrl();
+        return;
+      }
+      if (!params.get('post')) {
+        currentArticleId = null;
+        currentArticleLink = '';
+        if ($('#article-page').hasClass('active')) {
+          switchPage(lastRegularPage || 'home');
+        }
+        restoreDefaultSeo();
+      }
+    });
     initAppPrefs();
+    renderSavedArticles();
     window.reactToArticle = reactToArticle;
     window.postArticleComment = postArticleComment;
+    window.toggleSaveCurrentArticle = toggleSaveCurrentArticle;
+    window.openSavedArticle = openSavedArticle;
+    window.deleteArticleComment = deleteArticleComment;
   </script>
+  <div id="toast-stack" class="toast-stack"></div>
 </body>
 </html>
+
