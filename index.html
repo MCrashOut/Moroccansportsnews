@@ -1965,6 +1965,49 @@
       }
     }
 
+    .article-authority-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0 0 18px;
+    }
+    .article-authority-item {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 12px 14px;
+      min-width: 0;
+    }
+    .article-authority-label {
+      display: block;
+      color: var(--cyan);
+      font-size: .68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 6px;
+    }
+    .article-authority-value {
+      display: block;
+      color: var(--text);
+      font-size: .86rem;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+    @media (max-width: 900px) {
+      .article-authority-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 640px) {
+      .article-authority-strip {
+        grid-template-columns: 1fr;
+      }
+      .article-authority-item {
+        padding: 12px;
+      }
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -2578,6 +2621,24 @@
         <div class="detail-top-meta" id="article-meta"></div>
         <h1 id="article-title" class="article-title"></h1>
         <p id="article-lead" class="article-lead"></p>
+        <div class="article-authority-strip" id="article-authority-strip">
+          <div class="article-authority-item">
+            <span class="article-authority-label" id="article-authority-published-label">Published</span>
+            <span class="article-authority-value" id="article-published-value">—</span>
+          </div>
+          <div class="article-authority-item">
+            <span class="article-authority-label" id="article-authority-updated-label">Updated</span>
+            <span class="article-authority-value" id="article-updated-value">—</span>
+          </div>
+          <div class="article-authority-item">
+            <span class="article-authority-label" id="article-authority-reading-label">Reading time</span>
+            <span class="article-authority-value" id="article-reading-value">—</span>
+          </div>
+          <div class="article-authority-item">
+            <span class="article-authority-label" id="article-authority-source-label">Source</span>
+            <span class="article-authority-value" id="article-source-value">MoroccanSportsHub</span>
+          </div>
+        </div>
         <div id="article-hero" class="article-hero" style="display:none;">
           <img id="article-image" src="" alt="article image" loading="lazy" referrerpolicy="no-referrer">
         </div>
@@ -5407,6 +5468,40 @@ function renderHome(forceShuffle = false) {
       return `${base}?${params.toString()}`;
     }
 
+
+    function formatArticleAuthorityDate(value) {
+      const millis = value?.toMillis?.() || value;
+      const d = new Date(millis || Date.now());
+      if (Number.isNaN(d.getTime())) return '—';
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function estimateReadingTimeFromText(text) {
+      const words = String(text || '').trim().split(/\s+/).filter(Boolean).length;
+      const minutes = Math.max(1, Math.ceil(words / 180));
+      return `${minutes} min read`;
+    }
+
+    function sourceLabelFromLink(link) {
+      if (!link) return 'MoroccanSportsHub';
+      try {
+        const host = new URL(link).hostname.replace(/^www\./, '');
+        return host || 'MoroccanSportsHub';
+      } catch (err) {
+        return 'MoroccanSportsHub';
+      }
+    }
+
+    function updateArticleAuthorityStrip(item = {}, fallbackTime = Date.now()) {
+      const publishedValue = item.pubDate || item.date || item.time || item.savedAt || fallbackTime;
+      const updatedValue = item.time || item.date || item.pubDate || item.savedAt || fallbackTime;
+      const readingText = item.fullText || item.content || item.desc || ($('#article-body').text() || $('#article-lead').text() || '');
+      $('#article-published-value').text(formatArticleAuthorityDate(publishedValue));
+      $('#article-updated-value').text(relativeTimeLabel(updatedValue));
+      $('#article-reading-value').text(estimateReadingTimeFromText(readingText));
+      $('#article-source-value').text(sourceLabelFromLink(item.link || currentArticleLink || ''));
+    }
+
     async function copyCurrentArticleLink() {
       const url = currentArticlePageUrl();
       try {
@@ -5801,6 +5896,7 @@ async function dismissModerationReport(reportId) {
       $('#article-body').text(saved.desc || homeLabel('fallbackSummary'));
       $('#article-why').text('Saved from your personal reading list.');
       $('#article-context').text(`${homeLabel(saved.sport || 'football')} • ${saved.region || homeLabel('global')} • ${relativeTimeLabel(saved.savedAt || Date.now())}`);
+      updateArticleAuthorityStrip(saved, saved.savedAt || Date.now());
       const image = bestImage(saved.img, saved.title || 'Moroccansportshub');
       if (image) {
         $('#article-image').attr('src', image).attr('alt', saved.title || 'story image');
@@ -6226,6 +6322,7 @@ function openDetails(id, replaceHistory = false) {
       $('#article-body').text(n.desc || homeLabel('fallbackSummary'));
       $('#article-why').text(extra.why);
       $('#article-context').text(extra.context);
+      updateArticleAuthorityStrip(n, n.time || n.date || n.pubDate || Date.now());
       renderRelatedArticles(n);
       updateArticleSeo(n);
       updateArticleRoute(n, replaceHistory);
