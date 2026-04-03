@@ -6010,7 +6010,50 @@ async function dismissModerationReport(reportId) {
       renderRecentlyOpenedArticles();
     }
 
-    function removeRecentlyOpenedArticle(articleId) {
+    
+    function openRecentlyOpenedArticle(articleId) {
+      const localMatch = masterPool.find(item => String(item.id) === String(articleId));
+      if (localMatch) {
+        openDetails(localMatch.id);
+        switchPage('article');
+        return;
+      }
+
+      const recent = getRecentlyOpenedArticles().find(item => String(item.id) === String(articleId));
+      if (!recent) return;
+
+      currentArticleId = recent.id;
+      currentArticleLink = recent.link || '';
+      $('#article-title').text(recent.title || '');
+      $('#article-lead').text(recent.desc || homeLabel('fallbackSummary'));
+      $('#article-body').text(recent.fullText || recent.desc || homeLabel('fallbackSummary'));
+      $('#article-why').text('Reopened from your recently opened stories.');
+      $('#article-context').text(`${homeLabel(recent.sport || 'football')} • ${recent.region || homeLabel('global')} • ${relativeTimeLabel(recent.time || recent.savedAt || Date.now())}`);
+      updateArticleAuthorityStrip(recent, recent.time || recent.savedAt || Date.now());
+
+      const image = bestImage(recent.img, recent.title || 'Moroccansportshub');
+      if (image) {
+        $('#article-image').attr('src', image).attr('alt', recent.title || 'story image');
+        $('#article-hero').show();
+      } else {
+        $('#article-hero').hide();
+      }
+
+      $('#article-meta').html('');
+      if (currentArticleLink) $('#article-source-btn').show().text(t('readFull')); else $('#article-source-btn').hide();
+      renderRelatedArticles(recent);
+      updateArticleSeo(recent);
+      updateArticleRoute(recent);
+      switchPage('article');
+      resetArticleEngagementUi();
+      syncArticleSaveButton();
+      pushRecentlyOpenedArticle(saved);
+      pushRecentlyOpenedArticle(recent);
+      loadArticleReactions();
+      loadArticleComments();
+    }
+
+function removeRecentlyOpenedArticle(articleId) {
       const next = getRecentlyOpenedArticles().filter(item => String(item.id) !== String(articleId));
       setRecentlyOpenedArticles(next);
       renderRecentlyOpenedArticles();
@@ -6038,7 +6081,7 @@ async function dismissModerationReport(reportId) {
         const meta = `${homeLabel(item.sport || 'football')} • ${item.region || homeLabel('global')} • ${relativeTimeLabel(item.time || item.savedAt || Date.now())}`;
         list.append(`
           <div class="recently-opened-item">
-            <div class="recently-opened-copy" role="button" tabindex="0" onclick="openSavedArticle('${item.id}')">
+            <div class="recently-opened-copy" role="button" tabindex="0" onclick="openRecentlyOpenedArticle('${item.id}')">
               <strong>${escapeHtml(item.title || 'Untitled article')}</strong>
               <span>${escapeHtml(meta)}</span>
             </div>
@@ -6202,7 +6245,7 @@ function renderSavedArticles() {
         const meta = `${homeLabel(item.sport || 'football')} • ${item.region || homeLabel('global')} • ${relativeTimeLabel(item.savedAt || Date.now())}`;
         list.append(`
           <div class="saved-article-item">
-            <div class="saved-article-copy" role="button" tabindex="0" onclick="openSavedArticle('${item.id}')">
+            <div class="saved-article-copy" role="button" tabindex="0" onclick="openRecentlyOpenedArticle('${item.id}')">
               <strong>${escapeHtml(item.title || 'Untitled article')}</strong>
               <span>${escapeHtml(meta)}</span>
             </div>
