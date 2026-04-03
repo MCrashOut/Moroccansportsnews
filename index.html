@@ -2076,6 +2076,67 @@
       }
     }
 
+    .recently-opened-wrap {
+      margin-top: 18px;
+      text-align: left;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+    }
+    .recently-opened-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .recently-opened-item {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .recently-opened-copy {
+      cursor: pointer;
+      min-width: 0;
+      flex: 1;
+    }
+    .recently-opened-copy strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .recently-opened-copy span {
+      display: block;
+      color: var(--dim);
+      font-size: .8rem;
+      line-height: 1.55;
+    }
+    .recently-opened-empty {
+      color: var(--dim);
+      font-size: .86rem;
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+    .recently-opened-btn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: .74rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .recently-opened-btn:hover {
+      border-color: rgba(0,242,254,.28);
+      color: var(--cyan);
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -2623,6 +2684,13 @@
         <div class="home-stat-card">
           <strong id="home-stat-4-title">Fan Layer</strong>
           <span id="home-stat-4-desc">Community feed, reactions, and AI-powered discovery.</span>
+        </div>
+
+        <div class="recently-opened-wrap">
+          <div class="section-title" style="margin-bottom:6px;">Continue Reading</div>
+          <div class="profile-subtle-note">Jump back into the latest stories you opened.</div>
+          <div id="recently-opened-empty" class="recently-opened-empty">No recently opened articles yet.</div>
+          <div id="recently-opened-list" class="recently-opened-list"></div>
         </div>
       </div>
 
@@ -5907,7 +5975,80 @@ async function dismissModerationReport(reportId) {
       localStorage.setItem(articleCooldownKey(), String(Date.now()));
     }
 
-    function getSavedArticles() {
+    
+    const RECENTLY_OPENED_KEY = 'recentlyOpenedArticles';
+
+    function getRecentlyOpenedArticles() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(RECENTLY_OPENED_KEY) || '[]');
+        return Array.isArray(raw) ? raw : [];
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function setRecentlyOpenedArticles(items) {
+      localStorage.setItem(RECENTLY_OPENED_KEY, JSON.stringify(items || []));
+    }
+
+    function pushRecentlyOpenedArticle(item = {}) {
+      if (!item || !item.id) return;
+      const existing = getRecentlyOpenedArticles().filter(entry => String(entry.id) !== String(item.id));
+      existing.unshift({
+        id: item.id,
+        title: item.title || 'Untitled article',
+        region: item.region || homeLabel('global'),
+        sport: item.sport || 'football',
+        savedAt: item.savedAt || Date.now(),
+        time: item.time || item.date || item.pubDate || Date.now(),
+        link: item.link || '',
+        img: item.img || '',
+        fullText: item.fullText || item.content || '',
+        desc: item.desc || ''
+      });
+      setRecentlyOpenedArticles(existing.slice(0, 6));
+      renderRecentlyOpenedArticles();
+    }
+
+    function removeRecentlyOpenedArticle(articleId) {
+      const next = getRecentlyOpenedArticles().filter(item => String(item.id) !== String(articleId));
+      setRecentlyOpenedArticles(next);
+      renderRecentlyOpenedArticles();
+      showToast('Removed from recently opened.', 'success');
+    }
+
+    function renderRecentlyOpenedArticles() {
+      const list = $('#recently-opened-list');
+      const empty = $('#recently-opened-empty');
+      if (!list.length) return;
+
+      const items = getRecentlyOpenedArticles();
+      list.empty();
+
+      if (!items.length) {
+        empty.show();
+        list.hide();
+        return;
+      }
+
+      empty.hide();
+      list.show();
+
+      items.forEach(item => {
+        const meta = `${homeLabel(item.sport || 'football')} • ${item.region || homeLabel('global')} • ${relativeTimeLabel(item.time || item.savedAt || Date.now())}`;
+        list.append(`
+          <div class="recently-opened-item">
+            <div class="recently-opened-copy" role="button" tabindex="0" onclick="openSavedArticle('${item.id}')">
+              <strong>${escapeHtml(item.title || 'Untitled article')}</strong>
+              <span>${escapeHtml(meta)}</span>
+            </div>
+            <button type="button" class="recently-opened-btn" onclick="event.preventDefault(); event.stopPropagation(); removeRecentlyOpenedArticle('${item.id}')">Remove</button>
+          </div>
+        `);
+      });
+    }
+
+function getSavedArticles() {
       try {
         return JSON.parse(localStorage.getItem(SAVED_ARTICLES_KEY) || '[]');
       } catch {
