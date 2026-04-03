@@ -2008,6 +2008,74 @@
       }
     }
 
+    .saved-articles-pro-strip {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+    }
+    .saved-articles-pro-left {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .saved-articles-count-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,242,254,.22);
+      background: rgba(0,242,254,.08);
+      color: var(--cyan);
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .saved-articles-sort {
+      background: var(--input-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 9px 12px;
+      outline: none;
+      min-width: 170px;
+    }
+    .saved-clear-all-btn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: .74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .saved-clear-all-btn:hover {
+      border-color: rgba(0,242,254,.28);
+      color: var(--cyan);
+    }
+    @media (max-width: 640px) {
+      .saved-articles-pro-strip {
+        align-items: stretch;
+      }
+      .saved-articles-pro-left,
+      .saved-articles-pro-strip {
+        flex-direction: column;
+      }
+      .saved-articles-sort,
+      .saved-clear-all-btn {
+        width: 100%;
+      }
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -5917,22 +5985,48 @@ async function dismissModerationReport(reportId) {
     }
 
     function renderSavedArticles() {
-      const items = getSavedArticles();
-      if (!items.length) {
-        $('#saved-articles-list').empty();
-        $('#saved-articles-empty').show();
+      const list = $('#saved-articles-list');
+      const empty = $('#saved-articles-empty');
+      const countBadge = $('#saved-articles-count-badge');
+      const sortValue = ($('#saved-articles-sort').val() || 'newest');
+
+      list.empty();
+
+      const saved = getSavedArticles().slice();
+
+      if (sortValue === 'oldest') {
+        saved.sort((a, b) => (a.savedAt || 0) - (b.savedAt || 0));
+      } else if (sortValue === 'title') {
+        saved.sort((a, b) => String(a.title || '').localeCompare(String(b.title || '')));
+      } else {
+        saved.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0));
+      }
+
+      countBadge.html(`<i class="fa-regular fa-bookmark"></i> ${saved.length} saved`);
+
+      if (!saved.length) {
+        empty.show();
+        list.hide();
+        $('#saved-clear-all-btn').prop('disabled', true).css('opacity', '.5');
         return;
       }
-      $('#saved-articles-empty').hide();
-      $('#saved-articles-list').html(items.map(item => `
-        <div class="saved-article-item">
-          <div class="saved-article-copy">
-            <strong>${escapeHtml(item.title || 'Untitled story')}</strong>
-            <span>${escapeHtml(safeSnippet(item.desc || 'Saved from MoroccanSportsHub.', 110))}</span>
+
+      empty.hide();
+      list.show();
+      $('#saved-clear-all-btn').prop('disabled', false).css('opacity', '1');
+
+      saved.forEach(item => {
+        const meta = `${homeLabel(item.sport || 'football')} • ${item.region || homeLabel('global')} • ${relativeTimeLabel(item.savedAt || Date.now())}`;
+        list.append(`
+          <div class="saved-article-item">
+            <div class="saved-article-copy" onclick="openSavedArticle('${item.id}')">
+              <strong>${escapeHtml(item.title || 'Untitled article')}</strong>
+              <span>${escapeHtml(meta)}</span>
+            </div>
+            <button class="saved-article-btn" onclick="event.stopPropagation(); removeSavedArticle('${item.id}')">Remove</button>
           </div>
-          <button class="saved-article-btn" onclick="openSavedArticle('${String(item.id).replace(/'/g, "\'")}')">Open</button>
-        </div>
-      `).join(''));
+        `);
+      });
     }
 
     function canDeleteArticleComment(item) {
