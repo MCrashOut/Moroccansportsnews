@@ -2841,19 +2841,19 @@
         <button class="solid-btn" id="profile-sync-btn" style="width:100%; margin-top:8px;" onclick="updateProfileData()">Sync Database</button>
         <button class="ghost-btn" id="profile-logout-btn" style="width:100%; margin-top:10px;" onclick="logout()">Logout</button>
         <div class="saved-articles-wrap">
+          <div class="section-title" style="margin-bottom:6px;">Saved Articles</div>
+          <div class="profile-subtle-note">Keep the best stories and reopen them anytime.</div>
           <div class="saved-articles-pro-strip">
             <div class="saved-articles-pro-left">
-              <div class="saved-articles-count-badge" id="saved-articles-count-badge"><i class="fa-regular fa-bookmark"></i> 0 saved</div>
               <select id="saved-articles-sort" class="saved-articles-sort" onchange="renderSavedArticles()">
                 <option value="newest">Newest first</option>
                 <option value="oldest">Oldest first</option>
                 <option value="title">Title A–Z</option>
               </select>
+              <div class="saved-articles-count-badge" id="saved-articles-count-badge"><i class="fa-regular fa-bookmark"></i> 0 saved</div>
             </div>
             <button class="saved-clear-all-btn" id="saved-clear-all-btn" onclick="clearAllSavedArticles()">Clear All</button>
           </div>
-          <div class="section-title" style="margin-bottom:6px;">Saved Articles</div>
-          <div class="profile-subtle-note">Keep the best stories and reopen them anytime.</div>
           <div class="saved-articles-list" id="saved-articles-list"></div>
           <p class="saved-articles-empty" id="saved-articles-empty">No saved articles yet.</p>
         </div>
@@ -5995,7 +5995,33 @@ async function dismissModerationReport(reportId) {
       loadArticleComments();
     }
 
-    function renderSavedArticles() {
+    
+    function clearAllSavedArticles() {
+      const saved = getSavedArticles();
+      if (!saved.length) {
+        showToast('No saved articles to clear.', 'error');
+        return;
+      }
+      const ok = window.confirm(`Remove all ${saved.length} saved articles?`);
+      if (!ok) return;
+      setSavedArticles([]);
+      renderSavedArticles();
+      if (typeof syncArticleSaveButton === 'function') syncArticleSaveButton();
+      showToast('Saved articles cleared.', 'success');
+    }
+
+    function removeSavedArticle(articleId) {
+      const saved = getSavedArticles();
+      const next = saved.filter(item => String(item.id) !== String(articleId));
+      setSavedArticles(next);
+      renderSavedArticles();
+      if (String(currentArticleId) === String(articleId) && typeof syncArticleSaveButton === 'function') {
+        syncArticleSaveButton();
+      }
+      showToast('Saved article removed.', 'success');
+    }
+
+function renderSavedArticles() {
       const list = $('#saved-articles-list');
       const empty = $('#saved-articles-empty');
       const countBadge = $('#saved-articles-count-badge');
@@ -6035,11 +6061,11 @@ async function dismissModerationReport(reportId) {
         const meta = `${homeLabel(item.sport || 'football')} • ${item.region || homeLabel('global')} • ${relativeTimeLabel(item.savedAt || Date.now())}`;
         list.append(`
           <div class="saved-article-item">
-            <div class="saved-article-copy" onclick="openSavedArticle('${item.id}')">
+            <div class="saved-article-copy" role="button" tabindex="0" onclick="openSavedArticle('${item.id}')">
               <strong>${escapeHtml(item.title || 'Untitled article')}</strong>
               <span>${escapeHtml(meta)}</span>
             </div>
-            <button class="saved-article-btn" onclick="event.stopPropagation(); removeSavedArticle('${item.id}')">Remove</button>
+            <button type="button" class="saved-article-btn" onclick="event.preventDefault(); event.stopPropagation(); removeSavedArticle('${item.id}')">Remove</button>
           </div>
         `);
       });
