@@ -2841,6 +2841,17 @@
         <button class="solid-btn" id="profile-sync-btn" style="width:100%; margin-top:8px;" onclick="updateProfileData()">Sync Database</button>
         <button class="ghost-btn" id="profile-logout-btn" style="width:100%; margin-top:10px;" onclick="logout()">Logout</button>
         <div class="saved-articles-wrap">
+          <div class="saved-articles-pro-strip">
+            <div class="saved-articles-pro-left">
+              <div class="saved-articles-count-badge" id="saved-articles-count-badge"><i class="fa-regular fa-bookmark"></i> 0 saved</div>
+              <select id="saved-articles-sort" class="saved-articles-sort" onchange="renderSavedArticles()">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="title">Title A–Z</option>
+              </select>
+            </div>
+            <button class="saved-clear-all-btn" id="saved-clear-all-btn" onclick="clearAllSavedArticles()">Clear All</button>
+          </div>
           <div class="section-title" style="margin-bottom:6px;">Saved Articles</div>
           <div class="profile-subtle-note">Keep the best stories and reopen them anytime.</div>
           <div class="saved-articles-list" id="saved-articles-list"></div>
@@ -5988,7 +5999,10 @@ async function dismissModerationReport(reportId) {
       const list = $('#saved-articles-list');
       const empty = $('#saved-articles-empty');
       const countBadge = $('#saved-articles-count-badge');
+      const clearBtn = $('#saved-clear-all-btn');
       const sortValue = ($('#saved-articles-sort').val() || 'newest');
+
+      if (!list.length) return;
 
       list.empty();
 
@@ -6002,18 +6016,20 @@ async function dismissModerationReport(reportId) {
         saved.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0));
       }
 
-      countBadge.html(`<i class="fa-regular fa-bookmark"></i> ${saved.length} saved`);
+      if (countBadge.length) {
+        countBadge.html(`<i class="fa-regular fa-bookmark"></i> ${saved.length} saved`);
+      }
 
       if (!saved.length) {
         empty.show();
         list.hide();
-        $('#saved-clear-all-btn').prop('disabled', true).css('opacity', '.5');
+        if (clearBtn.length) clearBtn.prop('disabled', true).css('opacity', '.5');
         return;
       }
 
       empty.hide();
       list.show();
-      $('#saved-clear-all-btn').prop('disabled', false).css('opacity', '1');
+      if (clearBtn.length) clearBtn.prop('disabled', false).css('opacity', '1');
 
       saved.forEach(item => {
         const meta = `${homeLabel(item.sport || 'football')} • ${item.region || homeLabel('global')} • ${relativeTimeLabel(item.savedAt || Date.now())}`;
