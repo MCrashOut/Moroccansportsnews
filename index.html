@@ -6609,3 +6609,43 @@ function loadMatchesWidget(forceReload = false) {
   <div id="toast-stack" class="toast-stack"></div>
 </body>
 </html>
+
+<script>
+// ===== FIXED FUNCTIONS =====
+
+// Article Comment Fix
+async function postArticleComment(articleId) {
+  const textarea = document.getElementById("article-comment-input");
+  const text = textarea.value.trim();
+  if (!text) return;
+
+  if (!auth.currentUser) {
+    alert("Login required");
+    return;
+  }
+
+  await db.collection("article_comments").add({
+    articleId,
+    userId: auth.currentUser.uid,
+    userName: auth.currentUser.displayName || "User",
+    text,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  textarea.value = "";
+}
+
+// Article Reaction Fix
+async function reactToArticle(articleId, type) {
+  if (!auth.currentUser) return;
+
+  await db.collection("reactions_feed")
+    .doc(articleId + "_" + auth.currentUser.uid)
+    .set({
+      articleId,
+      userId: auth.currentUser.uid,
+      type,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+}
+</script>
