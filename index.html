@@ -4656,78 +4656,21 @@ async function loadFeed() {
       }
     }
 
-    function scoreSearchArticle(item, rawQuery) {
-      const q = String(rawQuery || '').trim().toLowerCase();
-      if (!q) return 0;
-
-      const fields = {
-        title: (item.title || '').toLowerCase(),
-        desc: (item.desc || '').toLowerCase(),
-        sport: (item.sport || '').toLowerCase(),
-        region: (item.region || '').toLowerCase(),
-        tag: (item.tag || '').toLowerCase()
-      };
-
-      const haystack = [fields.title, fields.desc, fields.sport, fields.region, fields.tag].join(' ');
-      let score = 0;
-
-      if (fields.title.includes(q)) score += 12;
-      if (fields.desc.includes(q)) score += 6;
-      if (fields.sport.includes(q)) score += 4;
-      if (fields.region.includes(q)) score += 4;
-      if (fields.tag.includes(q)) score += 3;
-
-      q.split(/\s+/).filter(Boolean).forEach(token => {
-        if (fields.title.includes(token)) score += 4;
-        if (fields.desc.includes(token)) score += 2;
-        if (fields.sport.includes(token) || fields.region.includes(token) || fields.tag.includes(token)) score += 1;
-      });
-
-      return score;
-    }
-
-    function buildSearchResultCard(n) {
-      const title = escapeHtml(n.title || '');
-      const desc = escapeHtml((n.desc || '').trim());
-      const safeDesc = desc.length > 150 ? desc.slice(0, 147) + '...' : desc;
-      const badge = escapeHtml(localizeTagLabel(n.tag) || homeLabel(n.region === 'morocco' ? 'morocco' : (n.sport || 'football')));
-      const metaRight = escapeHtml(homeLabel(n.sport || 'football'));
-      return `<div class="mini-card" onclick="openDetails(${JSON.stringify(n.id)})">
-        <div class="mini-card-tag"><i class="fa-solid fa-magnifying-glass"></i>${badge}</div>
-        <h3>${title}</h3>
-        <p>${safeDesc || 'Open this article to read more.'}</p>
-        <div class="hero-meta" style="margin-top:12px;">
-          <span class="hero-pill"><i class="fa-solid fa-earth-africa"></i>${escapeHtml(homeLabel(n.region === 'morocco' ? 'morocco' : 'global'))}</span>
-          <span class="hero-pill"><i class="fa-solid fa-layer-group"></i>${metaRight}</span>
-        </div>
-      </div>`;
-    }
-
     function handleSearch(e) {
-      const q = (e.target.value || '').trim().toLowerCase();
+      const q = e.target.value.toLowerCase();
       if (q.length > 1) {
         switchPage('home');
         $('#search-results-area').show();
         $('#standard-home-layout').hide();
-
-        const results = masterPool
-          .map(item => ({ item, score: scoreSearchArticle(item, q) }))
-          .filter(entry => entry.score > 0)
-          .sort((a, b) => {
-            const dateDiff = (new Date(b.item.pubDate || b.item.time || 0) - new Date(a.item.pubDate || a.item.time || 0));
-            return b.score - a.score || dateDiff;
-          })
-          .slice(0, 18)
-          .map(entry => buildSearchResultCard(entry.item))
-          .join('');
-
         $('#search-output-grid').html(
-          results || `<div class="mini-card"><h3>No results found</h3><p>Try a club, league, player, sport, or keyword from the article summary.</p></div>`
+          masterPool
+            .filter(n => (n.title || '').toLowerCase().includes(q))
+            .map(n => `<div class="mini-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`)
+            .join('')
         );
       } else {
         $('#search-results-area').hide();
         $('#standard-home-layout').show();
-        $('#search-output-grid').empty();
       }
     }
 
@@ -5478,13 +5421,77 @@ function renderHome(forceShuffle = false) {
       }
     }
 
-    async function dismissModerationReport(reportId) {
+    
+async function dismissModerationReport(reportId) {
       if (!isAdmin()) return;
       try {
         await db.collection('notifications').doc(reportId).delete();
         loadModerationQueue();
+        showToast('Report dismissed.', 'success');
       } catch (err) {
         console.error('Dismiss report failed', err);
+        showToast('Could not dismiss the report.', 'error');
+      }
+    }
+
+    async function resolveModerationReport(reportId) {
+      if (!isAdmin()) return;
+      try {
+        await db.collection('notifications').doc(reportId).set({
+          status: 'resolved',
+          resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          resolvedBy: auth.currentUser?.email || 'admin'
+        }, { merge: true });
+        loadModerationQueue();
+        showToast('Report resolved.', 'success');
+      } catch (err) {
+        console.error('Resolve report failed', err);
+        showToast('Could not resolve the report.', 'error');
+      }
+    }
+
+    async function getModerationTargetDetails(reportType, targetDocId) {
+      if (!(reportType === 'post' || reportType === 'article_comment') || !targetDocId) return null;
+      const snap = await db.collection('posts').doc(targetDocId).get();
+      if (!snap.exists) return null;
+      const data = snap.data() || {};
+      return {
+        id: snap.id,
+        userId: data.userId || '',
+        username: data.username || 'User',
+        kind: data.kind || 'post'
+      };
+    }
+
+    async function banModerationTargetUser(reportId, reportType, targetDocId) {
+      if (!isAdmin()) return;
+      const details = await getModerationTargetDetails(reportType, targetDocId);
+      if (!details?.userId) {
+        showToast('Could not find the reported user.', 'error');
+        return;
+      }
+      const ok = confirm(`Ban ${details.username} from posting?`);
+      if (!ok) return;
+
+      try {
+        await db.collection('users').doc(details.userId).set({
+          banned: true
+        }, { merge: true });
+
+        await db.collection('notifications').doc(reportId).set({
+          status: 'resolved',
+          resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          resolvedBy: auth.currentUser?.email || 'admin',
+          actionTaken: 'banned_user',
+          targetUserId: details.userId
+        }, { merge: true });
+
+        loadModerationQueue();
+        if ($('#feed-page').hasClass('active')) loadFeed();
+        showToast('User banned from queue.', 'success');
+      } catch (err) {
+        console.error('Ban target user failed', err);
+        showToast('Could not ban the reported user.', 'error');
       }
     }
 
@@ -5500,9 +5507,10 @@ function renderHome(forceShuffle = false) {
         loadModerationQueue();
         if ($('#feed-page').hasClass('active')) loadFeed();
         if ($('#article-page').hasClass('active')) loadArticleComments();
+        showToast('Reported content removed.', 'success');
       } catch (err) {
         console.error('Remove reported content failed', err);
-        alert('Could not remove the reported content.');
+        showToast('Could not remove the reported content.', 'error');
       }
     }
 
@@ -5514,6 +5522,9 @@ function renderHome(forceShuffle = false) {
           if (el) {
             el.scrollIntoView({ behavior: 'smooth', block: 'center' });
             el.style.boxShadow = '0 0 0 2px rgba(0,242,254,.5), 0 18px 40px rgba(0,0,0,.28)';
+            setTimeout(() => {
+              el.style.boxShadow = '';
+            }, 2200);
           }
         }, 300);
         return;
@@ -5531,14 +5542,16 @@ function renderHome(forceShuffle = false) {
         const snap = await db.collection('notifications').where('type', '==', 'report').get();
         const items = [];
         snap.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
-        items.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+        const activeItems = items
+          .filter(item => item.status !== 'resolved')
+          .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
-        if (!items.length) {
+        if (!activeItems.length) {
           wrap.html('<p style="color:var(--dim)">No reports right now.</p>');
           return;
         }
 
-        wrap.html(items.map(item => `
+        wrap.html(activeItems.map(item => `
           <div class="admin-queue-item">
             <div class="admin-queue-head">
               <span class="admin-queue-type"><i class="fa-solid fa-flag"></i> ${escapeHtml(String(item.reportType || 'report').replaceAll('_', ' '))}</span>
@@ -5548,7 +5561,9 @@ function renderHome(forceShuffle = false) {
             <div class="admin-queue-meta">Reported by ${escapeHtml(item.reporterName || 'Fan')}</div>
             <div class="admin-queue-actions">
               <button class="admin-queue-btn" onclick="openModerationTarget('${item.reportType || ''}', '${item.targetDocId || ''}', ${item.articleId != null ? Number(item.articleId) : 'null'})">Open</button>
+              <button class="admin-queue-btn" onclick="banModerationTargetUser('${item.id}', '${item.reportType || ''}', '${item.targetDocId || ''}')">Ban User</button>
               <button class="admin-queue-btn" onclick="removeReportedContent('${item.id}', '${item.reportType || ''}', '${item.targetDocId || ''}')">Delete Content</button>
+              <button class="admin-queue-btn" onclick="resolveModerationReport('${item.id}')">Resolve</button>
               <button class="admin-queue-btn" onclick="dismissModerationReport('${item.id}')">Dismiss</button>
             </div>
           </div>
