@@ -1932,7 +1932,8 @@
     .article-comment-report-btn,
     .feed-report-btn,
     .article-copy-btn,
-    .admin-queue-btn {
+    .admin-queue-btn,
+    .whatsapp-share-btn {
       border: 1px solid var(--border);
       background: rgba(255,255,255,.03);
       color: var(--text);
@@ -1945,7 +1946,8 @@
     .article-comment-report-btn:hover,
     .feed-report-btn:hover,
     .article-copy-btn:hover,
-    .admin-queue-btn:hover {
+    .admin-queue-btn:hover,
+    .whatsapp-share-btn:hover {
       border-color: rgba(0,242,254,.28);
       color: var(--cyan);
     }
@@ -1960,144 +1962,6 @@
     @media (max-width: 900px) {
       .article-related-grid {
         grid-template-columns: 1fr;
-      }
-    }
-
-
-    /* image-performance-safe-merge */
-    .hero-media-wrap {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      aspect-ratio: 16 / 9;
-      box-shadow: 0 18px 38px rgba(0,0,0,.22);
-    }
-    .hero-media-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .mini-card-media {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      aspect-ratio: 16 / 9;
-    }
-    .mini-card-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .feature img,
-    .mini-card img,
-    #detail-image-wrap img,
-    .hero-media-wrap img,
-    .mini-card-media img {
-      display: block;
-    }
-    .mini-card-meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 12px;
-    }
-    .mini-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      color: var(--dim);
-      font-size: .72rem;
-      font-weight: 700;
-    }
-    .side-item-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .side-rank {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 28px;
-      height: 28px;
-      padding: 0 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,242,254,.22);
-      background: rgba(0,242,254,.10);
-      color: var(--cyan);
-      font-size: .76rem;
-      font-weight: 800;
-    }
-    .hero-floating-badges {
-      position: absolute;
-      left: 14px;
-      bottom: 14px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      z-index: 2;
-    }
-    .breaking-badge,
-    .trending-badge,
-    .ai-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      font-size: .68rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      box-shadow: 0 8px 20px rgba(0,0,0,.22);
-    }
-    .breaking-badge { background: var(--red); color: #fff; }
-    .trending-badge { background: var(--amber); color: #000; }
-    .ai-badge { background: var(--cyan); color: #000; }
-    .hero-bottom-strip {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .hero-stat {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      padding: 12px;
-    }
-    .hero-stat strong {
-      display: block;
-      color: var(--text);
-      font-size: .86rem;
-      margin-bottom: 6px;
-    }
-    .hero-stat span {
-      display: block;
-      color: var(--dim);
-      font-size: .78rem;
-      line-height: 1.5;
-    }
-    @media (max-width: 640px) {
-      .hero-bottom-strip {
-        grid-template-columns: 1fr;
-      }
-      .hero-floating-badges {
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
       }
     }
 
@@ -2709,12 +2573,13 @@
           <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
           <button class="ghost-btn article-save-btn" id="article-save-btn" onclick="toggleSaveCurrentArticle()">Save Article</button>
           <button class="ghost-btn article-copy-btn" id="article-copy-btn" onclick="copyCurrentArticleLink()">Copy Link</button>
+          <button class="ghost-btn whatsapp-share-btn" id="article-whatsapp-btn" onclick="shareCurrentArticleWhatsApp()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
         </div>
         <div class="detail-top-meta" id="article-meta"></div>
         <h1 id="article-title" class="article-title"></h1>
         <p id="article-lead" class="article-lead"></p>
         <div id="article-hero" class="article-hero" style="display:none;">
-          <img id="article-image" src="" alt="article image" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          <img id="article-image" src="" alt="article image" loading="lazy" referrerpolicy="no-referrer">
         </div>
         <div class="article-body-card">
           <div id="article-body" class="article-body-copy"></div>
@@ -2974,7 +2839,7 @@
         <div class="detail-top-meta" id="detail-meta"></div>
         <h2 id="m-title" style="color:var(--cyan); margin-bottom:2px;"></h2>
         <div id="detail-image-wrap" class="detail-image-wrap" style="display:none;">
-          <img id="m-image" src="" alt="story image" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          <img id="m-image" src="" alt="story image" loading="lazy" referrerpolicy="no-referrer">
         </div>
         <p id="m-body" class="detail-summary"></p>
       </div>
@@ -4557,6 +4422,12 @@
       }
     }
 
+    function sharePostWhatsApp(postId) {
+      const url = buildShareUrl(postId);
+      const text = `MoroccanSportsHub post: ${url}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    }
+
     function openPostFromUrlIfAny() {
       if (sharedPostHandled) return;
       const params = new URLSearchParams(window.location.search);
@@ -4709,6 +4580,7 @@ async function loadFeed() {
                 <button class="feed-react-btn ${active.heart ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'heart', '${post.userId}')">❤️ ${post.hearts || 0}</button>
                 <button class="feed-react-btn ${active.fire ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'fire', '${post.userId}')">🔥 ${post.fires || 0}</button>
                 <button class="share-btn" onclick="sharePost('${post.id}')"><i class="fa-solid fa-share-nodes"></i> ${t('share')}</button>
+                <button class=\"whatsapp-share-btn\" onclick=\"sharePostWhatsApp('${post.id}')\"><i class=\"fa-brands fa-whatsapp\"></i> WhatsApp</button>
                 <button class="feed-report-btn" onclick="reportPost('${post.id}')"><i class="fa-solid fa-flag"></i> Report</button>
               </div>
             </div>
@@ -5072,8 +4944,8 @@ async function loadFeed() {
         const tagLabel = localizeTagLabel(n.tag) || sportLabel;
         const image = bestImage(n.img, n.title || 'Moroccansportshub');
         return `<div class="mini-card" onclick="openDetails(${n.id})">
-          <div class="mini-card-media" style="margin:-6px -6px 14px;">
-            <img src="${image}" alt="${n.title}" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
+          <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
+            <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
           </div>
           <span class="mini-card-tag">${tagLabel}</span>
           <h3>${n.title}</h3>
@@ -5400,18 +5272,6 @@ async function initNews() {
   }
 }
 
-
-function primeVisibleNewsImages(items = []) {
-      items.slice(0, 6).forEach((item, index) => {
-        const src = bestImage(item && item.img, item && item.title ? item.title : 'Moroccansportshub');
-        if (!src) return;
-        const img = new Image();
-        img.decoding = 'async';
-        if (index === 0) img.fetchPriority = 'high';
-        img.src = src;
-      });
-    }
-
 function renderHome(forceShuffle = false) {
       const recentPool = filterItemsByAge(masterPool, 45);
       const newestPool = sortItemsByNewest(recentPool.length ? recentPool : masterPool);
@@ -5428,7 +5288,6 @@ function renderHome(forceShuffle = false) {
 
       const featured = featuredWindow[featuredIndex];
       const remaining = newestPool.filter(n => n.id !== featured.id);
-      primeVisibleNewsImages([featured, ...remaining]);
       const imgSrc = bestImage(featured.img, featured.title || 'Moroccansportshub');
       const heroSummary = (featured.desc || '').trim();
       const heroCopy = heroSummary.length > 260 ? `${heroSummary.slice(0, 257).trim()}...` : heroSummary;
@@ -5447,7 +5306,7 @@ function renderHome(forceShuffle = false) {
         </div>
         <h1 onclick="openDetails(${featured.id})">${featured.title}</h1>
         <div class="hero-media-wrap" onclick="openDetails(${featured.id})">
-          <img src="${imgSrc}" alt="${featured.title}" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
+          <img src="${imgSrc}" alt="${featured.title}" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
           <div class="hero-floating-badges">
             <span class="breaking-badge"><i class="fa-solid fa-bolt"></i> ${homeLabel('breaking')}</span>
             <span class="trending-badge"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
@@ -5501,8 +5360,8 @@ function renderHome(forceShuffle = false) {
         const image = bestImage(n.img, n.title || 'Moroccansportshub');
         return `
           <div class="mini-card" onclick="openDetails(${n.id})">
-            <div class="mini-card-media" style="margin:-6px -6px 14px;">
-              <img src="${image}" alt="${n.title}" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="width:100%; height:170px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
+            <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
+              <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:170px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
             </div>
             <span class="mini-card-tag"><i class="fa-solid ${badge.icon}"></i>${badge.text}</span>
             <h3>${n.title}</h3>
@@ -5557,6 +5416,14 @@ function renderHome(forceShuffle = false) {
         console.error('Copy article link failed', err);
         prompt('Copy this link:', url);
       }
+    }
+
+    function shareCurrentArticleWhatsApp() {
+      const url = currentArticlePageUrl();
+      const title = ($('#article-title').text() || 'MoroccanSportsHub article').trim();
+      const text = `${title} ${url}`.trim();
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+      setArticleFeedback('Opened WhatsApp share.', 'success');
     }
 
     function getMostReadArticles(limit = 5) {
