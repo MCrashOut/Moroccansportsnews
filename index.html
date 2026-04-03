@@ -4681,21 +4681,79 @@ async function loadFeed() {
       }
     }
 
+
+    function scoreSearchArticle(item, rawQuery) {
+      const q = String(rawQuery || '').trim().toLowerCase();
+      if (!q) return 0;
+
+      const fields = {
+        title: (item.title || '').toLowerCase(),
+        desc: (item.desc || '').toLowerCase(),
+        sport: (item.sport || '').toLowerCase(),
+        region: (item.region || '').toLowerCase(),
+        tag: (item.tag || '').toLowerCase()
+      };
+
+      const haystack = [fields.title, fields.desc, fields.sport, fields.region, fields.tag].join(' ');
+      let score = 0;
+
+      if (fields.title.includes(q)) score += 12;
+      if (fields.desc.includes(q)) score += 6;
+      if (fields.sport.includes(q)) score += 4;
+      if (fields.region.includes(q)) score += 4;
+      if (fields.tag.includes(q)) score += 3;
+
+      q.split(/\s+/).filter(Boolean).forEach(token => {
+        if (fields.title.includes(token)) score += 4;
+        if (fields.desc.includes(token)) score += 2;
+        if (fields.sport.includes(token) || fields.region.includes(token) || fields.tag.includes(token)) score += 1;
+      });
+
+      return score;
+    }
+
+    function buildSearchResultCard(n) {
+      const title = escapeHtml(n.title || '');
+      const desc = escapeHtml((n.desc || '').trim());
+      const safeDesc = desc.length > 150 ? desc.slice(0, 147) + '...' : desc;
+      const badge = escapeHtml(localizeTagLabel(n.tag) || homeLabel(n.region === 'morocco' ? 'morocco' : (n.sport || 'football')));
+      const metaRight = escapeHtml(homeLabel(n.sport || 'football'));
+      return `<div class="mini-card" onclick="openDetails(${JSON.stringify(n.id)})">
+        <div class="mini-card-tag"><i class="fa-solid fa-magnifying-glass"></i>${badge}</div>
+        <h3>${title}</h3>
+        <p>${safeDesc || 'Open this article to read more.'}</p>
+        <div class="hero-meta" style="margin-top:12px;">
+          <span class="hero-pill"><i class="fa-solid fa-earth-africa"></i>${escapeHtml(homeLabel(n.region === 'morocco' ? 'morocco' : 'global'))}</span>
+          <span class="hero-pill"><i class="fa-solid fa-layer-group"></i>${metaRight}</span>
+        </div>
+      </div>`;
+    }
+
     function handleSearch(e) {
-      const q = e.target.value.toLowerCase();
+      const q = (e.target.value || '').trim().toLowerCase();
       if (q.length > 1) {
         switchPage('home');
         $('#search-results-area').show();
         $('#standard-home-layout').hide();
+
+        const results = masterPool
+          .map(item => ({ item, score: scoreSearchArticle(item, q) }))
+          .filter(entry => entry.score > 0)
+          .sort((a, b) => {
+            const dateDiff = (new Date(b.item.pubDate || b.item.time || 0) - new Date(a.item.pubDate || a.item.time || 0));
+            return b.score - a.score || dateDiff;
+          })
+          .slice(0, 18)
+          .map(entry => buildSearchResultCard(entry.item))
+          .join('');
+
         $('#search-output-grid').html(
-          masterPool
-            .filter(n => (n.title || '').toLowerCase().includes(q))
-            .map(n => `<div class="mini-card" onclick="openDetails(${n.id})"><h3>${n.title}</h3></div>`)
-            .join('')
+          results || `<div class="mini-card"><h3>No results found</h3><p>Try a club, league, player, sport, or keyword from the article summary.</p></div>`
         );
       } else {
         $('#search-results-area').hide();
         $('#standard-home-layout').show();
+        $('#search-output-grid').empty();
       }
     }
 
