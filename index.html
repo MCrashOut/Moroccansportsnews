@@ -2095,6 +2095,14 @@
       flex-wrap:wrap;
       align-items:center;
     }
+.search-recent-title {
+      color: var(--dim);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
     .search-recent-chip {
       border: 1px solid var(--border);
       background: rgba(255,255,255,.03);
@@ -4878,10 +4886,6 @@ async function loadFeed() {
       const overlay = $('#search-overlay');
 
       if (overlay.is(':visible')) {
-        $('#active-search-input').val('');
-        $('#search-results-area').hide();
-        $('#standard-home-layout').show();
-        $('#search-output-grid').empty();
         overlay.hide();
       } else {
         overlay.css('display', 'flex');
@@ -4932,6 +4936,8 @@ async function loadFeed() {
         if (!wrap.length) return;
         wrap.empty();
         if (!items.length) return;
+
+        wrap.append($('<span class="search-recent-title">Recent</span>'));
 
         items.forEach(item => {
           const btn = $('<button type="button" class="search-recent-chip"></button>');
@@ -5039,7 +5045,10 @@ async function loadFeed() {
           results || `<div class="mini-card"><h3>No results found</h3><p>Try a club, league, player, sport, or keyword from the article summary.</p></div>`
         );
 
-        resultsCount.text(scored.length ? `${scored.length} search result${scored.length === 1 ? '' : 's'} for "${rawValue}"` : `No results for "${rawValue}"`);
+        if (resultsCount.length) {
+          resultsCount.text(scored.length ? `${scored.length} search result${scored.length === 1 ? '' : 's'} for "${rawValue}"` : `No results for "${rawValue}"`);
+        }
+
         pushRecentSearch(rawValue);
       } else {
         $('#search-results-area').hide();
