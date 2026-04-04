@@ -6345,7 +6345,7 @@ async function dismissModerationReport(reportId) {
               <span class="post-time">${escapeHtml(relativeTimeLabel(item.createdAt?.toMillis?.() || item.createdAt?.seconds * 1000 || Date.now()))}</span>
             </div>
             <div class="admin-queue-copy">${escapeHtml(item.reason || 'No reason provided.')}</div>
-            <div class="admin-queue-meta">Reported by ${escapeHtml(item.reporterName || 'Fan')}</div>
+            ${(() => { const reportCategory = item.reportCategory || item.category || ''; return `<div class="admin-queue-meta">Reported by ${escapeHtml(item.reporterName || 'Fan')}</div>${reportCategory ? `<div class="admin-queue-category-badge"><i class="fa-solid fa-flag"></i>${escapeHtml(reportCategoryLabel(reportCategory))}</div>` : ''}`; })()}
             <div class="admin-queue-actions">
               <button class="admin-queue-btn" onclick="openModerationTarget('${item.reportType || ''}', '${item.targetDocId || ''}', ${item.articleId != null ? Number(item.articleId) : 'null'})">Open</button>
               <button class="admin-queue-btn" onclick="banModerationTargetUser('${item.id}', '${item.reportType || ''}', '${item.targetDocId || ''}')">Ban User</button>
@@ -7515,4 +7515,3 @@ function loadMatchesWidget(forceReload = false) {
 
 </body>
 </html>
-
