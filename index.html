@@ -7295,6 +7295,46 @@ function openDetails(id, replaceHistory = false) {
       return `${getAiReplyInstruction()}\n\nUser question: ${clean}`;
     }
 
+    function getAiTranslateInstruction(text) {
+      const clean = String(text || '').trim();
+      if (!clean) return clean;
+      if (currentLang === 'fr') {
+        return `Translate the following answer into French only. Keep the meaning accurate and do not add extra facts.\n\nAnswer: ${clean}`;
+      }
+      if (currentLang === 'ar') {
+        return `ترجم الإجابة التالية إلى العربية فقط. حافظ على المعنى بدقة ولا تضف معلومات جديدة.\n\nالإجابة: ${clean}`;
+      }
+      return clean;
+    }
+
+    async function translateAiAnswerIfNeeded(answer) {
+      const clean = String(answer || '').trim();
+      if (!clean || currentLang === 'en') return clean;
+
+      const res = await fetch(AI_BACKEND_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          question: getAiTranslateInstruction(clean),
+          rawQuestion: clean,
+          siteContext: [],
+          language: currentLang,
+          replyLanguage: currentLang,
+          locale: getAiLanguageName(),
+          systemPrompt: getAiReplyInstruction()
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data?.error || (currentLang === 'fr' ? 'La traduction IA a échoué.' : 'فشل تحويل الإجابة إلى اللغة المطلوبة.'));
+      }
+
+      return String(data?.answer || clean).trim() || clean;
+    }
+
     async function askBackendAI(query) {
       const siteContext = getWebsiteMatches(query).map(x =>
         `${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`
@@ -7324,7 +7364,8 @@ function openDetails(id, replaceHistory = false) {
         throw new Error(data?.error || (currentLang === 'fr' ? 'La requête IA a échoué.' : currentLang === 'ar' ? 'فشل طلب الذكاء الاصطناعي.' : 'Backend AI request failed.'));
       }
 
-      return data?.answer || (currentLang === 'fr' ? 'Aucune réponse retournée.' : currentLang === 'ar' ? 'لم يتم إرجاع أي إجابة.' : 'No answer returned.');
+      const baseAnswer = data?.answer || (currentLang === 'fr' ? 'Aucune réponse retournée.' : currentLang === 'ar' ? 'لم يتم إرجاع أي إجابة.' : 'No answer returned.');
+      return await translateAiAnswerIfNeeded(baseAnswer);
     }
 
     async function sendAiMessage(showWebsiteCards = false) {
