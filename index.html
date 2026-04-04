@@ -3353,6 +3353,29 @@
         drawerProfileDesc: 'Your account settings',
         drawerAdminDesc: 'Manage users and moderation',
         share: 'Share',
+        reportAction: 'Report',
+        reportModalTitle: 'Report Content',
+        reportModalPostCopy: 'Tell us why you are reporting this post.',
+        reportModalCommentCopy: 'Tell us why you are reporting this comment.',
+        reportReasonPlaceholder: 'Write your reason...',
+        reportSubmit: 'Submit Report',
+        reportWriteReason: 'Please write your reason.',
+        reportSuccessPost: 'Post reported.',
+        reportSuccessComment: 'Comment reported.',
+        reportErrorPost: 'Could not report this post.',
+        reportErrorComment: 'Could not report this comment.',
+        reportCategoryHate: 'Hate / Sexism',
+        reportCategoryHarassment: 'Harassment',
+        reportCategoryFakeNews: 'Fake News',
+        reportCategorySpam: 'Spam',
+        reportCategoryViolence: 'Violence',
+        reportCategoryOther: 'Other',
+        reportCategoryHateDesc: 'Hate speech, sexism, or identity-based attacks.',
+        reportCategoryHarassmentDesc: 'Bullying, threats, harassment, or intimidation.',
+        reportCategoryFakeNewsDesc: 'False information, made-up claims, or misleading context.',
+        reportCategorySpamDesc: 'Spam, scams, repetitive promotion, or engagement bait.',
+        reportCategoryViolenceDesc: 'Graphic violence, dangerous threats, or glorifying harm.',
+        reportCategoryOtherDesc: 'Something else that breaks the rules.',
         noAlerts: 'No current alerts',
         usersBackfilled: 'Users backfilled from posts.',
         usernameUpdated: 'Username updated.',
@@ -3480,6 +3503,29 @@
         drawerProfileDesc: 'Paramètres du compte',
         drawerAdminDesc: 'Gestion et modération',
         share: 'Partager',
+        reportAction: 'Signaler',
+        reportModalTitle: 'Signaler un contenu',
+        reportModalPostCopy: 'Dites-nous pourquoi vous signalez ce post.',
+        reportModalCommentCopy: 'Dites-nous pourquoi vous signalez ce commentaire.',
+        reportReasonPlaceholder: 'Écrivez votre raison...',
+        reportSubmit: 'Envoyer le signalement',
+        reportWriteReason: 'Veuillez écrire votre raison.',
+        reportSuccessPost: 'Post signalé.',
+        reportSuccessComment: 'Commentaire signalé.',
+        reportErrorPost: 'Impossible de signaler ce post.',
+        reportErrorComment: 'Impossible de signaler ce commentaire.',
+        reportCategoryHate: 'Haine / Sexisme',
+        reportCategoryHarassment: 'Harcèlement',
+        reportCategoryFakeNews: 'Fausses infos',
+        reportCategorySpam: 'Spam',
+        reportCategoryViolence: 'Violence',
+        reportCategoryOther: 'Autre',
+        reportCategoryHateDesc: 'Discours haineux, sexisme ou attaques liées à l’identité.',
+        reportCategoryHarassmentDesc: 'Intimidation, menaces ou harcèlement.',
+        reportCategoryFakeNewsDesc: 'Informations fausses, inventées ou trompeuses.',
+        reportCategorySpamDesc: 'Spam, arnaques, promotion répétitive ou pièges à clics.',
+        reportCategoryViolenceDesc: 'Violence graphique, menaces dangereuses ou glorification du mal.',
+        reportCategoryOtherDesc: 'Autre chose qui enfreint les règles.',
         noAlerts: 'Aucune alerte',
         usersBackfilled: 'Utilisateurs synchronisés depuis les posts.',
         usernameUpdated: 'Nom mis à jour.',
@@ -3607,6 +3653,29 @@
         drawerProfileDesc: 'إعدادات الحساب',
         drawerAdminDesc: 'إدارة المستخدمين والمحتوى',
         share: 'مشاركة',
+        reportAction: 'إبلاغ',
+        reportModalTitle: 'الإبلاغ عن محتوى',
+        reportModalPostCopy: 'أخبرنا لماذا تقوم بالإبلاغ عن هذا المنشور.',
+        reportModalCommentCopy: 'أخبرنا لماذا تقوم بالإبلاغ عن هذا التعليق.',
+        reportReasonPlaceholder: 'اكتب سبب الإبلاغ...',
+        reportSubmit: 'إرسال البلاغ',
+        reportWriteReason: 'يرجى كتابة سبب الإبلاغ.',
+        reportSuccessPost: 'تم الإبلاغ عن المنشور.',
+        reportSuccessComment: 'تم الإبلاغ عن التعليق.',
+        reportErrorPost: 'تعذر الإبلاغ عن هذا المنشور.',
+        reportErrorComment: 'تعذر الإبلاغ عن هذا التعليق.',
+        reportCategoryHate: 'كراهية / تمييز',
+        reportCategoryHarassment: 'تحرش / مضايقة',
+        reportCategoryFakeNews: 'أخبار كاذبة',
+        reportCategorySpam: 'رسائل مزعجة',
+        reportCategoryViolence: 'عنف',
+        reportCategoryOther: 'أخرى',
+        reportCategoryHateDesc: 'خطاب كراهية أو تمييز أو هجمات على الهوية.',
+        reportCategoryHarassmentDesc: 'تنمر أو تهديدات أو مضايقات.',
+        reportCategoryFakeNewsDesc: 'معلومات كاذبة أو ادعاءات مضللة أو خارج السياق.',
+        reportCategorySpamDesc: 'رسائل مزعجة أو احتيال أو ترويج متكرر.',
+        reportCategoryViolenceDesc: 'عنف صريح أو تهديدات خطيرة أو تمجيد للأذى.',
+        reportCategoryOtherDesc: 'شيء آخر يخالف القواعد.',
         noAlerts: 'لا توجد إشعارات',
         usersBackfilled: 'تمت مزامنة المستخدمين من المنشورات.',
         usernameUpdated: 'تم تحديث الاسم.',
@@ -4027,6 +4096,21 @@
       $('#footer-about-link').text(t('footerAbout'));
       $('#footer-privacy-link').text(t('footerPrivacy'));
       $('#footer-terms-link').text(t('footerTerms'));
+      $('#report-modal h2').text(t('reportModalTitle'));
+      $('#report-reason').attr('placeholder', t('reportReasonPlaceholder'));
+      $('#report-modal .solid-btn').last().text(t('reportSubmit'));
+      $('#report-category-grid .report-category-btn[data-category="hate"] strong').text(t('reportCategoryHate'));
+      $('#report-category-grid .report-category-btn[data-category="hate"] span').text(t('reportCategoryHateDesc'));
+      $('#report-category-grid .report-category-btn[data-category="harassment"] strong').text(t('reportCategoryHarassment'));
+      $('#report-category-grid .report-category-btn[data-category="harassment"] span').text(t('reportCategoryHarassmentDesc'));
+      $('#report-category-grid .report-category-btn[data-category="fake_news"] strong').text(t('reportCategoryFakeNews'));
+      $('#report-category-grid .report-category-btn[data-category="fake_news"] span').text(t('reportCategoryFakeNewsDesc'));
+      $('#report-category-grid .report-category-btn[data-category="spam"] strong').text(t('reportCategorySpam'));
+      $('#report-category-grid .report-category-btn[data-category="spam"] span').text(t('reportCategorySpamDesc'));
+      $('#report-category-grid .report-category-btn[data-category="violence"] strong').text(t('reportCategoryViolence'));
+      $('#report-category-grid .report-category-btn[data-category="violence"] span').text(t('reportCategoryViolenceDesc'));
+      $('#report-category-grid .report-category-btn[data-category="other"] strong').text(t('reportCategoryOther'));
+      $('#report-category-grid .report-category-btn[data-category="other"] span').text(t('reportCategoryOtherDesc'));
       const mainAuthLabel = auth.currentUser ? t('profileNav') : t('accessHub');
       $('#auth-main-btn, #drawer-auth-main-btn').text(mainAuthLabel);
       $('#ai-quick-morocco').attr('onclick', "askAiQuick(getAiQuickPrompt('morocco'))");
@@ -4749,14 +4833,14 @@
 
     function reportCategoryLabel(category) {
       const map = {
-        hate: 'Hate / Sexism',
-        harassment: 'Harassment',
-        fake_news: 'Fake News',
-        spam: 'Spam',
-        violence: 'Violence',
-        other: 'Other'
+        hate: t('reportCategoryHate'),
+        harassment: t('reportCategoryHarassment'),
+        fake_news: t('reportCategoryFakeNews'),
+        spam: t('reportCategorySpam'),
+        violence: t('reportCategoryViolence'),
+        other: t('reportCategoryOther')
       };
-      return map[category] || 'Other';
+      return map[category] || t('reportCategoryOther');
     }
 
     function selectReportCategory(category) {
@@ -4770,7 +4854,7 @@
       currentReportPayload = { type, targetDocId, articleId };
       reportTargetText = targetText || '';
       $('#report-reason').val('');
-      $('#report-modal-copy').text(type === 'article_comment' ? 'Tell us why you are reporting this comment.' : 'Tell us why you are reporting this post.');
+      $('#report-modal-copy').text(type === 'article_comment' ? t('reportModalCommentCopy') : t('reportModalPostCopy'));
       selectReportCategory('other');
       $('#report-modal').css('display', 'flex');
     }
@@ -4786,7 +4870,7 @@
       if (!currentReportPayload?.type || !currentReportPayload?.targetDocId) return;
       const cleaned = String($('#report-reason').val() || '').trim();
       if (!cleaned) {
-        alert('Please write your reason.');
+        alert(t('reportWriteReason'));
         return;
       }
       try {
@@ -4806,16 +4890,16 @@
         });
         closeReportModal();
         if (currentReportPayload?.type === 'article_comment') {
-          setArticleFeedback('Comment reported.', 'success');
+          setArticleFeedback(t('reportSuccessComment'), 'success');
         } else {
-          showToast('Post reported.', 'success');
+          showToast(t('reportSuccessPost'), 'success');
         }
       } catch (err) {
         console.error('Submit report failed', err);
         if (currentReportPayload?.type === 'article_comment') {
-          setArticleFeedback('Could not report this comment.', 'error');
+          setArticleFeedback(t('reportErrorComment'), 'error');
         } else {
-          showToast('Could not report this post.', 'error');
+          showToast(t('reportErrorPost'), 'error');
         }
       }
     }
@@ -5192,7 +5276,7 @@ async function loadFeed() {
                 <button class="feed-react-btn ${active.fire ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'fire', '${post.userId}')">🔥 ${post.fires || 0}</button>
                 <button class="share-btn" onclick="sharePost('${post.id}')"><i class="fa-solid fa-share-nodes"></i> ${t('share')}</button>
                 <button class=\"whatsapp-share-btn\" onclick=\"sharePostWhatsApp('${post.id}')\"><i class=\"fa-brands fa-whatsapp\"></i> WhatsApp</button>
-                <button class="feed-report-btn" onclick="reportPost('${post.id}')"><i class="fa-solid fa-flag"></i> Report</button>
+                <button class="feed-report-btn" onclick="reportPost('${post.id}')"><i class="fa-solid fa-flag"></i> ${t('reportAction')}</button>
               </div>
             </div>
           `;
@@ -7275,97 +7359,29 @@ function openDetails(id, replaceHistory = false) {
 
     const AI_BACKEND_URL = 'https://moroccansportshub-backend-production.up.railway.app/api/ask';
 
-    function getAiLanguageName() {
-      return currentLang === 'fr' ? 'French' : currentLang === 'ar' ? 'Arabic' : 'English';
-    }
-
-    function getAiReplyInstruction() {
-      if (currentLang === 'fr') {
-        return 'Reply only in French. Do not use English unless the user explicitly asks for English.';
-      }
-      if (currentLang === 'ar') {
-        return 'أجب باللغة العربية فقط. لا تستخدم الإنجليزية إلا إذا طلب المستخدم ذلك صراحة.';
-      }
-      return 'Reply only in English.';
-    }
-
-    function buildLocalizedAiQuestion(query) {
-      const clean = String(query || '').trim();
-      if (!clean) return clean;
-      return `${getAiReplyInstruction()}\n\nUser question: ${clean}`;
-    }
-
-    function getAiTranslateInstruction(text) {
-      const clean = String(text || '').trim();
-      if (!clean) return clean;
-      if (currentLang === 'fr') {
-        return `Translate the following answer into French only. Keep the meaning accurate and do not add extra facts.\n\nAnswer: ${clean}`;
-      }
-      if (currentLang === 'ar') {
-        return `ترجم الإجابة التالية إلى العربية فقط. حافظ على المعنى بدقة ولا تضف معلومات جديدة.\n\nالإجابة: ${clean}`;
-      }
-      return clean;
-    }
-
-    async function translateAiAnswerIfNeeded(answer) {
-      const clean = String(answer || '').trim();
-      if (!clean || currentLang === 'en') return clean;
-
-      const res = await fetch(AI_BACKEND_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          question: getAiTranslateInstruction(clean),
-          rawQuestion: clean,
-          siteContext: [],
-          language: currentLang,
-          replyLanguage: currentLang,
-          locale: getAiLanguageName(),
-          systemPrompt: getAiReplyInstruction()
-        })
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data?.error || (currentLang === 'fr' ? 'La traduction IA a échoué.' : 'فشل تحويل الإجابة إلى اللغة المطلوبة.'));
-      }
-
-      return String(data?.answer || clean).trim() || clean;
-    }
-
     async function askBackendAI(query) {
       const siteContext = getWebsiteMatches(query).map(x =>
         `${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`
       );
 
-      const localizedQuestion = buildLocalizedAiQuestion(query);
-
       const res = await fetch(AI_BACKEND_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          question: localizedQuestion,
-          rawQuestion: query,
-          siteContext,
-          language: currentLang,
-          replyLanguage: currentLang,
-          locale: getAiLanguageName(),
-          systemPrompt: getAiReplyInstruction()
+          question: query,
+          siteContext
         })
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data?.error || (currentLang === 'fr' ? 'La requête IA a échoué.' : currentLang === 'ar' ? 'فشل طلب الذكاء الاصطناعي.' : 'Backend AI request failed.'));
+        throw new Error(data?.error || 'Backend AI request failed.');
       }
 
-      const baseAnswer = data?.answer || (currentLang === 'fr' ? 'Aucune réponse retournée.' : currentLang === 'ar' ? 'لم يتم إرجاع أي إجابة.' : 'No answer returned.');
-      return await translateAiAnswerIfNeeded(baseAnswer);
+      return data?.answer || 'No answer returned.';
     }
 
     async function sendAiMessage(showWebsiteCards = false) {
