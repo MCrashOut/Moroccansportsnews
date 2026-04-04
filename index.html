@@ -2076,6 +2076,58 @@
       }
     }
 
+    .search-results-head {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .search-results-count {
+      color: var(--dim);
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+    .search-recent-wrap {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .search-recent-chip {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: .72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .search-recent-chip:hover {
+      border-color: rgba(0,242,254,.28);
+      color: var(--cyan);
+    }
+    .search-match-strip {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .search-match-chip {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--dim);
+      font-size:.72rem;
+      font-weight:700;
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -2605,7 +2657,13 @@
 
   <main id="main-content">
     <section id="home-page" class="page active">
-      <div id="search-results-area" style="display:none; margin-bottom:22px;"><div class="news-grid" id="search-output-grid"></div></div>
+      <div id="search-results-area" style="display:none; margin-bottom:22px;">
+        <div class="search-results-head">
+          <div class="search-results-count" id="search-results-count">Start typing to search.</div>
+          <div class="search-recent-wrap" id="search-recent-wrap"></div>
+        </div>
+        <div class="news-grid" id="search-output-grid"></div>
+      </div>
 
       <div class="home-stats-strip" id="home-stats-strip" aria-label="Platform highlights">
         <div class="home-stat-card">
@@ -4827,10 +4885,85 @@ async function loadFeed() {
         overlay.hide();
       } else {
         overlay.css('display', 'flex');
+        renderRecentSearches();
         $('#active-search-input').focus();
       }
     }
 
+
+
+    const RECENT_SEARCHES_KEY = 'mshRecentSearches';
+
+    function getRecentSearches() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY) || '[]');
+        return Array.isArray(raw) ? raw : [];
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function setRecentSearches(items) {
+      localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(items || []));
+    }
+
+    function pushRecentSearch(query) {
+      const q = String(query || '').trim();
+      if (!q) return;
+      const lowered = q.toLowerCase();
+      const existing = getRecentSearches().filter(item => String(item || '').toLowerCase() !== lowered);
+      existing.unshift(q);
+      setRecentSearches(existing.slice(0, 6));
+      renderRecentSearches();
+    }
+
+    function runRecentSearch(query) {
+      const q = String(query || '').trim();
+      if (!q) return;
+      $('#active-search-input').val(q);
+      handleSearch({ target: { value: q } });
+    }
+
+    function renderRecentSearches() {
+      const wrap = $('#search-recent-wrap');
+      if (!wrap.length) return;
+      const items = getRecentSearches();
+      if (!items.length) {
+        wrap.html('');
+        return;
+      }
+      wrap.empty();
+      items.forEach(item => {
+        const btn = $('<button type="button" class="search-recent-chip"></button>');
+        btn.text(item);
+        btn.on('click', () => runRecentSearch(item));
+        wrap.append(btn);
+      });
+    }
+
+    function searchMatchReasons(item, rawQuery) {
+      const q = String(rawQuery || '').trim().toLowerCase();
+      if (!q) return [];
+      const reasons = [];
+      const title = String(item.title || '').toLowerCase();
+      const desc = String(item.desc || '').toLowerCase();
+      const sport = String(item.sport || '').toLowerCase();
+      const region = String(item.region || '').toLowerCase();
+      const tag = String(item.tag || '').toLowerCase();
+
+      if (title.includes(q)) reasons.push('Title match');
+      if (desc.includes(q)) reasons.push('Summary match');
+      if (sport.includes(q) || tag.includes(q)) reasons.push('Category match');
+      if (region.includes(q)) reasons.push('Region match');
+
+      q.split(/\s+/).filter(Boolean).forEach(token => {
+        if ((title.includes(token) || desc.includes(token)) && !reasons.includes(`Keyword: ${token}`)) {
+          reasons.push(`Keyword: ${token}`);
+        }
+      });
+
+      return reasons.slice(0, 3);
+    }
 
     function scoreSearchArticle(item, rawQuery) {
       const q = String(rawQuery || '').trim().toLowerCase();
@@ -4862,12 +4995,13 @@ async function loadFeed() {
       return score;
     }
 
-    function buildSearchResultCard(n) {
+    function buildSearchResultCard(n, rawQuery = '') {
       const title = escapeHtml(n.title || '');
       const desc = escapeHtml((n.desc || '').trim());
       const safeDesc = desc.length > 150 ? desc.slice(0, 147) + '...' : desc;
       const badge = escapeHtml(localizeTagLabel(n.tag) || homeLabel(n.region === 'morocco' ? 'morocco' : (n.sport || 'football')));
       const metaRight = escapeHtml(homeLabel(n.sport || 'football'));
+      const reasons = searchMatchReasons(n, rawQuery).map(reason => `<span class="search-match-chip"><i class="fa-solid fa-bullseye"></i>${escapeHtml(reason)}</span>`).join('');
       return `<div class="mini-card" onclick="openDetails(${JSON.stringify(n.id)})">
         <div class="mini-card-tag"><i class="fa-solid fa-magnifying-glass"></i>${badge}</div>
         <h3>${title}</h3>
@@ -4876,34 +5010,41 @@ async function loadFeed() {
           <span class="hero-pill"><i class="fa-solid fa-earth-africa"></i>${escapeHtml(homeLabel(n.region === 'morocco' ? 'morocco' : 'global'))}</span>
           <span class="hero-pill"><i class="fa-solid fa-layer-group"></i>${metaRight}</span>
         </div>
+        ${reasons ? `<div class="search-match-strip">${reasons}</div>` : ''}
       </div>`;
     }
 
     function handleSearch(e) {
-      const q = (e.target.value || '').trim().toLowerCase();
+      const q = String((e.target && e.target.value) || '').trim().toLowerCase();
+      const resultsCount = $('#search-results-count');
+
       if (q.length > 1) {
         switchPage('home');
         $('#search-results-area').show();
         $('#standard-home-layout').hide();
 
-        const results = masterPool
+        const scored = masterPool
           .map(item => ({ item, score: scoreSearchArticle(item, q) }))
           .filter(entry => entry.score > 0)
           .sort((a, b) => {
             const dateDiff = (new Date(b.item.pubDate || b.item.time || 0) - new Date(a.item.pubDate || a.item.time || 0));
             return b.score - a.score || dateDiff;
           })
-          .slice(0, 18)
-          .map(entry => buildSearchResultCard(entry.item))
-          .join('');
+          .slice(0, 18);
 
+        const results = scored.map(entry => buildSearchResultCard(entry.item, q)).join('');
         $('#search-output-grid').html(
           results || `<div class="mini-card"><h3>No results found</h3><p>Try a club, league, player, sport, or keyword from the article summary.</p></div>`
         );
+
+        resultsCount.text(scored.length ? `${scored.length} search result${scored.length === 1 ? '' : 's'} for "${q}"` : `No results for "${q}"`);
+        pushRecentSearch(q);
       } else {
         $('#search-results-area').hide();
         $('#standard-home-layout').show();
         $('#search-output-grid').empty();
+        if (resultsCount.length) resultsCount.text('Start typing to search.');
+        renderRecentSearches();
       }
     }
 
