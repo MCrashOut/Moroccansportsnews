@@ -1932,7 +1932,8 @@
     .article-comment-report-btn,
     .feed-report-btn,
     .article-copy-btn,
-    .admin-queue-btn {
+    .admin-queue-btn,
+    .whatsapp-share-btn {
       border: 1px solid var(--border);
       background: rgba(255,255,255,.03);
       color: var(--text);
@@ -1945,7 +1946,8 @@
     .article-comment-report-btn:hover,
     .feed-report-btn:hover,
     .article-copy-btn:hover,
-    .admin-queue-btn:hover {
+    .admin-queue-btn:hover,
+    .whatsapp-share-btn:hover {
       border-color: rgba(0,242,254,.28);
       color: var(--cyan);
     }
@@ -1963,145 +1965,362 @@
       }
     }
 
-
-    /* image-performance-safe-merge */
-    .hero-media-wrap {
-      position: relative;
-      overflow: hidden;
+    .article-authority-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0 0 18px;
+    }
+    .article-authority-item {
       border: 1px solid var(--border);
       background: rgba(255,255,255,.03);
-      aspect-ratio: 16 / 9;
-      box-shadow: 0 18px 38px rgba(0,0,0,.22);
-    }
-    .hero-media-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .mini-card-media {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--border);
       border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      aspect-ratio: 16 / 9;
+      padding: 12px 14px;
+      min-width: 0;
     }
-    .mini-card-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .article-authority-label {
       display: block;
-    }
-    .feature img,
-    .mini-card img,
-    #detail-image-wrap img,
-    .hero-media-wrap img,
-    .mini-card-media img {
-      display: block;
-    }
-    .mini-card-meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 12px;
-    }
-    .mini-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      color: var(--dim);
-      font-size: .72rem;
-      font-weight: 700;
-    }
-    .side-item-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .side-rank {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 28px;
-      height: 28px;
-      padding: 0 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,242,254,.22);
-      background: rgba(0,242,254,.10);
       color: var(--cyan);
-      font-size: .76rem;
-      font-weight: 800;
-    }
-    .hero-floating-badges {
-      position: absolute;
-      left: 14px;
-      bottom: 14px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      z-index: 2;
-    }
-    .breaking-badge,
-    .trending-badge,
-    .ai-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 10px;
-      border-radius: 999px;
       font-size: .68rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: .06em;
-      box-shadow: 0 8px 20px rgba(0,0,0,.22);
+      letter-spacing: .08em;
+      margin-bottom: 6px;
     }
-    .breaking-badge { background: var(--red); color: #fff; }
-    .trending-badge { background: var(--amber); color: #000; }
-    .ai-badge { background: var(--cyan); color: #000; }
-    .hero-bottom-strip {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .hero-stat {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.03);
-      padding: 12px;
-    }
-    .hero-stat strong {
+    .article-authority-value {
       display: block;
       color: var(--text);
       font-size: .86rem;
-      margin-bottom: 6px;
-    }
-    .hero-stat span {
-      display: block;
-      color: var(--dim);
-      font-size: .78rem;
       line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+    @media (max-width: 900px) {
+      .article-authority-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
     @media (max-width: 640px) {
-      .hero-bottom-strip {
+      .article-authority-strip {
         grid-template-columns: 1fr;
       }
-      .hero-floating-badges {
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
+      .article-authority-item {
+        padding: 12px;
       }
     }
 
-  </style>
+    .saved-articles-pro-strip {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+    }
+    .saved-articles-pro-left {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .saved-articles-count-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,242,254,.22);
+      background: rgba(0,242,254,.08);
+      color: var(--cyan);
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .saved-articles-sort {
+      background: var(--input-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 9px 12px;
+      outline: none;
+      min-width: 170px;
+    }
+    .saved-clear-all-btn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: .74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .saved-clear-all-btn:hover {
+      border-color: rgba(0,242,254,.28);
+      color: var(--cyan);
+    }
+    @media (max-width: 640px) {
+      .saved-articles-pro-strip {
+        align-items: stretch;
+      }
+      .saved-articles-pro-left,
+      .saved-articles-pro-strip {
+        flex-direction: column;
+      }
+      .saved-articles-sort,
+      .saved-clear-all-btn {
+        width: 100%;
+      }
+    }
+
+    .report-category-grid {
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:10px;
+      margin:10px 0 6px;
+      text-align:left;
+    }
+    .report-category-btn {
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      border-radius:16px;
+      padding:12px;
+      text-align:left;
+      cursor:pointer;
+      transition:transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .report-category-btn:hover,
+    .report-category-btn.active {
+      transform:translateY(-2px);
+      border-color:rgba(0,242,254,.28);
+      background:rgba(0,242,254,.06);
+    }
+    .report-category-btn strong {
+      display:block;
+      color:var(--text);
+      font-size:.86rem;
+      margin-bottom:4px;
+    }
+    .report-category-btn span {
+      display:block;
+      color:var(--dim);
+      font-size:.76rem;
+      line-height:1.55;
+    }
+    .admin-history-modal-tag-row {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .admin-history-modal-tag {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:7px 10px;
+      background:rgba(255,255,255,.03);
+      color:var(--dim);
+      font-size:.72rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .report-category-grid {
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:10px;
+      margin:10px 0 6px;
+      text-align:left;
+    }
+    .report-category-btn {
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      border-radius:16px;
+      padding:12px;
+      text-align:left;
+      cursor:pointer;
+      transition:transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .report-category-btn:hover,
+    .report-category-btn.active {
+      transform:translateY(-2px);
+      border-color:rgba(0,242,254,.28);
+      background:rgba(0,242,254,.06);
+    }
+    .report-category-btn strong {
+      display:block;
+      color:var(--text);
+      font-size:.86rem;
+      margin-bottom:4px;
+    }
+    .report-category-btn span {
+      display:block;
+      color:var(--dim);
+      font-size:.76rem;
+      line-height:1.55;
+    }
+    .admin-history-toolbar {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:12px;
+      margin-bottom:12px;
+    }
+    .admin-history-filter {
+      background: var(--input-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 9px 12px;
+      outline: none;
+      min-width: 180px;
+    }
+    .admin-history-empty {
+      color: var(--dim);
+      font-size: .84rem;
+      line-height: 1.7;
+      margin-top: 10px;
+    }
+    .admin-history-badge {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--dim);
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:.72rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .admin-history-item-clickable {
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .admin-history-item-clickable:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.04);
+    }
+    .admin-history-modal {
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:7000;
+      background: rgba(0,0,0,.84);
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .admin-history-modal-card {
+      width:min(760px, 96vw);
+      max-height:85vh;
+      overflow:auto;
+      background: color-mix(in srgb, var(--bg) 92%, var(--card));
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.45);
+      padding:20px;
+    }
+    .admin-history-modal-head {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:14px;
+    }
+    .admin-history-modal-title {
+      color: var(--text);
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+    .admin-history-modal-close {
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:.74rem;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .admin-history-modal-grid {
+      display:grid;
+      gap:14px;
+    }
+    .admin-history-modal-box {
+      border:1px solid var(--border);
+      border-radius:18px;
+      background: rgba(255,255,255,.03);
+      padding:14px;
+    }
+    .admin-history-modal-box h4 {
+      color: var(--cyan);
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+    .admin-history-modal-box p {
+      color: var(--text);
+      line-height: 1.75;
+      font-size: .9rem;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .admin-history-modal-tag-row {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+      margin-bottom:10px;
+    }
+    .admin-history-modal-tag {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:7px 10px;
+      background:rgba(255,255,255,.03);
+      color:var(--dim);
+      font-size:.72rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+  
+.admin-queue-category-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid rgba(0,242,254,.22);
+  background:rgba(0,242,254,.08);
+  color:var(--cyan);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:.7rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  margin-top:8px;
+}
+</style>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -2690,12 +2909,12 @@
 
       <div class="home-growth-cta">
         <div class="home-growth-copy">
-          <h3 id="home-growth-title">Turn casual visitors into regular fans</h3>
-          <p id="home-growth-desc">Push your strongest stories through alerts, featured coverage, and community conversations. This area can later connect to email capture, premium alerts, or a breaking-news membership flow.</p>
+          <h3 id="home-growth-title">Stay connected with the game</h3>
+          <p id="home-growth-desc">Get the latest sports news, breaking updates, and join the community discussions. Never miss what matters in Moroccan and global sports.</p>
         </div>
         <div class="home-growth-actions">
           <button class="solid-btn" id="home-growth-alerts-btn" onclick="toggleNotifs()">View Alerts</button>
-          <button class="ghost-btn" id="home-growth-community-btn" onclick="switchPage('feed')">Open community</button>
+          <button class="ghost-btn" id="home-growth-community-btn" onclick="switchPage('feed')">Join Community</button>
         </div>
       </div>
 
@@ -2709,12 +2928,31 @@
           <button class="solid-btn" id="article-source-btn" onclick="openCurrentArticleSource()" style="display:none;">Open Source</button>
           <button class="ghost-btn article-save-btn" id="article-save-btn" onclick="toggleSaveCurrentArticle()">Save Article</button>
           <button class="ghost-btn article-copy-btn" id="article-copy-btn" onclick="copyCurrentArticleLink()">Copy Link</button>
+          <button class="ghost-btn whatsapp-share-btn" id="article-whatsapp-btn" onclick="shareCurrentArticleWhatsApp()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
         </div>
         <div class="detail-top-meta" id="article-meta"></div>
         <h1 id="article-title" class="article-title"></h1>
         <p id="article-lead" class="article-lead"></p>
+        <div class="article-authority-strip" id="article-authority-strip">
+          <div class="article-authority-item">
+            <span class="article-authority-label" id="article-authority-published-label">Published</span>
+            <span class="article-authority-value" id="article-published-value">—</span>
+          </div>
+          <div class="article-authority-item">
+            <span class="article-authority-label" id="article-authority-updated-label">Updated</span>
+            <span class="article-authority-value" id="article-updated-value">—</span>
+          </div>
+          <div class="article-authority-item">
+            <span class="article-authority-label" id="article-authority-reading-label">Reading time</span>
+            <span class="article-authority-value" id="article-reading-value">—</span>
+          </div>
+          <div class="article-authority-item">
+            <span class="article-authority-label" id="article-authority-source-label">Source</span>
+            <span class="article-authority-value" id="article-source-value">MoroccanSportsHub</span>
+          </div>
+        </div>
         <div id="article-hero" class="article-hero" style="display:none;">
-          <img id="article-image" src="" alt="article image" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          <img id="article-image" src="" alt="article image" loading="lazy" referrerpolicy="no-referrer">
         </div>
         <div class="article-body-card">
           <div id="article-body" class="article-body-copy"></div>
@@ -2849,6 +3087,17 @@
         <div class="saved-articles-wrap">
           <div class="section-title" style="margin-bottom:6px;">Saved Articles</div>
           <div class="profile-subtle-note">Keep the best stories and reopen them anytime.</div>
+          <div class="saved-articles-pro-strip">
+            <div class="saved-articles-pro-left">
+              <select id="saved-articles-sort" class="saved-articles-sort" onchange="renderSavedArticles()">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="title">Title A–Z</option>
+              </select>
+              <div class="saved-articles-count-badge" id="saved-articles-count-badge"><i class="fa-regular fa-bookmark"></i> 0 saved</div>
+            </div>
+            <button class="saved-clear-all-btn" id="saved-clear-all-btn" onclick="clearAllSavedArticles()">Clear All</button>
+          </div>
           <div class="saved-articles-list" id="saved-articles-list"></div>
           <p class="saved-articles-empty" id="saved-articles-empty">No saved articles yet.</p>
         </div>
@@ -2878,6 +3127,24 @@
           <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">User reports from posts and article comments appear here for review.</p>
           <div id="admin-queue-list" class="admin-queue-list"></div>
         </div>
+
+        <div class="mini-card" id="admin-history-wrap">
+          <h3 style="margin-bottom:8px;">Moderation History</h3>
+          <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Resolved, dismissed, banned, and removed actions appear here.</p>
+          <div class="admin-history-toolbar">
+            <div class="admin-history-badge" id="admin-history-count"><i class="fa-solid fa-clock-rotate-left"></i> 0 actions</div>
+            <select id="admin-history-filter" class="admin-history-filter" onchange="renderModerationHistory()">
+              <option value="all">All actions</option>
+              <option value="resolved">Resolved</option>
+              <option value="dismissed">Dismissed</option>
+              <option value="banned">Banned users</option>
+              <option value="removed">Removed content</option>
+            </select>
+          </div>
+          <div id="admin-history-empty" class="admin-history-empty">No moderation history yet.</div>
+          <div id="admin-history-list" class="admin-queue-list"></div>
+        </div>
+
         <div id="admin-users-list"></div>
       </div>
     </section>
@@ -2974,7 +3241,7 @@
         <div class="detail-top-meta" id="detail-meta"></div>
         <h2 id="m-title" style="color:var(--cyan); margin-bottom:2px;"></h2>
         <div id="detail-image-wrap" class="detail-image-wrap" style="display:none;">
-          <img id="m-image" src="" alt="story image" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          <img id="m-image" src="" alt="story image" loading="lazy" referrerpolicy="no-referrer">
         </div>
         <p id="m-body" class="detail-summary"></p>
       </div>
@@ -3031,6 +3298,8 @@
     let articleCommentsUnsub = null;
     let articleTypingTimer = null;
     let latestRenderedCommentIds = [];
+    let reportTargetText = '';
+    let selectedReportCategory = 'other';
     const ARTICLE_COMMENT_COOLDOWN_MS = 15000;
     const SAVED_ARTICLES_KEY = 'msh_saved_articles_v1';
 
@@ -3084,30 +3353,6 @@
         drawerProfileDesc: 'Your account settings',
         drawerAdminDesc: 'Manage users and moderation',
         share: 'Share',
-        reportAction: 'Report',
-        reportModalTitle: 'Report Content',
-        reportModalContentCopy: 'Tell us why you are reporting this content.',
-        reportModalPostCopy: 'Tell us why you are reporting this post.',
-        reportModalCommentCopy: 'Tell us why you are reporting this comment.',
-        reportReasonPlaceholder: 'Write your reason...',
-        reportSubmit: 'Submit Report',
-        reportWriteReason: 'Please write your reason.',
-        reportSuccessPost: 'Post reported.',
-        reportSuccessComment: 'Comment reported.',
-        reportErrorPost: 'Could not report this post.',
-        reportErrorComment: 'Could not report this comment.',
-        reportCategoryHate: 'Hate / Sexism',
-        reportCategoryHateDesc: 'Hate speech, sexism, or identity-based attacks.',
-        reportCategoryHarassment: 'Harassment',
-        reportCategoryHarassmentDesc: 'Bullying, threats, harassment, or intimidation.',
-        reportCategoryFakeNews: 'Fake News',
-        reportCategoryFakeNewsDesc: 'False information, made-up claims, or misleading context.',
-        reportCategorySpam: 'Spam',
-        reportCategorySpamDesc: 'Spam, scams, repetitive promotion, or engagement bait.',
-        reportCategoryViolence: 'Violence',
-        reportCategoryViolenceDesc: 'Graphic violence, dangerous threats, or glorifying harm.',
-        reportCategoryOther: 'Other',
-        reportCategoryOtherDesc: 'Something else that breaks the rules.',
         noAlerts: 'No current alerts',
         usersBackfilled: 'Users backfilled from posts.',
         usernameUpdated: 'Username updated.',
@@ -3235,30 +3480,6 @@
         drawerProfileDesc: 'Paramètres du compte',
         drawerAdminDesc: 'Gestion et modération',
         share: 'Partager',
-        reportAction: 'Signaler',
-        reportModalTitle: 'Signaler un contenu',
-        reportModalContentCopy: 'Dites-nous pourquoi vous signalez ce contenu.',
-        reportModalPostCopy: 'Dites-nous pourquoi vous signalez ce post.',
-        reportModalCommentCopy: 'Dites-nous pourquoi vous signalez ce commentaire.',
-        reportReasonPlaceholder: 'Écrivez votre raison...',
-        reportSubmit: 'Envoyer le signalement',
-        reportWriteReason: 'Veuillez écrire votre raison.',
-        reportSuccessPost: 'Post signalé.',
-        reportSuccessComment: 'Commentaire signalé.',
-        reportErrorPost: 'Impossible de signaler ce post.',
-        reportErrorComment: 'Impossible de signaler ce commentaire.',
-        reportCategoryHate: 'Haine / Sexisme',
-        reportCategoryHateDesc: 'Discours haineux, sexisme ou attaques liées à l’identité.',
-        reportCategoryHarassment: 'Harcèlement',
-        reportCategoryHarassmentDesc: 'Intimidation, menaces ou harcèlement.',
-        reportCategoryFakeNews: 'Fausses infos',
-        reportCategoryFakeNewsDesc: 'Informations fausses, inventées ou trompeuses.',
-        reportCategorySpam: 'Spam',
-        reportCategorySpamDesc: 'Spam, arnaques, promotion répétitive ou appâts à engagement.',
-        reportCategoryViolence: 'Violence',
-        reportCategoryViolenceDesc: 'Violence graphique, menaces dangereuses ou glorification du mal.',
-        reportCategoryOther: 'Autre',
-        reportCategoryOtherDesc: 'Autre chose qui enfreint les règles.',
         noAlerts: 'Aucune alerte',
         usersBackfilled: 'Utilisateurs synchronisés depuis les posts.',
         usernameUpdated: 'Nom mis à jour.',
@@ -3386,30 +3607,6 @@
         drawerProfileDesc: 'إعدادات الحساب',
         drawerAdminDesc: 'إدارة المستخدمين والمحتوى',
         share: 'مشاركة',
-        reportAction: 'إبلاغ',
-        reportModalTitle: 'الإبلاغ عن محتوى',
-        reportModalContentCopy: 'أخبرنا لماذا تقوم بالإبلاغ عن هذا المحتوى.',
-        reportModalPostCopy: 'أخبرنا لماذا تقوم بالإبلاغ عن هذا المنشور.',
-        reportModalCommentCopy: 'أخبرنا لماذا تقوم بالإبلاغ عن هذا التعليق.',
-        reportReasonPlaceholder: 'اكتب سبب الإبلاغ...',
-        reportSubmit: 'إرسال البلاغ',
-        reportWriteReason: 'يرجى كتابة سبب الإبلاغ.',
-        reportSuccessPost: 'تم الإبلاغ عن المنشور.',
-        reportSuccessComment: 'تم الإبلاغ عن التعليق.',
-        reportErrorPost: 'تعذر الإبلاغ عن هذا المنشور.',
-        reportErrorComment: 'تعذر الإبلاغ عن هذا التعليق.',
-        reportCategoryHate: 'كراهية / تمييز',
-        reportCategoryHateDesc: 'خطاب كراهية أو تمييز أو هجمات على الهوية.',
-        reportCategoryHarassment: 'تحرش / مضايقة',
-        reportCategoryHarassmentDesc: 'تنمر أو تهديدات أو مضايقات.',
-        reportCategoryFakeNews: 'أخبار كاذبة',
-        reportCategoryFakeNewsDesc: 'معلومات كاذبة أو ادعاءات مضللة أو خارج السياق.',
-        reportCategorySpam: 'رسائل مزعجة',
-        reportCategorySpamDesc: 'رسائل مزعجة أو احتيال أو ترويج متكرر.',
-        reportCategoryViolence: 'عنف',
-        reportCategoryViolenceDesc: 'عنف صريح أو تهديدات خطيرة أو تمجيد للأذى.',
-        reportCategoryOther: 'أخرى',
-        reportCategoryOtherDesc: 'شيء آخر يخالف القواعد.',
         noAlerts: 'لا توجد إشعارات',
         usersBackfilled: 'تمت مزامنة المستخدمين من المنشورات.',
         usernameUpdated: 'تم تحديث الاسم.',
@@ -3539,10 +3736,10 @@
         homeStat3Desc: 'Match widgets, breaking ticker, and daily updates.',
         homeStat4Title: 'Fan Layer',
         homeStat4Desc: 'Community feed, reactions, and AI-powered discovery.',
-        homeGrowthTitle: 'Turn casual visitors into regular fans',
-        homeGrowthDesc: 'Push your strongest stories through alerts, featured coverage, and community conversations. This area can later connect to email capture, premium alerts, or a breaking-news membership flow.',
+        homeGrowthTitle: 'Stay connected with the game',
+        homeGrowthDesc: 'Get the latest sports news, breaking updates, and join the community discussions. Never miss what matters in Moroccan and global sports.',
         homeGrowthAlertsBtn: 'View Alerts',
-        homeGrowthCommunityBtn: 'Open community',
+        homeGrowthCommunityBtn: 'Join Community',
         articleReactionsTitle: 'Fan reactions',
         articleReactLikeLabel: 'Like this story',
         articleReactFireLabel: 'Big moment',
@@ -3830,22 +4027,6 @@
       $('#footer-about-link').text(t('footerAbout'));
       $('#footer-privacy-link').text(t('footerPrivacy'));
       $('#footer-terms-link').text(t('footerTerms'));
-      $('#report-modal h2').text(t('reportModalTitle'));
-      $('#report-modal-copy').text(t('reportModalContentCopy'));
-      $('#report-reason').attr('placeholder', t('reportReasonPlaceholder'));
-      $('#report-modal .solid-btn').text(t('reportSubmit'));
-      $('#report-category-grid .report-category-btn[data-category="hate"] strong').text(t('reportCategoryHate'));
-      $('#report-category-grid .report-category-btn[data-category="hate"] span').text(t('reportCategoryHateDesc'));
-      $('#report-category-grid .report-category-btn[data-category="harassment"] strong').text(t('reportCategoryHarassment'));
-      $('#report-category-grid .report-category-btn[data-category="harassment"] span').text(t('reportCategoryHarassmentDesc'));
-      $('#report-category-grid .report-category-btn[data-category="fake_news"] strong').text(t('reportCategoryFakeNews'));
-      $('#report-category-grid .report-category-btn[data-category="fake_news"] span').text(t('reportCategoryFakeNewsDesc'));
-      $('#report-category-grid .report-category-btn[data-category="spam"] strong').text(t('reportCategorySpam'));
-      $('#report-category-grid .report-category-btn[data-category="spam"] span').text(t('reportCategorySpamDesc'));
-      $('#report-category-grid .report-category-btn[data-category="violence"] strong').text(t('reportCategoryViolence'));
-      $('#report-category-grid .report-category-btn[data-category="violence"] span').text(t('reportCategoryViolenceDesc'));
-      $('#report-category-grid .report-category-btn[data-category="other"] strong').text(t('reportCategoryOther'));
-      $('#report-category-grid .report-category-btn[data-category="other"] span').text(t('reportCategoryOtherDesc'));
       const mainAuthLabel = auth.currentUser ? t('profileNav') : t('accessHub');
       $('#auth-main-btn, #drawer-auth-main-btn').text(mainAuthLabel);
       $('#ai-quick-morocco').attr('onclick', "askAiQuick(getAiQuickPrompt('morocco'))");
@@ -4529,6 +4710,213 @@
       loadAdminPanel();
     }
 
+
+    const MODERATION_HISTORY_KEY = 'mshModerationHistory';
+
+    function getModerationHistory() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(MODERATION_HISTORY_KEY) || '[]');
+        return Array.isArray(raw) ? raw : [];
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function setModerationHistory(items) {
+      localStorage.setItem(MODERATION_HISTORY_KEY, JSON.stringify(items || []));
+    }
+
+    function pushModerationHistory(entry = {}) {
+      const current = getModerationHistory();
+      current.unshift({
+        id: entry.id || `mh_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        action: entry.action || 'updated',
+        type: entry.type || 'report',
+        targetId: entry.targetId || '',
+        targetDocId: entry.targetDocId || entry.targetId || '',
+        reportId: entry.reportId || '',
+        targetTitle: entry.targetTitle || 'Reported item',
+        reason: entry.reason || '',
+        reportText: entry.reportText || '',
+        postText: entry.postText || '',
+        category: entry.category || '',
+        actor: entry.actor || 'Admin',
+        time: entry.time || Date.now()
+      });
+      setModerationHistory(current.slice(0, 120));
+      renderModerationHistory();
+    }
+
+    function reportCategoryLabel(category) {
+      const map = {
+        hate: 'Hate / Sexism',
+        harassment: 'Harassment',
+        fake_news: 'Fake News',
+        spam: 'Spam',
+        violence: 'Violence',
+        other: 'Other'
+      };
+      return map[category] || 'Other';
+    }
+
+    function selectReportCategory(category) {
+      selectedReportCategory = category || 'other';
+      document.querySelectorAll('#report-category-grid .report-category-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.category === selectedReportCategory);
+      });
+    }
+
+    function openReportModal(type, targetDocId, articleId = null, targetText = '') {
+      currentReportPayload = { type, targetDocId, articleId };
+      reportTargetText = targetText || '';
+      $('#report-reason').val('');
+      $('#report-modal-copy').text(type === 'article_comment' ? 'Tell us why you are reporting this comment.' : 'Tell us why you are reporting this post.');
+      selectReportCategory('other');
+      $('#report-modal').css('display', 'flex');
+    }
+
+    function closeReportModal() {
+      $('#report-modal').hide();
+      currentReportPayload = null;
+      reportTargetText = '';
+    }
+
+    async function submitReport() {
+      if (!auth.currentUser) return openAuth();
+      if (!currentReportPayload?.type || !currentReportPayload?.targetDocId) return;
+      const cleaned = String($('#report-reason').val() || '').trim();
+      if (!cleaned) {
+        alert('Please write your reason.');
+        return;
+      }
+      try {
+        await db.collection('notifications').add({
+          type: 'report',
+          reportType: currentReportPayload.type,
+          targetDocId: currentReportPayload.targetDocId,
+          articleId: currentReportPayload.articleId,
+          reason: cleaned,
+          reportReason: cleaned,
+          category: selectedReportCategory,
+          reportCategory: selectedReportCategory,
+          targetText: reportTargetText || '',
+          reporterId: auth.currentUser.uid,
+          reporterName: auth.currentUser.displayName || auth.currentUser.email || 'Fan',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        closeReportModal();
+        if (currentReportPayload?.type === 'article_comment') {
+          setArticleFeedback('Comment reported.', 'success');
+        } else {
+          showToast('Post reported.', 'success');
+        }
+      } catch (err) {
+        console.error('Submit report failed', err);
+        if (currentReportPayload?.type === 'article_comment') {
+          setArticleFeedback('Could not report this comment.', 'error');
+        } else {
+          showToast('Could not report this post.', 'error');
+        }
+      }
+    }
+
+    function renderModerationHistory() {
+      const list = $('#admin-history-list');
+      const empty = $('#admin-history-empty');
+      const count = $('#admin-history-count');
+      const filter = ($('#admin-history-filter').val() || 'all');
+      if (!list.length) return;
+
+      let items = getModerationHistory().slice();
+      if (filter !== 'all') items = items.filter(item => String(item.action || '') === filter);
+
+      count.html(`<i class="fa-solid fa-clock-rotate-left"></i> ${items.length} action${items.length === 1 ? '' : 's'}`);
+      list.empty();
+
+      if (!items.length) {
+        empty.show();
+        return;
+      }
+      empty.hide();
+
+      items.forEach(item => {
+        const preview = escapeHtml((item.reportText || item.reason || 'No report text available.').slice(0, 140));
+        list.append(`
+          <div class="admin-queue-item admin-history-item-clickable" onclick="openAdminHistoryModal('${item.id}')">
+            <div class="admin-queue-head">
+              <div class="admin-queue-type"><i class="fa-solid fa-shield-halved"></i> ${escapeHtml(String(item.action || 'updated'))}</div>
+              <div class="article-comment-time">${relativeTimeLabel(item.time || Date.now())}</div>
+            </div>
+            <div class="admin-queue-copy"><strong>${escapeHtml(item.targetTitle || 'Reported item')}</strong></div>
+            <div class="admin-queue-meta">Type: ${escapeHtml(String(item.type || 'report'))} • By: ${escapeHtml(item.actor || 'Admin')}</div>
+            <div class="admin-queue-meta" style="margin-top:6px;">${preview}${preview.length >= 140 ? '...' : ''}</div>
+          </div>
+        `);
+      });
+    }
+
+    async function openAdminHistoryModal(historyId) {
+      const item = getModerationHistory().find(entry => String(entry.id) === String(historyId));
+      if (!item) return;
+
+      $('#admin-history-modal-title').text(item.targetTitle || 'Moderation details');
+      $('#admin-history-modal-meta').text(`${String(item.action || 'updated')} • ${String(item.type || 'report')} • ${relativeTimeLabel(item.time || Date.now())}`);
+      $('#admin-history-modal-report').text(item.reportText || item.reason || 'No report text available.');
+      $('#admin-history-modal-post').text(item.postText || 'No content preview available.');
+
+      const tagRow = $('#admin-history-modal-tags');
+      tagRow.empty();
+      if (item.category) {
+        tagRow.append(`<span class="admin-history-modal-tag"><i class="fa-solid fa-flag"></i> ${escapeHtml(reportCategoryLabel(item.category))}</span>`);
+      }
+      tagRow.append(`<span class="admin-history-modal-tag"><i class="fa-solid fa-file-lines"></i> ${escapeHtml(item.type || 'report')}</span>`);
+      $('#admin-history-modal').css('display', 'flex');
+    }
+
+    function closeAdminHistoryModal(event) {
+      if (event && event.target && event.target.id && event.target.id !== 'admin-history-modal') return;
+      $('#admin-history-modal').hide();
+    }
+
+    async function getReportNotificationData(reportId) {
+      try {
+        const snap = await db.collection('notifications').doc(reportId).get();
+        if (!snap.exists) return null;
+        return { id: snap.id, ...snap.data() };
+      } catch (err) {
+        console.error('Get report notification failed', err);
+        return null;
+      }
+    }
+
+
+
+    (function seedModerationHistoryOnce() {
+      try {
+        if (!localStorage.getItem('mshModerationHistorySeeded')) {
+          localStorage.setItem('mshModerationHistorySeeded', '1');
+          const existing = JSON.parse(localStorage.getItem(MODERATION_HISTORY_KEY) || '[]');
+          if (!Array.isArray(existing) || !existing.length) {
+            localStorage.setItem(MODERATION_HISTORY_KEY, JSON.stringify([{
+              id: 'mh_seed',
+              action: 'resolved',
+              type: 'report',
+              targetId: 'seed',
+              targetDocId: '',
+              reportId: '',
+              targetTitle: 'Moderation history is active',
+              reason: 'New admin actions will appear here automatically.',
+              reportText: 'This widget now keeps the original report text for new actions.',
+              postText: 'New reports also store a preview of the reported post or comment.',
+              category: 'other',
+              actor: 'System',
+              time: Date.now()
+            }]));
+          }
+        }
+      } catch (err) {}
+    })();
+
     async function loadAdminPanel(forceRefresh = false) {
       if (!isAdmin()) {
         alert(t('notAllowed'));
@@ -4643,6 +5031,12 @@
           prompt('Copy this link:', url);
         }
       }
+    }
+
+    function sharePostWhatsApp(postId) {
+      const url = buildShareUrl(postId);
+      const text = `MoroccanSportsHub post: ${url}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
     }
 
     function openPostFromUrlIfAny() {
@@ -4797,7 +5191,8 @@ async function loadFeed() {
                 <button class="feed-react-btn ${active.heart ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'heart', '${post.userId}')">❤️ ${post.hearts || 0}</button>
                 <button class="feed-react-btn ${active.fire ? 'active' : ''}" onclick="reactToFeedPost('${post.id}', 'fire', '${post.userId}')">🔥 ${post.fires || 0}</button>
                 <button class="share-btn" onclick="sharePost('${post.id}')"><i class="fa-solid fa-share-nodes"></i> ${t('share')}</button>
-                <button class="feed-report-btn" onclick="reportPost('${post.id}')"><i class="fa-solid fa-flag"></i> ${t('reportAction')}</button>
+                <button class=\"whatsapp-share-btn\" onclick=\"sharePostWhatsApp('${post.id}')\"><i class=\"fa-brands fa-whatsapp\"></i> WhatsApp</button>
+                <button class="feed-report-btn" onclick="reportPost('${post.id}')"><i class="fa-solid fa-flag"></i> Report</button>
               </div>
             </div>
           `;
@@ -5160,8 +5555,8 @@ async function loadFeed() {
         const tagLabel = localizeTagLabel(n.tag) || sportLabel;
         const image = bestImage(n.img, n.title || 'Moroccansportshub');
         return `<div class="mini-card" onclick="openDetails(${n.id})">
-          <div class="mini-card-media" style="margin:-6px -6px 14px;">
-            <img src="${image}" alt="${n.title}" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
+          <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
+            <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
           </div>
           <span class="mini-card-tag">${tagLabel}</span>
           <h3>${n.title}</h3>
@@ -5488,18 +5883,6 @@ async function initNews() {
   }
 }
 
-
-function primeVisibleNewsImages(items = []) {
-      items.slice(0, 6).forEach((item, index) => {
-        const src = bestImage(item && item.img, item && item.title ? item.title : 'Moroccansportshub');
-        if (!src) return;
-        const img = new Image();
-        img.decoding = 'async';
-        if (index === 0) img.fetchPriority = 'high';
-        img.src = src;
-      });
-    }
-
 function renderHome(forceShuffle = false) {
       const recentPool = filterItemsByAge(masterPool, 45);
       const newestPool = sortItemsByNewest(recentPool.length ? recentPool : masterPool);
@@ -5516,7 +5899,6 @@ function renderHome(forceShuffle = false) {
 
       const featured = featuredWindow[featuredIndex];
       const remaining = newestPool.filter(n => n.id !== featured.id);
-      primeVisibleNewsImages([featured, ...remaining]);
       const imgSrc = bestImage(featured.img, featured.title || 'Moroccansportshub');
       const heroSummary = (featured.desc || '').trim();
       const heroCopy = heroSummary.length > 260 ? `${heroSummary.slice(0, 257).trim()}...` : heroSummary;
@@ -5535,7 +5917,7 @@ function renderHome(forceShuffle = false) {
         </div>
         <h1 onclick="openDetails(${featured.id})">${featured.title}</h1>
         <div class="hero-media-wrap" onclick="openDetails(${featured.id})">
-          <img src="${imgSrc}" alt="${featured.title}" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
+          <img src="${imgSrc}" alt="${featured.title}" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
           <div class="hero-floating-badges">
             <span class="breaking-badge"><i class="fa-solid fa-bolt"></i> ${homeLabel('breaking')}</span>
             <span class="trending-badge"><i class="fa-solid fa-fire"></i> ${homeLabel('trending')}</span>
@@ -5589,8 +5971,8 @@ function renderHome(forceShuffle = false) {
         const image = bestImage(n.img, n.title || 'Moroccansportshub');
         return `
           <div class="mini-card" onclick="openDetails(${n.id})">
-            <div class="mini-card-media" style="margin:-6px -6px 14px;">
-              <img src="${image}" alt="${n.title}" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="width:100%; height:170px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
+            <div class="hero-media-wrap" style="margin:-6px -6px 14px; border-radius:18px;">
+              <img src="${image}" alt="${n.title}" loading="lazy" referrerpolicy="no-referrer" style="width:100%; height:170px; object-fit:cover; display:block;" onerror="this.onerror=null;this.src=buildFallbackImageUrl(this.alt||'Moroccansportshub');">
             </div>
             <span class="mini-card-tag"><i class="fa-solid ${badge.icon}"></i>${badge.text}</span>
             <h3>${n.title}</h3>
@@ -5636,6 +6018,40 @@ function renderHome(forceShuffle = false) {
       return `${base}?${params.toString()}`;
     }
 
+
+    function formatArticleAuthorityDate(value) {
+      const millis = value?.toMillis?.() || value;
+      const d = new Date(millis || Date.now());
+      if (Number.isNaN(d.getTime())) return '—';
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function estimateReadingTimeFromText(text) {
+      const words = String(text || '').trim().split(/\s+/).filter(Boolean).length;
+      const minutes = Math.max(1, Math.ceil(words / 180));
+      return `${minutes} min read`;
+    }
+
+    function sourceLabelFromLink(link) {
+      if (!link) return 'MoroccanSportsHub';
+      try {
+        const host = new URL(link).hostname.replace(/^www\./, '');
+        return host || 'MoroccanSportsHub';
+      } catch (err) {
+        return 'MoroccanSportsHub';
+      }
+    }
+
+    function updateArticleAuthorityStrip(item = {}, fallbackTime = Date.now()) {
+      const publishedValue = item.pubDate || item.date || item.time || item.savedAt || fallbackTime;
+      const updatedValue = item.time || item.date || item.pubDate || item.savedAt || fallbackTime;
+      const readingText = item.fullText || item.content || item.desc || ($('#article-body').text() || $('#article-lead').text() || '');
+      $('#article-published-value').text(formatArticleAuthorityDate(publishedValue));
+      $('#article-updated-value').text(relativeTimeLabel(updatedValue));
+      $('#article-reading-value').text(estimateReadingTimeFromText(readingText));
+      $('#article-source-value').text(sourceLabelFromLink(item.link || currentArticleLink || ''));
+    }
+
     async function copyCurrentArticleLink() {
       const url = currentArticlePageUrl();
       try {
@@ -5645,6 +6061,14 @@ function renderHome(forceShuffle = false) {
         console.error('Copy article link failed', err);
         prompt('Copy this link:', url);
       }
+    }
+
+    function shareCurrentArticleWhatsApp() {
+      const url = currentArticlePageUrl();
+      const title = ($('#article-title').text() || 'MoroccanSportsHub article').trim();
+      const text = `${title} ${url}`.trim();
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+      setArticleFeedback('Opened WhatsApp share.', 'success');
     }
 
     function getMostReadArticles(limit = 5) {
@@ -5700,46 +6124,27 @@ function renderHome(forceShuffle = false) {
 
     async function reportPost(postId) {
       if (!auth.currentUser) return openAuth();
-      const reason = prompt('Why are you reporting this post?');
-      if (reason === null) return;
-      const cleaned = String(reason || '').trim();
       try {
-        await db.collection('notifications').add({
-          type: 'report',
-          reportType: 'post',
-          targetDocId: postId,
-          reason: cleaned,
-          reporterId: auth.currentUser.uid,
-          reporterName: auth.currentUser.displayName || auth.currentUser.email || 'Fan',
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        alert('Post reported.');
+        const postSnap = await db.collection('posts').doc(postId).get();
+        const post = postSnap.exists ? (postSnap.data() || {}) : {};
+        const targetText = post.text || post.content || post.body || post.caption || post.desc || post.title || '';
+        openReportModal('post', postId, null, targetText);
       } catch (err) {
-        console.error('Report post failed', err);
-        alert('Could not report this post.');
+        console.error('Open report post failed', err);
+        openReportModal('post', postId, null, '');
       }
     }
 
     async function reportArticleComment(commentId) {
       if (!auth.currentUser) return openAuth();
-      const reason = prompt('Why are you reporting this comment?');
-      if (reason === null) return;
-      const cleaned = String(reason || '').trim();
       try {
-        await db.collection('notifications').add({
-          type: 'report',
-          reportType: 'article_comment',
-          targetDocId: commentId,
-          articleId: currentArticleId,
-          reason: cleaned,
-          reporterId: auth.currentUser.uid,
-          reporterName: auth.currentUser.displayName || auth.currentUser.email || 'Fan',
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        setArticleFeedback('Comment reported.', 'success');
+        const commentSnap = await db.collection('posts').doc(commentId).get();
+        const comment = commentSnap.exists ? (commentSnap.data() || {}) : {};
+        const targetText = comment.text || comment.content || comment.body || comment.comment || comment.message || '';
+        openReportModal('article_comment', commentId, currentArticleId, targetText);
       } catch (err) {
-        console.error('Report article comment failed', err);
-        setArticleFeedback('Could not report this comment.', 'error');
+        console.error('Open report comment failed', err);
+        openReportModal('article_comment', commentId, currentArticleId, '');
       }
     }
 
@@ -5747,7 +6152,21 @@ function renderHome(forceShuffle = false) {
 async function dismissModerationReport(reportId) {
       if (!isAdmin()) return;
       try {
+        const report = await getReportNotificationData(reportId);
         await db.collection('notifications').doc(reportId).delete();
+        pushModerationHistory({
+          action: 'dismissed',
+          type: report?.reportType || 'report',
+          targetId: reportId,
+          targetDocId: report?.targetDocId || '',
+          reportId,
+          targetTitle: 'Reported item',
+          reason: 'Report dismissed by admin.',
+          reportText: report?.reportReason || report?.reason || '',
+          postText: report?.targetText || '',
+          category: report?.reportCategory || report?.category || '',
+          actor: auth.currentUser?.email || 'Admin'
+        });
         loadModerationQueue();
         showToast('Report dismissed.', 'success');
       } catch (err) {
@@ -5759,11 +6178,25 @@ async function dismissModerationReport(reportId) {
     async function resolveModerationReport(reportId) {
       if (!isAdmin()) return;
       try {
+        const report = await getReportNotificationData(reportId);
         await db.collection('notifications').doc(reportId).set({
           status: 'resolved',
           resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
           resolvedBy: auth.currentUser?.email || 'admin'
         }, { merge: true });
+        pushModerationHistory({
+          action: 'resolved',
+          type: report?.reportType || 'report',
+          targetId: reportId,
+          targetDocId: report?.targetDocId || '',
+          reportId,
+          targetTitle: 'Reported item',
+          reason: 'Report resolved by admin.',
+          reportText: report?.reportReason || report?.reason || '',
+          postText: report?.targetText || '',
+          category: report?.reportCategory || report?.category || '',
+          actor: auth.currentUser?.email || 'Admin'
+        });
         loadModerationQueue();
         showToast('Report resolved.', 'success');
       } catch (err) {
@@ -5796,6 +6229,8 @@ async function dismissModerationReport(reportId) {
       if (!ok) return;
 
       try {
+        const report = await getReportNotificationData(reportId);
+
         await db.collection('users').doc(details.userId).set({
           banned: true
         }, { merge: true });
@@ -5807,6 +6242,20 @@ async function dismissModerationReport(reportId) {
           actionTaken: 'banned_user',
           targetUserId: details.userId
         }, { merge: true });
+
+        pushModerationHistory({
+          action: 'banned',
+          type: reportType || 'user',
+          targetId: details.userId || '',
+          targetDocId: targetDocId || '',
+          reportId,
+          targetTitle: details.username || details.userId || 'User',
+          reason: 'User banned from moderation queue.',
+          reportText: report?.reportReason || report?.reason || '',
+          postText: report?.targetText || '',
+          category: report?.reportCategory || report?.category || '',
+          actor: auth.currentUser?.email || 'Admin'
+        });
 
         loadModerationQueue();
         if ($('#feed-page').hasClass('active')) loadFeed();
@@ -5822,10 +6271,26 @@ async function dismissModerationReport(reportId) {
       const ok = confirm('Delete the reported content?');
       if (!ok) return;
       try {
+        const report = await getReportNotificationData(reportId);
         if (reportType === 'post' || reportType === 'article_comment') {
           await db.collection('posts').doc(targetDocId).delete();
         }
         await db.collection('notifications').doc(reportId).delete();
+
+        pushModerationHistory({
+          action: 'removed',
+          type: reportType || 'content',
+          targetId: targetDocId || '',
+          targetDocId: targetDocId || '',
+          reportId,
+          targetTitle: 'Reported content',
+          reason: 'Reported content removed by admin.',
+          reportText: report?.reportReason || report?.reason || '',
+          postText: report?.targetText || '',
+          category: report?.reportCategory || report?.category || '',
+          actor: auth.currentUser?.email || 'Admin'
+        });
+
         loadModerationQueue();
         if ($('#feed-page').hasClass('active')) loadFeed();
         if ($('#article-page').hasClass('active')) loadArticleComments();
@@ -5880,7 +6345,7 @@ async function dismissModerationReport(reportId) {
               <span class="post-time">${escapeHtml(relativeTimeLabel(item.createdAt?.toMillis?.() || item.createdAt?.seconds * 1000 || Date.now()))}</span>
             </div>
             <div class="admin-queue-copy">${escapeHtml(item.reason || 'No reason provided.')}</div>
-            <div class="admin-queue-meta">Reported by ${escapeHtml(item.reporterName || 'Fan')}</div>
+            ${(() => { const reportCategory = item.reportCategory || item.category || ''; return `<div class="admin-queue-meta">Reported by ${escapeHtml(item.reporterName || 'Fan')}</div>${reportCategory ? `<div class="admin-queue-category-badge"><i class="fa-solid fa-flag"></i>${escapeHtml(reportCategoryLabel(reportCategory))}</div>` : ''}`; })()}
             <div class="admin-queue-actions">
               <button class="admin-queue-btn" onclick="openModerationTarget('${item.reportType || ''}', '${item.targetDocId || ''}', ${item.articleId != null ? Number(item.articleId) : 'null'})">Open</button>
               <button class="admin-queue-btn" onclick="banModerationTargetUser('${item.id}', '${item.reportType || ''}', '${item.targetDocId || ''}')">Ban User</button>
@@ -6022,6 +6487,7 @@ async function dismissModerationReport(reportId) {
       $('#article-body').text(saved.desc || homeLabel('fallbackSummary'));
       $('#article-why').text('Saved from your personal reading list.');
       $('#article-context').text(`${homeLabel(saved.sport || 'football')} • ${saved.region || homeLabel('global')} • ${relativeTimeLabel(saved.savedAt || Date.now())}`);
+      updateArticleAuthorityStrip(saved, saved.savedAt || Date.now());
       const image = bestImage(saved.img, saved.title || 'Moroccansportshub');
       if (image) {
         $('#article-image').attr('src', image).attr('alt', saved.title || 'story image');
@@ -6041,23 +6507,80 @@ async function dismissModerationReport(reportId) {
       loadArticleComments();
     }
 
-    function renderSavedArticles() {
-      const items = getSavedArticles();
-      if (!items.length) {
-        $('#saved-articles-list').empty();
-        $('#saved-articles-empty').show();
+    
+    function clearAllSavedArticles() {
+      const saved = getSavedArticles();
+      if (!saved.length) {
+        showToast('No saved articles to clear.', 'error');
         return;
       }
-      $('#saved-articles-empty').hide();
-      $('#saved-articles-list').html(items.map(item => `
-        <div class="saved-article-item">
-          <div class="saved-article-copy">
-            <strong>${escapeHtml(item.title || 'Untitled story')}</strong>
-            <span>${escapeHtml(safeSnippet(item.desc || 'Saved from MoroccanSportsHub.', 110))}</span>
+      const ok = window.confirm(`Remove all ${saved.length} saved articles?`);
+      if (!ok) return;
+      setSavedArticles([]);
+      renderSavedArticles();
+      if (typeof syncArticleSaveButton === 'function') syncArticleSaveButton();
+      showToast('Saved articles cleared.', 'success');
+    }
+
+    function removeSavedArticle(articleId) {
+      const saved = getSavedArticles();
+      const next = saved.filter(item => String(item.id) !== String(articleId));
+      setSavedArticles(next);
+      renderSavedArticles();
+      if (String(currentArticleId) === String(articleId) && typeof syncArticleSaveButton === 'function') {
+        syncArticleSaveButton();
+      }
+      showToast('Saved article removed.', 'success');
+    }
+
+function renderSavedArticles() {
+      const list = $('#saved-articles-list');
+      const empty = $('#saved-articles-empty');
+      const countBadge = $('#saved-articles-count-badge');
+      const clearBtn = $('#saved-clear-all-btn');
+      const sortValue = ($('#saved-articles-sort').val() || 'newest');
+
+      if (!list.length) return;
+
+      list.empty();
+
+      const saved = getSavedArticles().slice();
+
+      if (sortValue === 'oldest') {
+        saved.sort((a, b) => (a.savedAt || 0) - (b.savedAt || 0));
+      } else if (sortValue === 'title') {
+        saved.sort((a, b) => String(a.title || '').localeCompare(String(b.title || '')));
+      } else {
+        saved.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0));
+      }
+
+      if (countBadge.length) {
+        countBadge.html(`<i class="fa-regular fa-bookmark"></i> ${saved.length} saved`);
+      }
+
+      if (!saved.length) {
+        empty.show();
+        list.hide();
+        if (clearBtn.length) clearBtn.prop('disabled', true).css('opacity', '.5');
+        return;
+      }
+
+      empty.hide();
+      list.show();
+      if (clearBtn.length) clearBtn.prop('disabled', false).css('opacity', '1');
+
+      saved.forEach(item => {
+        const meta = `${homeLabel(item.sport || 'football')} • ${item.region || homeLabel('global')} • ${relativeTimeLabel(item.savedAt || Date.now())}`;
+        list.append(`
+          <div class="saved-article-item">
+            <div class="saved-article-copy" role="button" tabindex="0" onclick="openSavedArticle('${item.id}')">
+              <strong>${escapeHtml(item.title || 'Untitled article')}</strong>
+              <span>${escapeHtml(meta)}</span>
+            </div>
+            <button type="button" class="saved-article-btn" onclick="event.preventDefault(); event.stopPropagation(); removeSavedArticle('${item.id}')">Remove</button>
           </div>
-          <button class="saved-article-btn" onclick="openSavedArticle('${String(item.id).replace(/'/g, "\'")}')">Open</button>
-        </div>
-      `).join(''));
+        `);
+      });
     }
 
     function canDeleteArticleComment(item) {
@@ -6447,6 +6970,7 @@ function openDetails(id, replaceHistory = false) {
       $('#article-body').text(n.desc || homeLabel('fallbackSummary'));
       $('#article-why').text(extra.why);
       $('#article-context').text(extra.context);
+      updateArticleAuthorityStrip(n, n.time || n.date || n.pubDate || Date.now());
       renderRelatedArticles(n);
       updateArticleSeo(n);
       updateArticleRoute(n, replaceHistory);
@@ -6751,10 +7275,41 @@ function openDetails(id, replaceHistory = false) {
 
     const AI_BACKEND_URL = 'https://moroccansportshub-backend-production.up.railway.app/api/ask';
 
-    async function askBackendAI(query) {
-      const siteContext = getWebsiteMatches(query).map(x =>
-        `${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`
-      );
+    function getAiLanguageName() {
+      return currentLang === 'fr' ? 'French' : currentLang === 'ar' ? 'Arabic' : 'English';
+    }
+
+    function getAiReplyInstruction() {
+      if (currentLang === 'fr') {
+        return 'Reply only in French. Do not use English unless the user explicitly asks for English.';
+      }
+      if (currentLang === 'ar') {
+        return 'أجب باللغة العربية فقط. لا تستخدم الإنجليزية إلا إذا طلب المستخدم ذلك صراحة.';
+      }
+      return 'Reply only in English.';
+    }
+
+    function buildLocalizedAiQuestion(query) {
+      const clean = String(query || '').trim();
+      if (!clean) return clean;
+      return `${getAiReplyInstruction()}\n\nUser question: ${clean}`;
+    }
+
+    function getAiTranslateInstruction(text) {
+      const clean = String(text || '').trim();
+      if (!clean) return clean;
+      if (currentLang === 'fr') {
+        return `Translate the following answer into French only. Keep the meaning accurate and do not add extra facts.\n\nAnswer: ${clean}`;
+      }
+      if (currentLang === 'ar') {
+        return `ترجم الإجابة التالية إلى العربية فقط. حافظ على المعنى بدقة ولا تضف معلومات جديدة.\n\nالإجابة: ${clean}`;
+      }
+      return clean;
+    }
+
+    async function translateAiAnswerIfNeeded(answer) {
+      const clean = String(answer || '').trim();
+      if (!clean || currentLang === 'en') return clean;
 
       const res = await fetch(AI_BACKEND_URL, {
         method: 'POST',
@@ -6762,18 +7317,55 @@ function openDetails(id, replaceHistory = false) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          question: query,
-          siteContext
+          question: getAiTranslateInstruction(clean),
+          rawQuestion: clean,
+          siteContext: [],
+          language: currentLang,
+          replyLanguage: currentLang,
+          locale: getAiLanguageName(),
+          systemPrompt: getAiReplyInstruction()
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data?.error || (currentLang === 'fr' ? 'La traduction IA a échoué.' : 'فشل تحويل الإجابة إلى اللغة المطلوبة.'));
+      }
+
+      return String(data?.answer || clean).trim() || clean;
+    }
+
+    async function askBackendAI(query) {
+      const siteContext = getWebsiteMatches(query).map(x =>
+        `${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`
+      );
+
+      const localizedQuestion = buildLocalizedAiQuestion(query);
+
+      const res = await fetch(AI_BACKEND_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          question: localizedQuestion,
+          rawQuestion: query,
+          siteContext,
+          language: currentLang,
+          replyLanguage: currentLang,
+          locale: getAiLanguageName(),
+          systemPrompt: getAiReplyInstruction()
         })
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data?.error || 'Backend AI request failed.');
+        throw new Error(data?.error || (currentLang === 'fr' ? 'La requête IA a échoué.' : currentLang === 'ar' ? 'فشل طلب الذكاء الاصطناعي.' : 'Backend AI request failed.'));
       }
 
-      return data?.answer || 'No answer returned.';
+      const baseAnswer = data?.answer || (currentLang === 'fr' ? 'Aucune réponse retournée.' : currentLang === 'ar' ? 'لم يتم إرجاع أي إجابة.' : 'No answer returned.');
+      return await translateAiAnswerIfNeeded(baseAnswer);
     }
 
     async function sendAiMessage(showWebsiteCards = false) {
@@ -6930,6 +7522,64 @@ function loadMatchesWidget(forceReload = false) {
     window.deleteArticleComment = deleteArticleComment;
   </script>
   <div id="toast-stack" class="toast-stack"></div>
+  <div id="report-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeReportModal()">&times;</span>
+      <h2 style="color:var(--cyan); margin-bottom:14px;">Report Content</h2>
+      <p id="report-modal-copy" style="color:var(--dim); line-height:1.65; margin-bottom:12px;">Tell us why you are reporting this content.</p>
+      <div class="report-category-grid" id="report-category-grid">
+        <button type="button" class="report-category-btn" data-category="hate" onclick="selectReportCategory('hate')">
+          <strong>Hate / Sexism</strong>
+          <span>Hate speech, sexism, or identity-based attacks.</span>
+        </button>
+        <button type="button" class="report-category-btn" data-category="harassment" onclick="selectReportCategory('harassment')">
+          <strong>Harassment</strong>
+          <span>Bullying, threats, harassment, or intimidation.</span>
+        </button>
+        <button type="button" class="report-category-btn" data-category="fake_news" onclick="selectReportCategory('fake_news')">
+          <strong>Fake News</strong>
+          <span>False information, made-up claims, or misleading context.</span>
+        </button>
+        <button type="button" class="report-category-btn" data-category="spam" onclick="selectReportCategory('spam')">
+          <strong>Spam</strong>
+          <span>Spam, scams, repetitive promotion, or engagement bait.</span>
+        </button>
+        <button type="button" class="report-category-btn" data-category="violence" onclick="selectReportCategory('violence')">
+          <strong>Violence</strong>
+          <span>Graphic violence, dangerous threats, or glorifying harm.</span>
+        </button>
+        <button type="button" class="report-category-btn" data-category="other" onclick="selectReportCategory('other')">
+          <strong>Other</strong>
+          <span>Something else that breaks the rules.</span>
+        </button>
+      </div>
+      <textarea id="report-reason" placeholder="Write your reason..." style="min-height:120px;"></textarea>
+      <button class="solid-btn" style="width:100%; margin-top:12px;" onclick="submitReport()">Submit Report</button>
+    </div>
+  </div>
+
+  <div class="admin-history-modal" id="admin-history-modal" onclick="closeAdminHistoryModal(event)">
+    <div class="admin-history-modal-card" onclick="event.stopPropagation()">
+      <div class="admin-history-modal-head">
+        <div>
+          <div class="admin-history-modal-title" id="admin-history-modal-title">Moderation details</div>
+          <div class="admin-queue-meta" id="admin-history-modal-meta">Review full report and content details.</div>
+        </div>
+        <button type="button" class="admin-history-modal-close" onclick="closeAdminHistoryModal()">Close</button>
+      </div>
+      <div class="admin-history-modal-tag-row" id="admin-history-modal-tags"></div>
+      <div class="admin-history-modal-grid">
+        <div class="admin-history-modal-box">
+          <h4>Report</h4>
+          <p id="admin-history-modal-report">No report text available.</p>
+        </div>
+        <div class="admin-history-modal-box">
+          <h4>Reported Content</h4>
+          <p id="admin-history-modal-post">No content preview available.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
-
