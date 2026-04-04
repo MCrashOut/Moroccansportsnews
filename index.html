@@ -4925,19 +4925,20 @@ async function loadFeed() {
     }
 
     function renderRecentSearches() {
-      const wrap = $('#search-recent-wrap');
-      if (!wrap.length) return;
+      const wraps = [$('#search-recent-wrap'), $('#search-overlay-recent-wrap')];
       const items = getRecentSearches();
-      if (!items.length) {
-        wrap.html('');
-        return;
-      }
-      wrap.empty();
-      items.forEach(item => {
-        const btn = $('<button type="button" class="search-recent-chip"></button>');
-        btn.text(item);
-        btn.on('click', () => runRecentSearch(item));
-        wrap.append(btn);
+
+      wraps.forEach(wrap => {
+        if (!wrap.length) return;
+        wrap.empty();
+        if (!items.length) return;
+
+        items.forEach(item => {
+          const btn = $('<button type="button" class="search-recent-chip"></button>');
+          btn.text(item);
+          btn.on('click', () => runRecentSearch(item));
+          wrap.append(btn);
+        });
       });
     }
 
@@ -5015,7 +5016,8 @@ async function loadFeed() {
     }
 
     function handleSearch(e) {
-      const q = String((e.target && e.target.value) || '').trim().toLowerCase();
+      const rawValue = String((e.target && e.target.value) || '').trim();
+      const q = rawValue.toLowerCase();
       const resultsCount = $('#search-results-count');
 
       if (q.length > 1) {
@@ -5037,8 +5039,8 @@ async function loadFeed() {
           results || `<div class="mini-card"><h3>No results found</h3><p>Try a club, league, player, sport, or keyword from the article summary.</p></div>`
         );
 
-        resultsCount.text(scored.length ? `${scored.length} search result${scored.length === 1 ? '' : 's'} for "${q}"` : `No results for "${q}"`);
-        pushRecentSearch(q);
+        resultsCount.text(scored.length ? `${scored.length} search result${scored.length === 1 ? '' : 's'} for "${rawValue}"` : `No results for "${rawValue}"`);
+        pushRecentSearch(rawValue);
       } else {
         $('#search-results-area').hide();
         $('#standard-home-layout').show();
