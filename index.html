@@ -3859,10 +3859,10 @@
         homeStat3Desc: 'Widgets de matchs, bandeau urgent et mises à jour quotidiennes.',
         homeStat4Title: 'Couche fans',
         homeStat4Desc: 'Fil communautaire, réactions et découverte assistée par IA.',
-        homeGrowthTitle: 'Transformez les visiteurs occasionnels en fans réguliers',
-        homeGrowthDesc: 'Mettez vos meilleures histoires en avant via les alertes, la une et les conversations de la communauté. Cette zone pourra ensuite se connecter à la collecte d’e-mails, aux alertes premium ou à une formule d’adhésion breaking news.',
+        homeGrowthTitle: 'Restez connecté au jeu',
+        homeGrowthDesc: 'Retrouvez les dernières actualités sportives, les mises à jour importantes et rejoignez les discussions de la communauté. Ne manquez jamais l’essentiel du sport marocain et mondial.',
         homeGrowthAlertsBtn: 'Voir les alertes',
-        homeGrowthCommunityBtn: 'Ouvrir la communauté',
+        homeGrowthCommunityBtn: 'Rejoindre la communauté',
         articleReactionsTitle: 'Réactions des fans',
         articleReactLikeLabel: 'Aimer cette actu',
         articleReactFireLabel: 'Grand moment',
@@ -3934,7 +3934,11 @@
     });
 
     function t(key) {
-      return (uiText[currentLang] && uiText[currentLang][key]) || uiText.en[key] || key;
+      return (uiText[currentLang] && uiText[currentLang][key])
+        || (typeof extraUiText !== 'undefined' && extraUiText[currentLang] && extraUiText[currentLang][key])
+        || uiText.en[key]
+        || (typeof extraUiText !== 'undefined' && extraUiText.en && extraUiText.en[key])
+        || key;
     }
 
     function getAiQuickPrompt(kind) {
@@ -4037,6 +4041,7 @@
       $('#ai-header-title').text(t('aiTitle'));
       $('#ai-welcome').text(t('aiWelcome'));
       $('#ai-input').attr('placeholder', t('aiInputPlaceholder'));
+      $('#ai-input').attr('aria-label', t('aiInputPlaceholder'));
       $('#ai-quick-morocco').text(t('aiQuickMorocco'));
       $('#ai-quick-global').text(t('aiQuickGlobal'));
       $('#ai-quick-tennis').text(t('aiQuickTennis'));
