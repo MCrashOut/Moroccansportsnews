@@ -2076,66 +2076,6 @@
       }
     }
 
-    .search-results-head {
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:center;
-      flex-wrap:wrap;
-      margin-bottom:14px;
-    }
-    .search-results-count {
-      color: var(--dim);
-      font-size: .82rem;
-      line-height: 1.5;
-    }
-    .search-recent-wrap {
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-.search-recent-title {
-      color: var(--dim);
-      font-size: .72rem;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      margin-right: 4px;
-    }
-    .search-recent-chip {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: .72rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .search-recent-chip:hover {
-      border-color: rgba(0,242,254,.28);
-      color: var(--cyan);
-    }
-    .search-match-strip {
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-    .search-match-chip {
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:7px 10px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      color: var(--dim);
-      font-size:.72rem;
-      font-weight:700;
-    }
-
     .admin-history-toolbar {
       display:flex;
       justify-content:space-between;
@@ -2704,13 +2644,7 @@
 
   <main id="main-content">
     <section id="home-page" class="page active">
-      <div id="search-results-area" style="display:none; margin-bottom:22px;">
-        <div class="search-results-head">
-          <div class="search-results-count" id="search-results-count">Start typing to search.</div>
-          <div class="search-recent-wrap" id="search-recent-wrap"></div>
-        </div>
-        <div class="news-grid" id="search-output-grid"></div>
-      </div>
+      <div id="search-results-area" style="display:none; margin-bottom:22px;"><div class="news-grid" id="search-output-grid"></div></div>
 
       <div class="home-stats-strip" id="home-stats-strip" aria-label="Platform highlights">
         <div class="home-stat-card">
@@ -2989,6 +2923,22 @@
           <div id="admin-queue-list" class="admin-queue-list"></div>
         </div>
         <div id="admin-users-list"></div>
+        <div class="mini-card" id="admin-history-wrap">
+          <h3 style="margin-bottom:8px;">Moderation History</h3>
+          <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Resolved, dismissed, banned, and removed actions will appear here.</p>
+          <div class="admin-history-toolbar">
+            <div class="admin-history-badge" id="admin-history-count"><i class="fa-solid fa-clock-rotate-left"></i> 0 actions</div>
+            <select id="admin-history-filter" class="admin-history-filter" onchange="renderModerationHistory()">
+              <option value="all">All actions</option>
+              <option value="resolved">Resolved</option>
+              <option value="dismissed">Dismissed</option>
+              <option value="banned">Banned users</option>
+              <option value="removed">Removed content</option>
+            </select>
+          </div>
+          <div id="admin-history-empty" class="admin-history-empty">No moderation history yet.</div>
+          <div id="admin-history-list" class="admin-queue-list"></div>
+        </div>
       </div>
     </section>
   </main>
@@ -4923,100 +4873,19 @@ async function loadFeed() {
 
     function toggleSearch() {
       const overlay = $('#search-overlay');
-      const input = $('#active-search-input');
 
       if (overlay.is(':visible')) {
-        input.val('');
+        $('#active-search-input').val('');
         $('#search-results-area').hide();
         $('#standard-home-layout').show();
         $('#search-output-grid').empty();
-        $('#search-results-count').text('Start typing to search.');
-        renderRecentSearches();
         overlay.hide();
       } else {
         overlay.css('display', 'flex');
-        renderRecentSearches();
-        input.focus();
+        $('#active-search-input').focus();
       }
     }
 
-
-
-    const RECENT_SEARCHES_KEY = 'mshRecentSearches';
-
-    function getRecentSearches() {
-      try {
-        const raw = JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY) || '[]');
-        return Array.isArray(raw) ? raw : [];
-      } catch (err) {
-        return [];
-      }
-    }
-
-    function setRecentSearches(items) {
-      localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(items || []));
-    }
-
-    function pushRecentSearch(query) {
-      const q = String(query || '').trim();
-      if (!q) return;
-      const lowered = q.toLowerCase();
-      const existing = getRecentSearches().filter(item => String(item || '').toLowerCase() !== lowered);
-      existing.unshift(q);
-      setRecentSearches(existing.slice(0, 6));
-      renderRecentSearches();
-    }
-
-    function runRecentSearch(query) {
-      const q = String(query || '').trim();
-      if (!q) return;
-      $('#active-search-input').val(q);
-      handleSearch({ target: { value: q } });
-    }
-
-    function renderRecentSearches() {
-      const wraps = [$('#search-recent-wrap'), $('#search-overlay-recent-wrap')];
-      const items = getRecentSearches();
-
-      wraps.forEach(wrap => {
-        if (!wrap.length) return;
-        wrap.empty();
-        if (!items.length) return;
-
-        wrap.append($('<span class="search-recent-title">Recent</span>'));
-
-        items.forEach(item => {
-          const btn = $('<button type="button" class="search-recent-chip"></button>');
-          btn.text(item);
-          btn.on('click', () => runRecentSearch(item));
-          wrap.append(btn);
-        });
-      });
-    }
-
-    function searchMatchReasons(item, rawQuery) {
-      const q = String(rawQuery || '').trim().toLowerCase();
-      if (!q) return [];
-      const reasons = [];
-      const title = String(item.title || '').toLowerCase();
-      const desc = String(item.desc || '').toLowerCase();
-      const sport = String(item.sport || '').toLowerCase();
-      const region = String(item.region || '').toLowerCase();
-      const tag = String(item.tag || '').toLowerCase();
-
-      if (title.includes(q)) reasons.push('Title match');
-      if (desc.includes(q)) reasons.push('Summary match');
-      if (sport.includes(q) || tag.includes(q)) reasons.push('Category match');
-      if (region.includes(q)) reasons.push('Region match');
-
-      q.split(/\s+/).filter(Boolean).forEach(token => {
-        if ((title.includes(token) || desc.includes(token)) && !reasons.includes(`Keyword: ${token}`)) {
-          reasons.push(`Keyword: ${token}`);
-        }
-      });
-
-      return reasons.slice(0, 3);
-    }
 
     function scoreSearchArticle(item, rawQuery) {
       const q = String(rawQuery || '').trim().toLowerCase();
@@ -5048,13 +4917,12 @@ async function loadFeed() {
       return score;
     }
 
-    function buildSearchResultCard(n, rawQuery = '') {
+    function buildSearchResultCard(n) {
       const title = escapeHtml(n.title || '');
       const desc = escapeHtml((n.desc || '').trim());
       const safeDesc = desc.length > 150 ? desc.slice(0, 147) + '...' : desc;
       const badge = escapeHtml(localizeTagLabel(n.tag) || homeLabel(n.region === 'morocco' ? 'morocco' : (n.sport || 'football')));
       const metaRight = escapeHtml(homeLabel(n.sport || 'football'));
-      const reasons = searchMatchReasons(n, rawQuery).map(reason => `<span class="search-match-chip"><i class="fa-solid fa-bullseye"></i>${escapeHtml(reason)}</span>`).join('');
       return `<div class="mini-card" onclick="openDetails(${JSON.stringify(n.id)})">
         <div class="mini-card-tag"><i class="fa-solid fa-magnifying-glass"></i>${badge}</div>
         <h3>${title}</h3>
@@ -5063,45 +4931,34 @@ async function loadFeed() {
           <span class="hero-pill"><i class="fa-solid fa-earth-africa"></i>${escapeHtml(homeLabel(n.region === 'morocco' ? 'morocco' : 'global'))}</span>
           <span class="hero-pill"><i class="fa-solid fa-layer-group"></i>${metaRight}</span>
         </div>
-        ${reasons ? `<div class="search-match-strip">${reasons}</div>` : ''}
       </div>`;
     }
 
     function handleSearch(e) {
-      const rawValue = String((e.target && e.target.value) || '').trim();
-      const q = rawValue.toLowerCase();
-      const resultsCount = $('#search-results-count');
-
+      const q = (e.target.value || '').trim().toLowerCase();
       if (q.length > 1) {
         switchPage('home');
         $('#search-results-area').show();
         $('#standard-home-layout').hide();
 
-        const scored = masterPool
+        const results = masterPool
           .map(item => ({ item, score: scoreSearchArticle(item, q) }))
           .filter(entry => entry.score > 0)
           .sort((a, b) => {
             const dateDiff = (new Date(b.item.pubDate || b.item.time || 0) - new Date(a.item.pubDate || a.item.time || 0));
             return b.score - a.score || dateDiff;
           })
-          .slice(0, 18);
+          .slice(0, 18)
+          .map(entry => buildSearchResultCard(entry.item))
+          .join('');
 
-        const results = scored.map(entry => buildSearchResultCard(entry.item, q)).join('');
         $('#search-output-grid').html(
           results || `<div class="mini-card"><h3>No results found</h3><p>Try a club, league, player, sport, or keyword from the article summary.</p></div>`
         );
-
-        if (resultsCount.length) {
-          resultsCount.text(scored.length ? `${scored.length} search result${scored.length === 1 ? '' : 's'} for "${rawValue}"` : `No results for "${rawValue}"`);
-        }
-
-        pushRecentSearch(rawValue);
       } else {
         $('#search-results-area').hide();
         $('#standard-home-layout').show();
         $('#search-output-grid').empty();
-        if (resultsCount.length) resultsCount.text('Start typing to search.');
-        renderRecentSearches();
       }
     }
 
@@ -5900,6 +5757,7 @@ async function dismissModerationReport(reportId) {
       try {
         await db.collection('notifications').doc(reportId).delete();
         loadModerationQueue();
+        pushModerationHistory({ action: 'dismissed', type: 'report', targetId: reportId, targetTitle: 'Reported item', reason: 'Report dismissed by admin.', actor: auth.currentUser?.email || 'Admin' });
         showToast('Report dismissed.', 'success');
       } catch (err) {
         console.error('Dismiss report failed', err);
@@ -5961,6 +5819,7 @@ async function dismissModerationReport(reportId) {
 
         loadModerationQueue();
         if ($('#feed-page').hasClass('active')) loadFeed();
+        pushModerationHistory({ action: 'banned', type: 'user', targetId: details.userId || '', targetTitle: details.userId || 'User', reason: 'User banned from moderation queue.', actor: auth.currentUser?.email || 'Admin' });
         showToast('User banned from queue.', 'success');
       } catch (err) {
         console.error('Ban target user failed', err);
@@ -5980,6 +5839,7 @@ async function dismissModerationReport(reportId) {
         loadModerationQueue();
         if ($('#feed-page').hasClass('active')) loadFeed();
         if ($('#article-page').hasClass('active')) loadArticleComments();
+        pushModerationHistory({ action: 'removed', type: reportType || 'content', targetId: targetDocId || '', targetTitle: 'Reported content', reason: 'Reported content removed by admin.', actor: auth.currentUser?.email || 'Admin' });
         showToast('Reported content removed.', 'success');
       } catch (err) {
         console.error('Remove reported content failed', err);
@@ -6006,6 +5866,106 @@ async function dismissModerationReport(reportId) {
         openDetails(Number(articleId));
       }
     }
+
+
+    const MODERATION_HISTORY_KEY = 'mshModerationHistory';
+
+    function getModerationHistory() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(MODERATION_HISTORY_KEY) || '[]');
+        return Array.isArray(raw) ? raw : [];
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function setModerationHistory(items) {
+      localStorage.setItem(MODERATION_HISTORY_KEY, JSON.stringify(items || []));
+    }
+
+    function pushModerationHistory(entry = {}) {
+      const current = getModerationHistory();
+      current.unshift({
+        id: entry.id || `mh_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        action: entry.action || 'updated',
+        type: entry.type || 'report',
+        targetId: entry.targetId || '',
+        targetTitle: entry.targetTitle || 'Moderated item',
+        reason: entry.reason || '',
+        actor: entry.actor || 'Admin',
+        time: entry.time || Date.now()
+      });
+      setModerationHistory(current.slice(0, 120));
+      renderModerationHistory();
+    }
+
+    function renderModerationHistory() {
+      const list = $('#admin-history-list');
+      const empty = $('#admin-history-empty');
+      const count = $('#admin-history-count');
+      const filter = ($('#admin-history-filter').val() || 'all');
+
+      if (!list.length) return;
+
+      let items = getModerationHistory().slice();
+
+      if (filter !== 'all') {
+        items = items.filter(item => String(item.action || '') === filter);
+      }
+
+      if (count.length) {
+        count.html(`<i class="fa-solid fa-clock-rotate-left"></i> ${items.length} action${items.length === 1 ? '' : 's'}`);
+      }
+
+      list.empty();
+
+      if (!items.length) {
+        empty.show();
+        return;
+      }
+
+      empty.hide();
+
+      items.forEach(item => {
+        const actionLabel = escapeHtml(String(item.action || 'updated'));
+        const typeLabel = escapeHtml(String(item.type || 'report'));
+        const title = escapeHtml(item.targetTitle || 'Moderated item');
+        const reason = escapeHtml(item.reason || 'No extra note.');
+        const actor = escapeHtml(item.actor || 'Admin');
+        list.append(`
+          <div class="admin-queue-item">
+            <div class="admin-queue-head">
+              <div class="admin-queue-type"><i class="fa-solid fa-shield-halved"></i> ${actionLabel}</div>
+              <div class="article-comment-time">${relativeTimeLabel(item.time || Date.now())}</div>
+            </div>
+            <div class="admin-queue-copy"><strong>${title}</strong></div>
+            <div class="admin-queue-meta">Type: ${typeLabel} • By: ${actor}</div>
+            <div class="admin-queue-meta" style="margin-top:6px;">${reason}</div>
+          </div>
+        `);
+      });
+    }
+
+    (function seedModerationHistoryOnce() {
+      try {
+        if (!localStorage.getItem('mshModerationHistorySeeded')) {
+          localStorage.setItem('mshModerationHistorySeeded', '1');
+          const existing = JSON.parse(localStorage.getItem(MODERATION_HISTORY_KEY) || '[]');
+          if (!Array.isArray(existing) || !existing.length) {
+            localStorage.setItem(MODERATION_HISTORY_KEY, JSON.stringify([{
+              id: 'mh_seed',
+              action: 'resolved',
+              type: 'report',
+              targetId: 'seed',
+              targetTitle: 'Moderation history is active',
+              reason: 'New admin actions will appear here automatically.',
+              actor: 'System',
+              time: Date.now()
+            }]));
+          }
+        }
+      } catch (err) {}
+    })();
 
     async function loadModerationQueue() {
       const wrap = $('#admin-queue-list');
