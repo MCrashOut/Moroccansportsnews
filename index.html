@@ -4884,13 +4884,20 @@ async function loadFeed() {
 
     function toggleSearch() {
       const overlay = $('#search-overlay');
+      const input = $('#active-search-input');
 
       if (overlay.is(':visible')) {
+        input.val('');
+        $('#search-results-area').hide();
+        $('#standard-home-layout').show();
+        $('#search-output-grid').empty();
+        $('#search-results-count').text('Start typing to search.');
+        renderRecentSearches();
         overlay.hide();
       } else {
         overlay.css('display', 'flex');
         renderRecentSearches();
-        $('#active-search-input').focus();
+        input.focus();
       }
     }
 
