@@ -2132,6 +2132,177 @@
       letter-spacing:.06em;
     }
 
+    .report-category-grid {
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:10px;
+      margin:10px 0 6px;
+      text-align:left;
+    }
+    .report-category-btn {
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      border-radius:16px;
+      padding:12px;
+      text-align:left;
+      cursor:pointer;
+      transition:transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .report-category-btn:hover,
+    .report-category-btn.active {
+      transform:translateY(-2px);
+      border-color:rgba(0,242,254,.28);
+      background:rgba(0,242,254,.06);
+    }
+    .report-category-btn strong {
+      display:block;
+      color:var(--text);
+      font-size:.86rem;
+      margin-bottom:4px;
+    }
+    .report-category-btn span {
+      display:block;
+      color:var(--dim);
+      font-size:.76rem;
+      line-height:1.55;
+    }
+    .admin-history-toolbar {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:12px;
+      margin-bottom:12px;
+    }
+    .admin-history-filter {
+      background: var(--input-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 9px 12px;
+      outline: none;
+      min-width: 180px;
+    }
+    .admin-history-empty {
+      color: var(--dim);
+      font-size: .84rem;
+      line-height: 1.7;
+      margin-top: 10px;
+    }
+    .admin-history-badge {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--dim);
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:.72rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .admin-history-item-clickable {
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .admin-history-item-clickable:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,242,254,.28);
+      background: rgba(0,242,254,.04);
+    }
+    .admin-history-modal {
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:7000;
+      background: rgba(0,0,0,.84);
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .admin-history-modal-card {
+      width:min(760px, 96vw);
+      max-height:85vh;
+      overflow:auto;
+      background: color-mix(in srgb, var(--bg) 92%, var(--card));
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.45);
+      padding:20px;
+    }
+    .admin-history-modal-head {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:14px;
+    }
+    .admin-history-modal-title {
+      color: var(--text);
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+    .admin-history-modal-close {
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:.74rem;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .admin-history-modal-grid {
+      display:grid;
+      gap:14px;
+    }
+    .admin-history-modal-box {
+      border:1px solid var(--border);
+      border-radius:18px;
+      background: rgba(255,255,255,.03);
+      padding:14px;
+    }
+    .admin-history-modal-box h4 {
+      color: var(--cyan);
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+    .admin-history-modal-box p {
+      color: var(--text);
+      line-height: 1.75;
+      font-size: .9rem;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .admin-history-modal-tag-row {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+      margin-bottom:10px;
+    }
+    .admin-history-modal-tag {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:7px 10px;
+      background:rgba(255,255,255,.03);
+      color:var(--dim);
+      font-size:.72rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -2939,6 +3110,24 @@
           <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">User reports from posts and article comments appear here for review.</p>
           <div id="admin-queue-list" class="admin-queue-list"></div>
         </div>
+
+        <div class="mini-card" id="admin-history-wrap">
+          <h3 style="margin-bottom:8px;">Moderation History</h3>
+          <p style="color:var(--dim); line-height:1.6; margin-bottom:12px;">Resolved, dismissed, banned, and removed actions appear here.</p>
+          <div class="admin-history-toolbar">
+            <div class="admin-history-badge" id="admin-history-count"><i class="fa-solid fa-clock-rotate-left"></i> 0 actions</div>
+            <select id="admin-history-filter" class="admin-history-filter" onchange="renderModerationHistory()">
+              <option value="all">All actions</option>
+              <option value="resolved">Resolved</option>
+              <option value="dismissed">Dismissed</option>
+              <option value="banned">Banned users</option>
+              <option value="removed">Removed content</option>
+            </select>
+          </div>
+          <div id="admin-history-empty" class="admin-history-empty">No moderation history yet.</div>
+          <div id="admin-history-list" class="admin-queue-list"></div>
+        </div>
+
         <div id="admin-users-list"></div>
       </div>
     </section>
@@ -4504,6 +4693,213 @@
       loadAdminPanel();
     }
 
+
+    const MODERATION_HISTORY_KEY = 'mshModerationHistory';
+
+    function getModerationHistory() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(MODERATION_HISTORY_KEY) || '[]');
+        return Array.isArray(raw) ? raw : [];
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function setModerationHistory(items) {
+      localStorage.setItem(MODERATION_HISTORY_KEY, JSON.stringify(items || []));
+    }
+
+    function pushModerationHistory(entry = {}) {
+      const current = getModerationHistory();
+      current.unshift({
+        id: entry.id || `mh_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        action: entry.action || 'updated',
+        type: entry.type || 'report',
+        targetId: entry.targetId || '',
+        targetDocId: entry.targetDocId || entry.targetId || '',
+        reportId: entry.reportId || '',
+        targetTitle: entry.targetTitle || 'Reported item',
+        reason: entry.reason || '',
+        reportText: entry.reportText || '',
+        postText: entry.postText || '',
+        category: entry.category || '',
+        actor: entry.actor || 'Admin',
+        time: entry.time || Date.now()
+      });
+      setModerationHistory(current.slice(0, 120));
+      renderModerationHistory();
+    }
+
+    function reportCategoryLabel(category) {
+      const map = {
+        hate: 'Hate / Sexism',
+        harassment: 'Harassment',
+        fake_news: 'Fake News',
+        spam: 'Spam',
+        violence: 'Violence',
+        other: 'Other'
+      };
+      return map[category] || 'Other';
+    }
+
+    function selectReportCategory(category) {
+      selectedReportCategory = category || 'other';
+      document.querySelectorAll('#report-category-grid .report-category-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.category === selectedReportCategory);
+      });
+    }
+
+    function openReportModal(type, targetDocId, articleId = null, targetText = '') {
+      currentReportPayload = { type, targetDocId, articleId };
+      reportTargetText = targetText || '';
+      $('#report-reason').val('');
+      $('#report-modal-copy').text(type === 'article_comment' ? 'Tell us why you are reporting this comment.' : 'Tell us why you are reporting this post.');
+      selectReportCategory('other');
+      $('#report-modal').css('display', 'flex');
+    }
+
+    function closeReportModal() {
+      $('#report-modal').hide();
+      currentReportPayload = null;
+      reportTargetText = '';
+    }
+
+    async function submitReport() {
+      if (!auth.currentUser) return openAuth();
+      if (!currentReportPayload?.type || !currentReportPayload?.targetDocId) return;
+      const cleaned = String($('#report-reason').val() || '').trim();
+      if (!cleaned) {
+        alert('Please write your reason.');
+        return;
+      }
+      try {
+        await db.collection('notifications').add({
+          type: 'report',
+          reportType: currentReportPayload.type,
+          targetDocId: currentReportPayload.targetDocId,
+          articleId: currentReportPayload.articleId,
+          reason: cleaned,
+          reportReason: cleaned,
+          category: selectedReportCategory,
+          reportCategory: selectedReportCategory,
+          targetText: reportTargetText || '',
+          reporterId: auth.currentUser.uid,
+          reporterName: auth.currentUser.displayName || auth.currentUser.email || 'Fan',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        closeReportModal();
+        if (currentReportPayload?.type === 'article_comment') {
+          setArticleFeedback('Comment reported.', 'success');
+        } else {
+          showToast('Post reported.', 'success');
+        }
+      } catch (err) {
+        console.error('Submit report failed', err);
+        if (currentReportPayload?.type === 'article_comment') {
+          setArticleFeedback('Could not report this comment.', 'error');
+        } else {
+          showToast('Could not report this post.', 'error');
+        }
+      }
+    }
+
+    function renderModerationHistory() {
+      const list = $('#admin-history-list');
+      const empty = $('#admin-history-empty');
+      const count = $('#admin-history-count');
+      const filter = ($('#admin-history-filter').val() || 'all');
+      if (!list.length) return;
+
+      let items = getModerationHistory().slice();
+      if (filter !== 'all') items = items.filter(item => String(item.action || '') === filter);
+
+      count.html(`<i class="fa-solid fa-clock-rotate-left"></i> ${items.length} action${items.length === 1 ? '' : 's'}`);
+      list.empty();
+
+      if (!items.length) {
+        empty.show();
+        return;
+      }
+      empty.hide();
+
+      items.forEach(item => {
+        const preview = escapeHtml((item.reportText || item.reason || 'No report text available.').slice(0, 140));
+        list.append(`
+          <div class="admin-queue-item admin-history-item-clickable" onclick="openAdminHistoryModal('${item.id}')">
+            <div class="admin-queue-head">
+              <div class="admin-queue-type"><i class="fa-solid fa-shield-halved"></i> ${escapeHtml(String(item.action || 'updated'))}</div>
+              <div class="article-comment-time">${relativeTimeLabel(item.time || Date.now())}</div>
+            </div>
+            <div class="admin-queue-copy"><strong>${escapeHtml(item.targetTitle || 'Reported item')}</strong></div>
+            <div class="admin-queue-meta">Type: ${escapeHtml(String(item.type || 'report'))} • By: ${escapeHtml(item.actor || 'Admin')}</div>
+            <div class="admin-queue-meta" style="margin-top:6px;">${preview}${preview.length >= 140 ? '...' : ''}</div>
+          </div>
+        `);
+      });
+    }
+
+    async function openAdminHistoryModal(historyId) {
+      const item = getModerationHistory().find(entry => String(entry.id) === String(historyId));
+      if (!item) return;
+
+      $('#admin-history-modal-title').text(item.targetTitle || 'Moderation details');
+      $('#admin-history-modal-meta').text(`${String(item.action || 'updated')} • ${String(item.type || 'report')} • ${relativeTimeLabel(item.time || Date.now())}`);
+      $('#admin-history-modal-report').text(item.reportText || item.reason || 'No report text available.');
+      $('#admin-history-modal-post').text(item.postText || 'No content preview available.');
+
+      const tagRow = $('#admin-history-modal-tags');
+      tagRow.empty();
+      if (item.category) {
+        tagRow.append(`<span class="admin-history-modal-tag"><i class="fa-solid fa-flag"></i> ${escapeHtml(reportCategoryLabel(item.category))}</span>`);
+      }
+      tagRow.append(`<span class="admin-history-modal-tag"><i class="fa-solid fa-file-lines"></i> ${escapeHtml(item.type || 'report')}</span>`);
+      $('#admin-history-modal').css('display', 'flex');
+    }
+
+    function closeAdminHistoryModal(event) {
+      if (event && event.target && event.target.id && event.target.id !== 'admin-history-modal') return;
+      $('#admin-history-modal').hide();
+    }
+
+    async function getReportNotificationData(reportId) {
+      try {
+        const snap = await db.collection('notifications').doc(reportId).get();
+        if (!snap.exists) return null;
+        return { id: snap.id, ...snap.data() };
+      } catch (err) {
+        console.error('Get report notification failed', err);
+        return null;
+      }
+    }
+
+
+
+    (function seedModerationHistoryOnce() {
+      try {
+        if (!localStorage.getItem('mshModerationHistorySeeded')) {
+          localStorage.setItem('mshModerationHistorySeeded', '1');
+          const existing = JSON.parse(localStorage.getItem(MODERATION_HISTORY_KEY) || '[]');
+          if (!Array.isArray(existing) || !existing.length) {
+            localStorage.setItem(MODERATION_HISTORY_KEY, JSON.stringify([{
+              id: 'mh_seed',
+              action: 'resolved',
+              type: 'report',
+              targetId: 'seed',
+              targetDocId: '',
+              reportId: '',
+              targetTitle: 'Moderation history is active',
+              reason: 'New admin actions will appear here automatically.',
+              reportText: 'This widget now keeps the original report text for new actions.',
+              postText: 'New reports also store a preview of the reported post or comment.',
+              category: 'other',
+              actor: 'System',
+              time: Date.now()
+            }]));
+          }
+        }
+      } catch (err) {}
+    })();
+
     async function loadAdminPanel(forceRefresh = false) {
       if (!isAdmin()) {
         alert(t('notAllowed'));
@@ -5711,46 +6107,27 @@ function renderHome(forceShuffle = false) {
 
     async function reportPost(postId) {
       if (!auth.currentUser) return openAuth();
-      const reason = prompt('Why are you reporting this post?');
-      if (reason === null) return;
-      const cleaned = String(reason || '').trim();
       try {
-        await db.collection('notifications').add({
-          type: 'report',
-          reportType: 'post',
-          targetDocId: postId,
-          reason: cleaned,
-          reporterId: auth.currentUser.uid,
-          reporterName: auth.currentUser.displayName || auth.currentUser.email || 'Fan',
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        alert('Post reported.');
+        const postSnap = await db.collection('posts').doc(postId).get();
+        const post = postSnap.exists ? (postSnap.data() || {}) : {};
+        const targetText = post.text || post.content || post.body || post.caption || post.desc || post.title || '';
+        openReportModal('post', postId, null, targetText);
       } catch (err) {
-        console.error('Report post failed', err);
-        alert('Could not report this post.');
+        console.error('Open report post failed', err);
+        openReportModal('post', postId, null, '');
       }
     }
 
     async function reportArticleComment(commentId) {
       if (!auth.currentUser) return openAuth();
-      const reason = prompt('Why are you reporting this comment?');
-      if (reason === null) return;
-      const cleaned = String(reason || '').trim();
       try {
-        await db.collection('notifications').add({
-          type: 'report',
-          reportType: 'article_comment',
-          targetDocId: commentId,
-          articleId: currentArticleId,
-          reason: cleaned,
-          reporterId: auth.currentUser.uid,
-          reporterName: auth.currentUser.displayName || auth.currentUser.email || 'Fan',
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        setArticleFeedback('Comment reported.', 'success');
+        const commentSnap = await db.collection('posts').doc(commentId).get();
+        const comment = commentSnap.exists ? (commentSnap.data() || {}) : {};
+        const targetText = comment.text || comment.content || comment.body || comment.comment || comment.message || '';
+        openReportModal('article_comment', commentId, currentArticleId, targetText);
       } catch (err) {
-        console.error('Report article comment failed', err);
-        setArticleFeedback('Could not report this comment.', 'error');
+        console.error('Open report comment failed', err);
+        openReportModal('article_comment', commentId, currentArticleId, '');
       }
     }
 
@@ -5758,7 +6135,21 @@ function renderHome(forceShuffle = false) {
 async function dismissModerationReport(reportId) {
       if (!isAdmin()) return;
       try {
+        const report = await getReportNotificationData(reportId);
         await db.collection('notifications').doc(reportId).delete();
+        pushModerationHistory({
+          action: 'dismissed',
+          type: report?.reportType || 'report',
+          targetId: reportId,
+          targetDocId: report?.targetDocId || '',
+          reportId,
+          targetTitle: 'Reported item',
+          reason: 'Report dismissed by admin.',
+          reportText: report?.reportReason || report?.reason || '',
+          postText: report?.targetText || '',
+          category: report?.reportCategory || report?.category || '',
+          actor: auth.currentUser?.email || 'Admin'
+        });
         loadModerationQueue();
         showToast('Report dismissed.', 'success');
       } catch (err) {
@@ -5770,11 +6161,25 @@ async function dismissModerationReport(reportId) {
     async function resolveModerationReport(reportId) {
       if (!isAdmin()) return;
       try {
+        const report = await getReportNotificationData(reportId);
         await db.collection('notifications').doc(reportId).set({
           status: 'resolved',
           resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
           resolvedBy: auth.currentUser?.email || 'admin'
         }, { merge: true });
+        pushModerationHistory({
+          action: 'resolved',
+          type: report?.reportType || 'report',
+          targetId: reportId,
+          targetDocId: report?.targetDocId || '',
+          reportId,
+          targetTitle: 'Reported item',
+          reason: 'Report resolved by admin.',
+          reportText: report?.reportReason || report?.reason || '',
+          postText: report?.targetText || '',
+          category: report?.reportCategory || report?.category || '',
+          actor: auth.currentUser?.email || 'Admin'
+        });
         loadModerationQueue();
         showToast('Report resolved.', 'success');
       } catch (err) {
@@ -5807,6 +6212,8 @@ async function dismissModerationReport(reportId) {
       if (!ok) return;
 
       try {
+        const report = await getReportNotificationData(reportId);
+
         await db.collection('users').doc(details.userId).set({
           banned: true
         }, { merge: true });
@@ -5818,6 +6225,20 @@ async function dismissModerationReport(reportId) {
           actionTaken: 'banned_user',
           targetUserId: details.userId
         }, { merge: true });
+
+        pushModerationHistory({
+          action: 'banned',
+          type: reportType || 'user',
+          targetId: details.userId || '',
+          targetDocId: targetDocId || '',
+          reportId,
+          targetTitle: details.username || details.userId || 'User',
+          reason: 'User banned from moderation queue.',
+          reportText: report?.reportReason || report?.reason || '',
+          postText: report?.targetText || '',
+          category: report?.reportCategory || report?.category || '',
+          actor: auth.currentUser?.email || 'Admin'
+        });
 
         loadModerationQueue();
         if ($('#feed-page').hasClass('active')) loadFeed();
@@ -5833,10 +6254,26 @@ async function dismissModerationReport(reportId) {
       const ok = confirm('Delete the reported content?');
       if (!ok) return;
       try {
+        const report = await getReportNotificationData(reportId);
         if (reportType === 'post' || reportType === 'article_comment') {
           await db.collection('posts').doc(targetDocId).delete();
         }
         await db.collection('notifications').doc(reportId).delete();
+
+        pushModerationHistory({
+          action: 'removed',
+          type: reportType || 'content',
+          targetId: targetDocId || '',
+          targetDocId: targetDocId || '',
+          reportId,
+          targetTitle: 'Reported content',
+          reason: 'Reported content removed by admin.',
+          reportText: report?.reportReason || report?.reason || '',
+          postText: report?.targetText || '',
+          category: report?.reportCategory || report?.category || '',
+          actor: auth.currentUser?.email || 'Admin'
+        });
+
         loadModerationQueue();
         if ($('#feed-page').hasClass('active')) loadFeed();
         if ($('#article-page').hasClass('active')) loadArticleComments();
@@ -7000,6 +7437,65 @@ function loadMatchesWidget(forceReload = false) {
     window.deleteArticleComment = deleteArticleComment;
   </script>
   <div id="toast-stack" class="toast-stack"></div>
+  <div id="report-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeReportModal()">&times;</span>
+      <h2 style="color:var(--cyan); margin-bottom:14px;">Report Content</h2>
+      <p id="report-modal-copy" style="color:var(--dim); line-height:1.65; margin-bottom:12px;">Tell us why you are reporting this content.</p>
+      <div class="report-category-grid" id="report-category-grid">
+        <button type="button" class="report-category-btn" data-category="hate" onclick="selectReportCategory('hate')">
+          <strong>Hate / Sexism</strong>
+          <span>Hate speech, sexism, or identity-based attacks.</span>
+        </button>
+        <button type="button" class="report-category-btn" data-category="harassment" onclick="selectReportCategory('harassment')">
+          <strong>Harassment</strong>
+          <span>Bullying, threats, harassment, or intimidation.</span>
+        </button>
+        <button type="button" class="report-category-btn" data-category="fake_news" onclick="selectReportCategory('fake_news')">
+          <strong>Fake News</strong>
+          <span>False information, made-up claims, or misleading context.</span>
+        </button>
+        <button type="button" class="report-category-btn" data-category="spam" onclick="selectReportCategory('spam')">
+          <strong>Spam</strong>
+          <span>Spam, scams, repetitive promotion, or engagement bait.</span>
+        </button>
+        <button type="button" class="report-category-btn" data-category="violence" onclick="selectReportCategory('violence')">
+          <strong>Violence</strong>
+          <span>Graphic violence, dangerous threats, or glorifying harm.</span>
+        </button>
+        <button type="button" class="report-category-btn" data-category="other" onclick="selectReportCategory('other')">
+          <strong>Other</strong>
+          <span>Something else that breaks the rules.</span>
+        </button>
+      </div>
+      <textarea id="report-reason" placeholder="Write your reason..." style="min-height:120px;"></textarea>
+      <button class="solid-btn" style="width:100%; margin-top:12px;" onclick="submitReport()">Submit Report</button>
+    </div>
+  </div>
+
+  <div class="admin-history-modal" id="admin-history-modal" onclick="closeAdminHistoryModal(event)">
+    <div class="admin-history-modal-card" onclick="event.stopPropagation()">
+      <div class="admin-history-modal-head">
+        <div>
+          <div class="admin-history-modal-title" id="admin-history-modal-title">Moderation details</div>
+          <div class="admin-queue-meta" id="admin-history-modal-meta">Review full report and content details.</div>
+        </div>
+        <button type="button" class="admin-history-modal-close" onclick="closeAdminHistoryModal()">Close</button>
+      </div>
+      <div class="admin-history-modal-tag-row" id="admin-history-modal-tags"></div>
+      <div class="admin-history-modal-grid">
+        <div class="admin-history-modal-box">
+          <h4>Report</h4>
+          <p id="admin-history-modal-report">No report text available.</p>
+        </div>
+        <div class="admin-history-modal-box">
+          <h4>Reported Content</h4>
+          <p id="admin-history-modal-post">No content preview available.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
 
