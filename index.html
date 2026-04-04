@@ -7275,10 +7275,32 @@ function openDetails(id, replaceHistory = false) {
 
     const AI_BACKEND_URL = 'https://moroccansportshub-backend-production.up.railway.app/api/ask';
 
+    function getAiLanguageName() {
+      return currentLang === 'fr' ? 'French' : currentLang === 'ar' ? 'Arabic' : 'English';
+    }
+
+    function getAiReplyInstruction() {
+      if (currentLang === 'fr') {
+        return 'Reply only in French. Do not use English unless the user explicitly asks for English.';
+      }
+      if (currentLang === 'ar') {
+        return 'أجب باللغة العربية فقط. لا تستخدم الإنجليزية إلا إذا طلب المستخدم ذلك صراحة.';
+      }
+      return 'Reply only in English.';
+    }
+
+    function buildLocalizedAiQuestion(query) {
+      const clean = String(query || '').trim();
+      if (!clean) return clean;
+      return `${getAiReplyInstruction()}\n\nUser question: ${clean}`;
+    }
+
     async function askBackendAI(query) {
       const siteContext = getWebsiteMatches(query).map(x =>
         `${x.item.title} | ${x.item.desc || ''} | ${x.item.link || ''}`
       );
+
+      const localizedQuestion = buildLocalizedAiQuestion(query);
 
       const res = await fetch(AI_BACKEND_URL, {
         method: 'POST',
@@ -7286,16 +7308,13 @@ function openDetails(id, replaceHistory = false) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          question: query,
+          question: localizedQuestion,
+          rawQuestion: query,
           siteContext,
           language: currentLang,
           replyLanguage: currentLang,
-          locale: currentLang === 'fr' ? 'French' : currentLang === 'ar' ? 'Arabic' : 'English',
-          systemPrompt: currentLang === 'fr'
-            ? 'Reply in French.'
-            : currentLang === 'ar'
-              ? 'أجب باللغة العربية.'
-              : 'Reply in English.'
+          locale: getAiLanguageName(),
+          systemPrompt: getAiReplyInstruction()
         })
       });
 
@@ -7305,7 +7324,7 @@ function openDetails(id, replaceHistory = false) {
         throw new Error(data?.error || (currentLang === 'fr' ? 'La requête IA a échoué.' : currentLang === 'ar' ? 'فشل طلب الذكاء الاصطناعي.' : 'Backend AI request failed.'));
       }
 
-      return data?.answer || 'No answer returned.';
+      return data?.answer || (currentLang === 'fr' ? 'Aucune réponse retournée.' : currentLang === 'ar' ? 'لم يتم إرجاع أي إجابة.' : 'No answer returned.');
     }
 
     async function sendAiMessage(showWebsiteCards = false) {
