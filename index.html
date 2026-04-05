@@ -4599,8 +4599,13 @@
         }
 
         if (!oneSignalRef) {
-          showToast(t('notifSdkLoading'), 'error');
-          return;
+          await new Promise(resolve => setTimeout(resolve, 2500));
+          oneSignalRef = window.OneSignal;
+
+          if (!oneSignalRef) {
+            showToast(t('notifSdkLoading'), 'error');
+            return;
+          }
         }
 
         const permissionState = oneSignalRef.Notifications?.permission || (typeof Notification !== 'undefined' ? Notification.permission : 'default');
