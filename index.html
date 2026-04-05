@@ -55,6 +55,7 @@
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.mshOneSignalReady = false;
     window.mshOneSignalRef = null;
+    window.MSH_PUSH_QUEUE_ENABLED = true;
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "46c5b523-3a97-496f-bdab-acf12982bb4f",
@@ -3457,6 +3458,8 @@
         login: 'LOGIN',
         agentId: 'Agent ID',
         posting: 'Posting...',
+        pushQueued: 'Push alert queued for delivery.',
+        pushQueueFailed: 'Post published, but push alert could not be queued.',
         colorsTitle: 'Colors',
         colorsDesc: 'Customize website colors',
         openLabel: 'Open',
@@ -3615,6 +3618,8 @@
         login: 'CONNEXION',
         agentId: 'Identifiant',
         posting: 'Publication...',
+        pushQueued: 'Alerte push mise en file d’attente.',
+        pushQueueFailed: 'Le post est publié, mais l’alerte push n’a pas pu être mise en file.',
         colorsTitle: 'Couleurs',
         colorsDesc: 'Personnaliser les couleurs du site',
         openLabel: 'Ouvrir',
@@ -3773,6 +3778,8 @@
         login: 'دخول',
         agentId: 'اسم الحساب',
         posting: 'جارٍ النشر...',
+        pushQueued: 'تمت إضافة إشعار الدفع إلى قائمة الإرسال.',
+        pushQueueFailed: 'تم نشر المنشور، لكن تعذر تجهيز إشعار الدفع.',
         colorsTitle: 'الألوان',
         colorsDesc: 'تخصيص ألوان الموقع',
         openLabel: 'فتح',
@@ -4814,6 +4821,28 @@
       };
     }
 
+    async function queuePushForPost(postId, postData) {
+      if (!window.MSH_PUSH_QUEUE_ENABLED || !postId || !postData) return false;
+
+      const trimmedContent = String(postData.content || '').replace(/\s+/g, ' ').trim();
+      const fallbackTitle = trimmedContent ? trimmedContent.slice(0, 72) : 'New update on MoroccanSportsHub';
+      const body = trimmedContent || 'A new story has just been published.';
+
+      await db.collection('push_queue').add({
+        type: 'news_post',
+        postId,
+        title: fallbackTitle,
+        body,
+        imageUrl: postData.mediaType === 'image' ? (postData.mediaUrl || '') : '',
+        link: `${window.location.origin}${window.location.pathname}?post=${encodeURIComponent(postId)}`,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: auth.currentUser?.uid || '',
+        status: 'pending'
+      });
+
+      return true;
+    }
+
     async function createPost() {
       if (!auth.currentUser) return openAuth();
 
@@ -4888,6 +4917,20 @@
         });
 
         await batch.commit();
+
+        try {
+          const pushQueued = await queuePushForPost(postRef.id, {
+            content,
+            mediaUrl,
+            mediaType
+          });
+          if (pushQueued) {
+            showToast(t('pushQueued'), 'success');
+          }
+        } catch (pushErr) {
+          console.error('queuePushForPost error', pushErr);
+          showToast(t('pushQueueFailed'), 'error');
+        }
 
         $('#post-content').val('');
         fileInput.value = '';
