@@ -53,6 +53,8 @@
 
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.mshOneSignalReady = false;
+    window.mshOneSignalRef = null;
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "46c5b523-3a97-496f-bdab-acf12982bb4f",
@@ -66,6 +68,8 @@
           }
         }
       });
+      window.mshOneSignalRef = OneSignal || window.OneSignal || null;
+      window.mshOneSignalReady = true;
     });
   </script>
 
@@ -4586,26 +4590,21 @@
           return;
         }
 
-        let oneSignalRef = window.OneSignal;
-        if ((!oneSignalRef || !oneSignalRef.Notifications) && Array.isArray(window.OneSignalDeferred)) {
-          await new Promise(resolve => {
-            window.OneSignalDeferred.push(function(OneSignal) {
-              oneSignalRef = OneSignal || window.OneSignal;
-              resolve();
-            });
-            setTimeout(resolve, 1500);
-          });
-          oneSignalRef = oneSignalRef || window.OneSignal;
+        let oneSignalRef = window.mshOneSignalRef || window.OneSignal || null;
+
+        if (!window.mshOneSignalReady) {
+          for (let i = 0; i < 12; i++) {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            oneSignalRef = window.mshOneSignalRef || window.OneSignal || null;
+            if (window.mshOneSignalReady && oneSignalRef) break;
+          }
         }
 
-        if (!oneSignalRef) {
-          await new Promise(resolve => setTimeout(resolve, 2500));
-          oneSignalRef = window.OneSignal;
+        oneSignalRef = window.mshOneSignalRef || oneSignalRef || window.OneSignal || null;
 
-          if (!oneSignalRef) {
-            showToast(t('notifSdkLoading'), 'error');
-            return;
-          }
+        if (!oneSignalRef) {
+          showToast(t('notifSdkLoading'), 'error');
+          return;
         }
 
         const permissionState = oneSignalRef.Notifications?.permission || (typeof Notification !== 'undefined' ? Notification.permission : 'default');
