@@ -53,23 +53,11 @@
 
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
-    window.mshOneSignalReady = false;
-    window.mshOneSignalRef = null;
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "46c5b523-3a97-496f-bdab-acf12982bb4f",
-        notifyButton: { enable: true },
-        promptOptions: {
-          slidedown: {
-            enabled: true,
-            autoPrompt: true,
-            pageViews: 1,
-            timeDelay: 3
-          }
-        }
+        notifyButton: { enable: true }
       });
-      window.mshOneSignalRef = OneSignal || window.OneSignal || null;
-      window.mshOneSignalReady = true;
     });
   </script>
 
@@ -316,6 +304,34 @@
       background: rgba(0,242,254,.05);
       color: var(--text);
       border-left: 3px solid var(--cyan);
+    }
+
+    .notif-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(0,242,254,.22);
+      background: rgba(0,242,254,.08);
+      color: var(--cyan);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: .72rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+      white-space: nowrap;
+    }
+    .notif-cta-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(0,242,254,.4);
+      background: rgba(0,242,254,.14);
+    }
+    .notif-cta-btn i {
+      font-size: .84rem;
+    }
+    .drawer-notif-btn {
+      width: 100%;
+      justify-content: center;
     }
 
     .home-grid {
@@ -1934,7 +1950,14 @@
       color: var(--dim);
       font-size: .8rem;
       line-height: 1.6;
-    }    .article-comment-report-btn,
+    }
+    .article-comment-actions-right {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .article-comment-report-btn,
     .feed-report-btn,
     .article-copy-btn,
     .admin-queue-btn,
@@ -2741,8 +2764,9 @@
         <span id="notif-count" class="notif-badge"></span>
       </div>
 
-      <button id="notif-enable-btn" class="ghost-btn desktop-mobile-hide" onclick="triggerNotificationPrompt()">
-        <i class="fa-solid fa-bell"></i> <span id="notif-enable-btn-text">Enable Alerts</span>
+      <button id="notif-cta-btn" class="notif-cta-btn desktop-mobile-hide" onclick="triggerNotificationPrompt()">
+        <i class="fa-solid fa-bell"></i>
+        <span id="notif-cta-text">Alerts</span>
       </button>
 
       <button class="icon-btn desktop-mobile-hide" onclick="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -2776,6 +2800,11 @@
     <div class="drawer-top-actions">
       <button class="ghost-btn" onclick="toggleSearch(); toggleDrawer(false);" id="drawer-search-btn">
         <i class="fa-solid fa-magnifying-glass"></i> Search
+      </button>
+
+      <button class="notif-cta-btn drawer-notif-btn" onclick="triggerNotificationPrompt(); toggleDrawer(false);" id="drawer-notif-btn">
+        <i class="fa-solid fa-bell"></i>
+        <span id="drawer-notif-btn-text">Alerts</span>
       </button>
 
       <div id="drawer-auth-ui">
@@ -3328,7 +3357,7 @@
         profileNav: 'Profile',
         agentHub: 'Agent Hub',
         notifTitle: 'INTELLIGENCE ALERTS',
-        notifEnableBtn: 'Enable Alerts',
+        notifEnableBtn: 'Alerts',
         notifAlreadyEnabled: 'Notifications are already enabled.',
         notifPromptOpened: 'Notification prompt opened.',
         notifPromptUnavailable: 'Notifications are not available right now.',
@@ -3429,7 +3458,7 @@
         moroccoEsportDesc: 'Moroccan esports and gaming stories in one dedicated page.',
         filterAll: 'All',
         aiThinking: 'Thinking...',
-        aiError: 'Sports AI is temporarily unavailable. Please try again.',
+        aiError: 'I could not reach the AI backend right now. Please try again.',
         feedLatest: 'Latest',
         feedTop: 'Top',
         feedPinned: 'Pinned',
@@ -3486,7 +3515,7 @@
         profileNav: 'Profil',
         agentHub: 'Espace Agent',
         notifTitle: 'ALERTES',
-        notifEnableBtn: 'Activer les alertes',
+        notifEnableBtn: 'Alertes',
         notifAlreadyEnabled: 'Les notifications sont déjà activées.',
         notifPromptOpened: 'La demande de notification est ouverte.',
         notifPromptUnavailable: 'Les notifications ne sont pas disponibles pour le moment.',
@@ -3587,7 +3616,7 @@
         moroccoEsportDesc: 'Actualités marocaines de l’esport et du gaming.',
         filterAll: 'Tout',
         aiThinking: 'Réflexion...',
-        aiError: 'Sports AI est temporairement indisponible. Réessayez.',
+        aiError: 'Je ne peux pas joindre l’IA pour le moment. Réessayez.',
         feedLatest: 'Derniers',
         feedTop: 'Top',
         feedPinned: 'Épinglés',
@@ -3644,7 +3673,7 @@
         profileNav: 'الملف الشخصي',
         agentHub: 'حسابي',
         notifTitle: 'الإشعارات',
-        notifEnableBtn: 'تفعيل الإشعارات',
+        notifEnableBtn: 'التنبيهات',
         notifAlreadyEnabled: 'الإشعارات مفعلة بالفعل.',
         notifPromptOpened: 'تم فتح طلب الإشعارات.',
         notifPromptUnavailable: 'الإشعارات غير متاحة حالياً.',
@@ -3745,7 +3774,7 @@
         moroccoEsportDesc: 'أخبار الرياضات الإلكترونية والألعاب في المغرب.',
         filterAll: 'الكل',
         aiThinking: 'جارٍ التفكير...',
-        aiError: 'الذكاء الرياضي غير متاح مؤقتاً. حاول مرة أخرى.',
+        aiError: 'تعذر الوصول إلى الذكاء الاصطناعي حالياً. حاول مرة أخرى.',
         feedLatest: 'الأحدث',
         feedTop: 'الأعلى',
         feedPinned: 'المثبتة',
@@ -3811,7 +3840,7 @@
         aiPromptTennis: 'Latest tennis news',
         aiPromptMatches: 'Latest matches news',
         aiSend: 'Send',
-        aiError: 'Sports AI is temporarily unavailable. Please try again.',
+        aiError: 'AI is currently unavailable. Try again.',
         colorsModalTitle: 'Color Studio',
         colorsModalDesc: 'Customize the website palette.',
         colorLabelBg: 'Background',
@@ -3865,7 +3894,7 @@
         aiPromptTennis: 'Dernières nouvelles du tennis',
         aiPromptMatches: 'Dernières nouvelles des matchs',
         aiSend: 'Envoyer',
-        aiError: 'Sports AI est temporairement indisponible. Réessayez.',
+        aiError: 'IA indisponible. Réessayez.',
         colorsModalTitle: 'Studio Couleurs',
         colorsModalDesc: 'Personnalisez la palette du site.',
         colorLabelBg: 'Arrière-plan',
@@ -3919,7 +3948,7 @@
         aiPromptTennis: 'آخر أخبار التنس',
         aiPromptMatches: 'آخر أخبار المباريات',
         aiSend: 'إرسال',
-        aiError: 'الذكاء الرياضي غير متاح مؤقتاً. حاول مرة أخرى.',
+        aiError: 'الذكاء غير متاح حالياً. حاول مرة أخرى.',
         colorsModalTitle: 'استوديو الألوان',
         colorsModalDesc: 'تخصيص ألوان الموقع.',
         colorLabelBg: 'الخلفية',
@@ -4025,6 +4054,8 @@
       $('#nav-matches').text(t('matches'));
       $('#nav-admin').text(t('admin'));
       $('#drawer-search-btn').html(`<i class="fa-solid fa-magnifying-glass"></i> ${t('search')}`);
+      $('#notif-cta-text').text(t('notifEnableBtn'));
+      $('#drawer-notif-btn-text').text(t('notifEnableBtn'));
       $('#notif-title').text(t('notifTitle'));
       $('#notif-clear').text(t('notifClear'));
       $('#feed-page-title').text(t('feedPageTitle'));
