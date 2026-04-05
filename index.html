@@ -53,11 +53,23 @@
 
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.mshOneSignalReady = false;
+    window.mshOneSignalRef = null;
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "46c5b523-3a97-496f-bdab-acf12982bb4f",
-        notifyButton: { enable: true }
+        notifyButton: { enable: true },
+        promptOptions: {
+          slidedown: {
+            enabled: true,
+            autoPrompt: true,
+            pageViews: 1,
+            timeDelay: 3
+          }
+        }
       });
+      window.mshOneSignalRef = OneSignal || window.OneSignal || null;
+      window.mshOneSignalReady = true;
     });
   </script>
 
