@@ -3328,6 +3328,10 @@
         notifAlreadyEnabled: 'Notifications are already enabled.',
         notifPromptOpened: 'Notification prompt opened.',
         notifPromptUnavailable: 'Notifications are not available right now.',
+        notifBlockedBrowser: 'Notifications are blocked in your browser settings.',
+        notifSdkLoading: 'Notifications are still loading. Try again in a moment.',
+        notifPromptNotSupported: 'Notification prompt is not supported on this page right now.',
+        notifPermissionDenied: 'Notification permission is denied for this site.',
         notifClear: 'Clear All',
         feedPageTitle: 'Community Feed',
         composer: 'Broadcast intelligence...',
@@ -3482,6 +3486,10 @@
         notifAlreadyEnabled: 'Les notifications sont déjà activées.',
         notifPromptOpened: 'La demande de notification est ouverte.',
         notifPromptUnavailable: 'Les notifications ne sont pas disponibles pour le moment.',
+        notifBlockedBrowser: 'Les notifications sont bloquées dans les paramètres du navigateur.',
+        notifSdkLoading: 'Les notifications sont encore en cours de chargement. Réessayez dans un instant.',
+        notifPromptNotSupported: "La demande de notification n'est pas prise en charge sur cette page pour le moment.",
+        notifPermissionDenied: 'L’autorisation des notifications est refusée pour ce site.',
         notifClear: 'Tout effacer',
         feedPageTitle: 'Fil Communautaire',
         composer: 'Publier une info...',
@@ -3636,6 +3644,10 @@
         notifAlreadyEnabled: 'الإشعارات مفعلة بالفعل.',
         notifPromptOpened: 'تم فتح طلب الإشعارات.',
         notifPromptUnavailable: 'الإشعارات غير متاحة حالياً.',
+        notifBlockedBrowser: 'الإشعارات محظورة في إعدادات المتصفح.',
+        notifSdkLoading: 'الإشعارات ما زالت قيد التحميل. حاول مرة أخرى بعد لحظة.',
+        notifPromptNotSupported: 'طلب الإشعارات غير مدعوم على هذه الصفحة حالياً.',
+        notifPermissionDenied: 'تم رفض إذن الإشعارات لهذا الموقع.',
         notifClear: 'مسح الكل',
         feedPageTitle: 'منشورات المجتمع',
         composer: 'انشر خبراً...',
@@ -4569,20 +4581,65 @@
 
     async function triggerNotificationPrompt() {
       try {
-        if (!window.OneSignal || !OneSignal.Notifications) {
-          showToast(t('notifPromptUnavailable'), 'error');
+        if (typeof Notification !== 'undefined' && Notification.permission === 'denied') {
+          showToast(t('notifBlockedBrowser'), 'error');
           return;
         }
 
-        if (OneSignal.Notifications.permission === 'granted') {
+        let oneSignalRef = window.OneSignal;
+        if ((!oneSignalRef || !oneSignalRef.Notifications) && Array.isArray(window.OneSignalDeferred)) {
+          await new Promise(resolve => {
+            window.OneSignalDeferred.push(function(OneSignal) {
+              oneSignalRef = OneSignal || window.OneSignal;
+              resolve();
+            });
+            setTimeout(resolve, 1500);
+          });
+          oneSignalRef = oneSignalRef || window.OneSignal;
+        }
+
+        if (!oneSignalRef) {
+          showToast(t('notifSdkLoading'), 'error');
+          return;
+        }
+
+        const permissionState = oneSignalRef.Notifications?.permission || (typeof Notification !== 'undefined' ? Notification.permission : 'default');
+
+        if (permissionState === 'granted') {
           showToast(t('notifAlreadyEnabled'), 'success');
           return;
         }
 
-        await OneSignal.Slidedown.promptPush({ force: true });
-        showToast(t('notifPromptOpened'), 'success');
+        if (permissionState === 'denied') {
+          showToast(t('notifPermissionDenied'), 'error');
+          return;
+        }
+
+        if (oneSignalRef.Slidedown && typeof oneSignalRef.Slidedown.promptPush === 'function') {
+          await oneSignalRef.Slidedown.promptPush({ force: true });
+          showToast(t('notifPromptOpened'), 'success');
+          return;
+        }
+
+        if (oneSignalRef.Notifications && typeof oneSignalRef.Notifications.requestPermission === 'function') {
+          const result = await oneSignalRef.Notifications.requestPermission();
+          if (result === true || oneSignalRef.Notifications.permission === 'granted') {
+            showToast(t('notifPromptOpened'), 'success');
+            return;
+          }
+          if (typeof Notification !== 'undefined' && Notification.permission === 'denied') {
+            showToast(t('notifPermissionDenied'), 'error');
+            return;
+          }
+        }
+
+        showToast(t('notifPromptNotSupported'), 'error');
       } catch (error) {
         console.error('Notification prompt error:', error);
+        if (typeof Notification !== 'undefined' && Notification.permission === 'denied') {
+          showToast(t('notifPermissionDenied'), 'error');
+          return;
+        }
         showToast(t('notifPromptUnavailable'), 'error');
       }
     }
