@@ -2737,6 +2737,10 @@
         <span id="notif-count" class="notif-badge"></span>
       </div>
 
+      <button id="notif-enable-btn" class="ghost-btn desktop-mobile-hide" onclick="triggerNotificationPrompt()">
+        <i class="fa-solid fa-bell"></i> <span id="notif-enable-btn-text">Enable Alerts</span>
+      </button>
+
       <button class="icon-btn desktop-mobile-hide" onclick="toggleSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
 
       <div class="top-controls desktop-mobile-hide">
@@ -3620,6 +3624,10 @@
         profileNav: 'الملف الشخصي',
         agentHub: 'حسابي',
         notifTitle: 'الإشعارات',
+        notifEnableBtn: 'تفعيل الإشعارات',
+        notifAlreadyEnabled: 'الإشعارات مفعلة بالفعل.',
+        notifPromptOpened: 'تم فتح طلب الإشعارات.',
+        notifPromptUnavailable: 'الإشعارات غير متاحة حالياً.',
         notifClear: 'مسح الكل',
         feedPageTitle: 'منشورات المجتمع',
         composer: 'انشر خبراً...',
@@ -4548,6 +4556,26 @@
         }
       } catch (e) {
         alert(e.message);
+      }
+    }
+
+    async function triggerNotificationPrompt() {
+      try {
+        if (!window.OneSignal || !OneSignal.Notifications) {
+          showToast(t('notifPromptUnavailable'), 'error');
+          return;
+        }
+
+        if (OneSignal.Notifications.permission === 'granted') {
+          showToast(t('notifAlreadyEnabled'), 'success');
+          return;
+        }
+
+        await OneSignal.Slidedown.promptPush({ force: true });
+        showToast(t('notifPromptOpened'), 'success');
+      } catch (error) {
+        console.error('Notification prompt error:', error);
+        showToast(t('notifPromptUnavailable'), 'error');
       }
     }
 
